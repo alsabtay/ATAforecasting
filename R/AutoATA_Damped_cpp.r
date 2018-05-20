@@ -1,0 +1,26 @@
+#' @export
+
+AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend)
+{
+	tspX <- tsp(ts_input)
+	Xdata <- as.numeric(ts_input)
+	TA_0 <- Xdata-ATA.Shift(Xdata,1)
+	TM_0 <- Xdata/ATA.Shift(Xdata,1)
+	model.Type <- ifelse(is.null(model.Type),"B",model.Type)
+	output <- AutoATADamped(as.double(Xdata)
+					, as.integer(ifelse(pb=="opt", -1, pb))
+					, as.integer(ifelse(qb=="opt", -1, qb))
+					, as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
+					, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12))
+					, as.integer(ifelse(level.fix, 1, 0))
+					, as.integer(ifelse(trend.fix, 1, 0))
+					, as.double(phiStart)
+					, as.double(phiEnd)
+					, as.double(phiSize)
+					, as.integer(ifelse(initialLevel, 1, 0))
+					, as.integer(ifelse(initialTrend, 1, 0))
+					, as.double(TA_0)
+					, as.double(TM_0))
+	ATA.last <- ATA.Core(ts_input, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
+	return(ATA.last)
+}
