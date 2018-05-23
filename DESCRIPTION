@@ -1,7 +1,7 @@
 Package: ATAforecasting
 Type: Package
 Title: Forecasting Time Series by ATA Method
-Version: 0.0.18
+Version: 0.0.19
 Date: 2018-05-23
 Author: Ali Sabri Taylan <alisabritaylan@gmail.com> and Hanife Taylan Selamlar <hanife.taylan@gmail.com>
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>

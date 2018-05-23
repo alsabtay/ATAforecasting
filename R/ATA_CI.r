@@ -15,8 +15,8 @@ ATA.CI <- function(ata.output, ci.level = 95)
 	std_resid <- sd(ata.output$residual, na.rm=TRUE)
 	ci.value <- sqrt(1:ata.output$h) * ci.ZTvalue * std_resid
 	tsp_F <- ata.output$forecast 
-	forecast.lower <- ts(ata.output$forecast - ci.value, f = tsp_F[3], s = tsp_F[1]) 
-	forecast.upper <- ts(ata.output$forecast + ci.value, f = tsp_F[3], s = tsp_F[1])
+	forecast.lower <- ts(ata.output$forecast - ci.value, f = tsp_F[3], s = tsp_F[2] + ifelse(tsp_F[3]>1, 1/tsp_F[3], 0)) 
+	forecast.upper <- ts(ata.output$forecast + ci.value, f = tsp_F[3], s = tsp_F[2] + ifelse(tsp_F[3]>1, 1/tsp_F[3], 0))
 	my_list <- list("forecast"=ata.output$forecast, "forecast.lower"=forecast.lower, "forecast.upper"=forecast.upper)
 	return(my_list) 
 }
