@@ -61,12 +61,18 @@ find.freq <- function(x)
 find.freq.all <- function(x)
 {  
   f=find.freq(x)
+  if (is.na(f)){
+	f <- 1
+  }
   freqs=c(f) 
   while(f>1){
     start=1 #also try start=f;
     x=period.apply(x,seq(start,length(x),f),mean) 
     f=find.freq(x)
     freqs=c(freqs,f)
+	if (is.na(f)){
+		f <- 1
+	}
   }
   if(length(freqs)==1){ return(freqs) }
   for(i in 2:length(freqs)){
