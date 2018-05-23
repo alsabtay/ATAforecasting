@@ -10,9 +10,10 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   model.type = NULL, seasonal.test = NULL, seasonal.model = NULL,
   seasonal.period = NULL, seasonal.type = NULL, seasonal.test.attr = NULL,
   find.period = NULL, accuracy.type = NULL, level.fixed = FALSE,
-  trend.fixed = FALSE, partition.h = NULL, transform.method = NULL,
-  lambda = NULL, initial.value = NULL, ci.level = 95, start.phi = NULL,
-  end.phi = NULL, size.phi = NULL, plot.out = TRUE)
+  trend.fixed = FALSE, h = NULL, partition.h = NULL,
+  transform.method = NULL, lambda = NULL, initial.value = NULL,
+  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
@@ -81,6 +82,8 @@ For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.
 
 \item{trend.fixed}{"pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
 
+\item{h}{The number of steps to forecast ahead.}
+
 \item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
 When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
 
@@ -101,6 +104,8 @@ If TRUE, ATA Method calculates average of first p value in \code{X}for level and
 \item{end.phi}{Upper boundary for searching \code{parPHI}. If NULL, 1 is is default.}
 
 \item{size.phi}{Increment step for searching \code{parPHI}. If NULL, 0.05 is default.}
+
+\item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
 
 \item{plot.out}{Default is TRUE. If FALSE, graphics of ATA Method are not shown.}
 

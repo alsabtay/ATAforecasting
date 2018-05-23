@@ -4,7 +4,8 @@
 \alias{ATA.Forecast}
 \title{Forecasting time series using ATA Method}
 \usage{
-ATA.Forecast(y, h = NULL, out.sample = NULL, ci.alpha = 0.95)
+ATA.Forecast(y, h = NULL, out.sample = NULL, ci.level = 95,
+  negative.forecast = TRUE)
 }
 \arguments{
 \item{y}{An \code{ata} object is required for forecast.}
@@ -13,7 +14,9 @@ ATA.Forecast(y, h = NULL, out.sample = NULL, ci.alpha = 0.95)
 
 \item{out.sample}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.}
 
-\item{ci.level}{Confidence Interval levels for forecasting.}
+\item{ci.level}{Confidence Interval levels for forecasting. Default value is 95.}
+
+\item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
 }
 \value{
 An object of class "\code{forecast}".
@@ -25,8 +28,8 @@ depend on the class of the first argument.
 }
 \examples{
 
-ata.fit <- ATA(window(WWWusage, end=60))
-fc <- ATA.Forecast(WWWusage, model=fit)
+ata.fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
+fc <- ATA.Forecast(ata.fit, h=18)
 
 }
 \references{
