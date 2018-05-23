@@ -27,7 +27,7 @@
 ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set)
 {
 tsp_input <- tsp(input)	
-if (s.model == "none" | s.frequency==1){
+if (s.model == "none" | max(s.frequency)==1){
 	if (s.type=="A"){	
 		adjX <- input
 		SeasActual <- rep(0,times=length(input))

@@ -334,9 +334,9 @@ ATA <- function(X, Y=NULL,
 			h <- length(OutSample)
 		}else {
 			if (is.null(h)){	
-				if (s.frequency==4){
+				if (max(s.frequency)==4){
 					h <- 8
-				}else if (s.frequency==12){
+				}else if (max(s.frequency)==12){
 					h <- 18
 				}else {
 					h <- 6
@@ -366,7 +366,7 @@ ATA <- function(X, Y=NULL,
 			is.season <- FALSE
 		}else {
 			if (seasonal.test==FALSE){
-				if (s.frequency==1){
+				if (max(s.frequency)==1){
 					is.season <- FALSE
 				}else {
 					is.season <- TRUE
