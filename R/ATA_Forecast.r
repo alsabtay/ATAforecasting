@@ -6,7 +6,8 @@
 #' @param y An \code{ata} object is required for forecast.
 #' @param h Number of periods for forecasting.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
-#' @param ci.level Confidence Interval levels for forecasting.
+#' @param ci.level Confidence Interval levels for forecasting. Default value is 95. 
+#' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0. 
 #' @return An object of class "\code{forecast}".
 #' 
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
@@ -22,12 +23,12 @@
 #' @keywords ata forecast accuracy ts msts
 #' @examples
 #' 
-#' ata.fit <- ATA(window(WWWusage, end=60))
-#' fc <- ATA.Forecast(WWWusage, model=fit)
+#' ata.fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
+#' fc <- ATA.Forecast(ata.fit, h=18)
 #' 
 #' @export ATA.Forecast
 
-ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.alpha=0.95)
+ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
 {
 	if (class(y)!="ata"){
 		return("The Input must be 'ata' object. Please use ATA(x) function to produce 'ata' object. ATA Forecast was terminated!")
@@ -94,22 +95,36 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.alpha=0.95)
 	OS_SIValue <- ATA.Transform(OS_SIValue, tMethod=transform.method, tLambda=lambda)$trfmX
 	ata.output$level <- ATA.Transform(y$level, tMethod=transform.method, tLambda=lambda)$trfmX
 	ata.output$trend <- ATA.Transform(y$trend, tMethod=transform.method, tLambda=lambda)$trfmX
-	ata.output <- AutoATA.Forecast(ata.output, hh=h)
+	ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel=ata.output$initial.value)
 	forecast.ata <- ata.output$forecast
 	if(y$seasonal.type=="A"){
 		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda)
 	}else {
 		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda)				
 	}
-	y$forecast <- ATA.forecast
+	if (negative.forecast==TRUE){
+		y$forecast <- ATA.forecast
+	}else {
+		ATA.forecast[ATA.forecast<0] <- 0
+		y$forecast <- ATA.forecast	
+	}
 	y$h <- h
 	accuracy.ata <- ATA.Accuracy(y,out.sample=out.sample)
 	y$accuracy <- accuracy.ata
 	y$out.sample <- ifelse(is.null(out.sample),fsample,out.sample)
 	ci.output <- ATA.CI(y, ci.level)
 	y$ci.level <- ci.level
-	y$forecast.lower <- ci.output$forecast.lower
-	y$forecast.upper <- ci.output$forecast.upper
+	if (negative.forecast==TRUE){
+		y$forecast.lower <- ci.output$forecast.lower
+		y$forecast.upper <- ci.output$forecast.upper
+	}else {
+		ci_low <- ci.output$forecast.lower
+		ci_up <- ci.output$forecast.upper
+		ci_low[ci_low<0] <- 0
+		ci_up[ci_up<0] <- 0
+		y$forecast.lower <- ci_low
+		y$forecast.upper <- ci_up
+	}
 	attr(y, "class") <- "ata.forecast"
 	print.ata(y)
 	return(y)

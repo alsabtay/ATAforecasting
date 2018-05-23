@@ -46,6 +46,7 @@ if (s.model == "none" | s.frequency==1){
 		return("The data set must be time series object (ts or msts) ATA Method was terminated!")
 	}
 	input <- msts(input, start=tsp_input[1], seasonal.periods = s.frequency)
+	tsp_input <- tsp(input)	
 	if (s.model=="decomp"){									  	# Do classical decomposition
 		if (s.type=="A"){
 			desX <- decompose(input, type = c("additive"))

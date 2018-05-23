@@ -2,7 +2,7 @@
 
 AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.Model, seasonal.Type, seasonal.Frequency, h, accuracy.Type, 
 							level.Fix, trend.Fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend, transform.Method, Lambda, orig_X, 
-							OutSample, seas_attr_set, freqYh, ci.Level)
+							OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast)
 {
 	tspX <- tsp(ts_input)
 	optAccryStart <- 9999999999999.9
@@ -147,7 +147,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	ATA.last <- ATA.Core(seasonal.Adj, pk = opt_p, qk = opt_q, phik = opt_phi, mdlType = model.Type, initialLevel = initialLevel, initialTrend = initialTrend)
 	ATA.last$h <- h
 	ATA.last <- AutoATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
-	ATA.last$actual <- orig_X
+	ATA.last$actual <- msts(orig_X, start=tsp(orig_X)[1], seasonal.periods = seasonal.Frequency)
 	fit.ata <- ATA.last$fitted
 	forecast.ata <- ATA.last$forecast
 	ATA.last$level <- ATA.Inv.Transform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda)
@@ -161,7 +161,12 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	}
 	seasonal.Actual <- ATA.Inv.Transform(X=seasonal.Actual, tMethod=transform.Method, tLambda=Lambda)
 	ATA.last$fitted <- ATA.fitted
-	ATA.last$forecast <- ATA.forecast
+	if (negative.forecast==TRUE){
+		ATA.last$forecast <- ATA.forecast
+	}else {
+		ATA.forecast[ATA.forecast<0] <- 0
+		ATA.last$forecast <- ATA.forecast
+	}	
 	accuracy.ata <- ATA.Accuracy(ATA.last, OutSample)	
 	my_list <- ATA.last
 	my_list$out.sample <- OutSample
@@ -189,7 +194,16 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	my_list$seasonal.adjusted <- ATA.Inv.Transform(X=seasonal.Adj, tMethod=transform.Method, tLambda=Lambda)
 	ci.output <- ATA.CI(my_list, ci.Level)
 	my_list$ci.level <- ci.Level
-	my_list$forecast.lower <- ci.output$forecast.lower
-	my_list$forecast.upper <- ci.output$forecast.upper
+	if (negative.Forecast==TRUE){
+		my_list$forecast.lower <- ci.output$forecast.lower
+		my_list$forecast.upper <- ci.output$forecast.upper
+	}else {
+		ci_low <- ci.output$forecast.lower
+		ci_up <- ci.output$forecast.upper
+		ci_low[ci_low<0] <- 0
+		ci_up[ci_up<0] <- 0
+		my_list$forecast.lower <- ci_low
+		my_list$forecast.upper <- ci_up
+	}
 	return(my_list)
 }

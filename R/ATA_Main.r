@@ -60,6 +60,7 @@
 #' }
 #' @param level.fixed "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.
 #' @param trend.fixed "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.
+#' @param h The number of steps to forecast ahead.
 #' @param partition.h If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
 #' When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.		
 #' @param transform.method Transformation method  --> BoxCox, sqrt, inverse, log, log10. 
@@ -73,6 +74,7 @@
 #' @param start.phi Lower boundary for searching \code{parPHI}.If NULL, 0 is default.
 #' @param end.phi Upper boundary for searching \code{parPHI}. If NULL, 1 is is default.
 #' @param size.phi Increment step for searching \code{parPHI}. If NULL, 0.05 is default.
+#' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0. 
 #' @param print.out Default is TRUE. If FALSE, summary of ATA Method is not shown. 
 #' @param plot.out Default is TRUE. If FALSE, graphics of ATA Method are not shown. 
 #' @param ... Other undocumented arguments.
@@ -145,6 +147,7 @@ ATA <- function(X, Y=NULL,
 					accuracy.type=NULL, 
 					level.fixed=FALSE,
 					trend.fixed=FALSE,
+					h=NULL,
 					partition.h=NULL,
 					transform.method=NULL,
 					lambda=NULL,
@@ -153,6 +156,7 @@ ATA <- function(X, Y=NULL,
 					start.phi=NULL,
 					end.phi=NULL,
 					size.phi=NULL,
+					negative.forecast=TRUE,
 					# print.out = TRUE,
 					plot.out = TRUE)
 {
@@ -218,6 +222,11 @@ ATA <- function(X, Y=NULL,
 			return("find.period must be integer and between 0 and 4. ATA Method was terminated!")
 		}
 		s.frequency <- seasonal.period
+	}
+	if (length(s.frequency)>1){
+		if (seasonal.model != "tbats" & seasonal.model != "stR"){
+			seasonal.model <- "tbats"
+		}
 	}
 	if (is.null(accuracy.type)){ 
 		accuracy.type <- "sMAPE"
@@ -324,12 +333,14 @@ ATA <- function(X, Y=NULL,
 			X <- ts(X, f = tspX[3], s = tspX[1])
 			h <- length(OutSample)
 		}else {
-			if (s.frequency==4){
-				h <- 8
-			}else if (s.frequency==12){
-				h <- 18
-			}else {
-				h <- 6
+			if (is.null(h)){	
+				if (s.frequency==4){
+					h <- 8
+				}else if (s.frequency==12){
+					h <- 18
+				}else {
+					h <- 6
+				}
 			}
 			OutSample <- rep(NA,times=h)
 			OutSample <- ts(OutSample, f = tspX[3], s = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
@@ -413,7 +424,7 @@ ATA <- function(X, Y=NULL,
 			ata.output <- ATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = model.type, initialLevel = initial.level, initialTrend = initial.trend)
 			ata.output$h <- h
 			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual <- orig.X
+			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
 			ata.output$accuracy.type <- accuracy.type
 			fit.ata <- ata.output$fitted
 			forecast.ata <- ata.output$forecast
@@ -428,7 +439,12 @@ ATA <- function(X, Y=NULL,
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
-			ata.output$forecast <- ATA.forecast
+			if (negative.forecast==TRUE){
+				ata.output$forecast <- ATA.forecast
+			}else {
+				ATA.forecast[ATA.forecast<0] <- 0
+				ata.output$forecast <- ATA.forecast
+			}
 			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
 		}else if (is.numeric(parP) & is.numeric(parQ) & is.numeric(parPHI) & is.null(model.type)){
 			mdl.type <- c("A","M")
@@ -444,7 +460,7 @@ ATA <- function(X, Y=NULL,
 			ata.output <- ATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = model.type, initialLevel = initial.level, initialTrend = initial.trend)
 			ata.output$h <- h
 			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual<- orig.X
+			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
 			fit.ata <- ata.output$fitted
 			forecast.ata <- ata.output$forecast
 			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda)
@@ -458,13 +474,18 @@ ATA <- function(X, Y=NULL,
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
-			ata.output$forecast <- ATA.forecast
+			if (negative.forecast==TRUE){
+				ata.output$forecast <- ATA.forecast
+			}else {
+				ATA.forecast[ATA.forecast<0] <- 0
+				ata.output$forecast <- ATA.forecast
+			}
 			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)	
 		}else {		
 			ata.output <- AutoATA.Damped(AdjInSample, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend)	
 			ata.output$h <- h
 			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual <- orig.X
+			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
 			fit.ata <- ata.output$fitted
 			forecast.ata <- ata.output$forecast
 			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda)
@@ -478,7 +499,12 @@ ATA <- function(X, Y=NULL,
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
-			ata.output$forecast <- ATA.forecast
+			if (negative.forecast==TRUE){
+				ata.output$forecast <- ATA.forecast
+			}else {
+				ATA.forecast[ATA.forecast<0] <- 0
+				ata.output$forecast <- ATA.forecast
+			}
 			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
 		}
 		my_list <- ata.output
@@ -507,12 +533,21 @@ ATA <- function(X, Y=NULL,
 		my_list$seasonal.adjusted <- ATA.Inv.Transform(X=AdjInSample, tMethod=transform.method, tLambda=lambda)
 		ci.output <- ATA.CI(my_list, ci.level)
 		my_list$ci.level <- ci.level
-		my_list$forecast.lower <- ci.output$forecast.lower
-		my_list$forecast.upper <- ci.output$forecast.upper
+		if (negative.forecast==TRUE){
+			my_list$forecast.lower <- ci.output$forecast.lower
+			my_list$forecast.upper <- ci.output$forecast.upper
+		}else {
+			ci_low <- ci.output$forecast.lower
+			ci_up <- ci.output$forecast.upper
+			ci_low[ci_low<0] <- 0
+			ci_up[ci_up<0] <- 0
+			my_list$forecast.lower <- ci_low
+			my_list$forecast.upper <- ci_up
+		}
 	}else {
 		my_list <- AutoATA.Auto(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
 									level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-									lambda, orig.X, OutSample, seas_attr_set, freqYh, ci.level)
+									lambda, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast)
 	}
 	executionTime <- proc.time() - ptm
 	end.time <- Sys.time()
