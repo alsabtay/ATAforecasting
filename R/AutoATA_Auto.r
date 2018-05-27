@@ -14,7 +14,11 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 				seasonal.Model <- seas.model <- "none"
 				seasonal.Test <- TRUE
 			}else {
-				seas.model <- c("decomp","stl", "stlplus", "stR", "tbats", "x13", "x11")
+				if (seasonal.Frequency!=12){
+					seas.model <- c("decomp","stl", "stlplus", "stR", "tbats")
+				}else {
+					seas.model <- c("decomp","stl", "stlplus", "stR", "tbats", "x13", "x11")
+				}
 			}
 		}
 	}else {
@@ -161,7 +165,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	}
 	seasonal.Actual <- ATA.Inv.Transform(X=seasonal.Actual, tMethod=transform.Method, tLambda=Lambda)
 	ATA.last$fitted <- ATA.fitted
-	if (negative.forecast==TRUE){
+	if (negative.Forecast==TRUE){
 		ATA.last$forecast <- ATA.forecast
 	}else {
 		ATA.forecast[ATA.forecast<0] <- 0

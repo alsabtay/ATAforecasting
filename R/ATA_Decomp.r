@@ -83,7 +83,11 @@ if (s.model == "none" | max(s.frequency)==1){
 			SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
 		}
 	}else if (s.model=="stR"){									# Do stR decomposition
-		stRdesX <- AutoSTR(input, robust=TRUE)
+		if (length(input)>1600){
+			stRdesX <- AutoSTR(input)
+		}else {
+			stRdesX <- AutoSTR(input, robust=TRUE)
+		}
 		stRcomp <- stR::components(stRdesX)
 		nameCol <- colnames(stRcomp)
 		nameCol <- grep('Seasonal', nameCol, value=TRUE)
