@@ -120,7 +120,7 @@ if (s.model == "none" | max(s.frequency)==1){
 			}
 		}
 	}else if (s.model=="tbats"){								# Do tbats decomposition
-		tbatsdesX <- tbats(input)
+		tbatsdesX <- tbats(input, use.box.cox = FALSE)
 		tbatscomp <- tbats.components(tbatsdesX)
 		nameCol <- colnames(tbatscomp)
 		nameCol <- grep('season', nameCol, value=TRUE)
@@ -150,25 +150,9 @@ if (s.model == "none" | max(s.frequency)==1){
 					SeasIndex[s] <- as.numeric(mean(SeasActual[cycle(SeasActual)==s]))
 				}
 			}
-			if (tbatsdesX$parameters$control$use.box.cox==TRUE){
-				last_seas_type <- "M"
-			}else {
-				if (min(abs(SeasIndex))>0 & max(abs(SeasIndex))<3){
-					last_seas_type <- "M"
-				}else {
-					last_seas_type <- "A"
-				}
-			}
 		}
-		if(!is.null(tbatsdesX$lambda[1])){
-			ttMethod <- "BoxCox"
-		}else {
-			ttMethod <- NULL
-		}
-		SeasActual <- ATA.Inv.Transform(X=SeasActual, tMethod=ttMethod, tLambda=tbatsdesX$lambda[1], tbiasadj=attributes(tbatsdesX$lambda)$biasadj)
-		SeasIndex <- ATA.Inv.Transform(X=SeasIndex, tMethod=ttMethod, tLambda=tbatsdesX$lambda[1], tbiasadj=attributes(tbatsdesX$lambda)$biasadj)
 	}else if (s.model=="x13"){									# Do X13ARIMA/SEATS decomposition
-		x13desX <- seas(input, estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
+		x13desX <- seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
 		last_seas_type <- udg(x13desX, stats = "finmode")
 		SeasActual <- seasonal::series(x13desX,"seats.adjustfac")
 		if (is.null(SeasActual)) {
@@ -189,7 +173,7 @@ if (s.model == "none" | max(s.frequency)==1){
 			}
 		}
 	}else if (s.model=="x11"){									# Do X13ARIMA/SEATS X11 decomposition
-		x11desX <- seas(input, x11 = "", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
+		x11desX <- seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
 		last_seas_type <- udg(x11desX, stats = "finmode")
 		SeasActual <- seasonal::series(x11desX,"x11.adjustfac")
 		if (is.null(SeasActual)) {
@@ -212,7 +196,7 @@ if (s.model == "none" | max(s.frequency)==1){
 	}else {
 	}
 }
-my_list <- list("AdjustedX" = adjX, "SeasIndex" = SeasIndex, "SeasActual" = SeasActual, "ChangedType" = last_seas_type)
+my_list <- list("AdjustedX" = adjX, "SeasIndex" = SeasIndex, "SeasActual" = SeasActual)
 return(my_list)
 gc()
 }	

@@ -397,26 +397,12 @@ ATA <- function(X, Y=NULL,
 		SeasonalIndex <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.transform, tLambda=seas.lambda)
 		SeasonalActual <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.transform, tLambda=seas.lambda)
 		if (seasonal.model=="x13" | seasonal.model=="x11"){
-			if (abs(min(SeasonalIndex))<=1){
+			if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
 				seasonal.type <- "M"
 			}else {
 				seasonal.type <- "A"
 			}
 			orig.seastype <- seasonal.type
-		}
-		if (seasonal.model=="x13" | seasonal.model=="x11" | seasonal.model=="tbats"){
-			if (is.null(seas.transform)){
-				if (!is.null(ata.seasonal.component$ChangedType)){
-					seasonal.type <- ata.seasonal.component$ChangedType
-					orig.seastype <- seasonal.type
-				}
-			}else {
-				if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
-					seasonal.type <- "M"
-				}else {
-					seasonal.type <- "A"
-				}
-			}
 		}
 		if (is.season==FALSE & seasonal.type=="A"){
 			OS_SIValue <- rep(0,times=h)

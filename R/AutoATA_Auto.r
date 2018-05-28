@@ -93,19 +93,13 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 				AdjInSample <- ATA.Inv.Transform(X=ata.seasonal.component$AdjustedX, tMethod=seas.Transform, tLambda=seas.Lambda)
 				SeasonalIndex <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.Transform, tLambda=seas.Lambda)
 				SeasonalActual <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.Transform, tLambda=seas.Lambda)
-				if (seas.model[s]=="x13" | seas.model[s]=="x11" | seas.model[s]=="tbats"){
-					if (is.null(seas.Transform)){
-						if (!is.null(ata.seasonal.component$ChangedType)){
-							seas.Type <- ata.seasonal.component$ChangedType
-							org.seas.Type <- seas.Type
-						}
+				if (seas.model[s]=="x13" | seas.model[s]=="x11"){
+					if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
+						seas.Type <- "M"
 					}else {
-						if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
-							seas.Type <- "M"
-						}else {
-							seas.Type <- "A"
-						}
+						seas.Type <- "A"
 					}
+					org.seas.Type <- seas.Type
 				}
 				if (is.season==FALSE & seas.Type=="A"){
 					OS_SIValue <- rep(0,times=h)
