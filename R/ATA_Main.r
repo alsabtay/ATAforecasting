@@ -360,6 +360,7 @@ ATA <- function(X, Y=NULL,
 			seasonal.type <- "A"
 		}
 	}
+	X <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)$trfmX
 	if (length(seasonal.type)==1 & length(seasonal.model)==1){
 		orig.seastype <- seasonal.type
 		if (seasonal.model=="none"){
@@ -376,31 +377,25 @@ ATA <- function(X, Y=NULL,
 			}
 		}
 		if (is.season==TRUE){
-			if (seasonal.model=="x13" | seasonal.model=="x11"){
-				lambda <- NULL
-				transform.method <- NULL
-			}else if (seasonal.model!="decomp" & seasonal.type=="M"){
+			if (seasonal.model!="decomp" & seasonal.type=="M"){
 				X <- ATA.Transform(X,tMethod="BoxCox",tLambda=0)$trfmX  # lambda = 0 for multiplicative model
 				seasonal.type <- "A"
-				model.type <- "A"
-				lambda <- 0
-				transform.method <- "BoxCox"
+				seas.lambda <- 0
+				seas.transform <- "BoxCox"
 			}else {
-				tX <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)
-				X <- tX$trfmX
-				lambda <- tX$tLambda
+				seas.lambda <- NULL
+				seas.transform <- NULL
 			}
 		}else {
-			tX <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)
-			X <- tX$trfmX
-			lambda <- tX$tLambda
 			seasonal.model <- "none"
 			seasonal.type <- "A"
+			seas.lambda <- NULL
+			seas.transform <- NULL
 		}
 		ata.seasonal.component <- ATA.Decomposition(X, s.model=seasonal.model, s.type=seasonal.type, s.frequency=s.frequency, seas_attr_set=seas_attr_set)
-		AdjInSample <- ata.seasonal.component$AdjustedX
-		SeasonalIndex <- ata.seasonal.component$SeasIndex
-		SeasonalActual <- ata.seasonal.component$SeasActual
+		AdjInSample <- ATA.Inv.Transform(X=ata.seasonal.component$AdjustedX, tMethod=seas.transform, tLambda=seas.lambda)
+		SeasonalIndex <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.transform, tLambda=seas.lambda)
+		SeasonalActual <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.transform, tLambda=seas.lambda)
 		if (seasonal.model=="x13" | seasonal.model=="x11"){
 			if (abs(min(SeasonalIndex))<=1){
 				seasonal.type <- "M"
@@ -408,6 +403,20 @@ ATA <- function(X, Y=NULL,
 				seasonal.type <- "A"
 			}
 			orig.seastype <- seasonal.type
+		}
+		if (seasonal.model=="x13" | seasonal.model=="x11" | seasonal.model=="tbats"){
+			if (is.null(seas.transform)){
+				if (!is.null(ata.seasonal.component$ChangedType)){
+					seasonal.type <- ata.seasonal.component$ChangedType
+					orig.seastype <- seasonal.type
+				}
+			}else {
+				if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
+					seasonal.type <- "M"
+				}else {
+					seasonal.type <- "A"
+				}
+			}
 		}
 		if (is.season==FALSE & seasonal.type=="A"){
 			OS_SIValue <- rep(0,times=h)
