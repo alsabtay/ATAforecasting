@@ -153,7 +153,6 @@ if (s.model == "none" | max(s.frequency)==1){
 		}
 	}else if (s.model=="x13"){									# Do X13ARIMA/SEATS decomposition
 		x13desX <- seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
-		last_seas_type <- udg(x13desX, stats = "finmode")
 		SeasActual <- seasonal::series(x13desX,"seats.adjustfac")
 		if (is.null(SeasActual)) {
 			if (s.type=="A"){	
@@ -174,7 +173,6 @@ if (s.model == "none" | max(s.frequency)==1){
 		}
 	}else if (s.model=="x11"){									# Do X13ARIMA/SEATS X11 decomposition
 		x11desX <- seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
-		last_seas_type <- udg(x11desX, stats = "finmode")
 		SeasActual <- seasonal::series(x11desX,"x11.adjustfac")
 		if (is.null(SeasActual)) {
 			if (s.type=="A"){	
