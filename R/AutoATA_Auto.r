@@ -165,7 +165,6 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 		ATA.fitted <- ATA.Inv.Transform(X = fit.ata * seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
 		ATA.forecast <- ATA.Inv.Transform(X = forecast.ata * seasonal.forecast, tMethod=opt_transform, tLambda=opt_lambda)				
 	}
-	seasonal.Actual <- ATA.Inv.Transform(X=seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
 	ATA.last$fitted <- ATA.fitted
 	if (negative.Forecast==TRUE){
 		ATA.last$forecast <- ATA.forecast
@@ -195,8 +194,8 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	my_list$seasonal.model <- seasonal.Model
 	my_list$seasonal.type <- org.seas.type
 	my_list$seasonal.period <- seasonal.Frequency
-	my_list$seasonal.index <- seasonal.Index
-	my_list$seasonal <- seasonal.Actual
+	my_list$seasonal.index <- ATA.Inv.Transform(X=seasonal.Index, tMethod=opt_transform, tLambda=opt_lambda)
+	my_list$seasonal <- ATA.Inv.Transform(X=seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
 	my_list$seasonal.adjusted <- ATA.Inv.Transform(X=seasonal.Adj, tMethod=opt_transform, tLambda=opt_lambda)
 	ci.output <- ATA.CI(my_list, ci.Level)
 	my_list$ci.level <- ci.Level

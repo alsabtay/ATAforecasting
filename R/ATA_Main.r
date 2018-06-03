@@ -433,6 +433,7 @@ ATA <- function(X, Y=NULL,
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda)				
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
+			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
 			if (negative.forecast==TRUE){
 				ata.output$forecast <- ATA.forecast
@@ -468,6 +469,7 @@ ATA <- function(X, Y=NULL,
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda)				
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
+			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
 			if (negative.forecast==TRUE){
 				ata.output$forecast <- ATA.forecast
@@ -493,6 +495,7 @@ ATA <- function(X, Y=NULL,
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda)				
 			}
 			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda)
+			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda)
 			ata.output$fitted <- ATA.fitted
 			if (negative.forecast==TRUE){
 				ata.output$forecast <- ATA.forecast
