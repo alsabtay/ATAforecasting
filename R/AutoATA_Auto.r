@@ -5,14 +5,22 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 							OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast)
 {
 	tspX <- tsp(ts_input)
-	optAccryStart <- 9999999999999.9
-	if (is.null(seasonal.Model)){
-		if (length(seasonal.Frequency)>1){
-			seas.model <- c("stR","tbats")
+	if (is.null(seasonal.Test) | seasonal.Test==TRUE){
+		is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
+	}else {
+		if (max(seasonal.Frequency)==1){
+			is.season <- FALSE
 		}else {
-			if (seasonal.Frequency==1){
-				seasonal.Model <- seas.model <- "none"
-				seasonal.Test <- TRUE
+			is.season <- TRUE
+		}
+	}
+	if (is.null(seasonal.Model)){
+		if (is.season==TRUE & length(seasonal.Frequency)>1){
+			seas.model <- c("stl","stR","tbats")
+		}else {
+			if (is.season==FALSE | seasonal.Frequency==1){
+				seas.model <- "none"
+				seasonal.Type <- "A"
 			}else {
 				if (seasonal.Frequency!=12){
 					seas.model <- c("decomp","stl", "stlplus", "stR", "tbats")
@@ -22,148 +30,140 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 			}
 		}
 	}else {
-		if (length(seasonal.Frequency)>1){
-				seas.model <- c("stR","tbats")
+		if (is.season==TRUE & length(seasonal.Frequency)>1){
+				seas.model <- c("stl","stR","tbats")
 		}else {
-			if (seasonal.Frequency==1){
-				seasonal.Model <- seas.model <- "none"
-				seasonal.Test <- TRUE
+			if (is.season==FALSE | seasonal.Frequency==1){
+				seas.model <- "none"
+				seasonal.Type <- "A"
 			}else {
 				seas.model <- seasonal.Model
 			}
 		}
 	}
-	ifelse(is.null(seasonal.Type), ifelse(seas.model=="none", seas.type <- "A", seas.type <- c("A","M")), seas.type <- seasonal.Type)
+	ifelse(is.null(seasonal.Type), seas.type <- c("A","M"), seas.type <- seasonal.Type)
 	ifelse(is.null(model.Type),model.Type <- "B",model.Type <- model.Type)
-	if (is.null(seasonal.Test)){
-		max_st <- 2L
-		s_Test <- c(TRUE, FALSE)
-	}else if (seasonal.Frequency==1){
-		max_st <- 1L
-		s_Test <-  TRUE
+	max_smo <- length(seas.model)
+	if (length(seas.type)==1){
+		max_st <- 1
 	}else {
-		max_st <- 1L
-		s_Test <- seasonal.Test
+		max_st <- 2
 	}
-	max_s <- length(seas.model)
-	for (s in 1:max_s){
-		if (seas.model[s]=="x13" | seas.model[s]=="x11" | seas.model[s]=="none"){
-			max_n <- 1L
-		}else {
-			if (length(seas.type)==1){
-				max_n <- 1L
-			}else {
-				max_n <- 2L
-			}
-		}
-		for (n in 1:max_n) {
-			for (st in 1:max_st) {
-				if (seas.model[s]=="none"){
-					is.season <- FALSE
-				}else {
-					if (s_Test[st]==FALSE){
-						is.season <- TRUE
-					}else {
-						is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
-					}
-				}
-				if (is.season==TRUE){
-					org.seas.Type <- seas.type[n]
-					if (seas.model[s]!="decomp" & seas.type[n]=="M"){
-						X <- ATA.Transform(ts_input,tMethod="BoxCox",tLambda=0)$trfmX  # lambda = 0 for multiplicative model
-						seas.Type <- "A"
-						seas.Model <- seas.model[s]
-						seas.Lambda <- 0
-						seas.Transform <- "BoxCox"
-					}else {
-						X <- ts_input
-						seas.Type <- seas.type[n]
-						seas.Model <- seas.model[s]
-						seas.Lambda <- NULL
-						seas.Transform <- NULL
-					}
+	DeSeas <- rep(NA,length(ts_input))
+	DeSI <- rep(NA,max(seasonal.Frequency))
+	DeSA <- rep(NA,length(ts_input))
+	TA_0 <- rep(NA,length(ts_input))
+	TM_0 <- rep(NA,length(ts_input))
+	typeName <- as.data.frame("omit")
+	for (smo in 1:max_smo){
+		for (st in 1:max_st){
+			if (seas.model[smo]!="none"){
+				org.seas.Type <- seas.type[st]
+				if (seas.model[smo]!="decomp" & seas.type[st]=="M"){
+					X <- ATA.Transform(ts_input,tMethod="BoxCox",tLambda=0)$trfmX  # lambda = 0 for multiplicative model
+					seas.Type <- "A"
+					seas.Model <- seas.model[smo]
+					seas.Lambda <- 0
+					seas.Transform <- "BoxCox"
 				}else {
 					X <- ts_input
-					seas.Type <- "A"
-					seas.Model <- "none"
+					seas.Type <- seas.type[st]
+					seas.Model <- seas.model[smo]
 					seas.Lambda <- NULL
 					seas.Transform <- NULL
 				}
-				ata.seasonal.component <- ATA.Decomposition(X, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
-				AdjInSample <- ATA.Inv.Transform(X=ata.seasonal.component$AdjustedX, tMethod=seas.Transform, tLambda=seas.Lambda)
-				SeasonalIndex <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.Transform, tLambda=seas.Lambda)
-				SeasonalActual <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.Transform, tLambda=seas.Lambda)
-				if (seas.model[s]=="x13" | seas.model[s]=="x11"){
-					if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
-						seas.Type <- "M"
-					}else {
-						seas.Type <- "A"
-					}
-					org.seas.Type <- seas.Type
-				}
-				if (is.season==FALSE & seas.Type=="A"){
-					OS_SIValue <- rep(0,times=h)
-				}else if (is.season==FALSE & seas.Type=="M"){
-					OS_SIValue <- rep(1,times=h)
-				}else if (is.season==TRUE){
-					OS_SIValue <- rep(NA,times=h)
-					for (k in 1:h){
-						OS_SIValue[k] <- SeasonalIndex[freqYh[k]]
-					}
-				}else{
-				}
-				Xdata <- as.numeric(AdjInSample)
-				TA_0 <- Xdata-ATA.Shift(Xdata,1)
-				TM_0 <- Xdata/ATA.Shift(Xdata,1)
-				output <- AutoATADamped(as.double(Xdata)
-								, as.integer(ifelse(pb=="opt", -1, pb))
-								, as.integer(ifelse(qb=="opt", -1, qb))
-								, as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-								, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12))
-								, as.integer(ifelse(level.Fix, 1, 0))
-								, as.integer(ifelse(trend.Fix, 1, 0))
-								, as.double(phiStart)
-								, as.double(phiEnd)
-								, as.double(phiSize)
-								, as.integer(ifelse(initialLevel, 1, 0))
-								, as.integer(ifelse(initialTrend, 1, 0))
-								, as.double(TA_0)
-								, as.double(TM_0))
-				ATA.opt <- AutoATA.Core(AdjInSample, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
-				optAccryEnd <- AutoATA.Accuracy(ATA.opt, accryType = accuracy.Type)
-				if (optAccryEnd <= optAccryStart){
-					opt_p <- output[1] 
-					opt_q <- output[2] 
-					opt_phi <- output[3]
-					ifelse(output[4]==1,model.Type <- "A", model.Type <- "M")
-					seasonal.Model <- seas.Model
-					org.seas.type <- org.seas.Type
-					seasonal.Type <- seas.Type
-					seasonal.Adj <- AdjInSample
-					seasonal.Index <- SeasonalIndex
-					seasonal.Actual <- SeasonalActual
-					seasonal.forecast <- OS_SIValue
-					opt_lambda <- Lambda
-					opt_transform <- transform.Method
-					optAccryStart <- optAccryEnd
-				}
+			}else {
+				X <- ts_input
+				org.seas.Type <- seas.Type <- "A"
+				seas.Model <- "none"
+				seas.Lambda <- NULL
+				seas.Transform <- NULL
 			}
+			ata.seasonal.component <- ATA.Decomposition(X, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
+			AdjX <- ATA.Inv.Transform(X=ata.seasonal.component$AdjustedX, tMethod=seas.Transform, tLambda=seas.Lambda)
+			AdjSI <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.Transform, tLambda=seas.Lambda)
+			AdjSA <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.Transform, tLambda=seas.Lambda)
+			if (seas.Model=="x13" | seas.Model=="x11"){
+				org.seas.Type <- seas.Type <- ata.seasonal.component$SeasType
+			}
+			#colSMOName <- colnames(DeSeas)
+			DeSeas <- as.matrix.data.frame(cbind(DeSeas, as.numeric(AdjX)))
+			DeSI <- as.matrix.data.frame(cbind(DeSI, as.numeric(AdjSI)))
+			DeSA <- as.matrix.data.frame(cbind(DeSA, as.numeric(AdjSA)))
+			#colnames(DeSeas) <- c(colSMOName,seas.Model)
+			#colnames(DeSI) <- colnames(DeSeas)
+			#colnames(DeSA) <- colnames(DeSeas)
+			#colSTypeName <- colnames(typeName)
+			typeName <- cbind(typeName, org.seas.Type)
+			#colnames(typeName) <- c(colSTypeName, org.seas.Type)
+			TA_0 <- cbind(TA_0, as.double(AdjX-ATA.Shift(AdjX,1)))
+			TM_0 <- cbind(TM_0, as.double(AdjX/ATA.Shift(AdjX,1)))
+			#colnames(TA_0) <- colnames(DeSeas)
+			#colnames(TM_0) <- colnames(DeSeas)
 		}
 	}
-	ATA.last <- ATA.Core(seasonal.Adj, pk = opt_p, qk = opt_q, phik = opt_phi, mdlType = model.Type, initialLevel = initialLevel, initialTrend = initialTrend)
+	DeSeas <- DeSeas[,-1]
+	DeSI <- DeSI[,-1]
+	DeSA <- DeSA[,-1]
+	TA_0 <- TA_0[,-1]
+	TM_0 <- TM_0[,-1]
+	output <- AutoATA(as.matrix.data.frame(DeSeas)
+					, as.integer(ifelse(pb=="opt", -1, pb))
+					, as.integer(ifelse(qb=="opt", -1, qb))
+					, as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
+					, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12))
+					, as.integer(ifelse(level.Fix, 1, 0))
+					, as.integer(ifelse(trend.Fix, 1, 0))
+					, as.double(phiStart)
+					, as.double(phiEnd)
+					, as.double(phiSize)
+					, as.integer(ifelse(initialLevel, 1, 0))
+					, as.integer(ifelse(initialTrend, 1, 0))
+					, as.matrix.data.frame(TA_0)
+					, as.matrix.data.frame(TM_0)
+					, as.integer(sapply(seas.model, switch, "none"=0,"decomp"=1,"stl"=2,"stlplus"=3,"stR"=4,"tbats"=5,"x13"=6,"x11"=7))
+					, as.integer(sapply(seas.type, switch, "A"=0,"M"=1))
+					, as.integer(max_smo)
+					, as.integer(max_st)
+					, as.integer(length(ts_input))
+					)
+	
+	#output[1] = d_opt_p;
+	#output[2] = d_opt_q;
+	#output[3] = d_opt_phi;
+	#output[4] = d_opt_mo;
+	#output[5] = LastIXSMO;
+	#output[6] = LastIXST;
+	#output[7] = mod_clmn;
+	
+	AdjInput <- msts(as.numeric(DeSeas[,output[7]]), start=tsp(orig_X)[1], seasonal.periods = seasonal.Frequency)
+	SeasonalActual <- msts(as.numeric(DeSA[,output[7]]), start=tsp(orig_X)[1], seasonal.periods = seasonal.Frequency)
+	SeasonalIndex <- as.numeric(DeSI[,output[7]])
+	if (is.season==FALSE & output[6]==0){
+		OS_SIValue <- rep(0,times=h)
+	}else if (is.season==FALSE & output[6]==1){
+		OS_SIValue <- rep(1,times=h)
+	}else if (is.season==TRUE){
+		OS_SIValue <- rep(NA,times=h)
+		for (k in 1:h){
+			OS_SIValue[k] <- SeasonalIndex[freqYh[k]]
+		}
+	}else{
+	}
+	ATA.last <- ATA.Core(AdjInput, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
 	ATA.last$h <- h
 	ATA.last <- AutoATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
 	ATA.last$actual <- msts(orig_X, start=tsp(orig_X)[1], seasonal.periods = seasonal.Frequency)
 	fit.ata <- ATA.last$fitted
 	forecast.ata <- ATA.last$forecast
-	ATA.last$level <- ATA.Inv.Transform(X=ATA.last$level, tMethod=opt_transform, tLambda=opt_lambda)
-	ATA.last$trend <- ATA.Inv.Transform(X=ATA.last$trend, tMethod=opt_transform, tLambda=opt_lambda)
-	if(seasonal.Type=="A"){
-		ATA.fitted <- ATA.Inv.Transform(X = fit.ata + seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
-		ATA.forecast <- ATA.Inv.Transform(X = forecast.ata + seasonal.forecast, tMethod=opt_transform, tLambda=opt_lambda)
+	ATA.last$level <- ATA.Inv.Transform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda)
+	ATA.last$trend <- ATA.Inv.Transform(X=ATA.last$trend, tMethod=transform.Method, tLambda=Lambda)
+	if(output[6]==0){
+		ATA.fitted <- ATA.Inv.Transform(X = fit.ata + SeasonalActual, tMethod=transform.Method, tLambda=Lambda)
+		ATA.forecast <- ATA.Inv.Transform(X = forecast.ata + OS_SIValue, tMethod=transform.Method, tLambda=Lambda)
 	}else {
-		ATA.fitted <- ATA.Inv.Transform(X = fit.ata * seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
-		ATA.forecast <- ATA.Inv.Transform(X = forecast.ata * seasonal.forecast, tMethod=opt_transform, tLambda=opt_lambda)				
+		ATA.fitted <- ATA.Inv.Transform(X = fit.ata * SeasonalActual, tMethod=transform.Method, tLambda=Lambda)
+		ATA.forecast <- ATA.Inv.Transform(X = forecast.ata * OS_SIValue, tMethod=transform.Method, tLambda=Lambda)				
 	}
 	ATA.last$fitted <- ATA.fitted
 	if (negative.Forecast==TRUE){
@@ -186,17 +186,17 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	my_list$initial.value <- initialLevel
 	my_list$level.fixed <- level.Fix
 	my_list$trend.fixed <- trend.Fix
-	my_list$transform.method <- opt_transform
-	my_list$lambda <- opt_lambda
+	my_list$transform.method <- transform.Method
+	my_list$lambda <- Lambda
 	my_list$accuracy.type <- accuracy.Type
 	my_list$accuracy <- accuracy.ata
 	my_list$is.season <- is.season
-	my_list$seasonal.model <- seasonal.Model
-	my_list$seasonal.type <- org.seas.type
+	my_list$seasonal.model <- switch(output[5]+1, "none", "decomp", "stl", "stlplus", "stR", "tbats", "x13", "x11") #seasonal.Model
+	my_list$seasonal.type <- ifelse(output[6]==0,"A","M") #org.seas.Type
 	my_list$seasonal.period <- seasonal.Frequency
-	my_list$seasonal.index <- ATA.Inv.Transform(X=seasonal.Index, tMethod=opt_transform, tLambda=opt_lambda)
-	my_list$seasonal <- ATA.Inv.Transform(X=seasonal.Actual, tMethod=opt_transform, tLambda=opt_lambda)
-	my_list$seasonal.adjusted <- ATA.Inv.Transform(X=seasonal.Adj, tMethod=opt_transform, tLambda=opt_lambda)
+	my_list$seasonal.index <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.Method, tLambda=Lambda)
+	my_list$seasonal <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.Method, tLambda=Lambda)
+	my_list$seasonal.adjusted <- ATA.Inv.Transform(X=AdjInput, tMethod=transform.Method, tLambda=Lambda)
 	ci.output <- ATA.CI(my_list, ci.Level)
 	my_list$ci.level <- ci.Level
 	if (negative.Forecast==TRUE){

@@ -7,6 +7,7 @@ SeasonalityTest <- function(input, ppy, attr_set)
 	}else {
 		s.tcrit <- attr_set$s.tcrit
 		uroot.test <- attr_set$uroot.test
+		uroot.type <- attr_set$uroot.type
 		uroot.alpha <- attr_set$uroot.alpha
 		uroot.maxd <- attr_set$uroot.maxd
 		if (length(ppy)>1){
@@ -14,7 +15,7 @@ SeasonalityTest <- function(input, ppy, attr_set)
 		}
 	  #Used to determine whether a time series is seasonal
 
-		d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
+		d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, type=uroot.type, max.d=uroot.maxd)
 		if(d > 0) {
 			input <- diff(input, differences=d, lag=1)
 		}

@@ -27,7 +27,7 @@
 ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set)
 {
 tsp_input <- tsp(input)	
-last_seas_type <- NULL
+last_seas_type <- s.type
 if (s.model == "none" | max(s.frequency)==1){
 	if (s.type=="A"){	
 		adjX <- input
@@ -67,12 +67,45 @@ if (s.model == "none" | max(s.frequency)==1){
 			}
 		}
 	}else if (s.model=="stl"){									# Do STL decomposition
-		stldesX <- stl(input, s.window = "per", robust=TRUE)
-		adjX <- forecast::seasadj(stldesX)  
-		SeasActual <- forecast::seasonal(stldesX)
-		SeasIndex <- rep(NA,times=s.frequency)
-		for (s in 1:s.frequency){
-			SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
+		if (length(s.frequency)==1){
+			stldesX <- stl(input, s.window = "per", robust=TRUE)
+			adjX <- forecast::seasadj(stldesX)  
+			SeasActual <- forecast::seasonal(stldesX)
+			SeasIndex <- rep(NA,times=s.frequency)
+			for (s in 1:s.frequency){
+				SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
+			}
+		}else {
+			stldesX <- mstl(x, lambda = NULL, s.window = "per")
+			nameCol <- colnames(stldesX)
+			nameCol <- grep('season', nameCol, value=TRUE)
+			if (length(nameCol)==0){
+				if (s.type=="A"){	
+					adjX <- input 
+					SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+					SeasIndex <- rep(0,times=max(s.frequency))
+				}else {
+					adjX <- input
+					SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+					SeasIndex <- rep(1,times=max(s.frequency))
+				}	
+			}else {
+				adjX <- stR::seasadj(stRdesX)
+				if (length(s.frequency)==1){
+					SeasActual <- stRcomp[,nameCol]
+					SeasIndex <- rep(NA,times=s.frequency)
+					for (s in 1:s.frequency){
+						SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
+					}
+				}else {
+					SeasActual <- rowSums(stRcomp[,nameCol],na.rm=TRUE)
+					SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
+					SeasIndex <- rep(NA,times=max(s.frequency))
+					for (s in 1:max(s.frequency)){
+						SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
+					}
+				}
+			}
 		}
 	}else if (s.model=="stlplus"){								# Do STLPlus decomposition
 		stlplusdesX <- stlplus(input, s.window = "per", robust=TRUE)
@@ -154,6 +187,7 @@ if (s.model == "none" | max(s.frequency)==1){
 	}else if (s.model=="x13"){									# Do X13ARIMA/SEATS decomposition
 		x13desX <- seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
 		SeasActual <- seasonal::series(x13desX,"seats.adjustfac")
+		ifelse(udg(x13desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
 		if (is.null(SeasActual)) {
 			if (s.type=="A"){	
 				adjX <- input 
@@ -174,6 +208,7 @@ if (s.model == "none" | max(s.frequency)==1){
 	}else if (s.model=="x11"){									# Do X13ARIMA/SEATS X11 decomposition
 		x11desX <- seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
 		SeasActual <- seasonal::series(x11desX,"x11.adjustfac")
+		ifelse(udg(x11desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
 		if (is.null(SeasActual)) {
 			if (s.type=="A"){	
 				adjX <- input 
@@ -194,7 +229,7 @@ if (s.model == "none" | max(s.frequency)==1){
 	}else {
 	}
 }
-my_list <- list("AdjustedX" = adjX, "SeasIndex" = SeasIndex, "SeasActual" = SeasActual)
+my_list <- list("AdjustedX" = adjX, "SeasIndex" = SeasIndex, "SeasActual" = SeasActual, "SeasType" = s.type)
 return(my_list)
 gc()
 }	

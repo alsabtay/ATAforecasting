@@ -11,7 +11,8 @@
 #'
 #' @param s.tcrit t-value for seasonality test
 #' @param uroot.test Type of unit root test to use
-#' @param uroot.alpha Level of the test
+#' @param uroot.type Specification of the deterministic component in the regression. Possible values are "level" and "trend".
+#' @param uroot.alpha Level of the test, possible values range from 0.01 to 0.1
 #' @param uroot.maxd Maximum number of non-seasonal differences allowed
 #' @param x13.estimate.maxiter Maximum iteration for X13ARIMA/SEATS estimation
 #' @param x13.estimate.tol Convergence tolerence for X13ARIMA/SEATS estimation
@@ -41,10 +42,10 @@
 #' \bold{71}:599-607.
 #'
 #' @export
-
-ata.seasonal.attr <- function(s.tcrit=1.645, uroot.test="adf", uroot.alpha=0.05, uroot.maxd=2, x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
+ type = c("level","trend")
+ata.seasonal.attr <- function(s.tcrit=1.645, uroot.test="adf", uroot.type="level", uroot.alpha=0.05, uroot.maxd=2, x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
 {
-	mylist <- list("s.tcrit"=s.tcrit,"uroot.test"=uroot.test, "uroot.alpha"=uroot.alpha, "uroot.maxd"=uroot.maxd, "x13.estimate.maxiter"=x13.estimate.maxiter, "x13.estimate.tol"=x13.estimate.tol, "x11.estimate.maxiter"=x11.estimate.maxiter, "x11.estimate.tol"=x11.estimate.tol)
+	mylist <- list("s.tcrit"=s.tcrit,"uroot.test"=uroot.test,"uroot.type"=uroot.type, "uroot.alpha"=uroot.alpha, "uroot.maxd"=uroot.maxd, "x13.estimate.maxiter"=x13.estimate.maxiter, "x13.estimate.tol"=x13.estimate.tol, "x11.estimate.maxiter"=x11.estimate.maxiter, "x11.estimate.tol"=x11.estimate.tol)
 	attr(mylist, "class") <- "ataattrset"
 	return(mylist)
 }

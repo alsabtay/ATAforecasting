@@ -7,6 +7,7 @@
 #' @import(stats)
 #' @import(graphics)
 #' @import(forecast)
+#' @import(urca)
 #' @import(Mcomp)
 #' @import(xts)
 #' @import(stR)

@@ -1,5 +1,7 @@
-#include <Rcpp.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
 using namespace Rcpp;
+using namespace arma;
 
 // [[Rcpp::export]]
  double meanMASE(NumericVector x, double meanNB) {
@@ -353,5 +355,71 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 	out[1] = d_opt_q;
 	out[2] = d_opt_phi;
 	out[3] = IXMO;
+	return out;
+}
+
+
+// [[Rcpp::export]]
+NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int LENX){
+	int  d_opt_p;
+	int  d_opt_q;
+	double  d_opt_phi;
+	int d_opt_mo;
+	int d_opt_smo;
+	int d_opt_st;
+	int d_opt_clmn;
+	int sm, st, LastIXSMO, LastIXST, mod_clmn;
+	NumericVector out(7);
+	NumericVector output;
+	double optAccryStart;
+	double optAccryEnd;
+
+	d_opt_phi = 1.0;
+	optAccryStart = 9999999999999.9;
+	optAccryEnd = 9999999999999.9;
+
+// Seasonal Models (sm)	
+	// "none" 		:	0 
+	// "decomp" 	:	1 
+	// "stl" 		:	2
+	// "stlplus" 	:	3 
+	// "stR"		:	4
+	// "tbats"		:	5
+	// "x13"		:	6
+	// "x11"		:	7
+
+// Seasonal Types (st)
+	// "A" 	:	0 
+	// "M" 	:	1 
+	
+	for(sm = 1; sm <= max_smo; sm++) {
+		for (st = 1; st <= max_st; st++) {
+			LastIXSMO = IXSMO[sm-1];
+			LastIXST = IXST[st-1];
+			mod_clmn = (sm*max_st)-(st%max_st);
+			NumericVector subIAX = wrap(IAX.col(mod_clmn-1));
+			NumericVector subIXTA_0 = wrap(IXTA_0.col(mod_clmn-1));
+			NumericVector subIXTM_0 = wrap(IXTM_0.col(mod_clmn-1));
+			output = AutoATADamped(subIAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, subIXTA_0, subIXTM_0);
+			optAccryEnd = AutoATACore(subIAX, output[0], output[1], output[2], output[3], IXAC, IXIL, IXIT, subIXTA_0, subIXTM_0);
+			if (optAccryEnd <= optAccryStart){
+				d_opt_p = output[0];
+				d_opt_q = output[1];
+				d_opt_phi = output[2];
+				d_opt_mo = output[3];
+				d_opt_smo = LastIXSMO;
+				d_opt_st = LastIXST;
+				d_opt_clmn = mod_clmn;
+				optAccryStart = optAccryEnd;
+			}
+		}
+	}
+	out[0] = d_opt_p;
+	out[1] = d_opt_q;
+	out[2] = d_opt_phi;
+	out[3] = d_opt_mo;
+	out[4] = d_opt_smo;
+	out[5] = d_opt_st;
+	out[6] = d_opt_clmn;
 	return out;
 }

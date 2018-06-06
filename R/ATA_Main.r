@@ -397,12 +397,7 @@ ATA <- function(X, Y=NULL,
 		SeasonalIndex <- ATA.Inv.Transform(X=ata.seasonal.component$SeasIndex, tMethod=seas.transform, tLambda=seas.lambda)
 		SeasonalActual <- ATA.Inv.Transform(X=ata.seasonal.component$SeasActual, tMethod=seas.transform, tLambda=seas.lambda)
 		if (seasonal.model=="x13" | seasonal.model=="x11"){
-			if (min(abs(SeasonalIndex))>0 & max(abs(SeasonalIndex))<3){
-				seasonal.type <- "M"
-			}else {
-				seasonal.type <- "A"
-			}
-			orig.seastype <- seasonal.type
+			orig.seastype <- seasonal.type <- ata.seasonal.component$SeasType
 		}
 		if (is.season==FALSE & seasonal.type=="A"){
 			OS_SIValue <- rep(0,times=h)
@@ -425,7 +420,7 @@ ATA <- function(X, Y=NULL,
 			forecast.ata <- ata.output$forecast
 			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda)
 			ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda)
-			if(seasonal.type=="A"){
+			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
 				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda)
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda)
 			}else {
@@ -461,7 +456,7 @@ ATA <- function(X, Y=NULL,
 			forecast.ata <- ata.output$forecast
 			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda)
 			ata.output$trend<- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda)
-			if(seasonal.type=="A"){
+			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
 				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda)
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda)
 			}else {
@@ -487,7 +482,7 @@ ATA <- function(X, Y=NULL,
 			forecast.ata <- ata.output$forecast
 			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda)
 			ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda)
-			if(seasonal.type=="A"){
+			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
 				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda)
 				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda)
 			}else {
