@@ -128,8 +128,10 @@
 #'
 #' @keywords ata forecast accuracy ts msts
 #' @examples
+#' \dontrun{
 #' fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
 #' plot(ATA.Forecast(fit,h=36))
+#'}
 #'
 #' @export ATA
 

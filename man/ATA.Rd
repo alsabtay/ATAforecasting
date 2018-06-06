@@ -193,8 +193,10 @@ where the deseasonalization can be performed via any preferred decomposition met
 This methodology performed extremely well on the M3 and M4-competition data.
 }
 \examples{
+\dontrun{
 fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
 plot(ATA.Forecast(fit,h=36))
+}
 
 }
 \references{
