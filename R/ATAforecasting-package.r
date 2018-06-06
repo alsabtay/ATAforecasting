@@ -4,6 +4,7 @@
 #' @export(ATA.Accuracy)
 #' @export(ATA.CI)
 #' @import(Rcpp)
+#' @import(RcppArmadillo)
 #' @import(stats)
 #' @import(graphics)
 #' @import(forecast)
