@@ -2,18 +2,18 @@
 #' @export(ATA.Forecast)
 #' @export(ATA.Decomposition)
 #' @export(ATA.Accuracy)
+#' @export(ata.seasonal.attr)
 #' @export(ATA.CI)
 #' @import(Rcpp)
 #' @import(RcppArmadillo)
-#' @import(stats)
-#' @import(graphics)
 #' @import(forecast)
 #' @import(urca)
-#' @import(Mcomp)
-#' @import(xts)
-#' @import(stR)
+#' @import(seasonal)
 #' @import(stlplus)
+#' @import(stR)
+#' @import(xts)
 #' @import(timeSeries)
+#' @import(Mcomp)
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL
 

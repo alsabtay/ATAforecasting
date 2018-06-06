@@ -4,8 +4,9 @@
 \alias{ata.seasonal.attr}
 \title{Attributes set for unit root and seasonality tests}
 \usage{
-ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf", uroot.alpha = 0.05,
-  uroot.maxd = 2, x13.estimate.maxiter = 1500, x13.estimate.tol = 1e-05,
+ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf",
+  uroot.type = "level", uroot.alpha = 0.05, uroot.maxd = 2,
+  x13.estimate.maxiter = 1500, x13.estimate.tol = 1e-05,
   x11.estimate.maxiter = 1500, x11.estimate.tol = 1e-05)
 }
 \arguments{
@@ -13,7 +14,9 @@ ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf", uroot.alpha = 0.05,
 
 \item{uroot.test}{Type of unit root test to use}
 
-\item{uroot.alpha}{Level of the test}
+\item{uroot.type}{Specification of the deterministic component in the regression. Possible values are "level" and "trend".}
+
+\item{uroot.alpha}{Level of the test, possible values range from 0.01 to 0.1}
 
 \item{uroot.maxd}{Maximum number of non-seasonal differences allowed}
 

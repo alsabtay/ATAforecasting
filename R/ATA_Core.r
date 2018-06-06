@@ -1,4 +1,4 @@
-#' @export
+#' @export ATA.Core
 
 ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {

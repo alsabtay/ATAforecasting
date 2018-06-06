@@ -1,4 +1,4 @@
-#' @export
+#' @export plot.ata
 
 plot.ata <- function(x, fcol=4, flty = 2, flwd = 2, ...)
 {

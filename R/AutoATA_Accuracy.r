@@ -1,4 +1,4 @@
-#' @export
+#' @export AutoATA.Accuracy
 
 AutoATA.Accuracy <- function(ata_opt, accryType){
 	inSample <- ata_opt$actual

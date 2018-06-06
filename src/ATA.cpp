@@ -1,7 +1,8 @@
-// [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 using namespace arma;
+
+// [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
  double meanMASE(NumericVector x, double meanNB) {
@@ -377,20 +378,6 @@ NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int I
 	d_opt_phi = 1.0;
 	optAccryStart = 9999999999999.9;
 	optAccryEnd = 9999999999999.9;
-
-// Seasonal Models (sm)	
-	// "none" 		:	0 
-	// "decomp" 	:	1 
-	// "stl" 		:	2
-	// "stlplus" 	:	3 
-	// "stR"		:	4
-	// "tbats"		:	5
-	// "x13"		:	6
-	// "x11"		:	7
-
-// Seasonal Types (st)
-	// "A" 	:	0 
-	// "M" 	:	1 
 	
 	for(sm = 1; sm <= max_smo; sm++) {
 		for (st = 1; st <= max_st; st++) {

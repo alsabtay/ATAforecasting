@@ -1,4 +1,4 @@
-#' @export
+#' @export AutoATA.Damped
 
 AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend)
 {

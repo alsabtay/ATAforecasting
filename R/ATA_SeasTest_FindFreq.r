@@ -34,6 +34,7 @@ SeasonalityTest <- function(input, ppy, attr_set)
 }
 
 #' @export find.freq
+
 find.freq <- function(x)
 {
     n <- length(x)
@@ -59,6 +60,7 @@ find.freq <- function(x)
 }
 
 #' @export find.freq.all
+
 find.freq.all <- function(x)
 {  
   f=find.freq(x)

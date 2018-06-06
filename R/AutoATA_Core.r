@@ -1,4 +1,4 @@
-#' @export
+#' @export AutoATA.Core
 
 AutoATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {

@@ -1,4 +1,4 @@
-#' @export
+#' @export print.ata
 
 print.ata <- function(x,...)
 {
