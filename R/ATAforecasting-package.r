@@ -41,6 +41,7 @@
 #' @import(stR)
 #' @import(xts)
 #' @import(timeSeries)
+#' @import(TSA)
 #' @import(Mcomp)
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL
