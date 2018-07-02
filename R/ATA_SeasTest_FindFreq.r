@@ -33,6 +33,21 @@ SeasonalityTest <- function(input, ppy, attr_set)
 	return(test_seasonal)
 }
 
+#' @export find.freq.fourier
+
+find.freq.fourier <- function(x)
+{
+	pppx <- periodogram(x)
+	dddx = data.frame(freq=pppx$freq, spec=pppx$spec)
+	orderpppx = dddx[order(-dddx$spec),]
+	top5X = head(orderpppx, 2)
+	freq_all <- 1/top5X$freq
+	period <- sort(freq_all)
+	period <- period[period < 367]
+    return(period)
+}
+
+
 #' @export find.freq
 
 find.freq <- function(x)
