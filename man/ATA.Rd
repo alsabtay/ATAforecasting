@@ -71,6 +71,7 @@ For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.
      \item{MAPE}    : mean absolute percentage error.
      \item{sMAPE}    : symmetric mean absolute percentage error.
      \item{MASE}    : mean absolute scaled error.
+     \item{OWA}        : overall weighted average of MASE and sMAPE.
      \item{MdAE}    : median absolute error.
      \item{MdSE}    : median square error.
      \item{MdPE}    : median percentage error.

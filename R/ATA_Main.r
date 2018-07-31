@@ -52,6 +52,7 @@
 #'		 \item{MAPE}	: mean absolute percentage error.
 #'		 \item{sMAPE}	: symmetric mean absolute percentage error.
 #'		 \item{MASE}	: mean absolute scaled error.
+#'		 \item{OWA}		: overall weighted average of MASE and sMAPE.
 #'		 \item{MdAE}	: median absolute error.
 #'		 \item{MdSE}	: median square error.
 #'		 \item{MdPE}	: median percentage error.
@@ -287,7 +288,7 @@ ATA <- function(X, Y=NULL,
 			}
 		}
 	}
-	if ((accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "MdAE" & accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){		
+	if ((accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "RMSE" & accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" & accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){		
 		return("Accuracy Type value must be string and it must get one value: MAE or MSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATA Method was terminated!")
 	}
 	if (!is.null(model.type)){

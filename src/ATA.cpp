@@ -5,15 +5,59 @@ using namespace arma;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
- double meanMASE(NumericVector x, double meanNB) {
-    double sum = 0.0;
-	double mMASE = 0.0;
-	int i;
-	int n = x.size();
-	for(i = 0; i < n; i++)
-        sum += fabs(x[i]-meanNB);
-    mMASE = 1.0 * sum / n;
-	return mMASE;
+ double outMASE(NumericVector insmp, NumericVector outsmp, NumericVector frcst, int frqx){
+	int n = insmp.size();
+	int m = outsmp.size();
+	NumericVector fNaiveSD(n);
+	double sum = 0.0;
+	double pMASE, sumMASE, oMASE = 0.0;
+	int i,j,jx,fn;
+
+	fn = frqx - 1;
+	for(j = 0; j < n; j++){
+		if (j <= fn)
+			fNaiveSD[j] = 0;
+		else
+		{
+			jx = j - frqx;
+			fNaiveSD[j] = insmp[jx];
+		}
+	}
+	for(i = frqx; i < n; i++)
+        sum += fabs(insmp[i] - fNaiveSD[i]);
+    pMASE = 1.0 * sum / (n - frqx);
+	for(i = 1; i < m; i++)
+		sumMASE += fabs(outsmp[i]-frcst[i]);
+	 oMASE = 1.0 * sumMASE / (m-1);
+	return 1.0 * oMASE / pMASE;
+}
+
+// [[Rcpp::export]]
+ double inMASE(NumericVector insmp, NumericVector fitsmp, int frqx){
+	int n = insmp.size();
+	int m = fitsmp.size();
+	NumericVector fNaiveSD(n);
+	double sum = 0.0;
+	double pMASE, sumMASE, nMASE = 0.0;
+	int i,j,jx,fn;
+
+	fn = frqx - 1;
+	for(j = 0; j < n; j++){
+		if (j <= fn)
+			fNaiveSD[j] = 0;
+		else 
+		{
+			jx = j - frqx;
+			fNaiveSD[j] = insmp[jx];
+		}
+	}
+	for(i = frqx; i < n; i++)
+        sum += fabs(insmp[i]-fNaiveSD[i]);
+    pMASE = 1.0 * sum / (n - frqx);
+	for(i = 1; i < m; i++)
+		sumMASE += fabs(insmp[i]-fitsmp[i]);
+	 nMASE = 1.0 * sumMASE / (m-1);
+	return 1.0 * nMASE / pMASE;
 }
 
 // [[Rcpp::export]]
@@ -24,9 +68,8 @@ double meanIT(NumericVector x, int t){
   return 1.0 * total / t;
 }
 
-
 // [[Rcpp::export]]
-double AutoATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0) {	
+double AutoATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ) {	
 	int LENZ = IAZ.size();
 	NumericVector IZT_0(LENZ);
 	NumericVector IZFIT(LENZ);
@@ -35,7 +78,6 @@ double AutoATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, 
 	NumericVector ITErr(LENZ);
 	NumericVector ITAcc(LENZ);
 	double accmeasure=0.0;
-	double naive_benchmark=0.0;
 	NumericVector pe(LENZ);
 	NumericVector ITsmape(LENZ);
 	
@@ -180,7 +222,7 @@ double AutoATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, 
 	ITErr = IAZ - IZFIT;
 	pe = (ITErr / IAZ) * 100.0;
 	ITsmape = (abs(ITErr) / (abs(IZFIT) + abs(IAZ))) * 200.0;
-	if ( (IZAC==1) | (IZAC==2) | (IZAC==12) )
+	if ( (IZAC==1) | (IZAC==2) | (IZAC==12) | (IZAC==13) )
 		ITAcc = abs(ITErr);
 	else if ( (IZAC==3) | (IZAC==4) | (IZAC==11) )
 		ITAcc = pow(ITErr, 2.0);
@@ -199,17 +241,16 @@ double AutoATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, 
 	else if (IZAC==11)
 		accmeasure = sqrt(mean(ITAcc));
 	else if (IZAC==12)
-	{
-		naive_benchmark = meanMASE(IAZ,mean(IAZ));
-		accmeasure = meanMASE(ITErr,naive_benchmark);
-	}
+		accmeasure = inMASE(IAZ, IZFIT, IZFRQ);
+	else if (IZAC==13)
+		accmeasure = 1.0 * (mean(ITsmape) + inMASE(IAZ, IZFIT, IZFRQ)) / 2;
 	else
 		accmeasure = 0;
 	return accmeasure;
 }
 
 // [[Rcpp::export]]
-NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0){	
+NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ){	
 	int LENX = IAX.size();
 	int  	d_opt_p;
 	int  	d_opt_q;
@@ -243,7 +284,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 		for(m = mstart; m <= mfinish; m++) {
 			for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
 				for(i = 1; i <= LENX; i++) {
-					optAccryEnd = AutoATACore(IAX, i, 0, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+					optAccryEnd = AutoATACore(IAX, i, 0, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 					if (optAccryEnd <= optAccryStart) {
 						d_opt_phi = 1.0 * k;
 						d_opt_p = i;
@@ -253,7 +294,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 					}
 				}
 				for(j = 0; j <= d_opt_p; j++) {
-					optAccryEnd = AutoATACore(IAX, d_opt_p, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+					optAccryEnd = AutoATACore(IAX, d_opt_p, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 					if (optAccryEnd <= optAccryStart) {
 						d_opt_phi = 1.0 * k;
 						d_opt_q = j;
@@ -270,7 +311,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 		for(m = mstart; m <= mfinish; m++) {
 			for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
 				for(i = 1; i <= LENX; i++) {
-					optAccryEnd = AutoATACore(IAX, i, 1, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+					optAccryEnd = AutoATACore(IAX, i, 1, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 					if (optAccryEnd <= optAccryStart) {
 						d_opt_phi = 1.0 * k;
 						d_opt_p = i;
@@ -290,7 +331,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 				for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
 					for(i = 1; i <= LENX; i++) {
 						for(j=0; j<=i; j++) {
-							optAccryEnd = AutoATACore(IAX,i, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+							optAccryEnd = AutoATACore(IAX,i, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 							if (optAccryEnd <= optAccryStart) {
 								d_opt_phi = 1.0 * k;
 								d_opt_p = i;
@@ -309,7 +350,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 			for(m = mstart; m <= mfinish; m++) {
 				for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
 					for(i = 1; i <= LENX; i++) {
-						optAccryEnd = AutoATACore(IAX, i, IXQ, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+						optAccryEnd = AutoATACore(IAX, i, IXQ, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 						if (optAccryEnd <= optAccryStart) {
 							d_opt_phi = 1.0 * k;
 							d_opt_p = i;
@@ -326,7 +367,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 			for(m = mstart; m <= mfinish; m++) {
 				for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
 					for(j = 0; j <= IXP; j++) {
-						optAccryEnd = AutoATACore(IAX, IXP, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+						optAccryEnd = AutoATACore(IAX, IXP, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 						if (optAccryEnd <= optAccryStart) {
 							d_opt_phi = 1.0 * k;
 							d_opt_q = j;
@@ -342,7 +383,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 			d_opt_p = IXP;
 			for(m = mstart; m <= mfinish; m++) {
 				for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
-					optAccryEnd = AutoATACore(IAX, IXP, IXQ, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0);
+					optAccryEnd = AutoATACore(IAX, IXP, IXQ, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
 					if (optAccryEnd <= optAccryStart) {
 						d_opt_phi = 1.0 * k;
 						IXMO = m;
@@ -361,7 +402,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
 
 
 // [[Rcpp::export]]
-NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int LENX){
+NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int LENX, int IXFRQ){
 	int  d_opt_p;
 	int  d_opt_q;
 	double  d_opt_phi;
@@ -387,8 +428,8 @@ NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int I
 			NumericVector subIAX = wrap(IAX.col(mod_clmn-1));
 			NumericVector subIXTA_0 = wrap(IXTA_0.col(mod_clmn-1));
 			NumericVector subIXTM_0 = wrap(IXTM_0.col(mod_clmn-1));
-			output = AutoATADamped(subIAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, subIXTA_0, subIXTM_0);
-			optAccryEnd = AutoATACore(subIAX, output[0], output[1], output[2], output[3], IXAC, IXIL, IXIT, subIXTA_0, subIXTM_0);
+			output = AutoATADamped(subIAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, subIXTA_0, subIXTM_0, IXFRQ);
+			optAccryEnd = AutoATACore(subIAX, output[0], output[1], output[2], output[3], IXAC, IXIL, IXIT, subIXTA_0, subIXTM_0, IXFRQ);
 			if (optAccryEnd <= optAccryStart){
 				d_opt_p = output[0];
 				d_opt_q = output[1];

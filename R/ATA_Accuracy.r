@@ -16,6 +16,7 @@
 #' 		\item{MAPE}	 : mean absolute percentage error.
 #' 		\item{sMAPE} : symmetric mean absolute percentage error.
 #' 		\item{MASE}	 : mean absolute scaled error.
+#' 		\item{OWA}	 : overall weighted average of MASE and sMAPE.
 #' 		\item{MdAE}	 : median absolute error.
 #' 		\item{MdSE}	 : median square error.
 #' 		\item{MdPE}	 : median percentage error.
@@ -73,6 +74,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		pre_mpe_os <- ata.pe
 		pre_mape_os <- abs(ata.pe)
 		pre_smape_os <- abs(out.sample - out.sample_forecast)/(abs(out.sample) + abs(out.sample_forecast)) * 200
+		pre_mase_os <- outMASE(as.double(in_sample), as.double(out.sample), as.double(out.sample_forecast), as.integer(frequency(inSample)))
 	}else {
 		pre_mae_os <- NA
 		pre_mse_os <- NA
@@ -91,10 +93,8 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	mdpe <- round(median(pre_mpe, na.rm=TRUE),6)
 	mdape <- round(median(pre_mape, na.rm=TRUE),6)
 	smdape <- round(median(pre_smape, na.rm=TRUE),6)
-	naive_benchmark <- mean(abs(inSample-mean(inSample, na.rm=TRUE)),na.rm=TRUE)
-	pre_mase <- abs(ata.error/naive_benchmark)
-	mase <- round(mean(abs(ata.error/naive_benchmark), na.rm=TRUE),6)
-	mdase <- round(median(abs(ata.error/naive_benchmark), na.rm=TRUE),6)
+	mase <- round(inMASE(as.double(in_sample), as.double(in_sample_fit), as.integer(frequency(inSample))),6)
+	owa <- round((mase + smape)/2, 6)
 	
 	stdDev_mae <- round(sqrt(var(pre_mae, na.rm=TRUE)),6)
 	skew_mae <- round(colSkewness(pre_mae),6)
@@ -116,10 +116,6 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	skew_smape <- round(colSkewness(pre_smape),6)
 	kurt_smape <- round(colKurtosis(pre_smape),6)	
 	
-	stdDev_mase <- round(sqrt(var(pre_mase, na.rm=TRUE)),6)
-	skew_mase <- round(colSkewness(pre_mase),6)
-	kurt_mase <- round(colKurtosis(pre_mase),6)
-	
 	if (!is.na(out.sample[1])){
 		mae_os <- round(mean(pre_mae_os, na.rm=TRUE),6)
 		mse_os <- round(mean(pre_mse_os, na.rm=TRUE),6)
@@ -132,8 +128,8 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		mdpe_os <- round(median(pre_mpe_os, na.rm=TRUE),6)
 		mdape_os <- round(median(pre_mape_os, na.rm=TRUE),6)
 		smdape_os <- round(median(pre_smape_os, na.rm=TRUE),6)
-		mase_os <- round(mean(abs(ata.error.outsample/naive_benchmark), na.rm=TRUE)	,6)
-		mdase_os <- round(median(abs(ata.error.outsample/naive_benchmark), na.rm=TRUE),6)		
+		mase_os <- round(pre_mase_os, 6)
+		owa_os <- round((mase_os + smape_os)/2, 6)	
 	}else {
 		mae_os <- NA
 		mse_os <- NA
@@ -147,7 +143,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		mdape_os <- NA
 		smdape_os <- NA
 		mase_os <- NA
-		mdase_os <- NA
+		owa_os <- NA
 	}
 	pre.ata.error <- rep(NA,times=lenX)
 	pre.ata.error[2:lenX] <- ata.error
@@ -157,19 +153,22 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	MPE_is <- list("MPE"=mpe, "MdPE"=mdpe, "stdDev.MPE"=stdDev_mpe, "skewness.MPE"=skew_mpe, "kurtosis.MPE"=kurt_mpe)
 	MAPE_is <- list("MAPE"=mape, "MdAPE"=mdape, "stdDev.MAPE"=stdDev_mape, "skewness.MAPE"=skew_mape, "kurtosis.MAPE"=kurt_mape)
 	sMAPE_is <- list("sMAPE"=smape, "sMdAPE"=smdape, "stdDev.sMAPE"=stdDev_smape, "skewness.sMAPE"=skew_smape, "kurtosis.sMAPE"=kurt_smape)
-	MASE_is <- list("MASE"=mase, "MdASE"=mdase, "stdDev.MASE"=stdDev_mase, "skewness.MASE"=skew_mase, "kurtosis.MASE"=kurt_mase)
+	MASE_is <- list("MASE"=mase, "MdASE"=NA, "stdDev.MASE"=NA, "skewness.MASE"=NA, "kurtosis.MASE"=NA)
+	OWA_is <- list("OWA"=owa, "stdDev.OWA"=NA, "skewness.OWA"=NA, "kurtosis.OWA"=NA)
 	MAE_os <- list("MAE"=mae_os, "MdAE"=mdae_os)
 	MSE_os <- list("MSE"=mse_os, "MdSE"=mdse_os, "RMSE" = rmse_os)
 	MPE_os <- list("MPE"=mpe_os, "MdPE"=mdpe_os)
 	MAPE_os <- list("MAPE"=mape_os, "MdAPE"=mdape_os)
 	sMAPE_os <- list("sMAPE"=smape_os, "sMdAPE"=smdape_os)
-	MASE_os <- list("MASE"=mase_os, "MdASE"=mdase_os)						
+	MASE_os <- list("MASE"=mase_os, "MdASE"=NA)	
+	OWA_os <- list("OWA"=owa_os)	
 	MAE_all <- list("inSample"=MAE_is, "outSample"=MAE_os)
 	MSE_all <- list("inSample"=MSE_is, "outSample"=MSE_os)
 	MPE_all <- list("inSample"=MPE_is, "outSample"=MPE_os)
 	MAPE_all <- list("inSample"=MAPE_is, "outSample"=MAPE_os)
 	sMAPE_all <- list("inSample"=sMAPE_is, "outSample"=sMAPE_os)
 	MASE_all <- list("inSample"=MASE_is, "outSample"=MASE_os)
-	my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all) 
+	OWA_all <- list("inSample"=OWA_is, "outSample"=OWA_os)
+	my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all, "OWA"=OWA_all) 
 	return(my_list) 
 }

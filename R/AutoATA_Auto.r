@@ -5,7 +5,9 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 							OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast)
 {
 	tspX <- tsp(ts_input)
-	if (is.null(seasonal.Test) | seasonal.Test==TRUE){
+	if (is.null(seasonal.Test)){
+		is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
+	}else if (seasonal.Test==TRUE){
 		is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
 	}else {
 		if (max(seasonal.Frequency)==1){
@@ -112,7 +114,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 						, as.integer(ifelse(pb=="opt", -1, pb))
 						, as.integer(ifelse(qb=="opt", -1, qb))
 						, as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-						, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12))
+						, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13))
 						, as.integer(ifelse(level.Fix, 1, 0))
 						, as.integer(ifelse(trend.Fix, 1, 0))
 						, as.double(phiStart)
@@ -127,7 +129,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 						, as.integer(max_smo)
 						, as.integer(max_st)
 						, as.integer(length(ts_input))
-						)
+						, as.integer(frequency(ts_input)))
 		
 		#output[1] = d_opt_p;
 		#output[2] = d_opt_q;

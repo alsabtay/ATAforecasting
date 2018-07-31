@@ -11,7 +11,7 @@ AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fi
 					, as.integer(ifelse(pb=="opt", -1, pb))
 					, as.integer(ifelse(qb=="opt", -1, qb))
 					, as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-					, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12))
+					, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13))
 					, as.integer(ifelse(level.fix, 1, 0))
 					, as.integer(ifelse(trend.fix, 1, 0))
 					, as.double(phiStart)
@@ -20,7 +20,8 @@ AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fi
 					, as.integer(ifelse(initialLevel, 1, 0))
 					, as.integer(ifelse(initialTrend, 1, 0))
 					, as.double(TA_0)
-					, as.double(TM_0))
+					, as.double(TM_0)
+					, as.integer(frequency(ts_input)))
 	ATA.last <- ATA.Core(ts_input, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
 	return(ATA.last)
 }
