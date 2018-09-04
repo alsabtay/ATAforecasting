@@ -9,14 +9,18 @@ SeasonalityTest <- function(input, ppy, attr_set)
 		uroot.test <- attr_set$uroot.test
 		uroot.type <- attr_set$uroot.type
 		uroot.alpha <- attr_set$uroot.alpha
+		uroot.old <- attr_set$uroot.old
 		uroot.maxd <- attr_set$uroot.maxd
 		if (length(ppy)>1){
 			ppy <- min(ppy)
 		}
 	  #Used to determine whether a time series is seasonal
-
-		d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, type=uroot.type, max.d=uroot.maxd)
-		if(d > 0) {
+		if (uroot.old=="N") {
+			d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, type=uroot.type, max.d=uroot.maxd)
+		}else {
+			d <- ndiffs_old(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
+		}
+		if (d > 0){
 			input <- diff(input, differences=d, lag=1)
 		}
 		if (length(input)<3*ppy){
@@ -97,4 +101,47 @@ find.freq.all <- function(x)
     freqs[i]=freqs[i]*freqs[i-1]
   }
   freqs[1:(length(freqs)-1)]
+}
+
+#' @export ndiffs_old
+ndiffs_old <- function(x,alpha=0.05,test=c("kpss","adf","pp"), max.d=2)
+{
+  #ndiffs function of forecast v8.2 package
+  test <- match.arg(test)
+  x <- c(na.omit(c(x)))
+  d <- 0
+
+  if(is.constant(x))
+    return(d)
+
+  if(test=="kpss")
+    suppressWarnings(dodiff <- tseries::kpss.test(x)$p.value < alpha)
+  else if(test=="adf")
+    suppressWarnings(dodiff <- tseries::adf.test(x)$p.value > alpha)
+  else if(test=="pp")
+    suppressWarnings(dodiff <- tseries::pp.test(x)$p.value > alpha)
+  else
+    stop("This shouldn't happen")
+  if(is.na(dodiff))
+  {
+    return(d)
+  }
+  while(dodiff & d < max.d)
+  {
+    d <- d+1
+    x <- diff(x)
+    if(is.constant(x))
+      return(d)
+    if(test=="kpss")
+      suppressWarnings(dodiff <- tseries::kpss.test(x)$p.value < alpha)
+    else if(test=="adf")
+      suppressWarnings(dodiff <- tseries::adf.test(x)$p.value > alpha)
+    else if(test=="pp")
+      suppressWarnings(dodiff <- tseries::pp.test(x)$p.value > alpha)
+    else
+      stop("This shouldn't happen")
+    if(is.na(dodiff))
+      return(d-1)
+  }
+  return(d)
 }

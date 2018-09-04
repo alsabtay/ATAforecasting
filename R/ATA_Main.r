@@ -33,7 +33,7 @@
 #' @param seasonal.period Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.
 #' @param seasonal.type	A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 #' If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.
-#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, s.tcrit=1.645, uroot.test="adf", uroot.alpha=0.05, uroot.maxd=2, x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ata.seasonal.attr} function and its output.
+#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, s.tcrit=1.645, uroot.test="adf", uroot.alpha=0.05, uroot.maxd=2, uroot.old="Y", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ata.seasonal.attr} function and its output.
 #' For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.96)} equation in \code{ATA} function. 
 #' @param find.period Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 #' \itemize{
