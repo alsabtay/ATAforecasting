@@ -104,7 +104,8 @@ find.freq.all <- function(x)
 }
 
 #' @export ndiffs_old
-ndiffs_old <- function(x,alpha=0.05,test=c("kpss","adf","pp"), max.d=2)
+
+ndiffs_old <- function(x, alpha=0.05, test=c("kpss","adf","pp"), max.d=2)
 {
   #ndiffs function of forecast v8.2 package
   test <- match.arg(test)
