@@ -8,6 +8,10 @@
 #' where the deseasonalization can be performed via any preferred decomposition method.
 #' This methodology performed extremely well on the M3 and M4-competition data.
 #'
+#' @docType package
+#' @name ATAforecasting-package
+#' @aliases ATAforecasting
+#' @aliases ATAforecasting-package
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
 #' \code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{seasonal}}.
@@ -20,6 +24,7 @@
 #' \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493 
 #'
 #' @keywords ata forecast accuracy ts msts
+#' @examples
 #'
 #' @export(ATA)
 #' @export(ATA.Forecast)
@@ -38,6 +43,7 @@
 #' @import(timeSeries)
 #' @import(TSA)
 #' @import(Mcomp)
+#'
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL
 

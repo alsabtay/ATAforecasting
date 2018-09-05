@@ -8,11 +8,12 @@
 \usage{
 ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   model.type = NULL, seasonal.test = NULL, seasonal.model = NULL,
-  seasonal.period = NULL, seasonal.type = NULL, seasonal.test.attr = NULL,
-  find.period = NULL, accuracy.type = NULL, level.fixed = FALSE,
-  trend.fixed = FALSE, h = NULL, partition.h = NULL,
-  transform.method = NULL, lambda = NULL, initial.value = NULL,
-  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  seasonal.period = NULL, seasonal.type = NULL,
+  seasonal.test.attr = NULL, find.period = NULL,
+  accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
+  h = NULL, partition.h = NULL, transform.method = NULL,
+  lambda = NULL, initial.value = NULL, ci.level = 95,
+  start.phi = NULL, end.phi = NULL, size.phi = NULL,
   negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{

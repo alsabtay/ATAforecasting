@@ -11,5 +11,6 @@ Depends: R (>= 3.4), Rcpp, forecast, urca, seasonal, stR, stlplus, xts, timeSeri
 Imports: Rcpp, forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: ggplot2
-RoxygenNote: 6.0.1
+Encoding: UTF-8
+RoxygenNote: 6.1.0
 LazyData: TRUE

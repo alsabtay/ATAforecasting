@@ -6,8 +6,9 @@
 \usage{
 ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf",
   uroot.type = "level", uroot.alpha = 0.05, uroot.maxd = 2,
-  uroot.old = "Y", x13.estimate.maxiter = 1500, x13.estimate.tol = 1e-05,
-  x11.estimate.maxiter = 1500, x11.estimate.tol = 1e-05)
+  uroot.old = "Y", x13.estimate.maxiter = 1500,
+  x13.estimate.tol = 1e-05, x11.estimate.maxiter = 1500,
+  x11.estimate.tol = 1e-05)
 }
 \arguments{
 \item{s.tcrit}{t-value for seasonality test}
