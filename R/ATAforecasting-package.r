@@ -20,11 +20,6 @@
 #' \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493 
 #'
 #' @keywords ata forecast accuracy ts msts
-#' @examples
-#' \dontrun{
-#' fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
-#' plot(ATA.Forecast(fit,h=36))
-#'}
 #'
 #' @export(ATA)
 #' @export(ATA.Forecast)
