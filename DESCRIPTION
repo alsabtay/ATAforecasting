@@ -10,5 +10,6 @@ License: GPL (>= 2)
 Depends: R (>= 3.4), Rcpp (<= 0.12.17), forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
 Imports: Rcpp (<= 0.12.17), forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
 LinkingTo: Rcpp (<= 0.12.17), RcppArmadillo
+Encoding: UTF-8
 RoxygenNote: 6.1.0
 LazyData: TRUE
