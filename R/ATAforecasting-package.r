@@ -25,13 +25,20 @@
 #'
 #' @keywords ata forecast accuracy ts msts
 #' @examples
+#' \dontrun{
+#' fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
+#' plot(ATA.Forecast(fit,h=36))
+#'}
 #'
-#' @export(ATA)
-#' @export(ATA.Accuracy)
-#' @export(ATA.CI)
-#' @export(ATA.Decomposition)
-#' @export(ATA.Forecast)
-#' @export(ata.seasonal.attr)
+#' @useDynLib ATAforecasting, .registration = TRUE
+#' @exportPattern("^[[:alpha:]]+")
+#' @importFrom(Rcpp, evalCpp)
+#' @export(outMASE)
+#' @export(inMASE)
+#' @export(meanIT)
+#' @export(AutoATACore)
+#' @export(AutoATADamped)
+#' @export(AutoATA)
 #' @export(ATA)
 #' @export(ATA.Accuracy)
 #' @export(ATA.CI)
@@ -65,7 +72,6 @@
 #' @import(timeSeries)
 #' @import(TSA)
 #' @import(Mcomp)
-#' @useDynLib ATAforecasting, .registration = TRUE
 NULL
 
 #' @export
