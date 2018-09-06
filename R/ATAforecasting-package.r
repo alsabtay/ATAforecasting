@@ -33,12 +33,6 @@
 #' @useDynLib ATAforecasting, .registration = TRUE
 #' @exportPattern("^[[:alpha:]]+")
 #' @importFrom(Rcpp, evalCpp)
-#' @export(outMASE)
-#' @export(inMASE)
-#' @export(meanIT)
-#' @export(AutoATACore)
-#' @export(AutoATADamped)
-#' @export(AutoATA)
 #' @export(ATA)
 #' @export(ATA.Accuracy)
 #' @export(ATA.CI)
