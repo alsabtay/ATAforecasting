@@ -6,7 +6,7 @@
 \usage{
 ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf",
   uroot.type = "level", uroot.alpha = 0.05, uroot.maxd = 2,
-  uroot.old = "Y", x13.estimate.maxiter = 1500,
+  uroot.old = "N", x13.estimate.maxiter = 1500,
   x13.estimate.tol = 1e-05, x11.estimate.maxiter = 1500,
   x11.estimate.tol = 1e-05)
 }
@@ -21,7 +21,7 @@ ata.seasonal.attr(s.tcrit = 1.645, uroot.test = "adf",
 
 \item{uroot.maxd}{Maximum number of non-seasonal differences allowed}
 
-\item{uroot.old}{If "Y", ndiffs function of forecast v8.2 will be applied. The default value is "Y".}
+\item{uroot.old}{If "Y", ndiffs function of forecast v8.2 will be applied. The default value is "N".}
 
 \item{x13.estimate.maxiter}{Maximum iteration for X13ARIMA/SEATS estimation}
 
