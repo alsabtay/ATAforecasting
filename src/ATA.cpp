@@ -1,8 +1,8 @@
 #include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+
 using namespace Rcpp;
 using namespace arma;
-
-// [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
  double outMASE(NumericVector insmp, NumericVector outsmp, NumericVector frcst, int frqx){
