@@ -14,7 +14,7 @@
 #' @param uroot.type Specification of the deterministic component in the regression. Possible values are "level" and "trend".
 #' @param uroot.alpha Level of the test, possible values range from 0.01 to 0.1
 #' @param uroot.maxd Maximum number of non-seasonal differences allowed
-#' @param uroot.old If "Y", ndiffs function of forecast v8.2 will be applied. The default value is "Y".
+#' @param uroot.old If "Y", ndiffs function of forecast v8.2 will be applied. The default value is "N".
 #' @param x13.estimate.maxiter Maximum iteration for X13ARIMA/SEATS estimation
 #' @param x13.estimate.tol Convergence tolerence for X13ARIMA/SEATS estimation
 #' @param x11.estimate.maxiter Maximum iteration for X11 estimation
@@ -44,7 +44,7 @@
 #'
 #' @export ata.seasonal.attr
 
-ata.seasonal.attr <- function(s.tcrit=1.645, uroot.test="adf", uroot.type="level", uroot.alpha=0.05, uroot.maxd=2, uroot.old="Y", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
+ata.seasonal.attr <- function(s.tcrit=1.645, uroot.test="adf", uroot.type="level", uroot.alpha=0.05, uroot.maxd=2, uroot.old="N", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
 {
 	mylist <- list("s.tcrit"=s.tcrit,"uroot.test"=uroot.test,"uroot.type"=uroot.type, "uroot.alpha"=uroot.alpha, "uroot.maxd"=uroot.maxd, "uroot.old"=uroot.old, "x13.estimate.maxiter"=x13.estimate.maxiter, "x13.estimate.tol"=x13.estimate.tol, "x11.estimate.maxiter"=x11.estimate.maxiter, "x11.estimate.tol"=x11.estimate.tol)
 	attr(mylist, "class") <- "ataattrset"

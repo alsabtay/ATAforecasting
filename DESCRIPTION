@@ -7,9 +7,9 @@ Author: Ali Sabri Taylan <alisabritaylan@gmail.com> and Hanife Taylan Selamlar <
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>
 Description: Based on the modified simple exponential smoothing as described in Yapar, G. (2016). ATA method is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods. ATA forecasting performance is superior to existing methods both in terms of easy implementation and accurate forecasting. It can be applied to non-seasonal or deseasonalized time series, where the deseasonalization can be performed via any preferred decomposition method.This methodology performed extremely well on the M3 and M4-competition data.
 License: GPL (>= 2)
-Depends: R (>= 3.4), Rcpp (<= 0.12.17), forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
-Imports: Rcpp (<= 0.12.17), forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
-LinkingTo: Rcpp (<= 0.12.17), RcppArmadillo
+Depends: R (>= 3.4), Rcpp, tseries, forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
+Imports: Rcpp, tseries, forecast, urca, seasonal, stR, stlplus, xts, timeSeries, TSA, Mcomp
+LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 RoxygenNote: 6.1.0
 LazyData: TRUE
