@@ -7,6 +7,7 @@ The ATA Method is a new alternative forecasting method. This method is alternati
 Development version with latest features:
 ```
 devtools::install_github("alsabtay/ATAforecasting")
+devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)
 
 ```
 # License
