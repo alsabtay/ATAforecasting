@@ -51,8 +51,8 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
 \item{seasonal.type}{A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
 
-\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, s.tcrit=1.645, uroot.test="adf", uroot.alpha=0.05, uroot.maxd=2, uroot.old="N", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ata.seasonal.attr} function and its output.
-For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.96)} equation in \code{ATA} function.}
+\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttributes} function and its output. 
+For example, you can use \code{seasonal.test.attr = ATA.SeasAttributes(pgram.tcrit=1.65)} equation in \code{ATA} function.}
 
 \item{find.period}{Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 \itemize{
@@ -80,9 +80,9 @@ For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.
      \item{sMdAPE}    : symmetric median absolute percentage error.
 }}
 
-\item{level.fixed}{"pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.}
+\item{level.fixed}{If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.}
 
-\item{trend.fixed}{"pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
+\item{trend.fixed}{If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
 
 \item{h}{The number of steps to forecast ahead.}
 

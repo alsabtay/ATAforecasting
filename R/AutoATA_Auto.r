@@ -6,9 +6,9 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 {
 	tspX <- tsp(ts_input)
 	if (is.null(seasonal.Test)){
-		is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
+		is.season <- ATA.Seasonality(ts_input, seasonal.Frequency, seas_attr_set)
 	}else if (seasonal.Test==TRUE){
-		is.season <- SeasonalityTest(ts_input, seasonal.Frequency, seas_attr_set)
+		is.season <- ATA.Seasonality(ts_input, seasonal.Frequency, seas_attr_set)
 	}else {
 		if (max(seasonal.Frequency)==1){
 			is.season <- FALSE

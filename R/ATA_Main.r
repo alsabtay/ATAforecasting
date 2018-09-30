@@ -33,8 +33,8 @@
 #' @param seasonal.period Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.
 #' @param seasonal.type	A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 #' If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.
-#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, s.tcrit=1.645, uroot.test="adf", uroot.alpha=0.05, uroot.maxd=2, uroot.old="N", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ata.seasonal.attr} function and its output.
-#' For example, you can use \code{seasonal.test.attr = ata.seasonal.attr(s.tcrit=1.96)} equation in \code{ATA} function. 
+#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttributes} function and its output. 
+#' For example, you can use \code{seasonal.test.attr = ATA.SeasAttributes(pgram.tcrit=1.65)} equation in \code{ATA} function. 
 #' @param find.period Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 #' \itemize{
 #'		 \item{0} : none
@@ -59,8 +59,8 @@
 #'		 \item{MdAPE}	: median absolute percentage error.
 #'		 \item{sMdAPE}	: symmetric median absolute percentage error.
 #' }
-#' @param level.fixed "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.
-#' @param trend.fixed "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.
+#' @param level.fixed If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.
+#' @param trend.fixed If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.
 #' @param h The number of steps to forecast ahead.
 #' @param partition.h If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
 #' When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.		
@@ -242,7 +242,7 @@ ATA <- function(X, Y=NULL,
 		initial.value = FALSE
 	}
 	if (is.null(seasonal.test.attr)) {
-		seas_attr_set <- ata.seasonal.attr()
+		seas_attr_set <- ATA.SeasAttributes()
 	}else {
 		seas_attr_set <- seasonal.test.attr
 	}
@@ -376,7 +376,7 @@ ATA <- function(X, Y=NULL,
 					is.season <- TRUE
 				}
 			}else {
-				is.season <- SeasonalityTest(X, s.frequency, seas_attr_set)
+				is.season <- ATA.Seasonality(X, s.frequency, seas_attr_set)
 			}
 		}
 		if (is.season==TRUE){
