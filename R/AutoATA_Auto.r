@@ -200,7 +200,8 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 		method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
 	}
 	my_list$method <- method
-	my_list$initial.value <- initialLevel
+	my_list$initial.level <- initialLevel
+	my_list$initial.trend <- initialTrend
 	my_list$level.fixed <- level.Fix
 	my_list$trend.fixed <- trend.Fix
 	my_list$transform.method <- transform.Method

@@ -69,8 +69,10 @@
 #' \code{model.type} and \code{seasonal.type} is set to "A".
 #' @param lambda Box-Cox transformation parameter. If NULL, data transformed before model is estimated. 
 #' When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".
-#' @param initial.value If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level and qth observation in \code{X(T)-X(T-1)} for trend. 
-#' If TRUE, ATA Method calculates average of first p value in \code{X}for level and average of first q value in \code{X(T)-X(T-1)} for trend.
+#' @param initial.level If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level. 
+#' If TRUE, ATA Method calculates average of first p value in \code{X}for level.
+#' @param initial.trend If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend. 
+#' If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
 #' @param ci.level Confidence Interval levels for forecasting.
 #' @param start.phi Lower boundary for searching \code{parPHI}.If NULL, 0 is default.
 #' @param end.phi Upper boundary for searching \code{parPHI}. If NULL, 1 is is default.
@@ -96,7 +98,8 @@
 #' @param forecast Point forecasts as a time series. 
 #' @param out.sample Test values as a time series.
 #' @param method The name of the optimum forecasting method as a character string.
-#' @param initial.value Selected initial values for the time series forecasting method.
+#' @param initial.level Selected initial level values for the time series forecasting method.
+#' @param initial.trend Selected initial trend values for the time series forecasting method.
 #' @param level.fixed A choice of optional level fixed trended methods.
 #' @param trend.fixed A choice of optional trend fixed trended methods.
 #' @param transform.method Transformation method  --> BoxCox, sqrt, inverse, log, log10.
@@ -154,7 +157,8 @@ ATA <- function(X, Y=NULL,
 					partition.h=NULL,
 					transform.method=NULL,
 					lambda=NULL,
-					initial.value=NULL,
+					initial.level=NULL,
+					initial.trend=NULL,
 					ci.level=95,
 					start.phi=NULL,
 					end.phi=NULL,
@@ -238,8 +242,11 @@ ATA <- function(X, Y=NULL,
 		level.fixed <- FALSE 
 		trend.fixed <- TRUE
 	}
-	if (is.null(initial.value)){
-		initial.value = FALSE
+	if (is.null(initial.level)){
+		initial.level = FALSE
+	}
+	if (is.null(initial.trend)){
+		initial.trend = FALSE
 	}
 	if (is.null(seasonal.test.attr)) {
 		seas_attr_set <- ATA.SeasAttributes()
@@ -296,9 +303,14 @@ ATA <- function(X, Y=NULL,
 			return("Model Type value must be string. A for additive or M for multiplicative or NULL for both of them. ATA Method was terminated!")
 		}
 	}
-	if (!is.null(initial.value)){
-		if (initial.value != FALSE & initial.value != TRUE) {	
-			return("Initial value must be boolean and it must get one value: TRUE or FALSE. ATA Method was terminated!")
+	if (!is.null(initial.level)){
+		if (initial.level != FALSE & initial.level != TRUE) {	
+			return("Initial value for Level must be boolean and it must get one value: TRUE or FALSE. ATA Method was terminated!")
+		}
+	}
+	if (!is.null(initial.trend)){
+		if (initial.trend != FALSE & initial.trend != TRUE) {	
+			return("Initial value for Trend must be boolean and it must get one value: TRUE or FALSE. ATA Method was terminated!")
 		}
 	}
 	if (!is.null(transform.method)){
@@ -315,13 +327,6 @@ ATA <- function(X, Y=NULL,
 	ptm <- proc.time()
 	class_X <- class(X)
 	tspX <- tsp(X)
-	if (initial.value==FALSE){
-		initial.level <- FALSE
-		initial.trend <- FALSE
-	}else {
-		initial.level <- TRUE
-		initial.trend <- TRUE
-	}
 	if (!is.null(Y[1])){
 		OutSample <- Y
 		h <- length(Y)
@@ -513,7 +518,8 @@ ATA <- function(X, Y=NULL,
 			method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
 		}
 		my_list$method <- method
-		my_list$initial.value <- initial.value
+		my_list$initial.level <- initial.level
+		my_list$initial.trend <- initial.trend
 		my_list$level.fixed <- level.fixed
 		my_list$trend.fixed <- trend.fixed
 		my_list$transform.method <- transform.method

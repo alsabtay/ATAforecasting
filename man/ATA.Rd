@@ -12,8 +12,8 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
   h = NULL, partition.h = NULL, transform.method = NULL,
-  lambda = NULL, initial.value = NULL, ci.level = 95,
-  start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  lambda = NULL, initial.level = NULL, initial.trend = NULL,
+  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
   negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{
@@ -96,8 +96,11 @@ When \code{BoxCox} or \code{log} or \code{log10}  is specified,
 \item{lambda}{Box-Cox transformation parameter. If NULL, data transformed before model is estimated. 
 When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".}
 
-\item{initial.value}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level and qth observation in \code{X(T)-X(T-1)} for trend. 
-If TRUE, ATA Method calculates average of first p value in \code{X}for level and average of first q value in \code{X(T)-X(T-1)} for trend.}
+\item{initial.level}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level. 
+If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
+
+\item{initial.trend}{If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend. 
+If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.}
 
 \item{ci.level}{Confidence Interval levels for forecasting.}
 
@@ -145,7 +148,9 @@ If TRUE, ATA Method calculates average of first p value in \code{X}for level and
 
 \item{method}{The name of the optimum forecasting method as a character string.}
 
-\item{initial.value}{Selected initial values for the time series forecasting method.}
+\item{initial.level}{Selected initial level values for the time series forecasting method.}
+
+\item{initial.trend}{Selected initial trend values for the time series forecasting method.}
 
 \item{level.fixed}{A choice of optional level fixed trended methods.}
 

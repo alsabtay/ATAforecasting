@@ -1,5 +1,5 @@
 #' @title Seasonality Tests for ATA Method 
-#' @description This function is upgraded version of \code{\link{ndiffs}} and \code{\link{nsdiffs}} written by Hyndman et al. \code{forecast} package. Please review manual and vignette documents of latest \code{forecast} package.
+#' @description This function is upgraded version of \code{\link{ndiffs}} and \code{\link{nsdiffs}} written by Hyndman et al.  \code{forecast} package. Please review manual and vignette documents of latest \code{forecast} package.
 #'
 #' \strong{According to \code{forecast} package,}
 #'
@@ -30,6 +30,7 @@
 #' (1988) test is used (with null hypothesis that a seasonal unit root exists).
 #' * If \code{suroot.test="periodogram"}, This function is written based on M4 Competition Seasonality Test.
 #' 
+#' @return \code{TRUE} if the serie has seasonality. Otherwise, \code{FALSE} .
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link{forecast}}, \code{\link{ucra}}, \code{\link{tseries}}, \code{\link{uroot}}, \code{\link{stlplus}}, \code{stR}, 
 #' \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link{tbats}}, \code{\link{seasadj}}.

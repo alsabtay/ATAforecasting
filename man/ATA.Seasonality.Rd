@@ -6,8 +6,11 @@
 \usage{
 ATA.Seasonality(input, ppy, attr_set)
 }
+\value{
+\code{TRUE} if the serie has seasonality. Otherwise, \code{FALSE} .
+}
 \description{
-This function is upgraded version of \code{\link{ndiffs}} and \code{\link{nsdiffs}} written by Hyndman et al. \code{forecast} package. Please review manual and vignette documents of latest \code{forecast} package.
+This function is upgraded version of \code{\link{ndiffs}} and \code{\link{nsdiffs}} written by Hyndman et al.  \code{forecast} package. Please review manual and vignette documents of latest \code{forecast} package.
 
 \strong{According to \code{forecast} package,}
 
