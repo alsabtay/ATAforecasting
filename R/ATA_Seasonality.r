@@ -124,7 +124,7 @@ pgram.test <- function(input, ppy, attr_set)
 		uroot.alpha <- attr_set$uroot.alpha
 		uroot.pkg <- attr_set$uroot.pkg
 		uroot.maxd <- attr_set$uroot.maxd
-		if (length(ppy)>1){
+		if (length(ppy) > 1){
 			if (attr_set$multi.period=="max"){
 				ppy <- max(ppy)
 			}else {
@@ -141,13 +141,17 @@ pgram.test <- function(input, ppy, attr_set)
 			input <- diff(input, differences=d, lag=1)
 		}
 	  #Used to determine whether a time series is seasonal
-		if (length(input)<3*ppy){
+		if (length(input) < 3 * ppy){
 			test_seasonal <- FALSE
 		}else {
-			xacf <- acf(input, plot = FALSE)$acf[-1, 1, 1]
-			clim <- pgram.tcrit/sqrt(length(input)) * sqrt(cumsum(c(1, 2 * xacf^2)))
+			if (acf(input, plot = FALSE)$acf[1] == 1){
+				xacf <- acf(input, plot = FALSE)$acf[-1, 1, 1]
+			}else {
+				xacf <- acf(input, plot = FALSE)$acf
+			}
+			clim <- pgram.tcrit / sqrt(length(input)) * sqrt(cumsum(c(1, 2 * xacf^2)))
 			test_seasonal <- (abs(xacf[ppy]) > clim[ppy])
-			if (is.na(test_seasonal)==TRUE){
+			if (is.na(test_seasonal) == TRUE){
 				test_seasonal <- FALSE
 			}
 		}
@@ -157,7 +161,7 @@ pgram.test <- function(input, ppy, attr_set)
 
 #' @export ndiffs.tseries
 
-ndiffs.tseries <- function(x, alpha=0.05, test=c("kpss","adf","pp"), max.d=2)
+ndiffs.tseries <- function(x, alpha = 0.05, test = c("kpss","adf","pp"), max.d=2)
 {
   #ndiffs function using tseries package
   test <- match.arg(test)
@@ -167,11 +171,11 @@ ndiffs.tseries <- function(x, alpha=0.05, test=c("kpss","adf","pp"), max.d=2)
   if(is.constant(x))
     return(d)
 
-  if(test=="kpss")
+  if(test == "kpss")
     suppressWarnings(dodiff <- tseries::kpss.test(x)$p.value < alpha)
-  else if(test=="adf")
+  else if(test == "adf")
     suppressWarnings(dodiff <- tseries::adf.test(x)$p.value > alpha)
-  else if(test=="pp")
+  else if(test == "pp")
     suppressWarnings(dodiff <- tseries::pp.test(x)$p.value > alpha)
   else
     stop("This shouldn't happen")
@@ -185,11 +189,11 @@ ndiffs.tseries <- function(x, alpha=0.05, test=c("kpss","adf","pp"), max.d=2)
     x <- diff(x)
     if(is.constant(x))
       return(d)
-    if(test=="kpss")
+    if(test == "kpss")
       suppressWarnings(dodiff <- tseries::kpss.test(x)$p.value < alpha)
-    else if(test=="adf")
+    else if(test == "adf")
       suppressWarnings(dodiff <- tseries::adf.test(x)$p.value > alpha)
-    else if(test=="pp")
+    else if(test == "pp")
       suppressWarnings(dodiff <- tseries::pp.test(x)$p.value > alpha)
     else
       stop("This shouldn't happen")
