@@ -22,8 +22,6 @@ ATA.Transform <- function(X, tMethod, tLambda){
 		trfmX <- sqrt(X)	
 	}else if (tMethod=="inverse"){
 		trfmX <- 1/X	
-	}else if (tMethod=="log10"){
-		trfmX <- log10(X)	
 	}else if (tMethod=="log"){
 		trfmX <- log(X)	
 	}else{

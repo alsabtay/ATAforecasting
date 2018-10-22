@@ -64,8 +64,8 @@
 #' @param h The number of steps to forecast ahead.
 #' @param partition.h If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
 #' When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.		
-#' @param transform.method Transformation method  --> BoxCox, sqrt, inverse, log, log10. 
-#' When \code{BoxCox} or \code{log} or \code{log10}  is specified,
+#' @param transform.method Transformation method  --> BoxCox, Log, sqrt, inverse. 
+#' When \code{BoxCox} or \code{log} is specified,
 #' \code{model.type} and \code{seasonal.type} is set to "A".
 #' @param lambda Box-Cox transformation parameter. If NULL, data transformed before model is estimated. 
 #' When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".
@@ -357,15 +357,15 @@ ATA <- function(X, Y=NULL,
 	orig.X <- X
 	freqYh <- cycle(OutSample)
 	if (!is.null(transform.method)){
-		if (transform.method=="log"){ 
+		if (transform.method=="BoxCox"){
+			model.type <- "A"
+			seasonal.type <- "A"
+		}else if (transform.method=="log"){ 
 			model.type <- "A"
 			seasonal.type <- "A"
 			lambda <- 0
 			transform.method <- "BoxCox"
-		}
-		if (transform.method=="log10"){
-			model.type <- "A"
-			seasonal.type <- "A"
+		}else {
 		}
 	}
 	X <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)$trfmX
