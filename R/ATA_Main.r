@@ -368,7 +368,9 @@ ATA <- function(X, Y=NULL,
 		}else {
 		}
 	}
-	X <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)$trfmX
+	ChgX <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda)
+	X <- ChgX$trfmX
+	lambda <- ChgX$tLambda
 	if (length(seasonal.type)==1 & length(seasonal.model)==1){
 		orig.seastype <- seasonal.type
 		if (seasonal.model=="none"){
