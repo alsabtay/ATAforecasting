@@ -206,6 +206,9 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	my_list$trend.fixed <- trend.Fix
 	my_list$transform.method <- transform.Method
 	my_list$lambda <- Lambda
+	my_list$bcLower <- boxcox_attr_set$bcLower
+	my_list$bcUpper <- boxcox_attr_set$bcUpper
+	my_list$bcBiasAdj <- boxcox_attr_set$bcBiasAdj
 	my_list$accuracy.type <- accuracy.Type
 	my_list$accuracy <- accuracy.ata
 	my_list$is.season <- is.season

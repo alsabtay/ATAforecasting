@@ -56,29 +56,31 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
 			seasonal.type <- "A"
 			lambda <- 0
 			transform.method <- "BoxCox"
+			bcBiasAdj <- FALSE
 			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX       # lambda = 0 for multiplicative model
 		}else {
-			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=y$transform.method, tLambda=y$lambda)$trfmX
 			seasonal.type <- y$seasonal.type
 			lambda <- y$lambda
 			transform.method <- y$transform.method
+			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX
 		}
 	}else {
 		if (y$seasonal.model=="x13" | y$seasonal.model=="x11"){
 			seasonal.type <- y$seasonal.type
 			lambda <- y$lambda
 			transform.method <- y$transform.method
-			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=y$transform.method, tLambda=y$lambda)$trfmX
+			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX
 		}else if (y$seasonal.model!="decomp" & y$seasonal.type=="M" & (y$transform.method=="BoxCox" & ty$ransform.method=="log")){
 			seasonal.type <- "A"
 			lambda <- 0
-			transform.method <- "BoxCox"	
+			transform.method <- "BoxCox"
+			bcBiasAdj <- FALSE			
 			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX        # lambda = 0 for multiplicative model
 		}else {
 			seasonal.type <- y$seasonal.type
 			lambda <- y$lambda
 			transform.method <- y$transform.method
-			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=y$transform.method, tLambda=y$lambda)$trfmX
+			ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX
 		}
 	}
 	if (y$is.season==FALSE & seasonal.type=="A"){
@@ -98,9 +100,9 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
 	ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel=ata.output$initial.value)
 	forecast.ata <- ata.output$forecast
 	if(y$seasonal.type=="A"){
-		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda)
+		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
 	}else {
-		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda)				
+		ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))				
 	}
 	if (negative.forecast==TRUE){
 		y$forecast <- ATA.forecast

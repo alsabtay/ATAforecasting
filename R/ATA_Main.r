@@ -379,7 +379,7 @@ ATA <- function(X, Y=NULL,
 		}else {
 		}
 	}
-	ChgX <- ATA.Transform(X,tMethod=transform.method,tLambda=lambda, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
+	ChgX <- ATA.Transform(X,tMethod=transform.method, tLambda=lambda, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
 	X <- ChgX$trfmX
 	lambda <- ChgX$tLambda
 	if (length(seasonal.type)==1 & length(seasonal.model)==1){
@@ -537,6 +537,9 @@ ATA <- function(X, Y=NULL,
 		my_list$trend.fixed <- trend.fixed
 		my_list$transform.method <- transform.method
 		my_list$lambda <- lambda
+		my_list$bcLower <- boxcox_attr_set$bcLower
+		my_list$bcUpper <- boxcox_attr_set$bcUpper
+		my_list$bcBiasAdj <- boxcox_attr_set$bcBiasAdj
 		my_list$accuracy.type <- accuracy.type
 		my_list$accuracy <- accuracy.ata
 		my_list$is.season <- is.season
