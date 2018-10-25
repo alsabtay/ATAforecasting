@@ -40,4 +40,5 @@ ATA.BoxCoxAttr <- function(bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBias
 	}
 	mylist <- list("bcMethod"=bcMethod, "bcLower"=bcLower, "bcUpper"=bcUpper, "bcBiasAdj"=bcBiasAdj)
 	attr(mylist, "class") <- "ataattrset"
-	return(mylist)	
+	return(mylist)
+}

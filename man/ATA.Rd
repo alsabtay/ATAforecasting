@@ -12,9 +12,10 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
   h = NULL, partition.h = NULL, transform.method = NULL,
-  lambda = NULL, initial.level = NULL, initial.trend = NULL,
-  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
-  negative.forecast = TRUE, plot.out = TRUE)
+  transform.attr = NULL, lambda = NULL, initial.level = NULL,
+  initial.trend = NULL, ci.level = 95, start.phi = NULL,
+  end.phi = NULL, size.phi = NULL, negative.forecast = TRUE,
+  plot.out = TRUE)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
@@ -51,8 +52,8 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
 \item{seasonal.type}{A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
 
-\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttributes} function and its output. 
-For example, you can use \code{seasonal.test.attr = ATA.SeasAttributes(pgram.tcrit=1.65)} equation in \code{ATA} function.}
+\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output. 
+For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(pgram.tcrit=1.65)} equation in \code{ATA} function.}
 
 \item{find.period}{Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 \itemize{
@@ -92,6 +93,8 @@ When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is s
 \item{transform.method}{Transformation method  --> BoxCox, Log, sqrt, inverse. 
 When \code{BoxCox} or \code{log} is specified,
 \code{model.type} and \code{seasonal.type} is set to "A".}
+
+\item{transform.attr}{Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.}
 
 \item{lambda}{Box-Cox transformation parameter. If NULL, data transformed before model is estimated. 
 When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".}
