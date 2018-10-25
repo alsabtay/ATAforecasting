@@ -1,7 +1,7 @@
 #' @export ATA.Transform
 
-ATA.Transform <- function(X, tMethod, tLambda, tMethod = c("BoxCox", "sqrt", "inverse", "log"), bcMethod = c("guerrero", "loglik"), bcLower = 0, bcUpper = 1){
-	tMethod <- match.arg(tMethod)
+ATA.Transform <- function(X, tMethod = c("BoxCox", "sqrt", "inverse", "log"), tLambda, bcMethod = c("loglik", "guerrero"), bcLower = 0, bcUpper = 1){
+	
 	if (is.null(tMethod)){
 		trfmX <- X
 	}else if (tMethod=="BoxCox"){
@@ -22,13 +22,17 @@ ATA.Transform <- function(X, tMethod, tLambda, tMethod = c("BoxCox", "sqrt", "in
 		#	trfmX <- ((X^tLambda)-1)/tLambda
 		#}		
 	}else if (tMethod=="sqrt"){
-		trfmX <- sqrt(X)	
+		trfmX <- sqrt(X)
+		tLambda <- NA
 	}else if (tMethod=="inverse"){
-		trfmX <- 1/X	
+		trfmX <- 1/X
+		tLambda <- NA
 	}else if (tMethod=="log"){
-		trfmX <- log(X)	
-	}else{
+		trfmX <- log(X)
+		tLambda <- 0
+	}else {
 		trfmX <- X
+		tLambda <- NA
 	}
 	my_list <- list("trfmX" = trfmX, "tLambda" = tLambda)
 	return(my_list)
