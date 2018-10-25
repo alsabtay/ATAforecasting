@@ -45,21 +45,36 @@
 #' \code{\link{tbats}}, \code{\link{seasadj}}.
 #'
 
-#' @export ATA.SeasAttributes
+#' @export ATA.SeasAttr
 
-ATA.SeasAttributes <- function(pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=NULL, uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
+ATA.SeasAttr <- function(pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=NULL, uroot.pkg="tseries", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
 {
 	if ((uroot.test != "adf" & uroot.test != "pp" & uroot.test != "kpss") | !is.character(uroot.test)){	
-		return("Selection method of unit root test must be string. adf, pp or kpss test for searching unit root. ATA Method was terminated!")
+		warning("Selection method of unit root test must be string. adf, pp or kpss test for searching unit root.")
+		uroot.test <- "adf"
 	}
 	if ((suroot.test != "periodogram" & suroot.test != "seas" & suroot.test != "hegy" & suroot.test != "ch" & suroot.test != "ocsb") | !is.character(suroot.test)){	
-		return("Selection method of seasonal unit root test must be string. periodogram, seas, hegy, ch or ocsb test for searching seasonal unit root. ATA Method was terminated!")
+		warning("Selection method of seasonal unit root test must be string. periodogram, seas, hegy, ch or ocsb test for searching seasonal unit root.")
+		suroot.test <- "periodogram"
 	}
 	if ((uroot.type != "level" & uroot.type != "trend") | !is.character(uroot.type)){	
-		return("Selection type of deterministic component in the regression for unit root test must be string. level or trend for searching unit root. ATA Method was terminated!")
+		warning("Selection type of deterministic component in the regression for unit root test must be string. level or trend for searching unit root.")
+		uroot.type <- "trend"
 	}	
 	if ((multi.period != "min" & multi.period != "max" ) | !is.character(multi.period)){	
-		return("Selection type of multi seasonal period must be string. min or max function for selection. ATA Method was terminated!")
+		warning("Selection type of multi seasonal period must be string. min or max function for selection.")
+		multi.period <- "min"
+	}
+	if ((uroot.pkg != "ucra" & uroot.pkg != "tseries") | !is.character(uroot.pkg)){
+		warning("Selection package of unit root test must be string. ucra or tseries packages for searching unit root.")
+		uroot.pkg <- "tseries"
+	}
+	if(pgram.tcrit < -10){
+		warning("Specified tcrit value is less than the minimum, setting pgram.tcrit=1.28")
+		pgram.tcrit <- 1.28
+	}else if(pgram.tcrit > 10){
+		warning("Specified tcrit value is larger than the maximum, setting pgram.tcrit=1.28")
+		pgram.tcrit <- 1.28
 	}
 	if(uroot.alpha < 0.01){
 		warning("Specified alpha value is less than the minimum, setting uroot.alpha=0.01")

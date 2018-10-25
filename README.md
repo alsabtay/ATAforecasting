@@ -11,4 +11,4 @@ devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)
 
 ```
 # License
-This package is free and open source software, licensed under GPL-3
+This package is free and open source software, licensed under GPL-3.

@@ -1,22 +1,25 @@
 #' @export ATA.Transform
 
-ATA.Transform <- function(X, tMethod, tLambda){
+ATA.Transform <- function(X, tMethod, tLambda, tMethod = c("BoxCox", "sqrt", "inverse", "log"), bcMethod = c("guerrero", "loglik"), bcLower = 0, bcUpper = 1){
+	tMethod <- match.arg(tMethod)
 	if (is.null(tMethod)){
 		trfmX <- X
 	}else if (tMethod=="BoxCox"){
 		if (is.null(tLambda)){
-			tLambda <- BoxCox.lambda(X)
+			bcMethod <- match.arg(bcMethod)
+			if (bcMethod == "guerrero") {
+				tLambda <- BoxCox.lambda(X, method = "guerrero", lower=bcLower, upper=bcUpper)
+			} else {
+				tLambda <- BoxCox.lambda(X, method = "loglik", lower=bcLower, upper=bcUpper)
+			}
 			trfmX <- BoxCox(X,tLambda)
 		}else { 
-			if (tLambda=="opt"){
-				tLambda <- BoxCox.lambda(X)
-			}
 			trfmX <- BoxCox(X,tLambda)
 		}
 		#if (tLambda == 0){ 
 		#	trfmX <- log(X) 
 		#}else { 
-		#	trfmX <- X^(1/tLambda)
+		#	trfmX <- ((X^tLambda)-1)/tLambda
 		#}		
 	}else if (tMethod=="sqrt"){
 		trfmX <- sqrt(X)	

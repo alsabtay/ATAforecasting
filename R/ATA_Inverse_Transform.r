@@ -14,8 +14,6 @@ ATA.Inv.Transform <- function(X, tMethod, tLambda, tbiasadj=FALSE, tfvar=NULL){
 		trfmX <- X^2	
 	}else if (tMethod == "inverse"){
 		trfmX <- 1/X	
-	}else if (tMethod == "log10"){
-		trfmX <- 10^X
 	}else if (tMethod == "log"){
 		trfmX <- exp(X)	
 	}else {
