@@ -11,11 +11,11 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.period = NULL, seasonal.type = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
-  h = NULL, partition.h = NULL, transform.method = NULL,
-  transform.attr = NULL, lambda = NULL, initial.level = NULL,
-  initial.trend = NULL, ci.level = 95, start.phi = NULL,
-  end.phi = NULL, size.phi = NULL, negative.forecast = TRUE,
-  plot.out = TRUE)
+  h = NULL, partition.h = NULL, holdout = FALSE,
+  transform.method = NULL, transform.attr = NULL, lambda = NULL,
+  initial.level = NULL, initial.trend = NULL, ci.level = 95,
+  start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
@@ -85,10 +85,15 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(pgram.tcrit=1.6
 
 \item{trend.fixed}{If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
 
-\item{h}{The number of steps to forecast ahead.}
-
-\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
+\item{h}{The number of steps to forecast ahead.
 When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
+
+\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. If the value is between 0 and 1, percentage of length is active. 
+If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
+
+\item{holdout}{Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series. 
+The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set). 
+If TRUE, partition.h will used for holdout data.}
 
 \item{transform.method}{Transformation method  --> BoxCox, Log, sqrt, inverse. 
 When \code{BoxCox} or \code{log} is specified,
@@ -166,6 +171,10 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 \item{accuracy.type}{Accuracy measure that is chosen for model selection.}
 
 \item{accuracy}{In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.}
+
+\item{holdout}{Holdout forecasting.}
+
+\item{holdout.accuracy}{Accuracy measure that is chosen for model selection in holdout forecasting.}
 
 \item{is.season}{Indicates whether it contains seasonal pattern.}
 
