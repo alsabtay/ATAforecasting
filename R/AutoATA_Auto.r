@@ -184,6 +184,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 		seas.Lambda <- NULL
 		seas.Transform <- NULL
 		ata.seasonal.component <- ATA.Decomposition(X, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
+		AdjInput <- ata.seasonal.component$AdjustedX
 		SeasonalActual <- ata.seasonal.component$SeasActual
 		SeasonalIndex <- ata.seasonal.component$SeasIndex
 		OS_SIValue <- rep(0,times=h)
