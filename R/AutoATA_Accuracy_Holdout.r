@@ -13,11 +13,11 @@ AutoATA.Accuracy.Holdout <- function(ata_opt, accryType, HoldoutSet){
 	}else if (accryType=="MAPE" | accryType=="MdAPE"){
 		ata.accuracy.insample <- abs(ata.pe)
 	}else if (accryType=="sMAPE" | accryType=="sMdAPE"){
-		ata.accuracy.insample <- abs(HoldoutSet - ata_opt$forecast)/(abs(HoldoutSet) + abs(ata_opt$forecast)) * 200
+		ata.accuracy.insample <- abs(ata.error)/(abs(HoldoutSet) + abs(ata_opt$forecast)) * 200
 	}else if (accryType=="MASE"){
 		ata.accuracy.insample <- outMASE(as.double(inSample), HoldoutSet, as.double(ata_opt$forecast), as.integer(frequency(inSample)))
 	}else if (accryType=="OWA"){
-		preOWA_first <- abs(HoldoutSet - ata_opt$forecast)/(abs(HoldoutSet) + abs(ata_opt$forecast)) * 200
+		preOWA_first <- abs(ata.error)/(abs(HoldoutSet) + abs(ata_opt$forecast)) * 200
 		preOWA_second <- abs(outMASE(as.double(inSample), HoldoutSet, as.double(ata_opt$forecast), as.integer(frequency(inSample))))
 	}else {
 	}

@@ -2,7 +2,7 @@
 
 AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.Model, seasonal.Type, seasonal.Frequency, h, accuracy.Type, 
 							level.Fix, trend.Fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend, transform.Method, Lambda, orig_X, 
-							OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, partition_h)
+							OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, partition_h, Adjusted_P)
 {
 	tspX <- tsp(ts_input)
 	if (is.null(seasonal.Test)){
@@ -174,7 +174,8 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 			}
 		}else{
 		}
-		ATA.last <- ATA.Core(AdjInput, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
+		ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(ts_input))/ length(DeSeas)), new_pk <- output[1])
+		ATA.last <- ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
 		ATA.last$holdout <- Holdout
 		ifelse(Holdout==TRUE, ATA.last$holdout.accuracy <- output[8], ATA.last$holdout.accuracy <- NA)
 	}else {
@@ -197,7 +198,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 		}else {
 			HoldoutSet <- NA
 		}
-		ATA.last <- AutoATA.Damped(X, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend, ts_input, Holdout, HoldoutSet)
+		ATA.last <- AutoATA.Damped(X, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend, ts_input, Holdout, HoldoutSet, Adjusted_P)
 	}
 	ATA.last$h <- h
 	ATA.last <- AutoATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)

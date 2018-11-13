@@ -68,6 +68,7 @@
 #' @param holdout Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series. 
 #' The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set). 
 #' If TRUE, partition.h will used for holdout data.
+#' @param holdout.adjustedP Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.  
 #' @param transform.method Transformation method  --> BoxCox, Log, sqrt, inverse. 
 #' When \code{BoxCox} or \code{log} is specified,
 #' \code{model.type} and \code{seasonal.type} is set to "A".
@@ -111,7 +112,7 @@
 #' @param lambda Box-Cox transformation parameter.
 #' @param accuracy.type Accuracy measure that is chosen for model selection.
 #' @param accuracy In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.
-#' @param holdout Holdout forecasting.
+#' @param holdout Holdout forecasting is TRUE or FALSE.
 #' @param holdout.accuracy Accuracy measure that is chosen for model selection in holdout forecasting.
 #' @param is.season Indicates whether it contains seasonal pattern.
 #' @param seasonal.model The name of the selected decomposition method.
@@ -163,6 +164,7 @@ ATA <- function(X, Y = NULL,
 					h = NULL,
 					partition.h = NULL,
 					holdout = FALSE,
+					holdout.adjustedP = TRUE,
 					transform.method = NULL,
 					transform.attr = NULL,
 					lambda = NULL,
@@ -506,7 +508,7 @@ ATA <- function(X, Y = NULL,
 			}
 			ata.output <- ATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = model.type, initialLevel = initial.level, initialTrend = initial.trend)
 			ata.output$holdout <- holdout
-			ifelse(holdout==TRUE, ata.output$holdout.accuracy <- optAccryEnd, ata.output$holdout.accuracy <- NA)			
+			ifelse(holdout==TRUE, ata.output$holdout.accuracy <- optAccryStart, ata.output$holdout.optAccryStart <- NA)			
 			ata.output$h <- h
 			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
 			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
@@ -542,7 +544,7 @@ ATA <- function(X, Y = NULL,
 				DeSeas <- AdjInSample
 				HoldoutSet <- NA
 			}
-			ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, AdjInSample, holdout, HoldoutSet)
+			ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, AdjInSample, holdout, HoldoutSet, holdout.adjustedP)
 			ata.output$h <- h
 			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
 			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
@@ -612,7 +614,7 @@ ATA <- function(X, Y = NULL,
 	}else {
 		my_list <- AutoATA.Auto(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
 									level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-									lambda, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h)
+									lambda, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)
 	}
 	executionTime <- proc.time() - ptm
 	end.time <- Sys.time()

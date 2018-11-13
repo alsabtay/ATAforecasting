@@ -137,7 +137,7 @@ AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initial
 	}
 	if (mdlType=="A"){	
 		coefpk <- abs(pk/lenX)
-		coefqk <- abs(pk/lenX)
+		coefqk <- abs(qk/lenX)
 		S <- coefpk * Xobs + (1-coefpk)*(S_1 + phik * T_1)
 		T <- coefqk * (S-S_1) + (1-coefqk) * (phik * T_1)
 		ata.forecast[1] <- S + (phik * T)
@@ -149,7 +149,7 @@ AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initial
 	}	
 	if (mdlType=="M"){	
 		coefpk <- abs(pk/lenX)
-		coefqk <- abs(pk/lenX)
+		coefqk <- abs(qk/lenX)
 		S <- coefpk * Xobs + (1-coefpk)* S_1 * (T_1^phik)
 		T <- coefqk * (S/S_1) + (1-coefqk) * (T_1^phik)
 		ata.forecast[1] <- S * (T^phik) 

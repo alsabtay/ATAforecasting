@@ -1,6 +1,6 @@
 #' @export AutoATA.Damped
 
-AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend, orig_X, Holdout, HoldoutSet)
+AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, phiStart, phiEnd, phiSize, initialLevel, initialTrend, orig_X, Holdout, HoldoutSet, Adjusted_P)
 {
 	Xdata <- as.numeric(ts_input)
 	TA_0 <- Xdata-ATA.Shift(Xdata,1)
@@ -40,7 +40,8 @@ AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fi
 						, as.double(TM_0)
 						, as.integer(frequency(ts_input)))
 	}
-	ATA.last <- ATA.Core(orig_X, pk = output[1], qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
+	ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(orig_X))/ length(ts_input)), new_pk <- output[1])
+	ATA.last <- ATA.Core(orig_X, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
 	ATA.last$holdout <- Holdout
 	ifelse(Holdout==TRUE, ATA.last$holdout.accuracy <- output[5], ATA.last$holdout.accuracy <- NA)
 	return(ATA.last)

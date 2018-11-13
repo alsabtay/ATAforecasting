@@ -12,10 +12,11 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
   h = NULL, partition.h = NULL, holdout = FALSE,
-  transform.method = NULL, transform.attr = NULL, lambda = NULL,
-  initial.level = NULL, initial.trend = NULL, ci.level = 95,
-  start.phi = NULL, end.phi = NULL, size.phi = NULL,
-  negative.forecast = TRUE, plot.out = TRUE)
+  holdout.adjustedP = TRUE, transform.method = NULL,
+  transform.attr = NULL, lambda = NULL, initial.level = NULL,
+  initial.trend = NULL, ci.level = 95, start.phi = NULL,
+  end.phi = NULL, size.phi = NULL, negative.forecast = TRUE,
+  plot.out = TRUE)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
@@ -95,6 +96,8 @@ If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining 
 The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set). 
 If TRUE, partition.h will used for holdout data.}
 
+\item{holdout.adjustedP}{Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.}
+
 \item{transform.method}{Transformation method  --> BoxCox, Log, sqrt, inverse. 
 When \code{BoxCox} or \code{log} is specified,
 \code{model.type} and \code{seasonal.type} is set to "A".}
@@ -172,7 +175,7 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 
 \item{accuracy}{In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.}
 
-\item{holdout}{Holdout forecasting.}
+\item{holdout}{Holdout forecasting is TRUE or FALSE.}
 
 \item{holdout.accuracy}{Accuracy measure that is chosen for model selection in holdout forecasting.}
 

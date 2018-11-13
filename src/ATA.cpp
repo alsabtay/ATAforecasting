@@ -613,25 +613,25 @@ double AutoATACoreHoldout(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int
 		Xobs = IAZ[LENZ-1];
 
 	if (IZMO==1) {
-		coefpk = 1.0 * IZP / i;
-		coefqk = 1.0 * IZQ / i;
+		coefpk = 1.0 * IZP / LENZ;
+		coefqk = 1.0 * IZQ / LENZ;
 		S = coefpk * Xobs + (1-coefpk) * (S_1 + (IZPHI * T_1));
 		T = coefqk * (S - S_1) + (1-coefqk) * (IZPHI * T_1);
 		IZFRCST[0] = S + (IZPHI * T);
 		phiTotal = IZPHI;
-		for(h = 1; h < LENH-1; h++) {
+		for(h = 1; h < LENH; h++) {
 			phiTotal = phiTotal + pow(IZPHI, h);
 			IZFRCST[h] = S + (phiTotal * T);
 		}				
 	}
 	if (IZMO==2) {
-		coefpk = 1.0 * IZP / i;
-		coefqk = 1.0 * IZQ / i;
+		coefpk = 1.0 * IZP / LENZ;
+		coefqk = 1.0 * IZQ / LENZ;
 		S = coefpk * Xobs + (1-coefpk) * S_1 * pow(T_1, IZPHI);
 		T = coefqk * (1.0 * S / S_1) + (1-coefqk) * pow(T_1, IZPHI);
 		IZFRCST[0] = S * pow(T, IZPHI);
 		phiTotal = IZPHI;
-		for(h = 1; h < LENH-1; h++) {
+		for(h = 1; h < LENH; h++) {
 			phiTotal = phiTotal + pow(IZPHI, h);
 			IZFRCST[h] = S * pow(T, phiTotal);
 		}				
@@ -814,7 +814,7 @@ NumericVector AutoATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO
 	out[1] = d_opt_q;
 	out[2] = d_opt_phi;
 	out[3] = IXMO;
-	out[4] = optAccryEnd;
+	out[4] = optAccryStart;
 	return out;
 }
 
@@ -867,6 +867,6 @@ NumericVector AutoATAHoldout(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC
 	out[4] = d_opt_smo;
 	out[5] = d_opt_st;
 	out[6] = d_opt_clmn;
-	out[7] = optAccryEnd;
+	out[7] = optAccryStart;
 	return out;
 }
