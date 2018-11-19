@@ -870,3 +870,190 @@ NumericVector AutoATAHoldout(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC
 	out[7] = optAccryStart;
 	return out;
 }
+
+
+// [[Rcpp::export]]
+NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, NumericVector IAZout) {	
+	int LENZ = IAZ.size();
+	int LENH = IAZout.size();
+	NumericVector IZT_0(LENZ);
+	NumericVector IZFIT(LENZ);
+	double coefpk, coefqk, Xobs, Xlag, phiTotal, S, T, S_1, T_1, T_0;
+	int i, indx, h;
+	NumericVector IZFRCST(LENH);
+	NumericVector ITFrcstErr(LENH); 
+	NumericVector peOUT(LENH); 
+	NumericVector ITsmapeOUT(LENH);
+	NumericVector ITAccOUT(LENH);
+	double accmeasureOUT = 0;
+
+	if (IZMO==1)
+		IZT_0 = IZTA_0;
+	else
+		IZT_0 = IZTM_0;
+	
+	for(indx = 0; indx < LENZ-1; indx++) {
+		i = indx + 1;
+		
+		if (indx==0) 
+		{	
+			Xlag = IAZ[indx];
+			Xobs = IAZ[indx];
+		}
+		else 
+		{
+			if (IZIL==1)
+			{
+				Xlag = meanIT(IAZ,indx-1);
+				Xobs = meanIT(IAZ,indx);
+			}
+			else
+			{
+				Xlag = IAZ[indx-1];	
+				Xobs = IAZ[indx];
+			}
+		}
+		
+		if (IZMO==1)
+			T_0 = 1.0 * Xobs - Xlag;
+		else
+			T_0 = 1.0 * Xobs / Xlag;
+		
+		if (i == 1) {
+			if (IZMO==1) {
+				S = 1.0 * Xobs;
+				T = 0.0;
+				IZFIT[i] = S + (IZPHI * T);
+				S_1 = S;
+				T_1 = T;
+			}
+			if (IZMO==2) {
+				S = 1.0 * Xobs;
+				T = 1.0;
+				IZFIT[i] = S * pow(T, IZPHI);
+				S_1 = S;
+				T_1 = T;
+			}
+		}
+		else if ( (i<=IZP) & (i<=IZQ) & (IZP>=IZQ) ) {
+			if (IZMO==1) {
+				S = 1.0 * Xobs;
+				if (IZIT==1)
+					T = meanIT(IZT_0,indx);
+				else
+					T = T_0;
+				IZFIT[i] = S + (IZPHI * T);
+				S_1 = S;
+				T_1 = T;			
+			}
+			if (IZMO==2) {
+				S = 1.0 * Xobs;
+				if (IZIT==1)
+					T = meanIT(IZT_0,indx);
+				else
+					T = T_0;
+				IZFIT[i] = S * pow(T, IZPHI); 
+				S_1 = S;
+				T_1 = T;			
+			}
+		}
+		else if ( (i<=IZP) & (i>IZQ) & (IZP>=IZQ) ) {
+			if (IZMO==1) {
+				coefqk = 1.0 * IZQ / i;
+				S = 1.0 * Xobs;
+				T = coefqk * (S - S_1) + (1-coefqk) * (IZPHI * T_1);
+				IZFIT[i] = S + (IZPHI * T);
+				S_1 = S;
+				T_1 = T;			
+			}
+			if (IZMO==2) {
+				coefqk = 1.0 * IZQ / i;
+				S = 1.0 * Xobs;
+				T = coefqk * (1.0 * S / S_1) + (1-coefqk) * pow(T_1, IZPHI);
+				IZFIT[i] = S * pow(T, IZPHI);
+				S_1 = S;
+				T_1 = T;			
+			}
+		}
+		else if ( (i>IZP) & (i<=IZQ) & (IZP>=IZQ) ) {
+			if (IZMO==1) {
+				coefpk = 1.0 * IZP / i;
+				S = coefpk * Xobs + (1-coefpk) * (S_1 + (IZPHI * T_1));
+				if (IZIT==1)
+					T = meanIT(IZT_0,indx);
+				else
+					T = T_0;
+				IZFIT[i] = S + (IZPHI * T);
+				S_1 = S;
+				T_1 = T;			
+			}
+			if (IZMO==2) {
+				coefpk = 1.0 * IZP / i;
+				S = coefpk * Xobs + (1-coefpk) * S_1 * pow(T_1, IZPHI);
+				if (IZIT==1)
+					T = meanIT(IZT_0,indx);
+				else
+					T = T_0;
+				IZFIT[i] = S * pow(T, IZPHI);
+				S_1 = S;
+				T_1 = T;			
+			}
+		}
+		else if ( (i>IZP) & (i>IZQ) & (IZP>=IZQ) ) {
+			if (IZMO==1) {
+				coefpk = 1.0 * IZP / i;
+				coefqk = 1.0 * IZQ / i;
+				S = coefpk * Xobs + (1-coefpk) * (S_1 + (IZPHI * T_1));
+				T = coefqk * (S - S_1) + (1-coefqk) * (IZPHI * T_1);
+				IZFIT[i] = S + (IZPHI * T);
+				S_1 = S;
+				T_1 = T;			
+			}
+			if (IZMO==2) {
+				coefpk = 1.0 * IZP / i;
+				coefqk = 1.0 * IZQ / i;
+				S = coefpk * Xobs + (1-coefpk) * S_1 * pow(T_1, IZPHI);
+				T = coefqk * (1.0 * S / S_1) + (1-coefqk) * pow(T_1, IZPHI);
+				IZFIT[i] = S * pow(T, IZPHI);
+				S_1 = S;
+				T_1 = T;			
+			}
+		}
+		else {
+				IZFIT[i] = NA_REAL;
+				S_1 = NA_REAL;
+				T_1 = NA_REAL;
+			}
+	}
+	
+	if (IZIL==1)
+		Xobs = meanIT(IAZ,LENZ-1);
+	else
+		Xobs = IAZ[LENZ-1];
+
+	if (IZMO==1) {
+		coefpk = 1.0 * IZP / LENZ;
+		coefqk = 1.0 * IZQ / LENZ;
+		S = coefpk * Xobs + (1-coefpk) * (S_1 + (IZPHI * T_1));
+		T = coefqk * (S - S_1) + (1-coefqk) * (IZPHI * T_1);
+		IZFRCST[0] = S + (IZPHI * T);
+		phiTotal = IZPHI;
+		for(h = 1; h < LENH; h++) {
+			phiTotal = phiTotal + pow(IZPHI, h);
+			IZFRCST[h] = S + (phiTotal * T);
+		}				
+	}
+	if (IZMO==2) {
+		coefpk = 1.0 * IZP / LENZ;
+		coefqk = 1.0 * IZQ / LENZ;
+		S = coefpk * Xobs + (1-coefpk) * S_1 * pow(T_1, IZPHI);
+		T = coefqk * (1.0 * S / S_1) + (1-coefqk) * pow(T_1, IZPHI);
+		IZFRCST[0] = S * pow(T, IZPHI);
+		phiTotal = IZPHI;
+		for(h = 1; h < LENH; h++) {
+			phiTotal = phiTotal + pow(IZPHI, h);
+			IZFRCST[h] = S * pow(T, phiTotal);
+		}				
+	}
+	return IZFRCST;
+}

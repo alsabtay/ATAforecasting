@@ -177,7 +177,13 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 
 \item{holdout}{Holdout forecasting is TRUE or FALSE.}
 
-\item{holdout.accuracy}{Accuracy measure that is chosen for model selection in holdout forecasting.}
+\item{holdout.training}{Training set in holdout forecasting.}
+
+\item{holdout.validation}{Validation set in holdout forecasting.}
+
+\item{holdout.forecast}{Holdout forecast.}
+
+\item{holdout.accuracy}{Accuracy measure chosen for model selection in holdout forecasting.}
 
 \item{is.season}{Indicates whether it contains seasonal pattern.}
 

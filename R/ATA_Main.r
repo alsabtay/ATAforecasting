@@ -113,7 +113,10 @@
 #' @param accuracy.type Accuracy measure that is chosen for model selection.
 #' @param accuracy In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.
 #' @param holdout Holdout forecasting is TRUE or FALSE.
-#' @param holdout.accuracy Accuracy measure that is chosen for model selection in holdout forecasting.
+#' @param holdout.training Training set in holdout forecasting.
+#' @param holdout.validation Validation set in holdout forecasting.
+#' @param holdout.forecast Holdout forecast.
+#' @param holdout.accuracy Accuracy measure chosen for model selection in holdout forecasting.
 #' @param is.season Indicates whether it contains seasonal pattern.
 #' @param seasonal.model The name of the selected decomposition method.
 #' @param seasonal.type Form of seasonality.
@@ -450,125 +453,50 @@ ATA <- function(X, Y = NULL,
 			}
 		}else{
 		}
-		if (is.numeric(parP) & is.numeric(parQ) & is.numeric(parPHI) & !is.null(model.type)){
-			ata.output <- ATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = model.type, initialLevel = initial.level, initialTrend = initial.trend)
-			ata.output$holdout <- FALSE
-			ata.output$holdout.accuracy <- NA			
-			ata.output$h <- h
-			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
-			ata.output$accuracy.type <- accuracy.type
-			fit.ata <- ata.output$fitted
-			forecast.ata <- ata.output$forecast
-			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			}else {
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata * SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))				
-			}
-			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$fitted <- ATA.fitted
-			if (negative.forecast==TRUE){
-				ata.output$forecast <- ATA.forecast
-			}else {
-				ATA.forecast[ATA.forecast<0] <- 0
-				ata.output$forecast <- ATA.forecast
-			}
-			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
-		}else if (is.numeric(parP) & is.numeric(parQ) & is.numeric(parPHI) & is.null(model.type)){
-			mdl.type <- c("A","M")
-			optAccryStart <- 9999999999999.9
+		if (holdout == TRUE){
+			holdout_part <- ifelse(partition.h > 0 & partition.h < 1, floor(length(AdjInSample) * partition.h), partition.h)
+			HoldOutLen <- length(AdjInSample) - holdout_part
+			InsampleLen <- length(AdjInSample)
+			HoldoutSet <- ts(AdjInSample[(HoldOutLen+1):InsampleLen], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
+			DeSeas <- ts(AdjInSample[1:HoldOutLen], f = tspX[3], s = tspX[1])
+		}else {
+			DeSeas <- AdjInSample
+			HoldoutSet <- NA
+		}
+		ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, AdjInSample, holdout, HoldoutSet, holdout.adjustedP)
+		ata.output$h <- h
+		ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
+		ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+		fit.ata <- ata.output$fitted
+		forecast.ata <- ata.output$forecast
+		ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+		ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+		if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
+			ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+			ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
 			if (holdout == TRUE){
-				holdout_part <- ifelse(partition.h > 0 & partition.h < 1, floor(length(AdjInSample) * partition.h), partition.h)
-				HoldOutLen <- length(AdjInSample) - holdout_part
-				InsampleLen <- length(AdjInSample)
-				HoldoutSet <- ts(AdjInSample[(HoldOutLen+1):InsampleLen], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-				DeSeas <- ts(AdjInSample[1:HoldOutLen], f = tspX[3], s = tspX[1])
-				for (m in 1:2){	
-					ATA.opt <- AutoATA.Core.Holdout(DeSeas, pk = parP, qk = parQ, phik = parPHI, mdlType = mdl.type[m], initialLevel = initial.level, initialTrend = initial.trend, holdout_part)
-					optAccryEnd <- AutoATA.Accuracy.Holdout(ATA.opt, accryType = accuracy.type, HoldoutSet = HoldoutSet)
-					if (optAccryEnd <= optAccryStart){
-						model.type <- mdl.type[m]
-						optAccryStart <- optAccryEnd
-					}
-				}
-			}else {
-				for (m in 1:2){	
-					ATA.opt <- AutoATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = mdl.type[m], initialLevel = initial.level, initialTrend = initial.trend)
-					optAccryEnd <- AutoATA.Accuracy(ATA.opt, accryType = accuracy.type)
-					if (optAccryEnd <= optAccryStart){
-						model.type <- mdl.type[m]
-						optAccryStart <- optAccryEnd
-					}
-				}
+				ata.output$holdout.forecast <- msts(ATA.Inv.Transform(X = ata.output$holdout.forecast + SeasonalActual[(HoldOutLen+1):InsampleLen], tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))), start=tsp(orig.X)[1], seasonal.periods = s.frequency)
 			}
-			ata.output <- ATA.Core(AdjInSample, pk = parP, qk = parQ, phik = parPHI, mdlType = model.type, initialLevel = initial.level, initialTrend = initial.trend)
-			ata.output$holdout <- holdout
-			ifelse(holdout==TRUE, ata.output$holdout.accuracy <- optAccryStart, ata.output$holdout.optAccryStart <- NA)			
-			ata.output$h <- h
-			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
-			fit.ata <- ata.output$fitted
-			forecast.ata <- ata.output$forecast
-			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$trend<- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			}else {
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata * SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))				
-			}
-			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$fitted <- ATA.fitted
-			if (negative.forecast==TRUE){
-				ata.output$forecast <- ATA.forecast
-			}else {
-				ATA.forecast[ATA.forecast<0] <- 0
-				ata.output$forecast <- ATA.forecast
-			}
-			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)	
-		}else {		
+		}else {
+			ATA.fitted <- ATA.Inv.Transform(X=fit.ata * SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+			ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
 			if (holdout == TRUE){
-				holdout_part <- ifelse(partition.h > 0 & partition.h < 1, floor(length(AdjInSample) * partition.h), partition.h)
-				HoldOutLen <- length(AdjInSample) - holdout_part
-				InsampleLen <- length(AdjInSample)
-				HoldoutSet <- ts(AdjInSample[(HoldOutLen+1):InsampleLen], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-				DeSeas <- ts(AdjInSample[1:HoldOutLen], f = tspX[3], s = tspX[1])
-			}else {
-				DeSeas <- AdjInSample
-				HoldoutSet <- NA
-			}
-			ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, AdjInSample, holdout, HoldoutSet, holdout.adjustedP)
-			ata.output$h <- h
-			ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-			ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
-			fit.ata <- ata.output$fitted
-			forecast.ata <- ata.output$forecast
-			ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			}else {
-				ATA.fitted <- ATA.Inv.Transform(X=fit.ata * SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-				ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))				
-			}
-			SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-			ata.output$fitted <- ATA.fitted
-			if (negative.forecast==TRUE){
-				ata.output$forecast <- ATA.forecast
-			}else {
-				ATA.forecast[ATA.forecast<0] <- 0
-				ata.output$forecast <- ATA.forecast
-			}
-			accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
+				ata.output$holdout.forecast <- msts(ATA.Inv.Transform(X = ata.output$holdout.forecast * SeasonalActual[(HoldOutLen+1):InsampleLen], tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))) , start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+			}			
+		}
+		SeasonalActual <- ATA.Inv.Transform(X=SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+		SeasonalIndex <- ATA.Inv.Transform(X=SeasonalIndex, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+		ata.output$fitted <- ATA.fitted
+		if (negative.forecast==TRUE){
+			ata.output$forecast <- ATA.forecast
+		}else {
+			ATA.forecast[ATA.forecast<0] <- 0
+			ata.output$forecast <- ATA.forecast
+		}
+		accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
+		if (holdout == TRUE){
+			ata.output$holdout.training <- msts(ata.output$actual[1:HoldOutLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+			ata.output$holdout.validation <- msts(ata.output$actual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
 		}
 		my_list <- ata.output
 		my_list$out.sample <- OutSample

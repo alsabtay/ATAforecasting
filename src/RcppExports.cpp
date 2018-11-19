@@ -198,6 +198,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ATAHoldoutForecast
+NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, NumericVector IAZout);
+RcppExport SEXP _ATAforecasting_ATAHoldoutForecast(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IAZoutSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type IAZ(IAZSEXP);
+    Rcpp::traits::input_parameter< int >::type IZP(IZPSEXP);
+    Rcpp::traits::input_parameter< int >::type IZQ(IZQSEXP);
+    Rcpp::traits::input_parameter< double >::type IZPHI(IZPHISEXP);
+    Rcpp::traits::input_parameter< int >::type IZMO(IZMOSEXP);
+    Rcpp::traits::input_parameter< int >::type IZAC(IZACSEXP);
+    Rcpp::traits::input_parameter< int >::type IZIL(IZILSEXP);
+    Rcpp::traits::input_parameter< int >::type IZIT(IZITSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IZTA_0(IZTA_0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IZTM_0(IZTM_0SEXP);
+    Rcpp::traits::input_parameter< int >::type IZFRQ(IZFRQSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IAZout(IAZoutSEXP);
+    rcpp_result_gen = Rcpp::wrap(ATAHoldoutForecast(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ATAforecasting_outMASE", (DL_FUNC) &_ATAforecasting_outMASE, 4},
@@ -209,6 +231,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ATAforecasting_AutoATACoreHoldout", (DL_FUNC) &_ATAforecasting_AutoATACoreHoldout, 12},
     {"_ATAforecasting_AutoATADampedHoldout", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldout, 16},
     {"_ATAforecasting_AutoATAHoldout", (DL_FUNC) &_ATAforecasting_AutoATAHoldout, 20},
+    {"_ATAforecasting_ATAHoldoutForecast", (DL_FUNC) &_ATAforecasting_ATAHoldoutForecast, 12},
     {NULL, NULL, 0}
 };
 
