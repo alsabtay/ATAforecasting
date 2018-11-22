@@ -174,13 +174,13 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 			}
 		}else{
 		}
-		ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(ts_input))/ length(DeSeas)), new_pk <- output[1])
+		ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(ts_input))/ length(DeSeas[,output[7]])), new_pk <- output[1])
 		ATA.last <- ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
 		ATA.last$holdout <- Holdout
 		if(Holdout==TRUE){
 			ATA.last$holdout.accuracy <- output[8]
-			ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(DeSeas)
-															, as.integer(new_pk)
+			ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(DeSeas[,output[7]])
+															, as.integer(output[1])
 															, as.integer(output[2])
 															, as.integer(output[3])
 															, as.integer(output[4])

@@ -46,7 +46,7 @@ AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fi
 	if(Holdout==TRUE){
 		ATA.last$holdout.accuracy <- output[5]
 		ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(Xdata)
-														, as.integer(new_pk)
+														, as.integer(output[1])
 														, as.integer(output[2])
 														, as.integer(output[3])
 														, as.integer(output[4])
