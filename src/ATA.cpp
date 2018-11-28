@@ -873,19 +873,13 @@ NumericVector AutoATAHoldout(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC
 
 
 // [[Rcpp::export]]
-NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, NumericVector IAZout) {	
+NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int LENH) {	
 	int LENZ = IAZ.size();
-	int LENH = IAZout.size();
 	NumericVector IZT_0(LENZ);
 	NumericVector IZFIT(LENZ);
 	double coefpk, coefqk, Xobs, Xlag, phiTotal, S, T, S_1, T_1, T_0;
 	int i, indx, h;
 	NumericVector IZFRCST(LENH);
-	NumericVector ITFrcstErr(LENH); 
-	NumericVector peOUT(LENH); 
-	NumericVector ITsmapeOUT(LENH);
-	NumericVector ITAccOUT(LENH);
-	double accmeasureOUT = 0;
 
 	if (IZMO==1)
 		IZT_0 = IZTA_0;
@@ -1025,12 +1019,10 @@ NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZP
 				T_1 = NA_REAL;
 			}
 	}
-	
 	if (IZIL==1)
 		Xobs = meanIT(IAZ,LENZ-1);
 	else
 		Xobs = IAZ[LENZ-1];
-
 	if (IZMO==1) {
 		coefpk = 1.0 * IZP / LENZ;
 		coefqk = 1.0 * IZQ / LENZ;

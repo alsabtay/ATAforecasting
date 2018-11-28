@@ -37,7 +37,7 @@ AutoATAHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE
     .Call(`_ATAforecasting_AutoATAHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout)
 }
 
-ATAHoldoutForecast <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout) {
-    .Call(`_ATAforecasting_ATAHoldoutForecast`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout)
+ATAHoldoutForecast <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH) {
+    .Call(`_ATAforecasting_ATAHoldoutForecast`, IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH)
 }
 

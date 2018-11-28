@@ -471,7 +471,8 @@ ATA <- function(X, Y = NULL,
 		forecast.ata <- ata.output$forecast
 		ata.output$level <- ATA.Inv.Transform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
 		ata.output$trend <- ATA.Inv.Transform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-		if(ifelse(seasonal.model=="none", seasonal.type=="A", orig.seastype =="A")){
+		crit_b <- ifelse(is.season==TRUE, seasonal.type, orig.seastype)
+		if(crit_b == "A"){
 			ATA.fitted <- ATA.Inv.Transform(X=fit.ata + SeasonalActual, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
 			ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
 			if (holdout == TRUE){

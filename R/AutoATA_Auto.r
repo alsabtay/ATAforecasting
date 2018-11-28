@@ -18,7 +18,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 	}
 	if (is.null(seasonal.Model)){
 		if (is.season==TRUE & length(seasonal.Frequency)>1){
-			seas.model <- c("stl","stR","tbats")
+			seas.model <- c("decomp","stl","stR","tbats")
 		}else {
 			if (is.season==FALSE | seasonal.Frequency==1){
 				seas.model <- "none"
@@ -33,7 +33,7 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 		}
 	}else {
 		if (is.season==TRUE & length(seasonal.Frequency)>1){
-				seas.model <- c("stl","stR","tbats")
+				seas.model <- c("decomp","stl","stR","tbats")
 		}else {
 			if (is.season==FALSE | seasonal.Frequency==1){
 				seas.model <- "none"
@@ -182,15 +182,14 @@ AutoATA.Auto <- function(ts_input, pb, qb, model.Type, seasonal.Test, seasonal.M
 			ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(DeSeas[,output[7]])
 															, as.integer(output[1])
 															, as.integer(output[2])
-															, as.integer(output[3])
+															, as.double(output[3])
 															, as.integer(output[4])
-															, as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13))
 															, as.integer(ifelse(initialLevel, 1, 0))
 															, as.integer(ifelse(initialTrend, 1, 0))
 															, as.double(TA_0)
 															, as.double(TM_0)
 															, as.integer(frequency(ts_input))
-															, as.double(HoldoutSet))
+															, as.integer(length(HoldoutSet)))
 		}
 	}else {
 		X <- ts_input
