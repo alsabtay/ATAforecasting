@@ -1,23 +1,32 @@
 #' @title Automatic Seasonal Decomposition for ATA Method
-#' @description Returns seasonally adjusted data constructed by removing the seasonal component. The methodology is fully automatic.
+#' @description Automatic seasonal decomposition for ATA Method is called \code{ATA.Decomposition} function in ATAforecasting package. 
+#' The function returns seasonally adjusted data constructed by removing the seasonal component. The methodology is fully automatic. 
+#' The \code{ATA.Decomposition} function works with many different types of inputs.
 #' @aliases print.ata plot.ata 
 #' @param input It must be \code{ts} or \code{msts} or \code{numeric} object. if it is \code{numeric} object, \code{findPeriod} must be 1 or 2 or 3 or 4. if it is \code{msts} object, \code{findPeriod} must be 3 or 4.
 #' @param s.model A string identifying method for seasonal decomposition. If NULL, "decomp" method is default. c("none", "decomp", "stl", "stlplus", "tbats", "stR") phrases of methods denote.
 #' \itemize{
 #'		 \item{none}	: seasonal decomposition is not required.
 #'		 \item{decomp} 	: classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used. 
-#'		 \item{stl}		: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} package will be used. 
+#'		 \item{stl}		: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed. 
 #'		 \item{stlplus}	: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used. 
-#'		 \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components 
-#' 					  	  as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. 
-#'		 \item{stR}    	: seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. 
+#'		 \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components. 
+#' 					  	  as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
+#'		 \item{stR}    	: seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
 #'		 \item{x13}    	: seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used. 
-#'		 \item{x11}    	: seasonal-trend decomposition procedure based on X11. If \code{x11}, the \code{seasonal} package will be used. 
+#'		 \item{x11}    	: seasonal-trend decomposition procedure based on X11. If \code{x11}, the \code{seasonal} package will be used.
 #' }
 #' @param s.type A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 #' @param s.frequency Value(s) of seasonal periodicity. If \code{s.frequency} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.
+#' @param seas_attr_set Assign from \code{ATA.SeasAttr} function. Attributes set for unit root and seasonality tests.
 #' For example: period of the input data which have one seasonal pattern --> 12 for monthly / 4 for quarterly / 7 for daily / 5 for business days. periods of the input data which have complex/multiple seasonal patterns --> c(7,354.37,365.25).
+#' 
 #' @return Univariate time series.
+#' @param AdjustedX Deseasonalized data 
+#' @param SeasIndex Particular weights of seasonality given cycle/frequency 
+#' @param SeasActual Seasonality given original data
+#' @param SeasType Seasonal decomposition technique
+#' 
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
 #' \code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{stlplus}}, \code{stR}, \code{\link{seasonal}}.

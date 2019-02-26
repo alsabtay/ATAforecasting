@@ -19,6 +19,7 @@
 #' 		\item{OWA}	 : overall weighted average of MASE and sMAPE.
 #' 		\item{MdAE}	 : median absolute error.
 #' 		\item{MdSE}	 : median square error.
+#' 		\item{RMdSE} : root median squared error.
 #' 		\item{MdPE}	 : median percentage error.
 #' 		\item{MdAPE} : median absolute percentage error.
 #' 		\item{sMdAPE}: symmetric median absolute percentage error.
@@ -90,6 +91,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	smape <- round(mean(pre_smape, na.rm=TRUE),6)
 	mdae <- round(median(pre_mae, na.rm=TRUE),6)
 	mdse <- round(median(pre_mse, na.rm=TRUE),6)
+	rmdse <- round(sqrt(mdse),6)
 	mdpe <- round(median(pre_mpe, na.rm=TRUE),6)
 	mdape <- round(median(pre_mape, na.rm=TRUE),6)
 	smdape <- round(median(pre_smape, na.rm=TRUE),6)
@@ -125,6 +127,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		smape_os <- round(mean(pre_smape_os, na.rm=TRUE),6)
 		mdae_os <- round(median(pre_mae_os, na.rm=TRUE),6)
 		mdse_os <- round(median(pre_mse_os, na.rm=TRUE),6)
+		rmdse_os <- round(sqrt(mdse_os),6)
 		mdpe_os <- round(median(pre_mpe_os, na.rm=TRUE),6)
 		mdape_os <- round(median(pre_mape_os, na.rm=TRUE),6)
 		smdape_os <- round(median(pre_smape_os, na.rm=TRUE),6)
@@ -139,6 +142,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		smape_os <- NA
 		mdae_os <- NA
 		mdse_os <- NA
+		rmdse_os <- NA
 		mdpe_os <- NA
 		mdape_os <- NA
 		smdape_os <- NA
@@ -149,14 +153,14 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	pre.ata.error[2:lenX] <- ata.error
 	ata.error <- pre.ata.error
 	MAE_is <- list("MAE"=mae, "MdAE"=mdae, "stdDev.MAE"=stdDev_mae, "skewness.MAE"=skew_mae, "kurtosis.MAE"=kurt_mae)
-	MSE_is <- list("MSE"=mse, "MdSE"=mdse, "RMSE" = rmse, "stdDev.MSE"=stdDev_mse, "skewness.MSE"=skew_mse, "kurtosis.MSE"=kurt_mse)
+	MSE_is <- list("MSE"=mse, "MdSE"=mdse, "RMSE" = rmse, "RMdSE" = rmdse, "stdDev.MSE"=stdDev_mse, "skewness.MSE"=skew_mse, "kurtosis.MSE"=kurt_mse)
 	MPE_is <- list("MPE"=mpe, "MdPE"=mdpe, "stdDev.MPE"=stdDev_mpe, "skewness.MPE"=skew_mpe, "kurtosis.MPE"=kurt_mpe)
 	MAPE_is <- list("MAPE"=mape, "MdAPE"=mdape, "stdDev.MAPE"=stdDev_mape, "skewness.MAPE"=skew_mape, "kurtosis.MAPE"=kurt_mape)
 	sMAPE_is <- list("sMAPE"=smape, "sMdAPE"=smdape, "stdDev.sMAPE"=stdDev_smape, "skewness.sMAPE"=skew_smape, "kurtosis.sMAPE"=kurt_smape)
 	MASE_is <- list("MASE"=mase, "MdASE"=NA, "stdDev.MASE"=NA, "skewness.MASE"=NA, "kurtosis.MASE"=NA)
 	OWA_is <- list("OWA"=owa, "stdDev.OWA"=NA, "skewness.OWA"=NA, "kurtosis.OWA"=NA)
 	MAE_os <- list("MAE"=mae_os, "MdAE"=mdae_os)
-	MSE_os <- list("MSE"=mse_os, "MdSE"=mdse_os, "RMSE" = rmse_os)
+	MSE_os <- list("MSE"=mse_os, "MdSE"=mdse_os, "RMSE" = rmse_os, "RMdSE" = rmdse_os)
 	MPE_os <- list("MPE"=mpe_os, "MdPE"=mdpe_os)
 	MAPE_os <- list("MAPE"=mape_os, "MdAPE"=mdape_os)
 	sMAPE_os <- list("sMAPE"=smape_os, "sMdAPE"=smdape_os)

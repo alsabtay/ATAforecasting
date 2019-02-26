@@ -8,14 +8,14 @@ ATA.BoxCoxAttr(bcMethod = "loglik", bcLower = 0, bcUpper = 1,
   bcBiasAdj = FALSE)
 }
 \arguments{
-\item{bcMethod}{Choose method to be used in calculating lambda.}
+\item{bcMethod}{Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).}
 
-\item{bcLower}{Lower limit for possible lambda values.}
+\item{bcLower}{Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.}
 
-\item{bcUpper}{Upper limit for possible lambda values.}
+\item{bcUpper}{Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.}
 
-\item{bcBiasAdj}{Use adjusted back-transformed mean for Box-Cox
-transformations. If transformed data is used to produce forecasts and fitted values,
+\item{bcBiasAdj}{Use adjusted back-transformed mean for Box-Cox transformations. 
+If transformed data is used to produce forecasts and fitted values,
 a regular back transformation will result in median forecasts. If bcBiasAdj is TRUE,
 an adjustment will be made to produce mean forecasts and fitted values.
 If bcBiasAdj=TRUE. Can either be the forecast variance, or a list containing the interval \code{level}, 
@@ -25,7 +25,8 @@ and the corresponding \code{upper} and \code{lower} intervals.}
 An object of class \code{ataattrset}.
 }
 \description{
-This function is a class of Box-Cox transformation using  BoxCox.lambda(), BoxCox() and InvBoxCox() functions in forecast package.
+This function is set some attributes of Box-Cox power transformation family using \code{ATA.BoxCoxAttr} functions. 
+The \code{ATA.BoxCoxAttr} function works with many different types of inputs.
 }
 \references{
 Box, G. E. P. and Cox, D. R. (1964) An analysis of

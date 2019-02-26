@@ -8,7 +8,7 @@ AutoATA.Accuracy <- function(ata_opt, accryType){
 	ata.pe <- ata.error / in_sample * 100
 	if (accryType=="MAE" | accryType=="MdAE"){
 		ata.accuracy.insample <- abs(ata.error)
-	}else if (accryType=="MSE" | accryType=="MdSE" | accryType=="RMSE"){
+	}else if (accryType=="MSE" | accryType=="MdSE" | accryType=="RMSE" | accryType=="RMdSE"){
 		ata.accuracy.insample <- ata.error^2
 	}else if (accryType=="MPE" | accryType=="MdPE"){
 		ata.accuracy.insample <- ata.pe
@@ -32,6 +32,8 @@ AutoATA.Accuracy <- function(ata_opt, accryType){
 		m_accry <- ata.accuracy.insample
 	}else if (accryType=="RMSE") {
 		m_accry <- sqrt(mean(ata.accuracy.insample, na.rm=TRUE))
+	}else if (accryType=="RMdSE") {
+		m_accry <- sqrt(median(ata.accuracy.insample, na.rm=TRUE))
 	}else if (accryType=="OWA") {
 		OWA_first<- mean(preOWA_first, na.rm=TRUE)
 		OWA_second <- preOWA_second

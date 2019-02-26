@@ -4,7 +4,7 @@
 \name{ATAforecasting-package}
 \alias{ATAforecasting-package}
 \alias{ATAforecasting}
-\title{Forecasting Time Series by ATA Method with Box-Cox transformation}
+\title{Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
 \description{
 Returns ATA(p,q,phi) applied to \code{X}.
 Based on the modified simple exponential smoothing as described in Yapar, G. (2016). 

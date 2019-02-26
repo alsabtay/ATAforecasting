@@ -4,8 +4,8 @@
 \alias{ATA.SeasAttr}
 \title{Attributes set for unit root and seasonality tests}
 \usage{
-ATA.SeasAttr(pgram.tcrit = 1.28, uroot.test = "adf",
-  suroot.test = "periodogram", suroot.uroot = TRUE,
+ATA.SeasAttr(corrgram.tcrit = 1.28, uroot.test = "adf",
+  suroot.test = "correlogram", suroot.uroot = TRUE,
   uroot.type = "trend", uroot.alpha = 0.05, suroot.alpha = 0.05,
   uroot.maxd = 2, suroot.maxD = 1, suroot.m = NULL,
   uroot.pkg = "tseries", multi.period = "min",
@@ -13,11 +13,11 @@ ATA.SeasAttr(pgram.tcrit = 1.28, uroot.test = "adf",
   x11.estimate.maxiter = 1500, x11.estimate.tol = 1e-05)
 }
 \arguments{
-\item{pgram.tcrit}{t-value for periodogram seasonality test.}
+\item{corrgram.tcrit}{t-value for autocorrelogram.}
 
 \item{uroot.test}{Type of unit root test before all type seasonality test. Possible values are "adf", "pp" and "kpss".}
 
-\item{suroot.test}{Type of seasonal unit root test to use. Possible values are "periodogram", "seas", "hegy", "ch" and "ocsb".}
+\item{suroot.test}{Type of seasonal unit root test to use. Possible values are "correlogram", "seas", "hegy", "ch" and "ocsb".}
 
 \item{suroot.uroot}{If TRUE, unit root test for stationary before seasonal unit root test is allowed.}
 
@@ -49,29 +49,7 @@ ATA.SeasAttr(pgram.tcrit = 1.28, uroot.test = "adf",
 An object of class \code{ataattrset}.
 }
 \description{
-This function is a class of seasonality tests using \code{pgram.test}, \code{\link{ndiffs}} and \code{\link{nsdiffs}} functions. 
-
-If \code{uroot.test="kpss"}, the KPSS test is used with the null hypothesis that
-\code{x} has a stationary root against a unit-root alternative. Then the
-test returns the least number of differences required to pass the test at
-the level \code{uroot.alpha}. If \code{uroot.test="adf"}, the Augmented Dickey-Fuller
-test is used and if \code{uroot.test="pp"} the Phillips-Perron test is used. In
-both of these cases, the null hypothesis is that \code{x} has a unit root
-against a stationary root alternative. Then the test returns the least
-number of differences required to fail the test at the level \code{alpha}.
-
-\code{nsdiffs} uses seasonal unit root tests to determine the number of
-seasonal differences required for time series to be made stationary.
-
-Several different tests are available:
-* If \code{suroot.test="seas"} (default), a measure of seasonal strength is used, where differencing is
-selected if the seasonal strength (Wang, Smith & Hyndman, 2006) exceeds 0.64 
-(based on minimizing MASE when forecasting using auto.arima on M3 and M4 data).
-* If \code{suroot.test="ch"}, the Canova-Hansen (1995) test is used 
-(with null hypothesis of deterministic seasonality) 
-* If \code{suroot.test="hegy"}, the Hylleberg, Engle, Granger & Yoo (1990) test is used.
-* If \code{suroot.test="ocsb"}, the Osborn-Chui-Smith-Birchenhall
-(1988) test is used (with null hypothesis that a seasonal unit root exists).
+Attributes set for unit root and seasonality tests
 }
 \seealso{
 \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},

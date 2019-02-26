@@ -4,7 +4,7 @@
 \alias{ATA}
 \alias{print.ata}
 \alias{plot.ata}
-\title{Forecasting Time Series by ATA Method with Box-Cox transformation}
+\title{Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
 \usage{
 ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   model.type = NULL, seasonal.test = NULL, seasonal.model = NULL,
@@ -12,11 +12,11 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
   h = NULL, partition.h = NULL, holdout = FALSE,
-  holdout.adjustedP = TRUE, transform.method = NULL,
-  transform.attr = NULL, lambda = NULL, initial.level = NULL,
-  initial.trend = NULL, ci.level = 95, start.phi = NULL,
-  end.phi = NULL, size.phi = NULL, negative.forecast = TRUE,
-  plot.out = TRUE)
+  holdout.adjustedP = TRUE, transform.order = "before",
+  transform.method = NULL, transform.attr = NULL, lambda = NULL,
+  shift = NULL, initial.level = NULL, initial.trend = NULL,
+  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
@@ -29,7 +29,7 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
 
 \item{parPHI}{Value of Damping Trend parameter \code{phi}. If NULL or "opt", it is estimated. phi has all values from 0 to 1.}
 
-\item{model.type}{A one-character string identifying method using the framework terminology. The letter "A" for additive model, the letter "M" for multiplicative model. 
+\item{model.type}{An one-character string identifying method using the framework terminology. The letter "A" for additive model, the letter "M" for multiplicative model. 
 If NULL, both letters will be tried and the best model (according to the accuracy measure \code{accuracy.type}) returned.}
 
 \item{seasonal.test}{Testing for stationary and seasonality. If TRUE, the method firstly uses \code{test="adf"}, Augmented Dickey-Fuller, unit-root test then the test returns the least number of differences required to pass the test at level \code{alpha}.
@@ -39,22 +39,22 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
 \itemize{
      \item{none}    : seasonal decomposition is not required.
      \item{decomp}     : classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used. 
-     \item{stl}        : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} package will be used. 
+     \item{stl}        : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed. 
      \item{stlplus}    : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used. 
-     \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components 
-                            as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. 
-     \item{stR}        : seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. 
+     \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components. 
+                            as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
+     \item{stR}        : seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
      \item{x13}        : seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used. 
      \item{x11}        : seasonal-trend decomposition procedure based on X11. If \code{x11}, the \code{seasonal} package will be used. 
 }}
 
 \item{seasonal.period}{Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.}
 
-\item{seasonal.type}{A one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
+\item{seasonal.type}{An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
 
-\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, pgram.tcrit=1.28, uroot.test="adf", suroot.test="periodogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output. 
-For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(pgram.tcrit=1.65)} equation in \code{ATA} function.}
+\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output. 
+For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)} equation in \code{ATA} function.}
 
 \item{find.period}{Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 \itemize{
@@ -63,6 +63,7 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(pgram.tcrit=1.6
      \item{2} : single period with \code{forecast::findfrequency}
      \item{3} : multiple period with find.freq & stR
      \item{4} : multiple period with find.freq & tbats
+     \item{5} : multiple period with find.freq & stl
 }}
 
 \item{accuracy.type}{Accuracy measure for selection of the best model. IF NULL, \code{sMAPE} is default. 
@@ -77,6 +78,7 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(pgram.tcrit=1.6
      \item{OWA}        : overall weighted average of MASE and sMAPE.
      \item{MdAE}    : median absolute error.
      \item{MdSE}    : median square error.
+     \item{RMdSE}    : root median squared error.
      \item{MdPE}    : median percentage error.
      \item{MdAPE}    : median absolute percentage error.
      \item{sMdAPE}    : symmetric median absolute percentage error.
@@ -98,13 +100,16 @@ If TRUE, partition.h will used for holdout data.}
 
 \item{holdout.adjustedP}{Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.}
 
-\item{transform.method}{Transformation method  --> BoxCox, Log, sqrt, inverse. 
-When \code{BoxCox} or \code{log} is specified,
-\code{model.type} and \code{seasonal.type} is set to "A".}
+\item{transform.order}{If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.}
+
+\item{transform.method}{Transformation method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift. 
+When Box-Cox power transformation family is specified, \code{model.type} and \code{seasonal.type} are set to "A".}
 
 \item{transform.attr}{Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.}
 
-\item{lambda}{Box-Cox transformation parameter. If NULL, data transformed before model is estimated. 
+\item{lambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
+
+\item{shift}{Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated. 
 When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".}
 
 \item{initial.level}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level. 
@@ -167,9 +172,13 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 
 \item{trend.fixed}{A choice of optional trend fixed trended methods.}
 
-\item{transform.method}{Transformation method  --> BoxCox, sqrt, inverse, log, log10.}
+\item{transform.method}{Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.}
 
-\item{lambda}{Box-Cox transformation parameter.}
+\item{transform.order}{Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.}
+
+\item{lambda}{Box-Cox power transformation family parameter.}
+
+\item{shift}{Box-Cox power transformation family shifting parameter.}
 
 \item{accuracy.type}{Accuracy measure that is chosen for model selection.}
 

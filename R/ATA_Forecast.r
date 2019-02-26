@@ -127,7 +127,7 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
 		y$forecast.lower <- ci_low
 		y$forecast.upper <- ci_up
 	}
-	attr(y, "class") <- "ata.forecast"
+	attr(y, "class") <- "ata"
 	print.ata(y)
 	return(y)
 	print.ata(y)

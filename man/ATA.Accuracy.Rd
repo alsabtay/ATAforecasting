@@ -35,6 +35,7 @@ The measures calculated are:
 		\item{OWA}	 : overall weighted average of MASE and sMAPE.
 		\item{MdAE}	 : median absolute error.
 		\item{MdSE}	 : median square error.
+		\item{RMdSE} : root median squared error.
 		\item{MdPE}	 : median percentage error.
 		\item{MdAPE} : median absolute percentage error.
 		\item{sMdAPE}: symmetric median absolute percentage error.
