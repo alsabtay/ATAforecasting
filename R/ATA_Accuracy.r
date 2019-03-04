@@ -68,12 +68,12 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	pre_smape <- abs(in_sample - in_sample_fit)/(abs(in_sample) + abs(in_sample_fit)) * 200
 
 	if (!is.null(out.sample)){
-		ata.error.outsample <- out.sample - out.sample_forecast
-		ata.pe <- ata.error.outsample / out.sample * 100
-		pre_mae_os <- abs(ata.error.outsample)
-		pre_mse_os <- ata.error.outsample^2
-		pre_mpe_os <- ata.pe
-		pre_mape_os <- abs(ata.pe)
+		ata.error.os <- out.sample - out.sample_forecast
+		ata.pe.os <- ata.error.os / out.sample * 100
+		pre_mae_os <- abs(ata.error.os)
+		pre_mse_os <- ata.error.os^2
+		pre_mpe_os <- ata.pe.os
+		pre_mape_os <- abs(ata.pe.os)
 		pre_smape_os <- abs(out.sample - out.sample_forecast)/(abs(out.sample) + abs(out.sample_forecast)) * 200
 		pre_mase_os <- outMASE(as.double(in_sample), as.double(out.sample), as.double(out.sample_forecast), as.integer(frequency(inSample)))
 	}else {
@@ -149,9 +149,9 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		mase_os <- NA
 		owa_os <- NA
 	}
-	pre.ata.error <- rep(NA,times=lenX)
-	pre.ata.error[2:lenX] <- ata.error
-	ata.error <- pre.ata.error
+	RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape)
+	RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os)
+	RawAccuracy_all <- list("inSample"=RawAccuracy_is, "outSample"=RawAccuracy_os)
 	MAE_is <- list("MAE"=mae, "MdAE"=mdae, "stdDev.MAE"=stdDev_mae, "skewness.MAE"=skew_mae, "kurtosis.MAE"=kurt_mae)
 	MSE_is <- list("MSE"=mse, "MdSE"=mdse, "RMSE" = rmse, "RMdSE" = rmdse, "stdDev.MSE"=stdDev_mse, "skewness.MSE"=skew_mse, "kurtosis.MSE"=kurt_mse)
 	MPE_is <- list("MPE"=mpe, "MdPE"=mdpe, "stdDev.MPE"=stdDev_mpe, "skewness.MPE"=skew_mpe, "kurtosis.MPE"=kurt_mpe)
@@ -173,6 +173,6 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	sMAPE_all <- list("inSample"=sMAPE_is, "outSample"=sMAPE_os)
 	MASE_all <- list("inSample"=MASE_is, "outSample"=MASE_os)
 	OWA_all <- list("inSample"=OWA_is, "outSample"=OWA_os)
-	my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all, "OWA"=OWA_all) 
+	my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all, "OWA"=OWA_all, "RawAccuracy"=RawAccuracy_all) 
 	return(my_list) 
 }
