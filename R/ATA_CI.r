@@ -1,5 +1,4 @@
-#' @export ATA.CI
-
+#' @export
 ATA.CI <- function(ata.output, ci.level = 95)
 {
 	if (class(ata.output)!="ata"){

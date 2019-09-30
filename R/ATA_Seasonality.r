@@ -1,7 +1,7 @@
 #' @title Seasonality Tests for ATA Method 
 #' @description This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package. 
-#' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{\link{forecast} package. 
-#' Please review manual and vignette documents of latest \code{\link{forecast} package. According to \code{\link{forecast} package, 
+#' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package. 
+#' Please review manual and vignette documents of latest \code{forecast} package. According to \code{forecast} package, 
 #' \code{ndiffs} and \code{nsdiffs} functions to estimate the number of differences required to make a given time series stationary.
 #'
 #' \code{ndiffs} uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
@@ -57,9 +57,8 @@
 #'
 #' Hylleberg S, Engle R, Granger C and Yoo B (1990) "Seasonal integration
 #' and cointegration.", \code{Journal of Econometrics} \bold{44}(1), pp. 215-238.
-
-#' @export ATA.Seasonality
-
+#'
+#' @export
 ATA.Seasonality <- function(input, ppy, attr_set)
 {
 	if (ppy==1){
@@ -105,8 +104,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
 	}
 }
 
-#' @export corrgram.test
-
+#' @export
 corrgram.test <- function(input, ppy, attr_set)
 {
 	if (ppy==1){
@@ -153,8 +151,7 @@ corrgram.test <- function(input, ppy, attr_set)
 	return(test_seasonal)
 }
 
-#' @export ndiffs.tseries
-
+#' @export
 ndiffs.tseries <- function(x, alpha = 0.05, test = c("kpss","adf","pp"), max.d=2)
 {
   #ndiffs function using tseries package

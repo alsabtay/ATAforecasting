@@ -1,5 +1,4 @@
-#' @export print.ata
-
+#' @export
 print.ata <- function(x,...)
 {
 if (class(x)=="ata.forecast"){

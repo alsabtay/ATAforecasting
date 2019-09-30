@@ -1,5 +1,4 @@
-#' @export AutoATA.Core.Holdout
-
+#' @export
 AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, hh)
 {
 	X <- as.numeric(X)
@@ -88,6 +87,7 @@ AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initial
 				T_1 <- T				
 			}
 		}else if (i>pk & i<=qk & pk>=qk){
+			Xobs = X[i]
 			if (mdlType=="A"){
 				coefpk <- abs(pk/i)
 				S <- coefpk * Xobs + (1-coefpk)*(S_1 + phik * T_1)
@@ -105,6 +105,7 @@ AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initial
 				T_1 <- T				
 			}
 		}else if (i>pk & i>qk & pk>=qk){
+			Xobs = X[i]
 			if (mdlType=="A"){
 				coefpk <- abs(pk/i)
 				coefqk <- abs(qk/i)

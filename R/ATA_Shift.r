@@ -1,5 +1,4 @@
-#' @export ATA.Shift
-
+#' @export
 ATA.Shift <- function(x,shift_by){
     stopifnot(is.numeric(shift_by))
     stopifnot(is.numeric(x))

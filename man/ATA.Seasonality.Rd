@@ -17,7 +17,26 @@ ATA.Seasonality(input, ppy, attr_set)
 \code{TRUE} if the serie has seasonality. Otherwise, \code{FALSE} .
 }
 \description{
-Seasonality Tests for ATA Method
+This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package. 
+Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package. 
+Please review manual and vignette documents of latest \code{forecast} package. According to \code{forecast} package, 
+\code{ndiffs} and \code{nsdiffs} functions to estimate the number of differences required to make a given time series stationary.
+
+\code{ndiffs} uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
+\itemize{
+	\item {uroot.test = 'kpss'}			: the KPSS test is used with the null hypothesis that \code{x} has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level \code{uroot.alpha}. 
+	\item {uroot.test = 'adf'}			: the Augmented Dickey-Fuller test is used.
+	\item {uroot.test = 'pp'}			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that \code{x} has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level \code{alpha}.
+}
+	
+\code{nsdiffs} uses seasonal unit root tests to determine the number of seasonal differences required for time series to be made stationary. Several different tests are available:
+\itemize{
+	\item {suroot.test = 'seas'}		: a measure of seasonal strength is used, where differencing is selected if the seasonal strength (Wang, Smith & Hyndman, 2006) exceeds 0.64 (based on minimizing MASE when forecasting using auto.arima on M3 and M4 data).
+	\item {suroot.test = 'ch'}			: the Canova-Hansen (1995) test is used (with null hypothesis of deterministic seasonality)
+	\item {suroot.test = 'hegy'}		: the Hylleberg, Engle, Granger & Yoo (1990) test is used.
+	\item {suroot.test = 'ocsb'}		: the Osborn-Chui-Smith-Birchenhall (1988) test is used (with null hypothesis that a seasonal unit root exists).
+	\item {suroot.test = 'correlogram'}	: this function is written based on M4 Competition Seasonality Test.
+}
 }
 \references{
 Dickey DA and Fuller WA (1979), "Distribution of the Estimators for

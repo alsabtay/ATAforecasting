@@ -1,5 +1,4 @@
-#' @export find.freq.fourier
-
+#' @export
 find.freq.fourier <- function(x)
 {
 	pppx <- periodogram(x)
@@ -13,8 +12,7 @@ find.freq.fourier <- function(x)
 }
 
 
-#' @export find.freq
-
+#' @export
 find.freq <- function(x)
 {
     n <- length(x)
@@ -40,8 +38,7 @@ find.freq <- function(x)
 }
 
 
-#' @export find.freq.all
-
+#' @export
 find.freq.all <- function(x)
 {  
   f=find.freq(x)

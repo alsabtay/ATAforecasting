@@ -1,5 +1,4 @@
-#' @export AutoATA.Accuracy.Holdout
-
+#' @export
 AutoATA.Accuracy.Holdout <- function(ata_opt, accryType, HoldoutSet){
 	inSample <- ata_opt$actual 
 	ata.error <- HoldoutSet - ata_opt$forecast

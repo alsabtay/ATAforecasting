@@ -1,12 +1,10 @@
 #' @title Accuracy Measures for a ATA forecast model
 #' @description Returns ATA(p,q,phi) applied to \code{ata.output}.
 #' Accuracy measures for a forecast model
-#'
 #' Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 #' provided, the function measures test set forecast accuracy.
 #' If \code{out.sample} is not provided, the function only produces
 #' training set accuracy measures.
-#'
 #' The measures calculated are:
 #' \itemize{
 #' 		\item{MAE}	 : mean absolute error.
@@ -24,25 +22,21 @@
 #' 		\item{MdAPE} : median absolute percentage error.
 #' 		\item{sMdAPE}: symmetric median absolute percentage error.
 #' }
-#' @param ata.output An object of class \dQuote{\code{ata}} is required.
+#' @param ata.output An object of class \code{ata} is required.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #' @return Matrix giving forecast accuracy measures.
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
-#' @seealso \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-#' \code{\link{tbats}}, \code{\link{seasadj}}.
+#' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 #' @references Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
 #' of forecast accuracy". \emph{International Journal of Forecasting},
 #' \bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2014)
-#' "Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating
-#' forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
+#' "Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
 #' @keywords ata forecast accuracy ts msts
 #' @examples
-#'
 #' ata.fit1 <- ATA(EuStockMarkets[1:200,1],h=100)
 #' ATA.Accuracy(ata.fit1)
 #' ATA.Accuracy(ata.fit1,EuStockMarkets[201:300,1])
-#' @export ATA.Accuracy
-
+#' @export 
 ATA.Accuracy <- function(ata.output, out.sample=NULL)
 {
 	if (class(ata.output)!="ata"){
@@ -96,7 +90,8 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 	mdape <- round(median(pre_mape, na.rm=TRUE),6)
 	smdape <- round(median(pre_smape, na.rm=TRUE),6)
 	mase <- round(inMASE(as.double(in_sample), as.double(in_sample_fit), as.integer(frequency(inSample))),6)
-	owa <- round((mase + smape)/2, 6)
+	naiveAccry <- round(NaiveSD(as.double(in_sample), as.integer(frequency(inSample))),6)
+	owa <- round(((mase/naiveAccry) + (smape/naiveAccry))/2, 6)
 	
 	stdDev_mae <- round(sqrt(var(pre_mae, na.rm=TRUE)),6)
 	skew_mae <- round(colSkewness(pre_mae),6)
@@ -132,7 +127,7 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		mdape_os <- round(median(pre_mape_os, na.rm=TRUE),6)
 		smdape_os <- round(median(pre_smape_os, na.rm=TRUE),6)
 		mase_os <- round(pre_mase_os, 6)
-		owa_os <- round((mase_os + smape_os)/2, 6)	
+		owa_os <- round(((mase_os/naiveAccry) + (smape_os/naiveAccry))/2, 6)
 	}else {
 		mae_os <- NA
 		mse_os <- NA
@@ -149,8 +144,8 @@ ATA.Accuracy <- function(ata.output, out.sample=NULL)
 		mase_os <- NA
 		owa_os <- NA
 	}
-	RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape)
-	RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os)
+	RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape, "MASE" = (pre_mae/naiveAccry))
+	RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os, "MASE" = (pre_mae_os/naiveAccry))
 	RawAccuracy_all <- list("inSample"=RawAccuracy_is, "outSample"=RawAccuracy_os)
 	MAE_is <- list("MAE"=mae, "MdAE"=mdae, "stdDev.MAE"=stdDev_mae, "skewness.MAE"=skew_mae, "kurtosis.MAE"=kurt_mae)
 	MSE_is <- list("MSE"=mse, "MdSE"=mdse, "RMSE" = rmse, "RMdSE" = rmdse, "stdDev.MSE"=stdDev_mse, "skewness.MSE"=skew_mse, "kurtosis.MSE"=kurt_mse)

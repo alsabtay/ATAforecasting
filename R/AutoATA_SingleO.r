@@ -1,8 +1,7 @@
-#' @export AutoATA.SingleO
-
+#' @export
 AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
-							level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, lambda, shift, orig.X, 
-							OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)				
+							level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, lambda, shift, orig.X, 
+							OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)				
 {
 	tspX <- tsp(X)
 	if (seasonal.model=="none"){
@@ -74,7 +73,7 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
 		DeSeas <- AdjInSample
 		HoldoutSet <- NA
 	}
-	ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.Type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, orig_X = AdjInSample, Holdout = holdout, HoldoutSet = HoldoutSet, Adjusted_P = holdout.adjustedP)
+	ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.Type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, orig_X = AdjInSample, Holdout = holdout, HoldoutSet = HoldoutSet, Adjusted_P = holdout.adjustedP, Holdin = holdin)
 	ata.output$h <- h
 	ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
 	ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
@@ -114,6 +113,8 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
 		method <- paste("ATA(",my_list$p, ",", my_list$q,",", my_list$phi, ")", sep="")
 	}else if (trend.fixed==TRUE){
 			method <- paste("ATA(", my_list$p, ",1," ,my_list$phi, ")", sep="")
+	}else if (trend.search==TRUE){
+			method <- paste("ATA(",my_list$p, ",", my_list$q,",", my_list$phi, ")", sep="")
 	}else {
 		method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
 	}
@@ -125,6 +126,7 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
 	my_list$initial.trend <- initial.trend
 	my_list$level.fixed <- level.fixed
 	my_list$trend.fixed <- trend.fixed
+	my_list$trend.search <- trend.search
 	my_list$transform.method <- transform.method
 	my_list$lambda <- lambda
 	my_list$shift <- shift

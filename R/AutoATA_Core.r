@@ -1,5 +1,4 @@
-#' @export AutoATA.Core
-
+#' @export
 AutoATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {
 X <- as.numeric(X)
@@ -87,6 +86,7 @@ for(i in 1:lenX-1){
 			T_1 <- T				
 		}
 	}else if (i>pk & i<=qk & pk>=qk){
+		Xobs = X[i]
 		if (mdlType=="A"){
 			coefpk <- abs(pk/i)
 			S <- coefpk * Xobs + (1-coefpk)*(S_1 + phik * T_1)
@@ -104,6 +104,7 @@ for(i in 1:lenX-1){
 			T_1 <- T				
 		}
 	}else if (i>pk & i>qk & pk>=qk){
+		Xobs = X[i]
 		if (mdlType=="A"){
 			coefpk <- abs(pk/i)
 			coefqk <- abs(qk/i)

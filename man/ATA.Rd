@@ -11,11 +11,12 @@ ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
   seasonal.period = NULL, seasonal.type = NULL,
   seasonal.test.attr = NULL, find.period = NULL,
   accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
-  h = NULL, partition.h = NULL, holdout = FALSE,
-  holdout.adjustedP = TRUE, transform.order = "before",
-  transform.method = NULL, transform.attr = NULL, lambda = NULL,
-  shift = NULL, initial.level = NULL, initial.trend = NULL,
-  ci.level = 95, start.phi = NULL, end.phi = NULL, size.phi = NULL,
+  trend.search = FALSE, h = NULL, partition.h = NULL,
+  holdout = FALSE, holdout.adjustedP = TRUE, holdin = FALSE,
+  transform.order = "before", transform.method = NULL,
+  transform.attr = NULL, lambda = NULL, shift = NULL,
+  initial.level = NULL, initial.trend = NULL, ci.level = 95,
+  start.phi = NULL, end.phi = NULL, size.phi = NULL,
   negative.forecast = TRUE, plot.out = TRUE)
 }
 \arguments{
@@ -88,6 +89,8 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 
 \item{trend.fixed}{If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
 
+\item{trend.search}{If TRUE, "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0).}
+
 \item{h}{The number of steps to forecast ahead.
 When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
 
@@ -99,6 +102,8 @@ The remaining historical data series is called in-sample data (training set), an
 If TRUE, partition.h will used for holdout data.}
 
 \item{holdout.adjustedP}{Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.}
+
+\item{holdin}{Default is FALSE. If TRUE, ATA Method uses the holdin forecasting for accuracy measure to select the best model. In holdin forecasting, the last h-length data points are used for accuracy measure.}
 
 \item{transform.order}{If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.}
 
@@ -168,9 +173,11 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 
 \item{initial.trend}{Selected initial trend values for the time series forecasting method.}
 
-\item{level.fixed}{A choice of optional level fixed trended methods.}
+\item{level.fixed}{A choice of optional level-fixed trended methods.}
 
-\item{trend.fixed}{A choice of optional trend fixed trended methods.}
+\item{trend.fixed}{A choice of optional trend-fixed trended methods.}
+
+\item{trend.search}{A choice of optional trend and level optimized trended methods if q > 1.}
 
 \item{transform.method}{Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.}
 
@@ -193,6 +200,8 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 \item{holdout.forecast}{Holdout forecast.}
 
 \item{holdout.accuracy}{Accuracy measure chosen for model selection in holdout forecasting.}
+
+\item{holdin}{Holdin forecasting is TRUE or FALSE.}
 
 \item{is.season}{Indicates whether it contains seasonal pattern.}
 

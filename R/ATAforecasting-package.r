@@ -69,6 +69,7 @@
 #' @export(ATA.BoxCoxAttr)
 #' @export(AutoATA.Accuracy)
 #' @export(AutoATA.Accuracy.Holdout)
+#' @export(AutoATA.Accuracy.Holdin)
 #' @export(AutoATA.Multiple)
 #' @export(AutoATA.Single)
 #' @export(AutoATA.MultipleO)

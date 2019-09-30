@@ -63,6 +63,7 @@
 #' }
 #' @param level.fixed If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.
 #' @param trend.fixed If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.
+#' @param trend.search If TRUE, "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0).
 #' @param h The number of steps to forecast ahead.
 #' When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.
 #' @param partition.h If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. If the value is between 0 and 1, percentage of length is active. 
@@ -71,6 +72,7 @@
 #' The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set). 
 #' If TRUE, partition.h will used for holdout data.
 #' @param holdout.adjustedP Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.  
+#' @param holdin Default is FALSE. If TRUE, ATA Method uses the holdin forecasting for accuracy measure to select the best model. In holdin forecasting, the last h-length data points are used for accuracy measure. 
 #' @param transform.order If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.
 #' @param transform.method Transformation method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift. 
 #' When Box-Cox power transformation family is specified, \code{model.type} and \code{seasonal.type} are set to "A".
@@ -109,8 +111,9 @@
 #' @param method The name of the optimum forecasting method as a character string.
 #' @param initial.level Selected initial level values for the time series forecasting method.
 #' @param initial.trend Selected initial trend values for the time series forecasting method.
-#' @param level.fixed A choice of optional level fixed trended methods.
-#' @param trend.fixed A choice of optional trend fixed trended methods.
+#' @param level.fixed A choice of optional level-fixed trended methods.
+#' @param trend.fixed A choice of optional trend-fixed trended methods.
+#' @param trend.search A choice of optional trend and level optimized trended methods if q > 1.
 #' @param transform.method Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
 #' @param transform.order Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
 #' @param lambda Box-Cox power transformation family parameter.
@@ -122,6 +125,7 @@
 #' @param holdout.validation Validation set in holdout forecasting.
 #' @param holdout.forecast Holdout forecast.
 #' @param holdout.accuracy Accuracy measure chosen for model selection in holdout forecasting.
+#' @param holdin Holdin forecasting is TRUE or FALSE.
 #' @param is.season Indicates whether it contains seasonal pattern.
 #' @param seasonal.model The name of the selected decomposition method.
 #' @param seasonal.type Form of seasonality.
@@ -153,8 +157,7 @@
 #' plot(ATA.Forecast(fit,h=36))
 #'}
 #'
-#' @export ATA
-
+#' @export
 ATA <- function(X, Y = NULL, 
 					parP = NULL, 
 					parQ = NULL, 
@@ -169,10 +172,12 @@ ATA <- function(X, Y = NULL,
 					accuracy.type = NULL, 
 					level.fixed = FALSE,
 					trend.fixed = FALSE,
+					trend.search = FALSE,
 					h = NULL,
 					partition.h = NULL,
 					holdout = FALSE,
 					holdout.adjustedP = TRUE,
+					holdin = FALSE,
 					transform.order = "before",
 					transform.method = NULL,
 					transform.attr = NULL,
@@ -262,9 +267,13 @@ ATA <- function(X, Y = NULL,
 	if (is.null(accuracy.type)){ 
 		accuracy.type <- "sMAPE"
 	}
-	if (level.fixed==TRUE & trend.fixed==TRUE){
+	if (trend.search==TRUE){
+		level.fixed <- FALSE 
+		trend.fixed <- FALSE
+	}else if (level.fixed==TRUE & trend.fixed==TRUE){
 		level.fixed <- FALSE 
 		trend.fixed <- TRUE
+	}else {
 	}
 	if (is.null(initial.level)){
 		initial.level = FALSE
@@ -287,6 +296,9 @@ ATA <- function(X, Y = NULL,
 	}else {
 		boxcox_attr_set <- transform.attr
 	}	
+	if (holdout == TRUE & holdin == TRUE){
+		return("Only one parameter of the two parameters (holdout or holdin) must be selected. Please choose one one of them. ATA Method was terminated!")
+	}
 	
 	Qlen <- length(parQ)
 	Plen <- length(parP)
@@ -417,12 +429,12 @@ ATA <- function(X, Y = NULL,
 		shift <- ChgX$tShift
 		if (length(seasonal.type)==1 & length(seasonal.model)==1){
 			my_list <- AutoATA.Single(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
-										level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)
+										level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
+										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)
 		}else {
 			my_list <- AutoATA.Multiple(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
-										level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)
+										level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
+										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)
 		}
 	}else {
 		if (!is.null(transform.method)){
@@ -431,12 +443,12 @@ ATA <- function(X, Y = NULL,
 		}
 		if (length(seasonal.type)==1 & length(seasonal.model)==1){
 			my_list <- AutoATA.SingleO(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
-										level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)
+										level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
+										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)
 		}else {
 			my_list <- AutoATA.MultipleO(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type, 
-										level.fixed, trend.fixed, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
-										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP)
+										level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, 
+										lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)
 		}
 	}
 	executionTime <- proc.time() - ptm

@@ -31,8 +31,8 @@
 #' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
 #' \code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{stlplus}}, \code{stR}, \code{\link{seasonal}}.
 #' @keywords ata seasonal decomposition forecast accuracy ts msts
-#' @export ATA.Decomposition
-
+#' 
+#' @export
 ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set)
 {
 tsp_input <- tsp(input)	

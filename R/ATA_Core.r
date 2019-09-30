@@ -1,5 +1,4 @@
-#' @export ATA.Core
-
+#' @export
 ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {
 tsp_X <- tsp(X)
@@ -106,6 +105,7 @@ for(i in 1:lenX-1){
 			T_1 <- T
 		}
 	}else if (i>pk & i<=qk & pk>=qk){
+		Xobs = X[i]
 		if (mdlType=="A"){
 			ata.coefp[i] <- coefpk <- abs(pk/i)
 			ata.coefq[i] <- NA
@@ -127,6 +127,7 @@ for(i in 1:lenX-1){
 			T_1 <- T
 		}
 	}else if (i>pk & i>qk & pk>=qk){
+		Xobs = X[i]
 		if (mdlType=="A"){
 			ata.coefp[i] <- coefpk <- abs(pk/i)
 			ata.coefq[i] <- coefqk <- abs(qk/i)

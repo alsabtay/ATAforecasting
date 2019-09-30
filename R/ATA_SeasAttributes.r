@@ -1,7 +1,7 @@
 #' @title Attributes set for unit root and seasonality tests 
 #' @description This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package. 
-#' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{\link{forecast} package. 
-#' Please review manual and vignette documents of latest \code{\link{forecast} package. According to \code{\link{forecast} package, 
+#' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package. 
+#' Please review manual and vignette documents of latest \code{forecast} package. According to \code{forecast} package, 
 #' \code{ndiffs} and \code{nsdiffs} functions to estimate the number of differences required to make a given time series stationary.
 #'
 #' \code{ndiffs} uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
@@ -41,9 +41,7 @@
 #' @seealso \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
 #' \code{\link{tbats}}, \code{\link{seasadj}}.
 #'
-
-#' @export ATA.SeasAttr
-
+#' @export
 ATA.SeasAttr <- function(corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=NULL, uroot.pkg="tseries", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5) 
 {
 	if ((uroot.test != "adf" & uroot.test != "pp" & uroot.test != "kpss") | !is.character(uroot.test)){	

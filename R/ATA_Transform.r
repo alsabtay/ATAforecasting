@@ -15,8 +15,7 @@
 #' @param tLambda Box-Cox power transformation family parameter
 #' @param tShift Box-Cox power transformation family shifting parameter
 #' 
-#' @export ATA.Transform
-
+#' @export
 ATA.Transform <- function(X
 						, tMethod = c("BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog",
 									  "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog")
@@ -87,8 +86,7 @@ ATA.Transform <- function(X
 	return(my_list)
 }
 
-#' @export ATA.BackTransform
-
+#' @export
 ATA.BackTransform <- function(X, tMethod, tLambda, tShift, tbiasadj=FALSE, tfvar=NULL){
 	if (is.null(tMethod)){
 		trfmX <- X

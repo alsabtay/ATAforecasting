@@ -1,5 +1,4 @@
-#' @export AutoATA.Forecast
-
+#' @export
 AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 {
 	if (class(ata_output)!="ata"){
@@ -15,11 +14,11 @@ AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 	if(is.null(hh)){
 		hh <- ata_output$h
 	}
-	if (initialLevel==TRUE){
-		Xobs <- mean(X)
-	}else {
-		Xobs <- X[lenX]
-	}
+	# if (initialLevel==TRUE){
+		# Xobs <- mean(X)
+	# }else {
+		 Xobs <- X[lenX]
+	# }
 	ata.forecast.fitted <- rep(NA, hh)
 		if (modelType=="A"){	
 			coefph <- abs(ph/lenX)

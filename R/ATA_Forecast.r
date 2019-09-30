@@ -26,8 +26,7 @@
 #' ata.fit <- ATA(M3[[1899]]$x,M3[[1899]]$xx)
 #' fc <- ATA.Forecast(ata.fit, h=18)
 #' 
-#' @export ATA.Forecast
-
+#' @export
 ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
 {
 	if (class(y)!="ata"){

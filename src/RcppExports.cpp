@@ -6,6 +6,31 @@
 
 using namespace Rcpp;
 
+// NaiveSD
+double NaiveSD(NumericVector insmp, int frqx);
+RcppExport SEXP _ATAforecasting_NaiveSD(SEXP insmpSEXP, SEXP frqxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
+    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
+    rcpp_result_gen = Rcpp::wrap(NaiveSD(insmp, frqx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// NaiveSDholdin
+double NaiveSDholdin(NumericVector insmp, int frqx, int frqh);
+RcppExport SEXP _ATAforecasting_NaiveSDholdin(SEXP insmpSEXP, SEXP frqxSEXP, SEXP frqhSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
+    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
+    Rcpp::traits::input_parameter< int >::type frqh(frqhSEXP);
+    rcpp_result_gen = Rcpp::wrap(NaiveSDholdin(insmp, frqx, frqh));
+    return rcpp_result_gen;
+END_RCPP
+}
 // outMASE
 double outMASE(NumericVector insmp, NumericVector outsmp, NumericVector frcst, int frqx);
 RcppExport SEXP _ATAforecasting_outMASE(SEXP insmpSEXP, SEXP outsmpSEXP, SEXP frcstSEXP, SEXP frqxSEXP) {
@@ -30,6 +55,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type fitsmp(fitsmpSEXP);
     Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
     rcpp_result_gen = Rcpp::wrap(inMASE(insmp, fitsmp, frqx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// inMASEholdin
+double inMASEholdin(NumericVector insmp, NumericVector fitsmp, int frqx, int frqh);
+RcppExport SEXP _ATAforecasting_inMASEholdin(SEXP insmpSEXP, SEXP fitsmpSEXP, SEXP frqxSEXP, SEXP frqhSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type fitsmp(fitsmpSEXP);
+    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
+    Rcpp::traits::input_parameter< int >::type frqh(frqhSEXP);
+    rcpp_result_gen = Rcpp::wrap(inMASEholdin(insmp, fitsmp, frqx, frqh));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -67,8 +106,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // AutoATADamped
-NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ);
-RcppExport SEXP _ATAforecasting_AutoATADamped(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXFRQSEXP) {
+NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ);
+RcppExport SEXP _ATAforecasting_AutoATADamped(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXFRQSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,6 +118,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
     Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
     Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
     Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
@@ -87,13 +127,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type IXTA_0(IXTA_0SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IXTM_0(IXTM_0SEXP);
     Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
-    rcpp_result_gen = Rcpp::wrap(AutoATADamped(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ));
+    rcpp_result_gen = Rcpp::wrap(AutoATADamped(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ));
     return rcpp_result_gen;
 END_RCPP
 }
 // AutoATA
-NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int IXFRQ);
-RcppExport SEXP _ATAforecasting_AutoATA(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXSMOSEXP, SEXP IXSTSEXP, SEXP max_smoSEXP, SEXP max_stSEXP, SEXP IXFRQSEXP) {
+NumericVector AutoATA(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int IXFRQ);
+RcppExport SEXP _ATAforecasting_AutoATA(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXSMOSEXP, SEXP IXSTSEXP, SEXP max_smoSEXP, SEXP max_stSEXP, SEXP IXFRQSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -104,6 +144,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
     Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
     Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
     Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
@@ -116,7 +157,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type max_smo(max_smoSEXP);
     Rcpp::traits::input_parameter< int >::type max_st(max_stSEXP);
     Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
-    rcpp_result_gen = Rcpp::wrap(AutoATA(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ));
+    rcpp_result_gen = Rcpp::wrap(AutoATA(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -143,8 +184,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // AutoATADampedHoldout
-NumericVector AutoATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ, NumericVector IAXout);
-RcppExport SEXP _ATAforecasting_AutoATADampedHoldout(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXFRQSEXP, SEXP IAXoutSEXP) {
+NumericVector AutoATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ, NumericVector IAXout);
+RcppExport SEXP _ATAforecasting_AutoATADampedHoldout(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXFRQSEXP, SEXP IAXoutSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -155,6 +196,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
     Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
     Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
     Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
@@ -164,13 +206,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type IXTM_0(IXTM_0SEXP);
     Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IAXout(IAXoutSEXP);
-    rcpp_result_gen = Rcpp::wrap(AutoATADampedHoldout(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout));
+    rcpp_result_gen = Rcpp::wrap(AutoATADampedHoldout(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout));
     return rcpp_result_gen;
 END_RCPP
 }
 // AutoATAHoldout
-NumericVector AutoATAHoldout(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int IXFRQ, NumericVector IAXout);
-RcppExport SEXP _ATAforecasting_AutoATAHoldout(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXSMOSEXP, SEXP IXSTSEXP, SEXP max_smoSEXP, SEXP max_stSEXP, SEXP IXFRQSEXP, SEXP IAXoutSEXP) {
+NumericVector AutoATAHoldout(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int IXFRQ, NumericVector IAXout);
+RcppExport SEXP _ATAforecasting_AutoATAHoldout(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXSMOSEXP, SEXP IXSTSEXP, SEXP max_smoSEXP, SEXP max_stSEXP, SEXP IXFRQSEXP, SEXP IAXoutSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -181,6 +223,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
     Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
     Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
     Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
     Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
@@ -194,7 +237,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type max_st(max_stSEXP);
     Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IAXout(IAXoutSEXP);
-    rcpp_result_gen = Rcpp::wrap(AutoATAHoldout(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout));
+    rcpp_result_gen = Rcpp::wrap(AutoATAHoldout(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -219,18 +262,104 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// AutoATACoreHoldhin
+double AutoATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZH);
+RcppExport SEXP _ATAforecasting_AutoATACoreHoldhin(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IZHSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type IAZ(IAZSEXP);
+    Rcpp::traits::input_parameter< int >::type IZP(IZPSEXP);
+    Rcpp::traits::input_parameter< int >::type IZQ(IZQSEXP);
+    Rcpp::traits::input_parameter< double >::type IZPHI(IZPHISEXP);
+    Rcpp::traits::input_parameter< int >::type IZMO(IZMOSEXP);
+    Rcpp::traits::input_parameter< int >::type IZAC(IZACSEXP);
+    Rcpp::traits::input_parameter< int >::type IZIL(IZILSEXP);
+    Rcpp::traits::input_parameter< int >::type IZIT(IZITSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IZTA_0(IZTA_0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IZTM_0(IZTM_0SEXP);
+    Rcpp::traits::input_parameter< int >::type IZFRQ(IZFRQSEXP);
+    Rcpp::traits::input_parameter< int >::type IZH(IZHSEXP);
+    rcpp_result_gen = Rcpp::wrap(AutoATACoreHoldhin(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH));
+    return rcpp_result_gen;
+END_RCPP
+}
+// AutoATADampedHoldhin
+NumericVector AutoATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, NumericVector IXTA_0, NumericVector IXTM_0, int IXFRQ, int IXH);
+RcppExport SEXP _ATAforecasting_AutoATADampedHoldhin(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXFRQSEXP, SEXP IXHSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type IAX(IAXSEXP);
+    Rcpp::traits::input_parameter< int >::type IXP(IXPSEXP);
+    Rcpp::traits::input_parameter< int >::type IXQ(IXQSEXP);
+    Rcpp::traits::input_parameter< int >::type IXMO(IXMOSEXP);
+    Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
+    Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
+    Rcpp::traits::input_parameter< int >::type IXIL(IXILSEXP);
+    Rcpp::traits::input_parameter< int >::type IXIT(IXITSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IXTA_0(IXTA_0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IXTM_0(IXTM_0SEXP);
+    Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
+    Rcpp::traits::input_parameter< int >::type IXH(IXHSEXP);
+    rcpp_result_gen = Rcpp::wrap(AutoATADampedHoldhin(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IXH));
+    return rcpp_result_gen;
+END_RCPP
+}
+// AutoATAHoldhin
+NumericVector AutoATAHoldhin(arma::mat IAX, int IXP, int IXQ, int IXMO, int IXAC, int IXLF, int IXTF, int IXTS, double IXPHIS, double IXPHIE, double IXPHISS, int IXIL, int IXIT, arma::mat IXTA_0, arma::mat IXTM_0, NumericVector IXSMO, NumericVector IXST, int max_smo, int max_st, int IXFRQ, int IXH);
+RcppExport SEXP _ATAforecasting_AutoATAHoldhin(SEXP IAXSEXP, SEXP IXPSEXP, SEXP IXQSEXP, SEXP IXMOSEXP, SEXP IXACSEXP, SEXP IXLFSEXP, SEXP IXTFSEXP, SEXP IXTSSEXP, SEXP IXPHISSEXP, SEXP IXPHIESEXP, SEXP IXPHISSSEXP, SEXP IXILSEXP, SEXP IXITSEXP, SEXP IXTA_0SEXP, SEXP IXTM_0SEXP, SEXP IXSMOSEXP, SEXP IXSTSEXP, SEXP max_smoSEXP, SEXP max_stSEXP, SEXP IXFRQSEXP, SEXP IXHSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type IAX(IAXSEXP);
+    Rcpp::traits::input_parameter< int >::type IXP(IXPSEXP);
+    Rcpp::traits::input_parameter< int >::type IXQ(IXQSEXP);
+    Rcpp::traits::input_parameter< int >::type IXMO(IXMOSEXP);
+    Rcpp::traits::input_parameter< int >::type IXAC(IXACSEXP);
+    Rcpp::traits::input_parameter< int >::type IXLF(IXLFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTF(IXTFSEXP);
+    Rcpp::traits::input_parameter< int >::type IXTS(IXTSSEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHIS(IXPHISSEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHIE(IXPHIESEXP);
+    Rcpp::traits::input_parameter< double >::type IXPHISS(IXPHISSSEXP);
+    Rcpp::traits::input_parameter< int >::type IXIL(IXILSEXP);
+    Rcpp::traits::input_parameter< int >::type IXIT(IXITSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type IXTA_0(IXTA_0SEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type IXTM_0(IXTM_0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IXSMO(IXSMOSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IXST(IXSTSEXP);
+    Rcpp::traits::input_parameter< int >::type max_smo(max_smoSEXP);
+    Rcpp::traits::input_parameter< int >::type max_st(max_stSEXP);
+    Rcpp::traits::input_parameter< int >::type IXFRQ(IXFRQSEXP);
+    Rcpp::traits::input_parameter< int >::type IXH(IXHSEXP);
+    rcpp_result_gen = Rcpp::wrap(AutoATAHoldhin(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IXH));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ATAforecasting_NaiveSD", (DL_FUNC) &_ATAforecasting_NaiveSD, 2},
+    {"_ATAforecasting_NaiveSDholdin", (DL_FUNC) &_ATAforecasting_NaiveSDholdin, 3},
     {"_ATAforecasting_outMASE", (DL_FUNC) &_ATAforecasting_outMASE, 4},
     {"_ATAforecasting_inMASE", (DL_FUNC) &_ATAforecasting_inMASE, 3},
+    {"_ATAforecasting_inMASEholdin", (DL_FUNC) &_ATAforecasting_inMASEholdin, 4},
     {"_ATAforecasting_meanIT", (DL_FUNC) &_ATAforecasting_meanIT, 2},
     {"_ATAforecasting_AutoATACore", (DL_FUNC) &_ATAforecasting_AutoATACore, 11},
-    {"_ATAforecasting_AutoATADamped", (DL_FUNC) &_ATAforecasting_AutoATADamped, 15},
-    {"_ATAforecasting_AutoATA", (DL_FUNC) &_ATAforecasting_AutoATA, 19},
+    {"_ATAforecasting_AutoATADamped", (DL_FUNC) &_ATAforecasting_AutoATADamped, 16},
+    {"_ATAforecasting_AutoATA", (DL_FUNC) &_ATAforecasting_AutoATA, 20},
     {"_ATAforecasting_AutoATACoreHoldout", (DL_FUNC) &_ATAforecasting_AutoATACoreHoldout, 12},
-    {"_ATAforecasting_AutoATADampedHoldout", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldout, 16},
-    {"_ATAforecasting_AutoATAHoldout", (DL_FUNC) &_ATAforecasting_AutoATAHoldout, 20},
+    {"_ATAforecasting_AutoATADampedHoldout", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldout, 17},
+    {"_ATAforecasting_AutoATAHoldout", (DL_FUNC) &_ATAforecasting_AutoATAHoldout, 21},
     {"_ATAforecasting_ATAHoldoutForecast", (DL_FUNC) &_ATAforecasting_ATAHoldoutForecast, 11},
+    {"_ATAforecasting_AutoATACoreHoldhin", (DL_FUNC) &_ATAforecasting_AutoATACoreHoldhin, 12},
+    {"_ATAforecasting_AutoATADampedHoldhin", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldhin, 17},
+    {"_ATAforecasting_AutoATAHoldhin", (DL_FUNC) &_ATAforecasting_AutoATAHoldhin, 21},
     {NULL, NULL, 0}
 };
 

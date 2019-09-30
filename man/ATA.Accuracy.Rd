@@ -7,7 +7,7 @@
 ATA.Accuracy(ata.output, out.sample = NULL)
 }
 \arguments{
-\item{ata.output}{An object of class \dQuote{\code{ata}} is required.}
+\item{ata.output}{An object of class \code{ata} is required.}
 
 \item{out.sample}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.}
 }
@@ -17,12 +17,10 @@ Matrix giving forecast accuracy measures.
 \description{
 Returns ATA(p,q,phi) applied to \code{ata.output}.
 Accuracy measures for a forecast model
-
 Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 provided, the function measures test set forecast accuracy.
 If \code{out.sample} is not provided, the function only produces
 training set accuracy measures.
-
 The measures calculated are:
 \itemize{
 		\item{MAE}	 : mean absolute error.
@@ -42,7 +40,6 @@ The measures calculated are:
 }
 }
 \examples{
-
 ata.fit1 <- ATA(EuStockMarkets[1:200,1],h=100)
 ATA.Accuracy(ata.fit1)
 ATA.Accuracy(ata.fit1,EuStockMarkets[201:300,1])
@@ -51,12 +48,10 @@ ATA.Accuracy(ata.fit1,EuStockMarkets[201:300,1])
 Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
 of forecast accuracy". \emph{International Journal of Forecasting},
 \bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2014)
-"Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating
-forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
+"Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
 }
 \seealso{
-\code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-\code{\link{tbats}}, \code{\link{seasadj}}.
+\code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

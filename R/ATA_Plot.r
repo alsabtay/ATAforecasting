@@ -1,5 +1,4 @@
-#' @export plot.ata
-
+#' @export
 plot.ata <- function(x, fcol=4, flty = 2, flwd = 2, ...)
 {
 	par.default <- par(no.readonly = TRUE)# save default, for resetting...
