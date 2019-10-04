@@ -71,7 +71,7 @@ AutoATA.Single <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mo
 		DeSeas <- AdjInSample
 		HoldoutSet <- NA
 	}
-	ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.Type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, orig_X = AdjInSample, Holdout = holdout, HoldoutSet = HoldoutSet, Adjusted_P = holdout.adjustedP, Holdin = holdin)
+	ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.Type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, orig_X = AdjInSample, Holdout = holdout, HoldoutSet = HoldoutSet, Adjusted_P = holdout.adjustedP, h = h, Holdin = holdin)
 	ata.output$h <- h
 	ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
 	ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
