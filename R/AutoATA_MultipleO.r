@@ -244,7 +244,7 @@ AutoATA.MultipleO <- function(ts_input, pb, qb, model.type, seasonal.Test, seaso
 		}else {
 			HoldoutSet <- NA
 		}
-		ATA.last <- AutoATA.Damped(X, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, trend.search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend, orig_X = ts_input, Holdout = Holdout, HoldoutSet = HoldoutSet, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin)
+		ATA.last <- AutoATA.Damped(X, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, trend.Search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend, orig_X = ts_input, Holdout = Holdout, HoldoutSet = HoldoutSet, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin)
 	}
 	ATA.last$h <- h
 	ATA.last <- AutoATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
