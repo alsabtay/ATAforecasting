@@ -2,66 +2,66 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 NaiveSD <- function(insmp, frqx) {
-    .Call(`_ATAforecasting_NaiveSD`, insmp, frqx)
+    .Call('_ATAforecasting_NaiveSD', PACKAGE = 'ATAforecasting', insmp, frqx)
 }
 
 NaiveSDholdin <- function(insmp, frqx, frqh) {
-    .Call(`_ATAforecasting_NaiveSDholdin`, insmp, frqx, frqh)
+    .Call('_ATAforecasting_NaiveSDholdin', PACKAGE = 'ATAforecasting', insmp, frqx, frqh)
 }
 
 outMASE <- function(insmp, outsmp, frcst, frqx) {
-    .Call(`_ATAforecasting_outMASE`, insmp, outsmp, frcst, frqx)
+    .Call('_ATAforecasting_outMASE', PACKAGE = 'ATAforecasting', insmp, outsmp, frcst, frqx)
 }
 
 inMASE <- function(insmp, fitsmp, frqx) {
-    .Call(`_ATAforecasting_inMASE`, insmp, fitsmp, frqx)
+    .Call('_ATAforecasting_inMASE', PACKAGE = 'ATAforecasting', insmp, fitsmp, frqx)
 }
 
 inMASEholdin <- function(insmp, fitsmp, frqx, frqh) {
-    .Call(`_ATAforecasting_inMASEholdin`, insmp, fitsmp, frqx, frqh)
+    .Call('_ATAforecasting_inMASEholdin', PACKAGE = 'ATAforecasting', insmp, fitsmp, frqx, frqh)
 }
 
 meanIT <- function(x, t) {
-    .Call(`_ATAforecasting_meanIT`, x, t)
+    .Call('_ATAforecasting_meanIT', PACKAGE = 'ATAforecasting', x, t)
 }
 
 AutoATACore <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ) {
-    .Call(`_ATAforecasting_AutoATACore`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ)
+    .Call('_ATAforecasting_AutoATACore', PACKAGE = 'ATAforecasting', IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ)
 }
 
 AutoATADamped <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ) {
-    .Call(`_ATAforecasting_AutoATADamped`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ)
+    .Call('_ATAforecasting_AutoATADamped', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ)
 }
 
 AutoATA <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ) {
-    .Call(`_ATAforecasting_AutoATA`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ)
+    .Call('_ATAforecasting_AutoATA', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ)
 }
 
 AutoATACoreHoldout <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout) {
-    .Call(`_ATAforecasting_AutoATACoreHoldout`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout)
+    .Call('_ATAforecasting_AutoATACoreHoldout', PACKAGE = 'ATAforecasting', IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout)
 }
 
 AutoATADampedHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout) {
-    .Call(`_ATAforecasting_AutoATADampedHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout)
+    .Call('_ATAforecasting_AutoATADampedHoldout', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout)
 }
 
 AutoATAHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout) {
-    .Call(`_ATAforecasting_AutoATAHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout)
+    .Call('_ATAforecasting_AutoATAHoldout', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout)
 }
 
 ATAHoldoutForecast <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH) {
-    .Call(`_ATAforecasting_ATAHoldoutForecast`, IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH)
+    .Call('_ATAforecasting_ATAHoldoutForecast', PACKAGE = 'ATAforecasting', IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH)
 }
 
 AutoATACoreHoldhin <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH) {
-    .Call(`_ATAforecasting_AutoATACoreHoldhin`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH)
+    .Call('_ATAforecasting_AutoATACoreHoldhin', PACKAGE = 'ATAforecasting', IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH)
 }
 
 AutoATADampedHoldhin <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IXH) {
-    .Call(`_ATAforecasting_AutoATADampedHoldhin`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IXH)
+    .Call('_ATAforecasting_AutoATADampedHoldhin', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IXH)
 }
 
 AutoATAHoldhin <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IXH) {
-    .Call(`_ATAforecasting_AutoATAHoldhin`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IXH)
+    .Call('_ATAforecasting_AutoATAHoldhin', PACKAGE = 'ATAforecasting', IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IXH)
 }
 
