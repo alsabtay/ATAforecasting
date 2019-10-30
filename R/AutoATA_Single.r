@@ -65,8 +65,8 @@ AutoATA.Single <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mo
     holdout_part <- ifelse(partition.h > 0 & partition.h < 1, floor(length(AdjInSample) * partition.h), partition.h)
     HoldOutLen <- length(AdjInSample) - holdout_part
     InsampleLen <- length(AdjInSample)
-    HoldoutSet <- ts(AdjInSample[(HoldOutLen+1):InsampleLen], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-    DeSeas <- ts(AdjInSample[1:HoldOutLen], f = tspX[3], s = tspX[1])
+    HoldoutSet <- ts(AdjInSample[(HoldOutLen+1):InsampleLen], frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
+    DeSeas <- ts(AdjInSample[1:HoldOutLen], frequency = tspX[3], start = tspX[1])
   }else {
     DeSeas <- AdjInSample
     HoldoutSet <- NA

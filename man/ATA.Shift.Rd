@@ -7,7 +7,7 @@
 ATA.Shift(x, shift_by)
 }
 \arguments{
-\item{x}{given variables(s)}
+\item{x}{given variable(s)}
 
 \item{shift_by}{lag or lead parameter}
 }

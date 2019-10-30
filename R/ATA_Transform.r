@@ -11,11 +11,13 @@
 #' @param bcLower Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.
 #' @param bcUpper Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.
 #'
-#' @return A list object consists of transformation parameters and transformed data
-#'
-#' @param trfmX Transformed data
-#' @param tLambda Box-Cox power transformation family parameter
-#' @param tShift Box-Cox power transformation family shifting parameter
+#' @return A list object consists of transformation parameters and transformed data.
+#' \code{ATA.Transform} is a list containing at least the following elements:
+#' \itemize{
+#'		 \item{trfmX}   : Transformed data
+#'		 \item{tLambda} : Box-Cox power transformation family parameter
+#'		 \item{tShift}  : Box-Cox power transformation family shifting parameter
+#'}
 #'
 #' @export
 #'

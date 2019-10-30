@@ -1,6 +1,6 @@
 #' Accuracy Measures for a ATA forecast model
 #'
-#'#' @description Returns ATA(p,q,phi) applied to \code{ata.output}.
+#' @description Returns ATA(p,q,phi) applied to ATA \code{object}.
 #' Accuracy measures for a forecast model
 #' Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 #' provided, the function measures test set forecast accuracy.
@@ -24,7 +24,7 @@
 #' 		\item{sMdAPE}: symmetric median absolute percentage error.
 #' }
 #'
-#' @param ata.output An object of class \code{ata} is required.
+#' @param object An object of class \code{ATA} is required.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #'
 #' @return Matrix giving forecast accuracy measures.
@@ -43,18 +43,19 @@
 #' @export
 #'
 #' @examples
-#' ata.fit1 <- ATA(insample,h=100)
+#' ata.fit1 <- ATA(M3[[1899]]$x, h=18)
 #' ATA.Accuracy(ata.fit1)
-#' ATA.Accuracy(ata.fit1,outsample)
-ATA.Accuracy <- function(ata.output, out.sample=NULL)
+#' ATA.Accuracy(ata.fit1, M3[[1899]]$xx)
+ATA.Accuracy <- function(object, out.sample=NULL)
 {
-  if (class(ata.output)!="ata"){
-    return("The Input must be 'ata' object. Please use ATA function to produce 'ata' object. ATA Accuracy will terminate!")
+  ata.output <- object
+  if (class(ata.output)!="ATA"){
+    return("The Input must be 'ATA' object. Please use ATA function to produce 'ATA' object. ATA Accuracy will terminate!")
   }
   inSample <- ata.output$actual
   in_sample_fit <- ata.output$fitted
   out.sample_forecast <- ata.output$forecast
-  lenX <- length(inSample)
+  # lenX <- length(inSample)
   in_sample <- as.numeric(inSample[-1])
   in_sample_fit <- as.numeric(in_sample_fit[-1])
   if (!is.null(out.sample)){

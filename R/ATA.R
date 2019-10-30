@@ -1,4 +1,4 @@
-#' Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
+#' ATAforecasting: Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
 #'
 #' @description Returns ATA(p,q,phi) applied to \code{X}.
 #' Based on the modified simple exponential smoothing as described in Yapar, G. (2016).
@@ -8,6 +8,28 @@
 #' and accurate forecasting. It can be applied to non-seasonal or deseasonalized time series,
 #' where the deseasonalization can be performed via any preferred decomposition method.
 #' This methodology performed extremely well on the M3 and M4-competition data.
+#' Returns ATA(p,q,phi) applied to \code{X}.
+#'
+#' @docType package
+#'
+#' @name ATAforecasting-package
+#'
+#' @author Ali Sabri Taylan and Hanife Taylan Selamlar
+#'
+#' Maintainer: alisabritaylan@gmail.com
+#'
+#' @keywords package
+NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
+# "_PACKAGE"
+
+
+## Generic ATA Methods functions
+## Part of ATAforecasting package
+
+
+#' Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
+#'
+#' \code{ATA} is a generic function for ATA Method forecasting from time series or time series models.
 #'
 #' @param X A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param Y A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{partition.h} argument.
@@ -92,54 +114,56 @@
 #' @param print.out Default is TRUE. If FALSE, summary of ATA Method is not shown.
 #' @param plot.out Default is TRUE. If FALSE, graphics of ATA Method are not shown.
 #'
-#' @return Returns an object of class "\code{ata}", containing. The generic accessor functions \code{ATA.Forecast} and \code{ata.accuracy}
-#' extract useful features of the value returned by \code{ata} and associated functions.
-#' @param actual The original time series.
-#' @param fitted Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.
-#' @param level Estimated level values.
-#' @param trend Estimated trend values.
-#' @param residuals Original values minus fitted values.
-#' @param coefp The weights attached to level observations.
-#' @param coefq	The weights attached to trend observations.
-#' @param p	Optimum level parameter.
-#' @param q	Optimum trend parameter.
-#' @param phi Optimum damped trend parameter.
-#' @param model.type Form of trend.
-#' @param h The number of steps to forecast ahead.
-#' @param forecast Point forecasts as a time series.
-#' @param out.sample Test values as a time series.
-#' @param method The name of the optimum forecasting method as a character string.
-#' @param initial.level Selected initial level values for the time series forecasting method.
-#' @param initial.trend Selected initial trend values for the time series forecasting method.
-#' @param level.fixed A choice of optional level-fixed trended methods.
-#' @param trend.fixed A choice of optional trend-fixed trended methods.
-#' @param trend.search A choice of optional trend and level optimized trended methods if q > 1.
-#' @param transform.method Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
-#' @param transform.order Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
-#' @param lambda Box-Cox power transformation family parameter.
-#' @param shift Box-Cox power transformation family shifting parameter.
-#' @param accuracy.type Accuracy measure that is chosen for model selection.
-#' @param accuracy In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.
-#' @param holdout Holdout forecasting is TRUE or FALSE.
-#' @param holdout.training Training set in holdout forecasting.
-#' @param holdout.validation Validation set in holdout forecasting.
-#' @param holdout.forecast Holdout forecast.
-#' @param holdout.accuracy Accuracy measure chosen for model selection in holdout forecasting.
-#' @param holdin Hold-in forecasting is TRUE or FALSE.
-#' @param is.season Indicates whether it contains seasonal pattern.
-#' @param seasonal.model The name of the selected decomposition method.
-#' @param seasonal.type Form of seasonality.
-#' @param seasonal.period The number of seasonality periods (which defaults to \code{frequency(X)}).
-#' @param seasonal.index Weights of seasonality.
-#' @param seasonal Estimated seasonal values.
-#' @param seasonal.adjusted Deseasonalized time series values.
-#' @param execution.time The real and CPU time (in seconds) spent by the system executing that task, including the time spent executing run-time or system services on its behalf.
-#' @param calculation.time How much real time (in seconds) the currently running R process has already taken.
+#' @return Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
+#' \code{ATA} object is a list containing at least the following elements
+#' \itemize{
+#' 		 \item{actual}		: The original time series.
+#' 		 \item{fitted}		: Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.
+#' 		 \item{level}		  : Estimated level values.
+#' 		 \item{trend}		  : Estimated trend values.
+#' 		 \item{residuals}	: Original values minus fitted values.
+#' 		 \item{coefp}		  : The weights attached to level observations.
+#' 		 \item{coefq}		  : The weights attached to trend observations.
+#' 		 \item{p}		      : Optimum level parameter.
+#' 		 \item{q}		      : Optimum trend parameter.
+#' 		 \item{phi}		    : Optimum damped trend parameter.
+#' 		 \item{model.type}: Form of trend.
+#' 		 \item{h}		      : The number of steps to forecast ahead.
+#' 		 \item{forecast}	: Point forecasts as a time series.
+#' 		 \item{out.sample}: Test values as a time series.
+#' 		 \item{method}		: The name of the optimum forecasting method as a character string.
+#' 		 \item{initial.level}     : Selected initial level values for the time series forecasting method.
+#' 		 \item{initial.trend}     : Selected initial trend values for the time series forecasting method.
+#' 		 \item{level.fixed}       : A choice of optional level-fixed trended methods.
+#' 		 \item{trend.fixed}       : A choice of optional trend-fixed trended methods.
+#' 		 \item{trend.search}      : A choice of optional trend and level optimized trended methods if q > 1.
+#' 		 \item{transform.method}  : Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
+#' 		 \item{transform.order}   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
+#' 		 \item{lambda}  	: Box-Cox power transformation family parameter.
+#' 		 \item{shift}		  : Box-Cox power transformation family shifting parameter.
+#' 		 \item{accuracy.type}		  : Accuracy measure that is chosen for model selection.
+#' 		 \item{accuracy} 	: In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.
+#' 		 \item{holdout}		: Holdout forecasting is TRUE or FALSE.
+#' 		 \item{holdout.training} 	: Training set in holdout forecasting.
+#' 		 \item{holdout.validation}: Validation set in holdout forecasting.
+#' 		 \item{holdout.forecast}	: Holdout forecast.
+#' 		 \item{holdout.accuracy}	: Accuracy measure chosen for model selection in holdout forecasting.
+#' 		 \item{holdin}		: Hold-in forecasting is TRUE or FALSE.
+#' 		 \item{is.season}	: Indicates whether it contains seasonal pattern.
+#' 		 \item{seasonal.model}		: The name of the selected decomposition method.
+#' 		 \item{seasonal.type}	  	: Form of seasonality.
+#' 		 \item{seasonal.period}		: The number of seasonality periods.
+#' 		 \item{seasonal.index}		: Weights of seasonality.
+#' 		 \item{seasonal}	: Estimated seasonal values.
+#' 		 \item{seasonal.adjusted}	: Deseasonalized time series values.
+#' 		 \item{execution.time}		: The real and CPU time 'in seconds' spent by the system executing that task, including the time spent executing run-time or system services on its behalf.
+#' 		 \item{calculation.time}	: How much real time 'in seconds' the currently running R process has already taken.
+#' }
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #'
-#' @seealso \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-#' \code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{seasonal}}.
+#' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
+#' \code{tbats}, \code{seasadj}, \code{seasonal}.
 #'
 #' @references Yapar, G., (2016)
 #' "Modified simple exponential smoothing"
@@ -151,11 +175,11 @@
 #'
 #' @keywords ata forecast accuracy ts msts
 #'
-#' @export
-#'
 #' @examples
-#' fit <- ATA(insample,outsample)
+#' fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
 #' plot(ATA.Forecast(fit,h=36))
+#'
+#' @export
 ATA <- function(X, Y = NULL,
                 parP = NULL,
                 parQ = NULL,
@@ -188,7 +212,7 @@ ATA <- function(X, Y = NULL,
                 end.phi = NULL,
                 size.phi = NULL,
                 negative.forecast = TRUE,
-                # print.out = TRUE,
+                print.out = TRUE,
                 plot.out = TRUE)
 {
   if (class(X)[1]!="ts" & class(X)[1]!="msts"){
@@ -240,17 +264,17 @@ ATA <- function(X, Y = NULL,
   }
   if (find.period!=0) {
     if(find.period==1){
-      seasonal.period <- find.freq(input)
+      seasonal.period <- find.freq(X)
     }else if(find.period==2){
-      seasonal.period <- findfrequency(input)
+      seasonal.period <- findfrequency(X)
     }else if (find.period==3){
-      seasonal.period <- find.multi.freq(input)
+      seasonal.period <- find.multi.freq(X)
       seasonal.model=="stR"
     }else if (find.period==4){
-      seasonal.period <- find.multi.freq(input)
+      seasonal.period <- find.multi.freq(X)
       seasonal.model=="tbats"
     }else if (find.period==5){
-      seasonal.period <- find.multi.freq(input)
+      seasonal.period <- find.multi.freq(X)
       seasonal.model=="stl"
     }else {
       return("find.period must be integer and between 0 and 5. ATA Method was terminated!")
@@ -261,6 +285,10 @@ ATA <- function(X, Y = NULL,
     if (seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "stl"){
       seasonal.model <- "stl"
     }
+  }else {
+	if (s.frequency > 1 & is.null(seasonal.model)){
+		seasonal.model <- "decomp"
+	}
   }
   if (is.null(accuracy.type)){
     accuracy.type <- "sMAPE"
@@ -392,9 +420,9 @@ ATA <- function(X, Y = NULL,
       OSLen <- length(X)- part_h
       ISLen <- length(X)
       OutSample <- X[(OSLen+1):ISLen]
-      OutSample <- ts(OutSample, f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (part_h - 1) * (1/tspX[3]), (part_h - 1) * 1))
+      OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (part_h - 1) * (1/tspX[3]), (part_h - 1) * 1))
       X <- X[1:OSLen]
-      X <- ts(X, f = tspX[3], s = tspX[1])
+      X <- ts(X, frequency = tspX[3], start = tspX[1])
       h <- length(OutSample)
     }else {
       if (is.null(h)){
@@ -407,7 +435,7 @@ ATA <- function(X, Y = NULL,
         }
       }
       OutSample <- rep(NA,times=h)
-      OutSample <- ts(OutSample, f = tspX[3], s = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
+      OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
       if (holdout == TRUE){
         partition.h	<- h
       }
@@ -454,10 +482,164 @@ ATA <- function(X, Y = NULL,
   my_list$transform.order <- transform.order
   my_list$execution.time <- executionTime
   my_list$calculation.time <- round(as.double(difftime(end.time, start.time,units="sec")),4)
-  attr(my_list, "class") <- "ata"
+  attr(my_list, "class") <- "ATA"
   if (plot.out==TRUE) {
-    plot.ata(my_list)
+    plot.ATA(my_list)
   }
   gc()
   return(my_list)
+}
+
+
+
+#' Specialized Screen Print Function of The ATA Method Forecast
+#'
+#' @param object an object of \code{ATA}
+#' @param ... other inputs
+#'
+#' @return a summary for the results of the ATA Methods
+#'
+#' @export
+print.ATA <- function(object,...)
+{
+    x <- object
+    cat(x$method,"\n\n")
+    if (x$level.fixed==TRUE){
+      cat("   level.fixed: TRUE","\n\n")
+    }
+    if (x$trend.fixed==TRUE){
+      cat("   trend.fixed: TRUE","\n\n")
+    }
+    if(!is.null(x$transform.method)){
+      cat(paste("   '",x$transform.method, "' transformation method was selected.","\n\n", sep=""))
+    }
+    if(!is.null(x$lambda)){
+      cat("   Box-Cox transformation: lambda=",round(x$lambda,4), "\n\n")
+    }
+    cat(paste("   model.type:",x$model.type, "\n\n"))
+    if (x$is.season==FALSE){
+      cat("   seasonal.model: no seasonality","\n\n")
+    }else {
+      cat(paste("   seasonal.model:",x$seasonal.model, "\n\n"))
+    }
+    if (x$is.season==TRUE){
+      cat(paste("   seasonal.type:",x$seasonal.type, "\n\n"))
+    }
+    cat(paste("   forecast horizon:",x$h, "\n\n"))
+    cat(paste("   accuracy.type:",x$accuracy.type, "\n\n"))
+
+    cat("In-Sample Accuracy Measures:","\n")
+    stats <- c(x$accuracy$MAE$inSample$MAE, x$accuracy$MSE$inSample$MSE, x$accuracy$MSE$inSample$RMSE, x$accuracy$MPE$inSample$MPE, x$accuracy$MAPE$inSample$MAPE, x$accuracy$sMAPE$inSample$sMAPE, x$accuracy$MASE$inSample$MASE, x$accuracy$OWA$inSample$OWA)
+    names(stats) <- c("MAE", "MSE", "RMSE", "MPE", "MAPE", "sMAPE", "MASE", "OWA")
+    cat("\n")
+    print(stats)
+    cat("\n")
+
+    cat("In-Sample Accuracy Measures:","\n")
+    stats <- c(x$accuracy$MAE$inSample$MdAE, x$accuracy$MSE$inSample$MdSE, x$accuracy$MSE$inSample$RMdSE, x$accuracy$MPE$inSample$MdPE, x$accuracy$MAPE$inSample$MdAPE, x$accuracy$sMAPE$inSample$sMdAPE)
+    names(stats) <- c("MdAE", "MdSE", "RMdSE", "MdPE", "MdAPE", "sMdAPE")
+    cat("\n")
+    print(stats)
+    cat("\n")
+
+
+    cat("Out-Sample Accuracy Measures:","\n")
+    stats <- c(x$accuracy$MAE$outSample$MAE, x$accuracy$MSE$outSample$MSE, x$accuracy$MSE$outSample$RMSE, x$accuracy$MPE$outSample$MPE, x$accuracy$MAPE$outSample$MAPE, x$accuracy$sMAPE$outSample$sMAPE, x$accuracy$MASE$outSample$MASE, x$accuracy$OWA$outSample$OWA)
+    names(stats) <- c("MAE", "MSE", "RMSE", "MPE", "MAPE", "sMAPE", "MASE",  "OWA")
+    cat("\n")
+    print(stats)
+    cat("\n")
+
+    cat("Out-Sample Accuracy Measures:","\n")
+    stats <- c(x$accuracy$MAE$outSample$MdAE, x$accuracy$MSE$outSample$MdSE, x$accuracy$MSE$outSample$RMdSE, x$accuracy$MPE$outSample$MdPE, x$accuracy$MAPE$outSample$MdAPE, x$accuracy$sMAPE$outSample$sMdAPE)
+    names(stats) <- c("MdAE", "MdSE", "RMdSE", "MdPE", "MdAPE", "sMdAPE")
+    cat("\n")
+    print(stats)
+    cat("\n")
+
+    stats <- c(x$execution.time[1], x$execution.time[2], x$execution.time[3])
+    names(stats) <- c("user","system","elapsed")
+    cat("\n")
+    print(stats)
+    cat("\n")
+    cat(paste("calculation.time:",x$calculation.time, "\n\n"))
+    cat("\n")
+
+    cat("Forecasts:","\n")
+    print(x$forecast)
+    cat("\n\n")
+}
+
+
+
+#' Specialized Plot Function of The ATA Method Forecast
+#'
+#' @param object an object of \code{ATA}
+#' @param fcol line color
+#' @param flty line type
+#' @param flwd line width
+#' @param ... other inputs
+#'
+#' @return a graphic output for the components of the ATA Methods
+#'
+#' @export
+plot.ATA <- function(object, fcol=4, flty = 2, flwd = 2, ...)
+{
+  x <- object
+  par.default <- par(no.readonly = TRUE)# save default, for resetting...
+  caption <- paste(ifelse(x$model.type=="A"," Additive "," Multiplicative "), x$method, sep="")
+  xx <- x$actual
+  hpred <- length(x$forecast)
+  freq <- frequency(xx)
+  xxx <- ts(c(x$actual, rep(NA,hpred)), end=tsp(xx)[2] + hpred/freq, frequency=freq)
+  xxy <- ts(c(x$fitted, rep(NA,hpred)), end=tsp(xx)[2] + hpred/freq, frequency=freq)
+  min_y <- min(x$actual, x$fitted, x$out.sample, x$forecast, x$forecast.lower, na.rm=TRUE)
+  max_y <- max(x$actual, x$fitted, x$out.sample, x$forecast, x$forecast.upper, na.rm=TRUE)
+  range_y <- abs(max_y - min_y)
+  min_last <- floor(min_y - range_y * 0.20)
+  max_last <- ceiling(max_y + range_y * 0.20)
+  range_last <- abs(max_last - min_last)
+  dataset <- cbind(xxx,xxy)
+  colnames(dataset, do.NULL = FALSE)
+  colnames(dataset) <- c("actual","fitted")
+  legend_names <- c("actual","fitted","out-sample","forecast")
+  tmp <- seq(from = tsp(x$forecast)[1], by = 1/freq, length = hpred)
+  if (x$is.season==FALSE){
+    layout(matrix(c(1, 2, 3, 4), 2, 2, byrow=TRUE))
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(dataset,plot.type="s", ylim=c(min_last, max_last), col=1:ncol(dataset), xlab=NULL, ylab="fitted", yaxt="n")
+    axis(side=2,at=seq(min_last, max_last,trunc(range_last/10)), labels=seq(min_last, max_last,trunc(range_last/10)), las=1, lwd=1)
+    polygon(x=c(tmp, rev(tmp)), y=c(x$forecast.lower, rev(x$forecast.upper)), col="lightgray", border=NA)
+    lines(x$forecast, lty = flty, lwd = flwd, col = fcol)
+    lines(x$out.sample, lty = 1, lwd = flwd, col = fcol+2)
+    legend("topleft", legend_names, col=c(1,2,fcol+2,fcol), lty=1, cex=.80, box.lty=0, text.font=2, ncol=2,  bg="transparent")
+    mtext(caption, side = 3, line = -1.5, outer = TRUE)
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(x$trend, ylab="trend")
+    par(mar = c(bottom=2, 4.1, top=2, 1.1))
+    plot(x$level, ylab="level")
+    par(mar = c(bottom=2, 4.1, top=2, 1.1))
+    plot(x$residuals, ylab="residuals")
+  }else {
+    layout(matrix(c(1, 2, 3, 4, 5, 6), 3, 2, byrow=TRUE))
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(dataset,plot.type="s", ylim=c(min_last, max_last), col=1:ncol(dataset), xlab=NULL, ylab="fitted", yaxt="n")
+    axis(side=2,at=seq(min_last, max_last,trunc(range_last/10)), labels=seq(min_last, max_last,trunc(range_last/10)), las=1, lwd=1)
+    polygon(x=c(tmp, rev(tmp)), y=c(x$forecast.lower, rev(x$forecast.upper)), col="lightgray", border=NA)
+    lines(x$forecast, lty = flty, lwd = flwd, col = fcol)
+    lines(x$out.sample, lty = 1, lwd = flwd, col = fcol+2)
+    legend("topleft", legend_names, col=c(1,2,fcol+2,fcol), lty=1, cex=.80, box.lty=0, text.font=2, ncol=2, bg="transparent")
+    mtext(paste(caption,"with ",ifelse(x$seasonal.type=="A","Additive","Multiplicative"), " Decomposition by '",ifelse(x$seasonal.model=="decomp","classical",x$seasonal.model),"' Method"), side = 3, line = -1.5, outer = TRUE)
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(x$seasonal.adjusted,ylab="deseasonalized")
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(x$level, ylab="level")
+    par(mar = c(bottom=1, 4.1, top=2, 1.1))
+    plot(x$trend,ylab="trend")
+    par(mar = c(bottom=2, 4.1, top=2, 1.1))
+    plot(x$seasonal,ylab="seasonality")
+    par(mar = c(bottom=2, 4.1, top=2, 1.1))
+    plot(x$residuals, ylab="residuals")
+  }
+  par(par.default)
 }

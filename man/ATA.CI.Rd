@@ -4,10 +4,10 @@
 \alias{ATA.CI}
 \title{Confidence Interval function for the ATA Method}
 \usage{
-ATA.CI(ata.output, ci.level = 95)
+ATA.CI(object, ci.level = 95)
 }
 \arguments{
-\item{ata.output}{An \code{ata} object}
+\item{object}{An \code{ATA} object is required.}
 
 \item{ci.level}{Confidence level, for example: 90, 95 or 99.}
 }

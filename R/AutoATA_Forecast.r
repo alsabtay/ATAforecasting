@@ -1,8 +1,8 @@
 #' @export
 AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 {
-  if (class(ata_output)!="ata"){
-    return("The Input must be 'ata' object. Please use ATA(x) function to produce 'ata' object. ATA Forecast was terminated!")
+  if (class(ata_output)!="ATA"){
+    return("The Input must be 'ATA' object. Please use ATA(x) function to produce 'ATA' object. ATA Forecast was terminated!")
   }
   tsp_X <- tsp(ata_output$actual)
   X <- as.numeric(ata_output$actual)
@@ -48,7 +48,7 @@ AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
       ata.forecast.fitted[h] <- S * (T^phiTotal)
     }
   }
-  ata.forecast.fitted <- ts(ata.forecast.fitted, f = tsp_X[3], s = tsp_X[2] + ifelse(tsp_X[3]>1, 1/tsp_X[3], 0))
+  ata.forecast.fitted <- ts(ata.forecast.fitted, frequency = tsp_X[3], start = tsp_X[2] + ifelse(tsp_X[3]>1, 1/tsp_X[3], 0))
   my_list <- ata_output
   my_list$forecast <- ata.forecast.fitted
   return(my_list)

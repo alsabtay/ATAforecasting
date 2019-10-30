@@ -1,20 +1,19 @@
 #' Forecasting Time Series Using the ATA Method
 #'
 #' @description \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
-#' The function invokes particular \emph{methods} which depend on the class of the first argument.
 #'
-#' @param y An \code{ata} object is required for forecast.
+#' @param object An \code{ATA} object is required for forecast.
 #' @param h Number of periods for forecasting.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #' @param ci.level Confidence Interval levels for forecasting. Default value is 95.
 #' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.
 #'
-#' @return An object of class "\code{ata}".
+#' @return An object of class "\code{ATA}".
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #'
-#' @seealso \code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-#' \code{\link{tbats}}, \code{\link{seasadj}}.
+#' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
+#' \code{tbats}, \code{seasadj}.
 #'
 #' @references Yapar, G., (2016)
 #' "Modified simple exponential smoothing"
@@ -29,12 +28,13 @@
 #' @export
 #'
 #' @examples
-#' ata.fit <- ATA(insample, outsample)
+#' ata.fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
 #' fc <- ATA.Forecast(ata.fit, h=18)
-ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
+ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
 {
-  if (class(y)!="ata"){
-    return("The Input must be 'ata' object. Please use ATA(x) function to produce 'ata' object. ATA Forecast was terminated!")
+  y <- object
+  if (class(y)!="ATA"){
+    return("The Input must be 'ATA' object. Please use ATA(x) function to produce 'ATA' object. ATA Forecast was terminated!")
   }
   if (is.null(h)){
     if (frequency(y$actual)==4){
@@ -52,7 +52,7 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
   }
   ata.output <- y
   tsp_y <- tsp(y$actual)
-  fsample <- ts(rep(NA,h), f = tsp_y[3], s = tsp_y[2] + ifelse(tsp_y[3]>1, 1/tsp_y[3], 0))
+  fsample <- ts(rep(NA,h), frequency = tsp_y[3], start = tsp_y[2] + ifelse(tsp_y[3]>1, 1/tsp_y[3], 0))
   freqYh <- cycle(fsample)
   if (is.null(y$transform.method)){
     if (y$seasonal.model!="decomp" & y$seasonal.type=="M"){
@@ -73,7 +73,7 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
       lambda <- y$lambda
       transform.method <- y$transform.method
       ata.output$actual <- ATA.Transform(y$seasonal.adjusted, tMethod=transform.method, tLambda=lambda)$trfmX
-    }else if (y$seasonal.model!="decomp" & y$seasonal.type=="M" & (y$transform.method=="BoxCox" & ty$ransform.method=="log")){
+    }else if (y$seasonal.model!="decomp" & y$seasonal.type=="M" & (y$transform.method=="BoxCox" & y$ransform.method=="log")){
       seasonal.type <- "A"
       lambda <- 0
       transform.method <- "BoxCox"
@@ -103,9 +103,9 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
   ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel=ata.output$initial.value)
   forecast.ata <- ata.output$forecast
   if(y$seasonal.type=="A"){
-    ATA.forecast <- ATA.Inv.Transform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
+    ATA.forecast <- ATA.BackTransform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
   }else {
-    ATA.forecast <- ATA.Inv.Transform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
+    ATA.forecast <- ATA.BackTransform(X=forecast.ata * OS_SIValue, tMethod=transform.method, tLambda=lambda, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
   }
   if (negative.forecast==TRUE){
     y$forecast <- ATA.forecast
@@ -130,9 +130,9 @@ ATA.Forecast <- function(y, h=NULL, out.sample=NULL, ci.level=95, negative.forec
     y$forecast.lower <- ci_low
     y$forecast.upper <- ci_up
   }
-  attr(y, "class") <- "ata"
-  print.ata(y)
+  attr(y, "class") <- "ATA"
+  print.ATA(y)
   return(y)
-  print.ata(y)
+  print.ATA(y)
   gc()
 }

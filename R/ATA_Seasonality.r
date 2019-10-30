@@ -27,8 +27,8 @@
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #'
-#' @seealso \code{\link{forecast}}, \code{\link{ucra}}, \code{\link{tseries}}, \code{\link{uroot}}, \code{\link{stlplus}}, \code{stR},
-#' \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link{tbats}}, \code{\link{seasadj}}.
+#' @seealso \code{forecast}, \code{ucra}, \code{tseries}, \code{uroot}, \code{stlplus}, \code{stR},
+#' \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 #'
 #' @references Dickey DA and Fuller WA (1979), "Distribution of the Estimators for
 #' Autoregressive Time Series with a Unit Root", \code{Journal of the American

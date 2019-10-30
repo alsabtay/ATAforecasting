@@ -24,15 +24,15 @@ ATA.Transform(X, tMethod = c("BoxCox", "BoxCox Shift", "Sqrt",
 \item{bcLower}{Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.}
 
 \item{bcUpper}{Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.}
-
-\item{trfmX}{Transformed data}
-
-\item{tLambda}{Box-Cox power transformation family parameter}
-
-\item{tShift}{Box-Cox power transformation family shifting parameter}
 }
 \value{
-A list object consists of transformation parameters and transformed data
+A list object consists of transformation parameters and transformed data.
+\code{ATA.Transform} is a list containing at least the following elements:
+\itemize{
+	 \item{trfmX}   : Transformed data
+	 \item{tLambda} : Box-Cox power transformation family parameter
+	 \item{tShift}  : Box-Cox power transformation family shifting parameter
+}
 }
 \description{
 These functions are modified version of \code{trafo::trafos} written by Lily Medina, Piedad Castro, Ann-Kristin Kreutzmann, Natalia Rojas-Perilla \code{trafo} package.

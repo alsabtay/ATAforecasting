@@ -24,7 +24,7 @@ If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
 If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.}
 }
 \value{
-Returns an object of class "\code{ata}"
+Returns an object of class "\code{ATA}"
 }
 \description{
 The core algorithm of the ATA Method

@@ -69,7 +69,7 @@ Please review manual and vignette documents of latest \code{forecast} package. A
 }
 }
 \seealso{
-\code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link{tbats}}, \code{\link{seasadj}}.
+\code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

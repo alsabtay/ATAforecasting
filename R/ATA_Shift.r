@@ -1,6 +1,6 @@
 #' Lag/Lead (Shift) Function for Univariate Series
 #'
-#' @param x given variables(s)
+#' @param x given variable(s)
 #' @param shift_by lag or lead parameter
 #'
 #' @return Generating a lag/lead variables

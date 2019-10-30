@@ -409,7 +409,7 @@ NumericVector AutoATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int I
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(j = 1; j <= LENX; j++) {
-          for(i=j; j<=i & i<=LENX; i++) {
+          for(i=j; ((j<=i) & (i<=LENX)); i++) {
             optAccryEnd = AutoATACore(IAX,i, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ);
             if (optAccryEnd <= optAccryStart) {
               d_opt_phi = 1.0 * k;
@@ -848,7 +848,7 @@ NumericVector AutoATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(j = 1; j <= LENX; j++) {
-          for(i=1; j<=i & i<=LENX; i++) {
+          for(i=1; ((j<=i) & (i<=LENX)); i++) {
             optAccryEnd = AutoATACoreHoldout(IAX,i, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout);
             if (optAccryEnd <= optAccryStart) {
               d_opt_phi = 1.0 * k;
@@ -1439,7 +1439,7 @@ NumericVector AutoATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(j = 1; j <= LENX; j++) {
-          for(i=1; j<=i & i<=LENX; i++) {
+          for(i=1; ((j<=i) & (i<=LENX)); i++) {
             optAccryEnd = AutoATACoreHoldhin(IAX,i, j, k, m, IXAC, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IXH);
             if (optAccryEnd <= optAccryStart) {
               d_opt_phi = 1.0 * k;

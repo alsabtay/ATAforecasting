@@ -28,17 +28,14 @@ ATA.Decomposition(input, s.model, s.type, s.frequency, seas_attr_set)
 
 \item{seas_attr_set}{Assign from \code{ATA.SeasAttr} function. Attributes set for unit root and seasonality tests.
 For example: period of the input data which have one seasonal pattern --> 12 for monthly / 4 for quarterly / 7 for daily / 5 for business days. periods of the input data which have complex/multiple seasonal patterns --> c(7,354.37,365.25).}
-
-\item{AdjustedX}{Deseasonalized data}
-
-\item{SeasIndex}{Particular weights of seasonality given cycle/frequency}
-
-\item{SeasActual}{Seasonality given original data}
-
-\item{SeasType}{Seasonal decomposition technique}
 }
 \value{
 Seasonal components of the univariate time series.
+\code{ATA.Decomposition} is a list containing at least the following elements:
+\item{AdjustedX}{Deseasonalized data}
+\item{SeasIndex}{Particular weights of seasonality given cycle/frequency}
+\item{SeasActual}{Seasonality given original data}
+\item{SeasType}{Seasonal decomposition technique}
 }
 \description{
 Automatic seasonal decomposition for ATA Method is called \code{ATA.Decomposition} function in ATAforecasting package.

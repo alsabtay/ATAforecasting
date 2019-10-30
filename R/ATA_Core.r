@@ -10,7 +10,7 @@
 #' @param initialTrend If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
 #' If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
 #'
-#' @return Returns an object of class "\code{ata}"
+#' @return Returns an object of class "\code{ATA}"
 #' @export
 #'
 ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
@@ -184,6 +184,6 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
   ata.coefp <- as.ts(ata.coefp)
   ata.coefq <- as.ts(ata.coefq)
   my_list <- list("actual" = X, "fitted" = ata.fitted , "level" = ata.S, "trend" = ata.T, "residuals" = ata.error, "coefp" = ata.coefp, "coefq" = ata.coefq, "p" = pk, "q" = qk, "phi" = phik, "model.type" = mdlType)
-  attr(my_list, 'class') <- "ata"
+  attr(my_list, 'class') <- "ATA"
   return(my_list)
 }

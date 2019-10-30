@@ -4,11 +4,11 @@
 \alias{ATA.Forecast}
 \title{Forecasting Time Series Using the ATA Method}
 \usage{
-ATA.Forecast(y, h = NULL, out.sample = NULL, ci.level = 95,
+ATA.Forecast(object, h = NULL, out.sample = NULL, ci.level = 95,
   negative.forecast = TRUE)
 }
 \arguments{
-\item{y}{An \code{ata} object is required for forecast.}
+\item{object}{An \code{ATA} object is required for forecast.}
 
 \item{h}{Number of periods for forecasting.}
 
@@ -19,14 +19,13 @@ ATA.Forecast(y, h = NULL, out.sample = NULL, ci.level = 95,
 \item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
 }
 \value{
-An object of class "\code{ata}".
+An object of class "\code{ATA}".
 }
 \description{
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
-The function invokes particular \emph{methods} which depend on the class of the first argument.
 }
 \examples{
-ata.fit <- ATA(insample, outsample)
+ata.fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
 fc <- ATA.Forecast(ata.fit, h=18)
 }
 \references{
@@ -39,8 +38,8 @@ Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
 \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493
 }
 \seealso{
-\code{\link{forecast}}, \code{\link{stlplus}}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-\code{\link{tbats}}, \code{\link{seasadj}}.
+\code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
+\code{tbats}, \code{seasadj}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

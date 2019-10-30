@@ -4,10 +4,10 @@
 \alias{ATA.Accuracy}
 \title{Accuracy Measures for a ATA forecast model}
 \usage{
-ATA.Accuracy(ata.output, out.sample = NULL)
+ATA.Accuracy(object, out.sample = NULL)
 }
 \arguments{
-\item{ata.output}{An object of class \code{ata} is required.}
+\item{object}{An object of class \code{ATA} is required.}
 
 \item{out.sample}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.}
 }
@@ -15,7 +15,7 @@ ATA.Accuracy(ata.output, out.sample = NULL)
 Matrix giving forecast accuracy measures.
 }
 \description{
-#' @description Returns ATA(p,q,phi) applied to \code{ata.output}.
+Returns ATA(p,q,phi) applied to ATA \code{object}.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 provided, the function measures test set forecast accuracy.
@@ -40,9 +40,9 @@ The measures calculated are:
 }
 }
 \examples{
-ata.fit1 <- ATA(insample,h=100)
+ata.fit1 <- ATA(M3[[1899]]$x, h=18)
 ATA.Accuracy(ata.fit1)
-ATA.Accuracy(ata.fit1,outsample)
+ATA.Accuracy(ata.fit1, M3[[1899]]$xx)
 }
 \references{
 Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures

@@ -67,8 +67,8 @@ Hylleberg S, Engle R, Granger C and Yoo B (1990) "Seasonal integration
 and cointegration.", \code{Journal of Econometrics} \bold{44}(1), pp. 215-238.
 }
 \seealso{
-\code{\link{forecast}}, \code{\link{ucra}}, \code{\link{tseries}}, \code{\link{uroot}}, \code{\link{stlplus}}, \code{stR},
-\code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link{tbats}}, \code{\link{seasadj}}.
+\code{forecast}, \code{ucra}, \code{tseries}, \code{uroot}, \code{stlplus}, \code{stR},
+\code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

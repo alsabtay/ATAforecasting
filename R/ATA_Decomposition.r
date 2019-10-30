@@ -22,10 +22,11 @@
 #' For example: period of the input data which have one seasonal pattern --> 12 for monthly / 4 for quarterly / 7 for daily / 5 for business days. periods of the input data which have complex/multiple seasonal patterns --> c(7,354.37,365.25).
 #'
 #' @return Seasonal components of the univariate time series.
-#' @param AdjustedX Deseasonalized data
-#' @param SeasIndex Particular weights of seasonality given cycle/frequency
-#' @param SeasActual Seasonality given original data
-#' @param SeasType Seasonal decomposition technique
+#' \code{ATA.Decomposition} is a list containing at least the following elements:
+#' \item{AdjustedX}{Deseasonalized data}
+#' \item{SeasIndex}{Particular weights of seasonality given cycle/frequency}
+#' \item{SeasActual}{Seasonality given original data}
+#' \item{SeasType}{Seasonal decomposition technique}
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
@@ -42,13 +43,13 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
     if (s.type=="A"){
       adjX <- input
       SeasActual <- rep(0,times=length(input))
-      SeasActual <- ts(SeasActual, f=tsp_input[3], s=tsp_input[1])
+      SeasActual <- ts(SeasActual, frequency = tsp_input[3], start = tsp_input[1])
       s.frequency <- frequency(input)
       SeasIndex <- rep(0,times=s.frequency)
     }else {
       adjX <- input
       SeasActual <- rep(1,times=length(input))
-      SeasActual <- ts(SeasActual, f=tsp_input[3], s=tsp_input[1])
+      SeasActual <- ts(SeasActual, frequency = tsp_input[3], start = tsp_input[1])
       s.frequency <- frequency(input)
       SeasIndex <- rep(1,times=s.frequency)
     }
@@ -86,9 +87,9 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
           SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
         }
       }else {
-        stldesX <- mstl(x, lambda = NULL, s.window = "per")
+        stldesX <- mstl(input, lambda = NULL, s.window = "per")
         nameCol <- colnames(stldesX)
-        nameCol <- grep('season', nameCol, value=TRUE)
+        nameCol <- grep('Season', nameCol, value=TRUE)
         if (length(nameCol)==0){
           if (s.type=="A"){
             adjX <- input
@@ -100,15 +101,15 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
             SeasIndex <- rep(1,times=max(s.frequency))
           }
         }else {
-          adjX <- stR::seasadj(stRdesX)
+          adjX <- forecast::seasadj(stldesX)
           if (length(s.frequency)==1){
-            SeasActual <- stRcomp[,nameCol]
+            SeasActual <- stldesX[,nameCol]
             SeasIndex <- rep(NA,times=s.frequency)
             for (s in 1:s.frequency){
               SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
             }
           }else {
-            SeasActual <- rowSums(stRcomp[,nameCol],na.rm=TRUE)
+            SeasActual <- rowSums(stldesX[,nameCol],na.rm=TRUE)
             SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
             SeasIndex <- rep(NA,times=max(s.frequency))
             for (s in 1:max(s.frequency)){

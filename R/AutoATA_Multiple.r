@@ -113,8 +113,8 @@ AutoATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, season
       holdout_part <- ifelse(partition_h > 0 & partition_h < 1, floor(length(ts_input) * partition_h), partition_h)
       HoldOutLen <- length(ts_input) - holdout_part
       InsampleLen <- length(ts_input)
-      HoldoutSet <- ts(DeSeas[(HoldOutLen+1):InsampleLen,], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-      DeSeas <- ts(DeSeas[1:HoldOutLen,], f = tspX[3], s = tspX[1])
+      HoldoutSet <- ts(DeSeas[(HoldOutLen+1):InsampleLen,], frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
+      DeSeas <- ts(DeSeas[1:HoldOutLen,], frequency =tspX[3], start = tspX[1])
       output <- AutoATAHoldout(as.matrix.data.frame(DeSeas)
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
@@ -239,8 +239,8 @@ AutoATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, season
       holdout_part <- ifelse(partition_h > 0 & partition_h < 1, floor(length(ts_input) * partition_h), partition_h)
       HoldOutLen <- length(ts_input) - holdout_part
       InsampleLen <- length(ts_input)
-      HoldoutSet <- ts(X[(HoldOutLen+1):InsampleLen], f = tspX[3], s = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-      X <- ts(X[1:HoldOutLen], f = tspX[3], s = tspX[1])
+      HoldoutSet <- ts(X[(HoldOutLen+1):InsampleLen], frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
+      X <- ts(X[1:HoldOutLen], frequency = tspX[3], start = tspX[1])
     }else {
       HoldoutSet <- NA
     }
