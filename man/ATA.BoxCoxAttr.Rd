@@ -4,8 +4,12 @@
 \alias{ATA.BoxCoxAttr}
 \title{The ATA.BoxCoxAttr function works with many different types of inputs.}
 \usage{
-ATA.BoxCoxAttr(bcMethod = "loglik", bcLower = 0, bcUpper = 1,
-  bcBiasAdj = FALSE)
+ATA.BoxCoxAttr(
+  bcMethod = "loglik",
+  bcLower = 0,
+  bcUpper = 1,
+  bcBiasAdj = FALSE
+)
 }
 \arguments{
 \item{bcMethod}{Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).}

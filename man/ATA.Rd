@@ -4,18 +4,43 @@
 \alias{ATA}
 \title{Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
 \usage{
-ATA(X, Y = NULL, parP = NULL, parQ = NULL, parPHI = NULL,
-  model.type = NULL, seasonal.test = NULL, seasonal.model = NULL,
-  seasonal.period = NULL, seasonal.type = NULL,
-  seasonal.test.attr = NULL, find.period = NULL,
-  accuracy.type = NULL, level.fixed = FALSE, trend.fixed = FALSE,
-  trend.search = FALSE, h = NULL, partition.h = NULL,
-  holdout = FALSE, holdout.adjustedP = TRUE, holdin = FALSE,
-  transform.order = "before", transform.method = NULL,
-  transform.attr = NULL, lambda = NULL, shift = NULL,
-  initial.level = NULL, initial.trend = NULL, ci.level = 95,
-  start.phi = NULL, end.phi = NULL, size.phi = NULL,
-  negative.forecast = TRUE, print.out = TRUE, plot.out = TRUE)
+ATA(
+  X,
+  Y = NULL,
+  parP = NULL,
+  parQ = NULL,
+  parPHI = NULL,
+  model.type = NULL,
+  seasonal.test = NULL,
+  seasonal.model = NULL,
+  seasonal.period = NULL,
+  seasonal.type = NULL,
+  seasonal.test.attr = NULL,
+  find.period = NULL,
+  accuracy.type = NULL,
+  level.fixed = FALSE,
+  trend.fixed = FALSE,
+  trend.search = FALSE,
+  h = NULL,
+  partition.h = NULL,
+  holdout = FALSE,
+  holdout.adjustedP = TRUE,
+  holdin = FALSE,
+  transform.order = "before",
+  transform.method = NULL,
+  transform.attr = NULL,
+  lambda = NULL,
+  shift = NULL,
+  initial.level = NULL,
+  initial.trend = NULL,
+  ci.level = 95,
+  start.phi = NULL,
+  end.phi = NULL,
+  size.phi = NULL,
+  negative.forecast = TRUE,
+  print.out = TRUE,
+  plot.out = TRUE
+)
 }
 \arguments{
 \item{X}{A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}

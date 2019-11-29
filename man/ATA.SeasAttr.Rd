@@ -4,13 +4,24 @@
 \alias{ATA.SeasAttr}
 \title{Attributes Set For Unit Root and Seasonality Tests}
 \usage{
-ATA.SeasAttr(corrgram.tcrit = 1.28, uroot.test = "adf",
-  suroot.test = "correlogram", suroot.uroot = TRUE,
-  uroot.type = "trend", uroot.alpha = 0.05, suroot.alpha = 0.05,
-  uroot.maxd = 2, suroot.maxD = 1, suroot.m = NULL,
-  uroot.pkg = "tseries", multi.period = "min",
-  x13.estimate.maxiter = 1500, x13.estimate.tol = 1e-05,
-  x11.estimate.maxiter = 1500, x11.estimate.tol = 1e-05)
+ATA.SeasAttr(
+  corrgram.tcrit = 1.28,
+  uroot.test = "adf",
+  suroot.test = "correlogram",
+  suroot.uroot = TRUE,
+  uroot.type = "trend",
+  uroot.alpha = 0.05,
+  suroot.alpha = 0.05,
+  uroot.maxd = 2,
+  suroot.maxD = 1,
+  suroot.m = NULL,
+  uroot.pkg = "tseries",
+  multi.period = "min",
+  x13.estimate.maxiter = 1500,
+  x13.estimate.tol = 1e-05,
+  x11.estimate.maxiter = 1500,
+  x11.estimate.tol = 1e-05
+)
 }
 \arguments{
 \item{corrgram.tcrit}{t-value for autocorrelogram.}

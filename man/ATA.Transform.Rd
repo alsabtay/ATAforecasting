@@ -4,11 +4,17 @@
 \alias{ATA.Transform}
 \title{Transformation Techniques for ATA Method}
 \usage{
-ATA.Transform(X, tMethod = c("BoxCox", "BoxCox Shift", "Sqrt",
-  "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog", "Modulus",
-  "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog"),
-  tLambda, tShift = 0, bcMethod = c("loglik", "guerrero"),
-  bcLower = 0, bcUpper = 1)
+ATA.Transform(
+  X,
+  tMethod = c("BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log",
+    "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson",
+    "GPower", "GLog"),
+  tLambda,
+  tShift = 0,
+  bcMethod = c("loglik", "guerrero"),
+  bcLower = 0,
+  bcUpper = 1
+)
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}

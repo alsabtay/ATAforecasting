@@ -4,8 +4,13 @@
 \alias{ATA.Forecast}
 \title{Forecasting Time Series Using the ATA Method}
 \usage{
-ATA.Forecast(object, h = NULL, out.sample = NULL, ci.level = 95,
-  negative.forecast = TRUE)
+ATA.Forecast(
+  object,
+  h = NULL,
+  out.sample = NULL,
+  ci.level = 95,
+  negative.forecast = TRUE
+)
 }
 \arguments{
 \item{object}{An \code{ATA} object is required for forecast.}

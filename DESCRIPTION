@@ -1,8 +1,8 @@
 Package: ATAforecasting
 Type: Package
 Title: Forecasting Time Series by ATA Method
-Version: 0.0.47
-Date: 2019-10-29
+Version: 0.0.48
+Date: 2019-11-30
 Author: Ali Sabri Taylan <alisabritaylan@gmail.com> and Hanife Taylan Selamlar <hanife.taylan@gmail.com>
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>
 Description: Based on the modified simple exponential smoothing as described in Yapar, G. (2016). 
@@ -18,4 +18,4 @@ Imports: Rcpp, RcppArmadillo, stats, graphics, tseries, forecast, urca, uroot, s
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
