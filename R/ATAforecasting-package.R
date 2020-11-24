@@ -2,6 +2,7 @@
 #' @import RcppArmadillo
 #' @import stats
 #' @import graphics
+#' @import rgl
 #' @import tseries
 #' @import forecast
 #' @import urca
@@ -13,7 +14,7 @@
 #' @import timeSeries
 #' @import TSA
 #' @import Mcomp
-#' 
+#'
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL
 

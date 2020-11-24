@@ -112,13 +112,13 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 
 \item{trend.fixed}{If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
 
-\item{trend.search}{If TRUE, "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0).}
+\item{trend.search}{If TRUE, "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0). Then, fits ATA(p*,q) where q is optimized for p = p*.}
 
 \item{h}{The number of steps to forecast ahead.
 When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
 
-\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. If the value is between 0 and 1, percentage of length is active.
-If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
+\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
+If the value is between 0 and 1, percentage of length is active. If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
 
 \item{holdout}{Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
 The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set).
