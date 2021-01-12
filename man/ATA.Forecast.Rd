@@ -30,8 +30,9 @@ An object of class "\code{ATA}".
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
 }
 \examples{
-ata.fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
-fc <- ATA.Forecast(ata.fit, h=18)
+ata.fit <- ATA(head(fundingTR, 100), seasonal.test = TRUE)
+ATA.plot(ATA.Forecast(ata.fit, h=18))
+
 }
 \references{
 Yapar, G., (2016)

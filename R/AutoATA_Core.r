@@ -1,4 +1,3 @@
-#' @export
 AutoATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {
   X <- as.numeric(X)

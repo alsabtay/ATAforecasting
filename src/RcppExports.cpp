@@ -342,28 +342,3 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
-static const R_CallMethodDef CallEntries[] = {
-    {"_ATAforecasting_NaiveSD", (DL_FUNC) &_ATAforecasting_NaiveSD, 2},
-    {"_ATAforecasting_NaiveSDholdin", (DL_FUNC) &_ATAforecasting_NaiveSDholdin, 3},
-    {"_ATAforecasting_outMASE", (DL_FUNC) &_ATAforecasting_outMASE, 4},
-    {"_ATAforecasting_inMASE", (DL_FUNC) &_ATAforecasting_inMASE, 3},
-    {"_ATAforecasting_inMASEholdin", (DL_FUNC) &_ATAforecasting_inMASEholdin, 4},
-    {"_ATAforecasting_meanIT", (DL_FUNC) &_ATAforecasting_meanIT, 2},
-    {"_ATAforecasting_AutoATACore", (DL_FUNC) &_ATAforecasting_AutoATACore, 11},
-    {"_ATAforecasting_AutoATADamped", (DL_FUNC) &_ATAforecasting_AutoATADamped, 16},
-    {"_ATAforecasting_AutoATA", (DL_FUNC) &_ATAforecasting_AutoATA, 20},
-    {"_ATAforecasting_AutoATACoreHoldout", (DL_FUNC) &_ATAforecasting_AutoATACoreHoldout, 12},
-    {"_ATAforecasting_AutoATADampedHoldout", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldout, 17},
-    {"_ATAforecasting_AutoATAHoldout", (DL_FUNC) &_ATAforecasting_AutoATAHoldout, 21},
-    {"_ATAforecasting_ATAHoldoutForecast", (DL_FUNC) &_ATAforecasting_ATAHoldoutForecast, 11},
-    {"_ATAforecasting_AutoATACoreHoldhin", (DL_FUNC) &_ATAforecasting_AutoATACoreHoldhin, 12},
-    {"_ATAforecasting_AutoATADampedHoldhin", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldhin, 17},
-    {"_ATAforecasting_AutoATAHoldhin", (DL_FUNC) &_ATAforecasting_AutoATAHoldhin, 21},
-    {NULL, NULL, 0}
-};
-
-RcppExport void R_init_ATAforecasting(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
-}

@@ -40,15 +40,15 @@ The measures calculated are:
 }
 }
 \examples{
-ata.fit1 <- ATA(M3[[1899]]$x, h=18)
-ATA.Accuracy(ata.fit1)
-ATA.Accuracy(ata.fit1, M3[[1899]]$xx)
+ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
+
 }
 \references{
 Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
 of forecast accuracy". \emph{International Journal of Forecasting},
-\bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2014)
-"Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
+\bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2019)
+"Forecasting: principles and practice", OTexts. Section 5.8 "Evaluating point forecast accuracy". \url{https://otexts.com/fpp3/accuracy.html}.
 }
 \seealso{
 \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.

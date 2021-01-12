@@ -1,4 +1,5 @@
-#' @export
+#' @importFrom forecast msts 
+#' @importFrom stats frequency ts tsp tsp<- var
 AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                             level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, lambda, shift, orig.X,
                             OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin)
@@ -30,7 +31,7 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
       seas.transform <- NULL
       seas.type <- seasonal.type
     }
-  }else {
+  }else { 
     seasonal.model <- "none"
     seas.type <- seasonal.type <- "A"
     seas.lambda <- NULL
@@ -76,7 +77,7 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
   ata.output <- AutoATA.Damped(DeSeas, pb = parP, qb = parQ, model.Type = model.Type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend, orig_X = AdjInSample, Holdout = holdout, HoldoutSet = HoldoutSet, Adjusted_P = holdout.adjustedP, h = h, Holdin = holdin)
   ata.output$h <- h
   ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
-  ata.output$actual <- msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+  ata.output$actual <- forecast::msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency)
   fit.ata <- ATA.BackTransform(X=ata.output$fitted, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
   forecast.ata <- ATA.BackTransform(X=ata.output$forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
   holdout.ata <- ATA.BackTransform(X=ata.output$holdout.forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
@@ -86,13 +87,13 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
     ATA.fitted <- fit.ata + SeasonalActual
     ATA.forecast <- forecast.ata + OS_SIValue
     if (holdout == TRUE){
-      ata.output$holdout.forecast <- msts(holdout.ata + SeasonalActual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+      ata.output$holdout.forecast <- forecast::msts(holdout.ata + SeasonalActual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
     }
   }else {
     ATA.fitted <- fit.ata * SeasonalActual
     ATA.forecast <- forecast.ata * OS_SIValue
     if (holdout == TRUE){
-      ata.output$holdout.forecast <- msts(holdout.ata * SeasonalActual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+      ata.output$holdout.forecast <- forecast::msts(holdout.ata * SeasonalActual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
     }
   }
   ata.output$fitted <- ATA.fitted
@@ -104,8 +105,8 @@ AutoATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.m
   }
   accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
   if (holdout == TRUE){
-    ata.output$holdout.training <- msts(ata.output$actual[1:HoldOutLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
-    ata.output$holdout.validation <- msts(ata.output$actual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+    ata.output$holdout.training <- forecast::msts(ata.output$actual[1:HoldOutLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
+    ata.output$holdout.validation <- forecast::msts(ata.output$actual[(HoldOutLen+1):InsampleLen], start=tsp(orig.X)[1], seasonal.periods = s.frequency)
   }
   my_list <- ata.output
   my_list$out.sample <- OutSample

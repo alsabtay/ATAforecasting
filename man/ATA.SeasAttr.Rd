@@ -44,7 +44,7 @@ ATA.SeasAttr(
 
 \item{suroot.m}{Deprecated. Length of seasonal period: frequency of data for nsdiff.}
 
-\item{uroot.pkg}{Using \code{ucra} or \code{tseries} packages for unit root test. The default value is "ucra".}
+\item{uroot.pkg}{Using \code{urca} or \code{tseries} packages for unit root test. The default value is "urca".}
 
 \item{multi.period}{Selection type of multi seasonal period. \code{min} or \code{max} function for selection}
 

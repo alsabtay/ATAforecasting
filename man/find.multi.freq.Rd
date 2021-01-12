@@ -7,10 +7,10 @@
 find.multi.freq(x)
 }
 \arguments{
-\item{x}{an univariate time serie}
+\item{x}{an univariate time series}
 }
 \value{
-multi frequencies/cycles of the given time serie
+multi frequencies/cycles of the given data
 }
 \description{
 Find Multi Frequency Using Spectral Density Of A Time Series From AR Fit

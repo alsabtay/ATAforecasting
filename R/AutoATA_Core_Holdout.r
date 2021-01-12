@@ -1,4 +1,3 @@
-#' @export
 AutoATA.Core.Holdout <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, hh)
 {
   X <- as.numeric(X)

@@ -25,11 +25,13 @@
 #'
 #' @keywords ata forecast accuracy ts msts
 #'
-#' @export
+#' @importFrom stats cycle frequency ts tsp tsp<- var
 #'
 #' @examples
-#' ata.fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
-#' fc <- ATA.Forecast(ata.fit, h=18)
+#' ata.fit <- ATA(head(fundingTR, 100), seasonal.test = TRUE)
+#' ATA.plot(ATA.Forecast(ata.fit, h=18))
+#'
+#' @export
 ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
 {
   y <- object
@@ -46,7 +48,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     }
   }
   if(!is.null(out.sample)){
-    if (length(out.sample)==h){
+    if (length(out.sample)!=h){
       return("The length of out.sample must be equal h. ATA Forecast was terminated!")
     }
   }
@@ -131,8 +133,8 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     y$forecast.upper <- ci_up
   }
   attr(y, "class") <- "ATA"
-  print.ATA(y)
+  ATA.print(y)
   return(y)
-  print.ATA(y)
+  ATA.print(y)
   gc()
 }

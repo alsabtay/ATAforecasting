@@ -11,8 +11,10 @@
 #' If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
 #'
 #' @return Returns an object of class "\code{ATA}"
+#' 
+#' @importFrom stats as.ts tsp tsp<-
+#' 
 #' @export
-#'
 ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 {
   tsp_X <- tsp(X)

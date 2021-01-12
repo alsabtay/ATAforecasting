@@ -35,17 +35,19 @@
 #'
 #' @references Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
 #' of forecast accuracy". \emph{International Journal of Forecasting},
-#' \bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2014)
-#' "Forecasting: principles and practice", OTexts. Section 2.5 "Evaluating forecast accuracy". \url{http://www.otexts.org/fpp/2/5}.
+#' \bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2019)
+#' "Forecasting: principles and practice", OTexts. Section 5.8 "Evaluating point forecast accuracy". \url{https://otexts.com/fpp3/accuracy.html}.
 #'
 #' @keywords ata forecast accuracy ts msts
 #'
-#' @export
-#'
+#' @importFrom stats median var
+#' @importFrom timeSeries colKurtosis colSkewness
+#' 
 #' @examples
-#' ata.fit1 <- ATA(M3[[1899]]$x, h=18)
-#' ATA.Accuracy(ata.fit1)
-#' ATA.Accuracy(ata.fit1, M3[[1899]]$xx)
+#' ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+#' ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
+#' 
+#' @export
 ATA.Accuracy <- function(object, out.sample=NULL)
 {
   ata.output <- object
@@ -104,24 +106,24 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   owa <- round(((mase/naiveAccry) + (smape/naiveAccry))/2, 6)
 
   stdDev_mae <- round(sqrt(var(pre_mae, na.rm=TRUE)),6)
-  skew_mae <- round(colSkewness(pre_mae),6)
-  kurt_mae <- round(colKurtosis(pre_mae),6)
+  skew_mae <- round(timeSeries::colSkewness(pre_mae),6)
+  kurt_mae <- round(timeSeries::colKurtosis(pre_mae),6)
 
   stdDev_mse <- round(sqrt(var(pre_mse, na.rm=TRUE)),6)
-  skew_mse <- round(colSkewness(pre_mse),6)
-  kurt_mse <- round(colKurtosis(pre_mse),6)
+  skew_mse <- round(timeSeries::colSkewness(pre_mse),6)
+  kurt_mse <- round(timeSeries::colKurtosis(pre_mse),6)
 
   stdDev_mpe <- round(sqrt(var(pre_mpe, na.rm=TRUE)),6)
-  skew_mpe <- round(colSkewness(pre_mpe),6)
-  kurt_mpe <- round(colKurtosis(pre_mpe),6)
+  skew_mpe <- round(timeSeries::colSkewness(pre_mpe),6)
+  kurt_mpe <- round(timeSeries::colKurtosis(pre_mpe),6)
 
   stdDev_mape <- round(sqrt(var(pre_mape, na.rm=TRUE)),6)
-  skew_mape <- round(colSkewness(pre_mape),6)
-  kurt_mape <- round(colKurtosis(pre_mape),6)
+  skew_mape <- round(timeSeries::colSkewness(pre_mape),6)
+  kurt_mape <- round(timeSeries::colKurtosis(pre_mape),6)
 
   stdDev_smape <- round(sqrt(var(pre_smape, na.rm=TRUE)),6)
-  skew_smape <- round(colSkewness(pre_smape),6)
-  kurt_smape <- round(colKurtosis(pre_smape),6)
+  skew_smape <- round(timeSeries::colSkewness(pre_smape),6)
+  kurt_smape <- round(timeSeries::colKurtosis(pre_smape),6)
 
   if (!is.na(out.sample[1])){
     mae_os <- round(mean(pre_mae_os, na.rm=TRUE),6)

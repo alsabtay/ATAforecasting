@@ -43,8 +43,8 @@ The function returns seasonally adjusted data constructed by removing the season
 The \code{ATA.Decomposition} function works with many different types of inputs.
 }
 \seealso{
-\code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-\code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{stlplus}}, \code{stR}, \code{\link{seasonal}}.
+\code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
+\code{\link[forecast]{tbats}}, \code{\link{stlplus}}, \code{\link[stR]{AutoSTR}}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
@@ -53,6 +53,7 @@ Ali Sabri Taylan and Hanife Taylan Selamlar
 \keyword{ata}
 \keyword{decomposition}
 \keyword{forecast}
+\keyword{mstl}
 \keyword{msts}
 \keyword{seasonal}
 \keyword{ts}

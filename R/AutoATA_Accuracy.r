@@ -1,4 +1,4 @@
-#' @export
+#' @importFrom stats frequency median
 AutoATA.Accuracy <- function(ata_opt, accryType){
   inSample <- ata_opt$actual
   in_sample_fit <- ata_opt$fitted

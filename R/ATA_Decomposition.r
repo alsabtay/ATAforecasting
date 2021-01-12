@@ -29,9 +29,15 @@
 #' \item{SeasType}{Seasonal decomposition technique}
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
-#' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
-#' \code{\link{tbats}}, \code{\link{seasadj}}, \code{\link{stlplus}}, \code{stR}, \code{\link{seasonal}}.
-#' @keywords ata seasonal decomposition forecast accuracy ts msts
+#' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
+#' \code{\link[forecast]{tbats}}, \code{\link{stlplus}}, \code{\link[stR]{AutoSTR}}.
+#' @keywords ata seasonal decomposition forecast accuracy ts msts mstl
+#'
+#' @importFrom forecast mstl msts tbats tbats.components
+#' @importFrom stats cycle decompose frequency ts tsp tsp<- stl 
+#' @importFrom stlplus stlplus
+#' @importFrom stR AutoSTR components
+#' @importFrom seasonal seas series udg
 #'
 #' @export
 #'
@@ -57,11 +63,11 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
     if (class(input)!="ts" & class(input)!="msts"){
       return("The data set must be time series object (ts or msts) ATA Method was terminated!")
     }
-    input <- msts(input, start=tsp_input[1], seasonal.periods = s.frequency)
+    input <- forecast::msts(input, start=tsp_input[1], seasonal.periods = s.frequency)
     tsp_input <- tsp(input)
     if (s.model=="decomp"){									  	# Do classical decomposition
       if (s.type=="A"){
-        desX <- decompose(input, type = c("additive"))
+        desX <- stats::decompose(input, type = c("additive"))
         adjX <- forecast::seasadj(desX)
         SeasActual <- desX$seasonal
         SeasIndex <- rep(NA,times=s.frequency)
@@ -69,7 +75,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
           SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
         }
       }else {
-        desX <- decompose(input, type = c("multiplicative"))
+        desX <- stats::decompose(input, type = c("multiplicative"))
         adjX <- forecast::seasadj(desX)
         SeasActual <- desX$seasonal
         SeasIndex <- rep(NA,times=s.frequency)
@@ -79,7 +85,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
       }
     }else if (s.model=="stl"){									# Do STL decomposition
       if (length(s.frequency)==1){
-        stldesX <- stl(input, s.window = "per", robust=TRUE)
+        stldesX <- stats::stl(input, s.window = "per", robust=TRUE)
         adjX <- forecast::seasadj(stldesX)
         SeasActual <- forecast::seasonal(stldesX)
         SeasIndex <- rep(NA,times=s.frequency)
@@ -87,17 +93,17 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
           SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
         }
       }else {
-        stldesX <- mstl(input, lambda = NULL, s.window = "per")
+        stldesX <- forecast::mstl(input, lambda = NULL, s.window = "per")
         nameCol <- colnames(stldesX)
         nameCol <- grep('Season', nameCol, value=TRUE)
         if (length(nameCol)==0){
           if (s.type=="A"){
             adjX <- input
-            SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+            SeasActual <- forecast::msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
             SeasIndex <- rep(0,times=max(s.frequency))
           }else {
             adjX <- input
-            SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+            SeasActual <- forecast::msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
             SeasIndex <- rep(1,times=max(s.frequency))
           }
         }else {
@@ -110,7 +116,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
             }
           }else {
             SeasActual <- rowSums(stldesX[,nameCol],na.rm=TRUE)
-            SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
+            SeasActual <- forecast::msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
             SeasIndex <- rep(NA,times=max(s.frequency))
             for (s in 1:max(s.frequency)){
               SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
@@ -119,19 +125,19 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="stlplus"){								# Do STLPlus decomposition
-      stlplusdesX <- stlplus(input, s.window = "per", robust=TRUE)
+	  stlplusdesX <- stlplus::stlplus(input, s.window = "per", robust=TRUE)
       adjX <- input - stlplusdesX$data$seasonal
-      SeasActual <- stlplus::seasonal(stlplusdesX)
-      SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = s.frequency)
+      SeasActual <- stlplusdesX$data$seasonal
+      SeasActual <- forecast::msts(SeasActual, start=tsp_input[1], seasonal.periods = s.frequency)
       SeasIndex <- rep(NA,times=s.frequency)
       for (s in 1:s.frequency){
         SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
       }
     }else if (s.model=="stR"){									# Do stR decomposition
-      if (length(input)>1600){
-        stRdesX <- AutoSTR(input)
+	  if (length(input)>1600){
+        stRdesX <- stR::AutoSTR(input)
       }else {
-        stRdesX <- AutoSTR(input, robust=TRUE)
+        stRdesX <- stR::AutoSTR(input, robust=TRUE)
       }
       stRcomp <- stR::components(stRdesX)
       nameCol <- colnames(stRcomp)
@@ -139,15 +145,15 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
       if (length(nameCol)==0){
         if (s.type=="A"){
           adjX <- input
-          SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(0,times=max(s.frequency))
         }else {
           adjX <- input
-          SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(1,times=max(s.frequency))
         }
       }else {
-        adjX <- stR::seasadj(stRdesX)
+        adjX <- stR_seasadj(stRdesX)
         if (length(s.frequency)==1){
           SeasActual <- stRcomp[,nameCol]
           SeasIndex <- rep(NA,times=s.frequency)
@@ -156,7 +162,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
           }
         }else {
           SeasActual <- rowSums(stRcomp[,nameCol],na.rm=TRUE)
-          SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(NA,times=max(s.frequency))
           for (s in 1:max(s.frequency)){
             SeasIndex[s] <- as.numeric(SeasActual[cycle(SeasActual)==s][1])
@@ -164,18 +170,18 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="tbats"){								# Do tbats decomposition
-      tbatsdesX <- tbats(input, use.box.cox = FALSE)
-      tbatscomp <- tbats.components(tbatsdesX)
+      tbatsdesX <- forecast::tbats(input, use.box.cox = FALSE)
+      tbatscomp <- forecast::tbats.components(tbatsdesX)
       nameCol <- colnames(tbatscomp)
       nameCol <- grep('season', nameCol, value=TRUE)
       if (length(nameCol)==0){
         if (s.type=="A"){
           adjX <- input
-          SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(0,times=max(s.frequency))
         }else {
           adjX <- input
-          SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(1,times=max(s.frequency))
         }
       }else {
@@ -188,7 +194,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
           }
         }else {
           SeasActual <- rowSums(tbatscomp[,nameCol],na.rm=TRUE)
-          SeasActual <- msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(SeasActual, start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(NA,times=max(s.frequency))
           for (s in 1:max(s.frequency)){
             SeasIndex[s] <- as.numeric(mean(SeasActual[cycle(SeasActual)==s]))
@@ -196,17 +202,17 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="x13"){									# Do X13ARIMA/SEATS decomposition
-      x13desX <- seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
+	  x13desX <- seasonal::seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
       SeasActual <- seasonal::series(x13desX,"seats.adjustfac")
-      ifelse(udg(x13desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
+      ifelse(seasonal::udg(x13desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
       if (is.null(SeasActual)) {
         if (s.type=="A"){
           adjX <- input
-          SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(0,times=max(s.frequency))
         }else {
           adjX <- input
-          SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(1,times=max(s.frequency))
         }
       }else {
@@ -217,17 +223,17 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="x11"){									# Do X13ARIMA/SEATS X11 decomposition
-      x11desX <- seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
+	  x11desX <- seasonal::seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
       SeasActual <- seasonal::series(x11desX,"x11.adjustfac")
-      ifelse(udg(x11desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
+      ifelse(seasonal::udg(x11desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
       if (is.null(SeasActual)) {
         if (s.type=="A"){
           adjX <- input
-          SeasActual <- msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(0,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(0,times=max(s.frequency))
         }else {
           adjX <- input
-          SeasActual <- msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
+          SeasActual <- forecast::msts(rep(1,times=length(input)), start=tsp_input[1], seasonal.periods = tsp_input[3])
           SeasIndex <- rep(1,times=max(s.frequency))
         }
       }else {
@@ -244,3 +250,49 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
   return(my_list)
   gc()
 }
+
+
+
+
+#' @title Seasonal adjustment based on STR
+#' @description This function is written to avoid conflict two functions with the same name, \code{seasadj}, in two different packages: \code{forecast} and \code{stR}.
+#'
+#' @param object Result of \code{AutoSTR} function in ATA.Decomposition
+#' @param include Vector of component names to include in the result. The default is \code{c("Trend", "Random")}.
+#'
+#' @return Seasonal adjusted data using stR package.
+#'
+#' @keywords stR seasonal decomposition
+#'
+#' @importFrom stR components
+#'
+#' @export
+stR_seasadj <- function(object, include = c("Trend", "Random"))
+{
+  # Extract all components
+  compTs <- stR::components(object)
+
+  # Find trend
+  trendName <- colnames(compTs)[2]
+  if(is.null(trendName) || is.na(trendName) || nchar(trendName) == 0) {
+    warning("Trend component is not specified by name, using the first component as the Trend component.")
+    colnames(compTs)[2] <- "Trend"
+  }
+
+  # Check all components are available
+  for(name in include[!(include %in% colnames(compTs))]) {
+    warning(paste(name, "is not one of the components of the decomposion, skipping..."))
+  }
+
+  # Add together the components listed in include argument.
+  result <- NULL
+  for(i in include[include %in% colnames(compTs)]) {
+    if(is.null(result)) {
+      result <- compTs[,i]
+    } else {
+      result <- result + compTs[,i]
+    }
+  }
+  return(result)
+}
+

@@ -29,7 +29,7 @@
 #' @param uroot.maxd Maximum number of non-seasonal differences allowed.
 #' @param suroot.maxD Maximum number of seasonal differences allowed.
 #' @param suroot.m Deprecated. Length of seasonal period: frequency of data for nsdiff.
-#' @param uroot.pkg Using \code{ucra} or \code{tseries} packages for unit root test. The default value is "ucra".
+#' @param uroot.pkg Using \code{urca} or \code{tseries} packages for unit root test. The default value is "urca".
 #' @param multi.period Selection type of multi seasonal period. \code{min} or \code{max} function for selection
 #' @param x13.estimate.maxiter Maximum iteration for X13ARIMA/SEATS estimation
 #' @param x13.estimate.tol Convergence tolerence for X13ARIMA/SEATS estimation
@@ -40,8 +40,8 @@
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
-#' @export
 #'
+#' @export
 ATA.SeasAttr <- function(corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=NULL, uroot.pkg="tseries", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5)
 {
   if ((uroot.test != "adf" & uroot.test != "pp" & uroot.test != "kpss") | !is.character(uroot.test)){
@@ -60,8 +60,8 @@ ATA.SeasAttr <- function(corrgram.tcrit=1.28, uroot.test="adf", suroot.test="cor
     warning("Selection type of multi seasonal period must be string. min or max function for selection.")
     multi.period <- "min"
   }
-  if ((uroot.pkg != "ucra" & uroot.pkg != "tseries") | !is.character(uroot.pkg)){
-    warning("Selection package of unit root test must be string. ucra or tseries packages for searching unit root.")
+  if ((uroot.pkg != "urca" & uroot.pkg != "tseries") | !is.character(uroot.pkg)){
+    warning("Selection package of unit root test must be string. urca or tseries packages for searching unit root.")
     uroot.pkg <- "tseries"
   }
   if(corrgram.tcrit < -10){

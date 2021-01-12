@@ -1,19 +1,17 @@
 #' @import Rcpp
 #' @import RcppArmadillo
-#' @import stats
-#' @import graphics
-#' @import rgl
-#' @import tseries
-#' @import forecast
-#' @import urca
-#' @import uroot
-#' @import seasonal
-#' @import stR
-#' @import stlplus
-#' @import xts
-#' @import timeSeries
-#' @import TSA
-#' @import Mcomp
+#' 
+#' @importFrom graphics axis legend layout lines mtext par plot polygon 
+#' @importFrom forecast BoxCox BoxCox.lambda findfrequency InvBoxCox is.constant mstl msts ndiffs nsdiffs seasadj seasonal tbats tbats.components
+#' @importFrom seasonal seas series udg
+#' @importFrom stats acf as.ts cycle decompose frequency median na.omit qnorm qt sd ts tsp tsp<- spec.ar stl var
+#' @importFrom stlplus stlplus
+#' @importFrom stR AutoSTR components
+#' @importFrom timeSeries colKurtosis colSkewness 
+#' @importFrom TSA periodogram
+#' @importFrom tseries adf.test kpss.test pp.test
+#' @importFrom utils head tail 
+#' @importFrom xts period.apply
 #'
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL

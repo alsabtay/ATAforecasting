@@ -1,14 +1,17 @@
 #' Find Frequency Using Spectral Density Of A Time Series From AR Fit
 #'
-#' @param x an univariate time serie
+#' @param x an univariate time series
 #'
-#' @return frequency/cycle of the given time serie
+#' @return frequency/cycle of the given time data
+#' 
+#' @importFrom stats spec.ar
+#' 
 #' @export
 #'
 find.freq <- function(x)
 {
   n <- length(x)
-  spec <- spec.ar(c(x),plot=FALSE)
+  spec <- stats::spec.ar(c(x),plot=FALSE)
   if(max(spec$spec)>10) # Arbitrary threshold chosen by trial and error.
   {
     period <- round(1/spec$freq[which.max(spec$spec)])

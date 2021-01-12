@@ -7,10 +7,10 @@
 find.freq(x)
 }
 \arguments{
-\item{x}{an univariate time serie}
+\item{x}{an univariate time series}
 }
 \value{
-frequency/cycle of the given time serie
+frequency/cycle of the given time data
 }
 \description{
 Find Frequency Using Spectral Density Of A Time Series From AR Fit

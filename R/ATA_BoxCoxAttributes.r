@@ -19,7 +19,6 @@
 #' Guerrero, V.M. (1993) Time-series analysis supported by power transformations. \emph{Journal of Forecasting}, \bold{12}, 37--48.
 #'
 #' @export
-#'
 ATA.BoxCoxAttr <- function(bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE)
 {
   if ((bcMethod != "guerrero" & bcMethod != "loglik") | !is.character(bcMethod)){

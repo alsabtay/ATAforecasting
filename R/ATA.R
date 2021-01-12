@@ -55,7 +55,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @param seasonal.period Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.
 #' @param seasonal.type	An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 #' If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.
-#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
+#' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
 #' For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)} equation in \code{ATA} function.
 #' @param find.period Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
 #' \itemize{
@@ -174,10 +174,13 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493
 #'
 #' @keywords ata forecast accuracy ts msts
+#' 
+#' @importFrom forecast findfrequency
+#' @importFrom stats cycle frequency ts tsp tsp<-
 #'
 #' @examples
-#' fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
-#' plot.ATA(ATA.Forecast(fit,h=36))
+#' ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+#' ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
 #'
 #' @export
 ATA <- function(X, Y = NULL,
@@ -266,7 +269,7 @@ ATA <- function(X, Y = NULL,
     if(find.period==1){
       seasonal.period <- find.freq(X)
     }else if(find.period==2){
-      seasonal.period <- findfrequency(X)
+      seasonal.period <- forecast::findfrequency(X)
     }else if (find.period==3){
       seasonal.period <- find.multi.freq(X)
       seasonal.model=="stR"
@@ -484,9 +487,10 @@ ATA <- function(X, Y = NULL,
   my_list$calculation.time <- round(as.double(difftime(end.time, start.time,units="sec")),4)
   attr(my_list, "class") <- "ATA"
   if (plot.out==TRUE) {
-    plot.ATA(my_list)
+    ATA.plot(my_list)
   }
   gc()
+  ATA.print(my_list)
   return(my_list)
 }
 
@@ -500,7 +504,7 @@ ATA <- function(X, Y = NULL,
 #' @return a summary for the results of the ATA Methods
 #'
 #' @export
-print.ATA <- function(object,...)
+ATA.print <- function(object,...)
 {
     x <- object
     cat(x$method,"\n\n")
@@ -582,8 +586,11 @@ print.ATA <- function(object,...)
 #'
 #' @return a graphic output for the components of the ATA Methods
 #'
+#' @importFrom stats cycle frequency ts tsp tsp<- 
+#' @importFrom graphics axis legend layout lines mtext par plot polygon 
+#'
 #' @export
-plot.ATA <- function(object, fcol=4, flty = 2, flwd = 2, ...)
+ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
 {
   x <- object
   par.default <- par(no.readonly = TRUE)# save default, for resetting...
@@ -621,7 +628,7 @@ plot.ATA <- function(object, fcol=4, flty = 2, flwd = 2, ...)
     plot(x$level, ylab="level")
     par(mar = c(bottom=2, 4.1, top=2, 1.1))
     plot(x$residuals, ylab="residuals")
-  }else {
+  }else { 
     layout(matrix(c(1, 2, 3, 4, 5, 6), 3, 2, byrow=TRUE))
     par(mar = c(bottom=1, 4.1, top=2, 1.1))
     plot(dataset,plot.type="s", ylim=c(min_last, max_last), col=1:ncol(dataset), xlab=NULL, ylab="fitted", yaxt="n")
@@ -645,16 +652,12 @@ plot.ATA <- function(object, fcol=4, flty = 2, flwd = 2, ...)
   par(par.default)
 }
 
-
-#' @export
 find.precision <- function(x)
 {
 	results <- nchar(sub(".", "", x, fixed=TRUE))
 	return(results)
 }
 
-
-#' @export
 find.scale <- function(x)
 {
 	results <- nchar(sub("\\d+\\.?(.*)$", "\\1", x))

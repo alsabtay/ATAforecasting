@@ -7,10 +7,10 @@
 find.freq.fourier(x)
 }
 \arguments{
-\item{x}{an univariate time serie}
+\item{x}{an univariate time series}
 }
 \value{
-frequency/cycle of the given time serie
+frequency/cycle of the given data
 }
 \description{
 Find Frequency Using Periodogram

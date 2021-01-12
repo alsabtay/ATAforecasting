@@ -1,4 +1,4 @@
-#' @export
+#' @importFrom stats frequency
 AutoATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, orig_X, Holdout, HoldoutSet, Adjusted_P, h, Holdin)
 {
   Xdata <- as.numeric(ts_input)

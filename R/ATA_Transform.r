@@ -19,8 +19,9 @@
 #'		 \item{tShift}  : Box-Cox power transformation family shifting parameter
 #'}
 #'
-#' @export
+#' @importFrom forecast BoxCox BoxCox.lambda InvBoxCox
 #'
+#' @export
 ATA.Transform <- function(X
                           , tMethod = c("BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog",
                                         "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog")
@@ -36,13 +37,13 @@ ATA.Transform <- function(X
     if (is.null(tLambda)){
       bcMethod <- match.arg(bcMethod)
       if (bcMethod == "guerrero") {
-        tLambda <- BoxCox.lambda(X, method = "guerrero", lower=bcLower, upper=bcUpper)
+        tLambda <- forecast::BoxCox.lambda(X, method = "guerrero", lower=bcLower, upper=bcUpper)
       } else {
-        tLambda <- BoxCox.lambda(X, method = "loglik", lower=bcLower, upper=bcUpper)
+        tLambda <- forecast::BoxCox.lambda(X, method = "loglik", lower=bcLower, upper=bcUpper)
       }
     }
     if (tMethod=="BoxCox"){
-      trfmX <- BoxCox(X,tLambda)
+      trfmX <- forecast::BoxCox(X,tLambda)
     }else if (tMethod=="BoxCox Shift"){
       tZ <- box_cox_shift(X, lambda = tLambda, shift = tShift)
       trfmX <- tZ$tX
@@ -57,7 +58,7 @@ ATA.Transform <- function(X
       tLambda <- NA
     }else if (tMethod=="Reciprocal"){
       tLambda <- -1
-      trfmX <- BoxCox(X,tLambda)
+      trfmX <- forecast::BoxCox(X,tLambda)
     }else if (tMethod=="Log"){
       trfmX <- box_cox(X, lambda = 0)
       tLambda <- 0
@@ -91,12 +92,11 @@ ATA.Transform <- function(X
   return(my_list)
 }
 
-#' @export
 ATA.BackTransform <- function(X, tMethod, tLambda, tShift, tbiasadj=FALSE, tfvar=NULL){
   if (is.null(tMethod)){
     trfmX <- X
   }else if (tMethod == "BoxCox") {
-    trfmX <- InvBoxCox(X, lambda=tLambda, biasadj=tbiasadj, fvar=tfvar)
+    trfmX <- forecast::InvBoxCox(X, lambda=tLambda, biasadj=tbiasadj, fvar=tfvar)
   }else if (tMethod=="BoxCox Shift"){
     trfmX <- box_cox_shift_back(X, lambda = tLambda, shift = tShift)
   }else if (tMethod=="Sqrt"){
@@ -132,9 +132,7 @@ ATA.BackTransform <- function(X, tMethod, tLambda, tShift, tbiasadj=FALSE, tfvar
 }
 
 # Box Cox ----------------------------------------------------------------------
-
 # Transformation: Box Cox
-#' @export
 box_cox <- function(X, lambda) {
   lambda_cases <- function(X, lambda) {
     lambda_absolute <- abs(lambda)
@@ -150,7 +148,6 @@ box_cox <- function(X, lambda) {
 }
 
 # Back transformation: Box Cox
-#' @export
 box_cox_back <- function(X, lambda) {
   lambda_cases_back <- function(X, lambda){
     if (abs(lambda) <= 1e-12) {   #case lambda=0
@@ -165,7 +162,6 @@ box_cox_back <- function(X, lambda) {
 }
 
 #  Transformation: Box Cox shift
-#' @export
 box_cox_shift <- function(X, lambda = lambda, shift = 0) {
   with_shift <- function(X, shift) {
     min_X <- min(X)
@@ -192,7 +188,6 @@ box_cox_shift <- function(X, lambda = lambda, shift = 0) {
 }
 
 # Back transformation: Box Cox Shift
-#' @export
 box_cox_shift_back <- function(X, lambda, shift = 0) {
   lambda_cases_back <- function(X, lambda, shift){
     if (abs(lambda) <= 1e-12) {   #case lambda=0
@@ -209,7 +204,6 @@ box_cox_shift_back <- function(X, lambda, shift = 0) {
 # The Modulus transformation ----------------------------------------------------------------------
 
 #  Transformation: Modulus
-#' @export
 Modulus <- function(X, lambda) {
   u <- abs(X) + 1L
   lambda_absolute <- abs(lambda)
@@ -222,7 +216,6 @@ Modulus <- function(X, lambda) {
 }
 
 # Back transformation: Modulus
-#' @export
 Modulus_back <- function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {
@@ -236,7 +229,6 @@ Modulus_back <- function(X, lambda) {
 # The Bickel-Doksum transformation ----------------------------------------------------------------------
 
 #  Transformation: Bick-Doksum
-#' @export
 Bickel_Doksum <-  function(X, lambda) {
   if (lambda > 1e-12){
     yt <- (abs(X)^lambda * sign(X) - 1)/lambda
@@ -247,7 +239,6 @@ Bickel_Doksum <-  function(X, lambda) {
 }
 
 # Back transformation: Bick-Doksum
-#' @export
 Bickel_Doksum_back <- function(X, lambda) {
   positivos <- which(X >= 0)
   X[positivos] <- (lambda * X[positivos] + 1)^(1 / lambda)
@@ -259,7 +250,6 @@ Bickel_Doksum_back <- function(X, lambda) {
 # The Manly transformation ----------------------------------------------------------------------
 
 # Transformation: Manly
-#' @export
 Manly <-  function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {  #case lambda=0
@@ -271,7 +261,6 @@ Manly <-  function(X, lambda) {
 }
 
 # Back transformation: Manly
-#' @export
 Manly_back <- function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {  #case lambda=0
@@ -285,7 +274,6 @@ Manly_back <- function(X, lambda) {
 # The Dual transformation ----------------------------------------------------------------------
 
 # Transformation: Dual
-#' @export
 Dual <-  function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {  #case lambda=0
@@ -299,7 +287,6 @@ Dual <-  function(X, lambda) {
 }
 
 # Back transformation: Dual
-#' @export
 Dual_back <- function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if(lambda_absolute <= 1e-12) {
@@ -313,7 +300,6 @@ Dual_back <- function(X, lambda) {
 # The Yeo-Johnson transformation ----------------------------------------------------------------------
 
 # Transformation: Yeo-Johnson
-#' @export
 Yeo_Johnson <-  function(X, lambda) {
   n <- length(X)
   yt <- rep(NA, n)
@@ -333,7 +319,6 @@ Yeo_Johnson <-  function(X, lambda) {
 }
 
 # Back transformation: Yeo-Johnson
-#' @export
 Yeo_Johnson_back <- function(X, lambda) {
   negativos <- which(X < 0)
   positivos <- which(X >= 0)
@@ -354,7 +339,6 @@ Yeo_Johnson_back <- function(X, lambda) {
 }
 
 #  Transformation: neg_log
-#' @export
 Neg_Log <- function(X) {
   u <- abs(X) + 1L
   yt <-  sign(X)*log(u)
@@ -362,14 +346,12 @@ Neg_Log <- function(X) {
 }
 
 # Back transformation: neg_log
-#' @export
 Neg_Log_back <- function(X) {
   yt <- sign(X) * (exp(abs(X)) - 1)
   return(yt)
 }
 
 # Transformation: Squared Root shift
-#' @export
 Sqrt_shift <- function(X, shift) {
   with_shift <-  function(X, shift) {
     min_X <- min(X)
@@ -391,14 +373,12 @@ Sqrt_shift <- function(X, shift) {
 }
 
 # Back transformation: Squared Root shift
-#' @export
 Sqrt_shift_back <- function(X, shift) {
   yt <-  X^2 - shift
   return(yt)
 }
 
 # Transformation: GPower
-#' @export
 GPower <-  function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {  #case lambda=0
@@ -410,7 +390,6 @@ GPower <-  function(X, lambda) {
 }
 
 # Back transformation: GPower
-#' @export
 GPower_back <- function(X, lambda) {
   lambda_absolute <- abs(lambda)
   if (lambda_absolute <= 1e-12) {  #case lambda=0
@@ -423,14 +402,12 @@ GPower_back <- function(X, lambda) {
 }
 
 # Transformation: GLog
-#' @export
 GLog <- function(X) {
   yt <-  log(X + sqrt(X^2 + 1))
   return(yt)
 }
 
 # Back-transformation: GLog
-#' @export
 GLog_back <- function(X) {
   yt <- (-(1 - exp(X*2))) / (2 * exp(X))
   return(yt)

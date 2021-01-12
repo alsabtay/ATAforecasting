@@ -1,7 +1,8 @@
-#' @export
+#' @importFrom stats frequency median
+#' @importFrom utils tail
 AutoATA.Accuracy.Holdin <- function(ata_opt, accryType, h){
   inSample <- ata_opt$actual
-  HoldinSet = tail(inSample, h);
+  HoldinSet = utils::tail(inSample, h);
   ata.error <- HoldinSet - ata_opt$forecast
   ata.pe <- ata.error / HoldinSet * 100
   if (accryType=="MAE" | accryType=="MdAE"){

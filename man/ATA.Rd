@@ -77,7 +77,7 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
 \item{seasonal.type}{An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
 If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
 
-\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
+\item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
 For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)} equation in \code{ATA} function.}
 
 \item{find.period}{Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
@@ -117,7 +117,7 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 \item{h}{The number of steps to forecast ahead.
 When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
 
-\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set. 
+\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set.
 If the value is between 0 and 1, percentage of length is active. If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
 
 \item{holdout}{Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
@@ -211,8 +211,8 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 \code{ATA} is a generic function for ATA Method forecasting from time series or time series models.
 }
 \examples{
-fit <- ATA(M3[[1899]]$x, M3[[1899]]$xx)
-plot(ATA.Forecast(fit,h=36))
+ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
 
 }
 \references{

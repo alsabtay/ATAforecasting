@@ -1,4 +1,4 @@
-#' @export
+#' @importFrom stats ts tsp tsp<-
 AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 {
   if (class(ata_output)!="ATA"){
