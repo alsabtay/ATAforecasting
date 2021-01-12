@@ -2,6 +2,7 @@
 
 export(ATA)
 export(ATA.Accuracy)
+export(ATA.BackTransform)
 export(ATA.BoxCoxAttr)
 export(ATA.CI)
 export(ATA.Core)

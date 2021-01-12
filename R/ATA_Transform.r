@@ -1,7 +1,7 @@
 #' Transformation Techniques for ATA Method
 #'
 #' @description These functions are modified version of \code{trafo::trafos} written by Lily Medina, Piedad Castro, Ann-Kristin Kreutzmann, Natalia Rojas-Perilla \code{trafo} package.
-#' Please review manual and vignette documents of latest \code{trafo} package. The \code{ATA.Transform} function works with many different types of inputs.
+#' and \code{forecast::BoxCox} function. Please review manual and vignette documents of latest \code{trafo} package. The \code{ATA.Transform} function works with many different types of inputs.
 #'
 #' @param X a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param tMethod Box-Cox power transformation family is consist of "BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog" in ATAforecasting package.
@@ -92,6 +92,31 @@ ATA.Transform <- function(X
   return(my_list)
 }
 
+#' Back Transformation Techniques for ATA Method
+#'
+#' @description These functions are modified version of \code{trafo::trafos} and \code{forecast::InvBoxCox} functions.
+#' Please review manual and vignette documents of latest \code{trafo} and \code{forecast} package. The \code{ATA.BackTransform} function works with many different types of inputs.
+#'
+#' @param X a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
+#' @param tMethod Box-Cox power transformation family is consist of "BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog" in ATAforecasting package.
+#' @param tLambda Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.
+#' @param tShift Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
+#' @param tbiasadj Use adjusted back-transformed mean for Box-Cox transformations using \code{forecast::BoxCox}. If transformed data is used to produce forecasts and fitted values,
+#' a regular back transformation will result in median forecasts. If tbiasadj is TRUE, an adjustment will be made to produce mean forecasts and fitted values.
+#' @param tfvar Optional parameter required if tbiasadj=TRUE. Can either be the forecast variance, or a list containing the interval \code{level}, and the
+#' corresponding \code{upper} and \code{lower} intervals.
+#'
+#' @return A list object consists of transformation parameters and transformed data.
+#' \code{ATA.Transform} is a list containing at least the following elements:
+#' \itemize{
+#'		 \item{trfmX}   : Transformed data
+#'		 \item{tLambda} : Box-Cox power transformation family parameter
+#'		 \item{tShift}  : Box-Cox power transformation family shifting parameter
+#'}
+#'
+#' @importFrom forecast BoxCox BoxCox.lambda InvBoxCox
+#'
+#' @export
 ATA.BackTransform <- function(X, tMethod, tLambda, tShift, tbiasadj=FALSE, tfvar=NULL){
   if (is.null(tMethod)){
     trfmX <- X

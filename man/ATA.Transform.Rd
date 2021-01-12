@@ -42,5 +42,5 @@ A list object consists of transformation parameters and transformed data.
 }
 \description{
 These functions are modified version of \code{trafo::trafos} written by Lily Medina, Piedad Castro, Ann-Kristin Kreutzmann, Natalia Rojas-Perilla \code{trafo} package.
-Please review manual and vignette documents of latest \code{trafo} package. The \code{ATA.Transform} function works with many different types of inputs.
+and \code{forecast::BoxCox} function. Please review manual and vignette documents of latest \code{trafo} package. The \code{ATA.Transform} function works with many different types of inputs.
 }
