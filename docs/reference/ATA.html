@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA" />
 <meta property="og:description" content="ATA is a generic function for ATA Method forecasting from time series or time series models." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.47</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
       </span>
     </div>
 
@@ -77,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,8 +90,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/alsabtay/ATAforecasting">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/alsabtay/ATAforecasting/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,18 +117,43 @@
     <p><code>ATA</code> is a generic function for ATA Method forecasting from time series or time series models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ATA</span>(<span class='no'>X</span>, <span class='kw'>Y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parP</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parQ</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parPHI</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seasonal.test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seasonal.model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>seasonal.period</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seasonal.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>seasonal.test.attr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>find.period</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>accuracy.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>level.fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>trend.fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>trend.search</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>partition.h</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>holdout</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>holdout.adjustedP</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>holdin</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>transform.order</span> <span class='kw'>=</span> <span class='st'>"before"</span>, <span class='kw'>transform.method</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>transform.attr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shift</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial.level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial.trend</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci.level</span> <span class='kw'>=</span> <span class='fl'>95</span>,
-  <span class='kw'>start.phi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>end.phi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>size.phi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>negative.forecast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>print.out</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot.out</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ATA</span><span class='op'>(</span>
+  <span class='va'>X</span>,
+  Y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parP <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parQ <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parPHI <span class='op'>=</span> <span class='cn'>NULL</span>,
+  model.type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.test <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.model <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.period <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.test.attr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  find.period <span class='op'>=</span> <span class='cn'>NULL</span>,
+  accuracy.type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  level.fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  trend.fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  trend.search <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  h <span class='op'>=</span> <span class='cn'>NULL</span>,
+  partition.h <span class='op'>=</span> <span class='cn'>NULL</span>,
+  holdout <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  holdout.adjustedP <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  holdin <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  transform.order <span class='op'>=</span> <span class='st'>"before"</span>,
+  transform.method <span class='op'>=</span> <span class='cn'>NULL</span>,
+  transform.attr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lambda <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shift <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial.level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial.trend <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ci.level <span class='op'>=</span> <span class='fl'>95</span>,
+  start.phi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  end.phi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  size.phi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  negative.forecast <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  print.out <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plot.out <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,7 +213,7 @@ If other seasonal decomposition method except <code>decomp</code> with "M", Box-
     </tr>
     <tr>
       <th>seasonal.test.attr</th>
-      <td><p>Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="ucra", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use <code>ATA.SeasAttr</code> function and its output.
+      <td><p>Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use <code>ATA.SeasAttr</code> function and its output.
 For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)</code> equation in <code>ATA</code> function.</p></td>
     </tr>
     <tr>
@@ -193,7 +221,7 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
       <td><p>Find seasonal period(s) automatically. If NULL, 0 is default. When <code>find.period</code>,</p><ul>
 <li><p>0 : none</p></li>
 <li><p>1 : single period with find.freq</p></li>
-<li><p>2 : single period with <code><a href='https://rdrr.io/pkg/forecast/man/findfrequency.html'>forecast::findfrequency</a></code></p></li>
+<li><p>2 : single period with <code><a href='https://pkg.robjhyndman.com/forecast/reference/findfrequency.html'>forecast::findfrequency</a></code></p></li>
 <li><p>3 : multiple period with find.freq &amp; stR</p></li>
 <li><p>4 : multiple period with find.freq &amp; tbats</p></li>
 <li><p>5 : multiple period with find.freq &amp; stl</p></li>
@@ -228,7 +256,7 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
     </tr>
     <tr>
       <th>trend.search</th>
-      <td><p>If TRUE, "qBullet" --&gt; Fits ATA(p,q) where p = p* is optimized for q = q* (q &gt; 0).</p></td>
+      <td><p>If TRUE, "qBullet" --&gt; Fits ATA(p,q) where p = p* is optimized for q = q* (q &gt; 0). Then, fits ATA(p*,q) where q is optimized for p = p*.</p></td>
     </tr>
     <tr>
       <th>h</th>
@@ -237,8 +265,8 @@ When the parameter is NULL; if the frequency of <code>X</code> is 4 the paramete
     </tr>
     <tr>
       <th>partition.h</th>
-      <td><p>If <code>Y</code> is NULL, this parameter divides <code>X</code> into two parts: training set (in-sample) and test set (out-sample). <code>partition.h</code> is number of periods for forecasting and size of test set. If the value is between 0 and 1, percentage of length is active.
-If <code>holdout</code> is TRUE, this parameter will be same as <code>h</code> for defining holdout set.</p></td>
+      <td><p>If <code>Y</code> is NULL, this parameter divides <code>X</code> into two parts: training set (in-sample) and test set (out-sample). <code>partition.h</code> is number of periods for forecasting and size of test set.
+If the value is between 0 and 1, percentage of length is active. If <code>holdout</code> is TRUE, this parameter will be same as <code>h</code> for defining holdout set.</p></td>
     </tr>
     <tr>
       <th>holdout</th>
@@ -375,31 +403,35 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 
     <div class='dont-index'><p><code>forecast</code>, <code>stlplus</code>, <code>stR</code>, <code><a href='https://rdrr.io/r/stats/stl.html'>stl</a></code>, <code><a href='https://rdrr.io/r/stats/decompose.html'>decompose</a></code>,
 <code>tbats</code>, <code>seasadj</code>, <code>seasonal</code>.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>ATA</span>(<span class='no'>M3</span><span class='kw'>[[</span><span class='fl'>1899</span>]]$<span class='no'>x</span>, <span class='no'>M3</span><span class='kw'>[[</span><span class='fl'>1899</span>]]$<span class='no'>xx</span>)</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span>(<span class='no'>fit</span>,<span class='kw'>h</span><span class='kw'>=</span><span class='fl'>36</span>))</div><div class='output co'>#&gt; ATA(4,3,0.8) 
+    <pre class="examples"><div class='input'><span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>84</span><span class='op'>)</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
-#&gt;    seasonal.model: decomp 
+#&gt;    seasonal.model: stl 
 #&gt; 
 #&gt;    seasonal.type: M 
 #&gt; 
-#&gt;    forecast horizon: 36 
+#&gt;    forecast horizon: 18 
 #&gt; 
 #&gt;    accuracy.type: sMAPE 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;          MAE          MSE         RMSE          MPE         MAPE        sMAPE 
-#&gt;   161.816897 39475.655839   198.684815    -0.019510     2.240487     2.239125 
-#&gt;         MASE          OWA 
-#&gt;     0.701803     0.006442 
+#&gt;           MAE           MSE          RMSE           MPE          MAPE 
+#&gt;  1.104111e+05  3.052991e+10  1.747281e+05 -4.107000e-01  4.268832e+00 
+#&gt;         sMAPE          MASE           OWA 
+#&gt;  4.261812e+00  6.883950e-01  1.500000e-05 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt;   142.569784 20326.377385   142.570605     0.027889     1.916948     1.935499 
+#&gt; 6.276038e+04 3.938865e+09 6.276038e+04 3.065340e-01 2.926998e+00 2.970471e+00 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -413,49 +445,89 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   25.79    0.00   25.81 
+#&gt;    8.25    0.00    8.26 
 #&gt; 
-#&gt; calculation.time: 25.8205 
+#&gt; calculation.time: 8.2701 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
-#&gt;           Jan      Feb      Mar      Apr      May      Jun      Jul      Aug
-#&gt; 1992                            7449.727 7427.654 7198.359 6765.687 7127.931
-#&gt; 1993 7185.366 7006.887 7788.830 7448.261 7426.484 7197.452 6765.005 7127.356
-#&gt; 1994 7185.176 7006.738 7788.698 7448.160 7426.404 7197.389 6764.958 7127.317
-#&gt; 1995 7185.163 7006.728 7788.689                                             
-#&gt;           Sep      Oct      Nov      Dec
-#&gt; 1992 7093.974 7784.791 7287.868 7164.145
-#&gt; 1993 7093.516 7784.389 7287.567 7163.908
-#&gt; 1994 7093.484 7784.362 7287.547 7163.892
-#&gt; 1995                                    
+#&gt;          Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep
+#&gt; 2015 1296249 1236871 1743369 2307767 3626365 4297325 5160210 5619674 4913657
+#&gt; 2016 1369388 1306660 1841737 2437980 3830978 4539797                        
+#&gt;          Oct     Nov     Dec
+#&gt; 2015 4206777 2164477 1424926
+#&gt; 2016                        
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata.fit</span>,h<span class='op'>=</span><span class='fl'>18</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ATA(2,2,1) 
+#&gt; 
+#&gt;    model.type: M 
+#&gt; 
+#&gt;    seasonal.model: stl 
+#&gt; 
+#&gt;    seasonal.type: M 
+#&gt; 
+#&gt;    forecast horizon: 18 
+#&gt; 
+#&gt;    accuracy.type: sMAPE 
+#&gt; 
+#&gt; In-Sample Accuracy Measures: 
+#&gt; 
+#&gt;           MAE           MSE          RMSE           MPE          MAPE 
+#&gt;  1.104111e+05  3.052991e+10  1.747281e+05 -4.107000e-01  4.268832e+00 
+#&gt;         sMAPE          MASE           OWA 
+#&gt;  4.261812e+00  6.883950e-01  1.500000e-05 
+#&gt; 
+#&gt; In-Sample Accuracy Measures: 
+#&gt; 
+#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
+#&gt; 6.276038e+04 3.938865e+09 6.276038e+04 3.065340e-01 2.926998e+00 2.970471e+00 
+#&gt; 
+#&gt; Out-Sample Accuracy Measures: 
+#&gt; 
+#&gt;          MAE          MSE         RMSE          MPE         MAPE        sMAPE 
+#&gt; 3.827829e+06 1.755212e+13 4.189525e+06 9.999997e+01 9.999997e+01 1.999999e+02 
+#&gt;         MASE          OWA 
+#&gt; 2.324255e+01 6.890000e-04 
+#&gt; 
+#&gt; Out-Sample Accuracy Measures: 
+#&gt; 
+#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
+#&gt; 4.062352e+06 1.655566e+13 4.068864e+06 9.999998e+01 9.999998e+01 1.999999e+02 
+#&gt; 
+#&gt; 
+#&gt;    user  system elapsed 
+#&gt;    8.25    0.00    8.26 
+#&gt; 
+#&gt; calculation.time: 8.2701 
+#&gt; 
+#&gt; 
+#&gt; Forecasts: 
+#&gt;            Jan       Feb       Mar       Apr       May       Jun       Jul
+#&gt; 2015 0.9984418 0.9999914 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+#&gt; 2016 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000          
+#&gt;            Aug       Sep       Oct       Nov       Dec
+#&gt; 2015 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+#&gt; 2016                                                  
 #&gt; 
 #&gt; </div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Ali Sabri Taylan.</p>
+  <p>Developed by Ali Sabri Taylan, Hanife Taylan Selamlar, Guckan Yapar.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
