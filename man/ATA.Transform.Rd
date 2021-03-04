@@ -2,24 +2,25 @@
 % Please edit documentation in R/ATA_Transform.R
 \name{ATA.Transform}
 \alias{ATA.Transform}
-\title{Transformation Techniques for ATA Method}
+\title{Transformation Techniques for The ATAforecasting}
 \usage{
 ATA.Transform(
   X,
-  tMethod = c("BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log",
-    "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson",
-    "GPower", "GLog"),
+  tMethod = c("Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus",
+    "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog"),
   tLambda,
   tShift = 0,
   bcMethod = c("loglik", "guerrero"),
   bcLower = 0,
-  bcUpper = 1
+  bcUpper = 5
 )
 }
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
 
-\item{tMethod}{Box-Cox power transformation family is consist of "BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog" in ATAforecasting package.}
+\item{tMethod}{Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
+"Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter, 
+\code{ATA.Transform} will calculate required shift parameter automatically.}
 
 \item{tLambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
 
@@ -41,6 +42,42 @@ A list object consists of transformation parameters and transformed data.
 }
 }
 \description{
-These functions are modified version of \code{trafo::trafos} written by Lily Medina, Piedad Castro, Ann-Kristin Kreutzmann, Natalia Rojas-Perilla \code{trafo} package.
-and \code{forecast::BoxCox} function. Please review manual and vignette documents of latest \code{trafo} package. The \code{ATA.Transform} function works with many different types of inputs.
+The function provides the applicability of different types of transformation techniques for the data to which the Ata method will be applied. 
+The \code{ATA.Transform} function works with many different types of inputs.
 }
+\references{
+#'\insertRef{tukey1957}{ATAforecasting}
+
+#'\insertRef{boxcox1964}{ATAforecasting}
+
+#'\insertRef{manly1976}{ATAforecasting}
+
+#'\insertRef{johndraper1980}{ATAforecasting}
+
+#'\insertRef{bickeldoksum1982}{ATAforecasting}
+
+#'\insertRef{sakia1992}{ATAforecasting}
+
+#'\insertRef{guerrero1993}{ATAforecasting}
+
+#'\insertRef{yeojohn2000}{ATAforecasting}
+
+#'\insertRef{glog2002}{ATAforecasting}
+
+#'\insertRef{neglog2005}{ATAforecasting}
+
+#'\insertRef{yang2006}{ATAforecasting} 
+
+#'\insertRef{gpower2013}{ATAforecasting}
+}
+\keyword{Ata}
+\keyword{Bickel--Doksum}
+\keyword{Box--Cox}
+\keyword{Guerrero}
+\keyword{Manly}
+\keyword{Yeo--Johnson}
+\keyword{dual}
+\keyword{glog}
+\keyword{gpower}
+\keyword{neglog}
+\keyword{transformation}

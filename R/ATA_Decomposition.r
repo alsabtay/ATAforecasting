@@ -1,4 +1,4 @@
-#' Automatic Seasonal Decomposition for The ATA Method
+#' Seasonal Decomposition for The ATAforecasting
 #'
 #' @description Automatic seasonal decomposition for ATA Method is called \code{ATA.Decomposition} function in ATAforecasting package.
 #' The function returns seasonally adjusted data constructed by removing the seasonal component. The methodology is fully automatic.
@@ -10,7 +10,7 @@
 #'		 \item{decomp} 	: classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used.
 #'		 \item{stl}		: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed.
 #'		 \item{stlplus}	: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used.
-#'		 \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components.
+#'		 \item{tbats}   : exponential smoothing state space model with Box--Cox transformation, ARMA errors, trend and seasonal components.
 #' 					  	  as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
 #'		 \item{stR}    	: seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
 #'		 \item{x13}    	: seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used.
@@ -31,13 +31,38 @@
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
 #' \code{\link[forecast]{tbats}}, \code{\link{stlplus}}, \code{\link[stR]{AutoSTR}}.
-#' @keywords ata seasonal decomposition forecast accuracy ts msts mstl
+#'
+#' @keywords Ata seasonal decomposition forecast accuracy ts msts mstl
+#'
+#' @references
+#' 
+#' #'\insertRef{shishkin1967}{ATAforecasting}
+#'
+#' #'\insertRef{dagum1988}{ATAforecasting}
+#'
+#' #'\insertRef{cleveland1990stl}{ATAforecasting}
+#'
+#' #'\insertRef{hafen2010local}{ATAforecasting}
+#'
+#' #'\insertRef{delivera2011}{ATAforecasting}
+#'
+#' #'\insertRef{dokumentov2015}{ATAforecasting}
+#'
+#' #'\insertRef{dokumentov2020str}{ATAforecasting}
+#'
+#' #'\insertRef{monsell2003toward}{ATAforecasting}
+#'
+#' #'\insertRef{monsell2007x}{ATAforecasting}
+#'
+#' #'\insertRef{artseasonal2018}{ATAforecasting}
+#'
 #'
 #' @importFrom forecast mstl msts tbats tbats.components
 #' @importFrom stats cycle decompose frequency ts tsp tsp<- stl 
 #' @importFrom stlplus stlplus
 #' @importFrom stR AutoSTR components
 #' @importFrom seasonal seas series udg
+#' @importFrom Rdpack reprompt
 #'
 #' @export
 #'
@@ -60,7 +85,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
       SeasIndex <- rep(1,times=s.frequency)
     }
   }else {
-    if (class(input)!="ts" & class(input)!="msts"){
+    if (class(input)[1]!="ts" & class(input)[1]!="msts"){
       return("The data set must be time series object (ts or msts) ATA Method was terminated!")
     }
     input <- forecast::msts(input, start=tsp_input[1], seasonal.periods = s.frequency)

@@ -1,13 +1,13 @@
-#' ATAforecasting: Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
+#' ATAforecasting: Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
 #'
 #' @description Returns ATA(p,q,phi) applied to \code{X}.
-#' Based on the modified simple exponential smoothing as described in Yapar, G. (2016).
-#' ATA method is a new univariate time series forecasting method which provides innovative
-#' solutions to issues faced during the initialization and optimization stages of existing methods.
-#' ATA's forecasting performance is superior to existing methods both in terms of easy implementation
-#' and accurate forecasting. It can be applied to non-seasonal or deseasonalized time series,
-#' where the deseasonalization can be performed via any preferred decomposition method.
-#' This methodology performed extremely well on the M3 and M4-competition data.
+#' The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> , 
+#' Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+#' <doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+#' the initialization and optimization stages of existing methods.
+#' Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+#' It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
+#' This methodology performed well on the M3 and M4-competition data.
 #' Returns ATA(p,q,phi) applied to \code{X}.
 #'
 #' @docType package
@@ -23,13 +23,22 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 # "_PACKAGE"
 
 
-## Generic ATA Methods functions
+## Generic Ata Methods functions
 ## Part of ATAforecasting package
 
 
-#' Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
+#' Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
 #'
-#' \code{ATA} is a generic function for ATA Method forecasting from time series or time series models.
+#' \code{ATA} is a generic function for Ata Method forecasting. 
+#' The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> , 
+#' Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+#' <doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+#' the initialization and optimization stages of existing methods.
+#' Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+#' It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
+#' This methodology performed well on the M3 and M4-competition data.
+#'
+#' Returns ATA(p,q,phi) applied to \code{X}.
 #'
 #' @param X A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param Y A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{partition.h} argument.
@@ -46,15 +55,16 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #'		 \item{decomp} 	: classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used.
 #'		 \item{stl}		: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed.
 #'		 \item{stlplus}	: seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used.
-#'		 \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components.
+#'		 \item{tbats}   : exponential smoothing state space model with Box-Cox transformation, ARMA errors, trend and seasonal components.
 #' 					  	  as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
 #'		 \item{stR}    	: seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
 #'		 \item{x13}    	: seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used.
 #'		 \item{x11}    	: seasonal-trend decomposition procedure based on X11. If \code{x11}, the \code{seasonal} package will be used.
 #' }
 #' @param seasonal.period Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.
-#' @param seasonal.type	An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
-#' If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.
+#' @param seasonal.type	An one-character string identifying method for the seasonal component framework. The letter "A" for additive model, the letter "M" for multiplicative model.
+#' If NULL, both letters will be tried and the best model (according to the accuracy measure \code{accuracy.type}) returned.
+#' If seasonal decomposition methods except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.
 #' @param seasonal.test.attr Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
 #' For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)} equation in \code{ATA} function.
 #' @param find.period Find seasonal period(s) automatically. If NULL, 0 is default. When \code{find.period},
@@ -96,12 +106,11 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @param holdout.adjustedP Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.
 #' @param holdin Default is FALSE. If TRUE, ATA Method uses the hold-in forecasting for accuracy measure to select the best model. In hold-in forecasting, the last h-length data points are used for accuracy measure.
 #' @param transform.order If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.
-#' @param transform.method Transformation method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
-#' When Box-Cox power transformation family is specified, \code{model.type} and \code{seasonal.type} are set to "A".
+#' @param transform.method Transformation method  --> "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter, 
+#' \code{ATA.Transform} will calculate required shift parameter automatically.
 #' @param transform.attr Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.
 #' @param lambda Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.
 #' @param shift Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
-#' When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".
 #' @param initial.level If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level.
 #' If TRUE, ATA Method calculates average of first p value in \code{X}for level.
 #' @param initial.trend If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
@@ -137,7 +146,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' 		 \item{level.fixed}       : A choice of optional level-fixed trended methods.
 #' 		 \item{trend.fixed}       : A choice of optional trend-fixed trended methods.
 #' 		 \item{trend.search}      : A choice of optional trend and level optimized trended methods if q > 1.
-#' 		 \item{transform.method}  : Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
+#' 		 \item{transform.method}  : Box-Cox power transformation family method  --> Box_Cox, Sqrt, Reciprocal, Log, NegLog, Modulus, BickelDoksum, Manly, Dual, YeoJohnson, GPower, GLog.
 #' 		 \item{transform.order}   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
 #' 		 \item{lambda}  	: Box-Cox power transformation family parameter.
 #' 		 \item{shift}		  : Box-Cox power transformation family shifting parameter.
@@ -165,21 +174,25 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
 #' \code{tbats}, \code{seasadj}, \code{seasonal}.
 #'
-#' @references Yapar, G., (2016)
-#' "Modified simple exponential smoothing"
-#' \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi:10.15672/HJMS.201614320580
+#' @references
+#' 
+#' #'\insertRef{yapar2017mses}{ATAforecasting}
 #'
-#' Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
-#' "Modified holt's linear trend method"
-#' \emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493
+#' #'\insertRef{yapar2018mhes}{ATAforecasting}
 #'
-#' @keywords ata forecast accuracy ts msts
+#' #'\insertRef{yapar2018mses}{ATAforecasting}
+#'
+#' #'\insertRef{yapar2019ata}{ATAforecasting}
+#'
+#' @keywords Ata forecast accuracy ts msts
 #' 
 #' @importFrom forecast findfrequency
 #' @importFrom stats cycle frequency ts tsp tsp<-
+#' @importFrom Rdpack reprompt
 #'
 #' @examples
-#' ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+#' demoATA <-  window(touristTR, start = 2008, end = 2014.917)
+#' ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
 #' ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
 #'
 #' @export
@@ -207,7 +220,7 @@ ATA <- function(X, Y = NULL,
                 transform.method = NULL,
                 transform.attr = NULL,
                 lambda = NULL,
-                shift = NULL,
+                shift = 0,
                 initial.level = NULL,
                 initial.trend = NULL,
                 ci.level = 95,
@@ -268,17 +281,22 @@ ATA <- function(X, Y = NULL,
   if (find.period!=0) {
     if(find.period==1){
       seasonal.period <- find.freq(X)
+	  seasonal.test <- TRUE
     }else if(find.period==2){
       seasonal.period <- forecast::findfrequency(X)
+	  seasonal.test <- TRUE
     }else if (find.period==3){
       seasonal.period <- find.multi.freq(X)
       seasonal.model=="stR"
+	  seasonal.test <- TRUE
     }else if (find.period==4){
       seasonal.period <- find.multi.freq(X)
       seasonal.model=="tbats"
+	  seasonal.test <- TRUE
     }else if (find.period==5){
       seasonal.period <- find.multi.freq(X)
       seasonal.model=="stl"
+	  seasonal.test <- TRUE
     }else {
       return("find.period must be integer and between 0 and 5. ATA Method was terminated!")
     }
@@ -287,10 +305,12 @@ ATA <- function(X, Y = NULL,
   if (length(s.frequency)>1){
     if (seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "stl"){
       seasonal.model <- "stl"
+	  seasonal.test <- TRUE
     }
   }else {
 	if (s.frequency > 1 & is.null(seasonal.model)){
 		seasonal.model <- "decomp"
+		seasonal.test <- TRUE
 	}
   }
   if (is.null(accuracy.type)){
@@ -319,6 +339,8 @@ ATA <- function(X, Y = NULL,
     if (is.null(seasonal.test)){
       seasonal.test <- TRUE
     }
+  }else {
+	seasonal.test <- FALSE
   }
   if (is.null(transform.attr)) {
     boxcox_attr_set <- ATA.BoxCoxAttr()
@@ -390,8 +412,9 @@ ATA <- function(X, Y = NULL,
     }
   }
   if (!is.null(transform.method)){
-    if ((transform.method != "BoxCox" & transform.method != "BoxCox Shift" & transform.method != "Modulus" & transform.method != "Bickel-Doksum" & transform.method != "Dual" &
-         transform.method != "Yeo-Johnson" & transform.method != "GPower" & transform.method != "GLog" & transform.method != "Log" & transform.method != "Log Shift") | !is.character(transform.method) | length(transform.method) > 1){
+    if ((transform.method != "Box_Cox" & transform.method != "Box_Cox_Shift" & transform.method != "Modulus" & transform.method != "BickelDoksum" & transform.method != "Dual"  & transform.method != "Manly"  & transform.method != "Sqrt" & transform.method != "SqrtShift" & 
+         transform.method != "YeoJohnson" & transform.method != "GPower" & transform.method != "GLog" & transform.method != "Log" & transform.method != "Reciprocal" & transform.method !="ReciprocalShift" & transform.method != "NegLog" & 
+		 transform.method != "LogShift") | !is.character(transform.method) | length(transform.method) > 1){
       return("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATA Method was terminated!")
     }
   }
@@ -406,6 +429,9 @@ ATA <- function(X, Y = NULL,
   start.time <- Sys.time()
   ptm <- proc.time()
   class_X <- class(X)
+  X <- ts(X, frequency = min(s.frequency), start = tsp(X)[1])
+  firstTspX <- tsp(X)
+  X <- forecast::msts(X, start=firstTspX[1], seasonal.periods = s.frequency)
   tspX <- tsp(X)
   if (!is.null(Y[1])){
     OutSample <- Y
@@ -444,16 +470,13 @@ ATA <- function(X, Y = NULL,
       }
     }
   }
-  orig.X <- X
-  freqYh <- cycle(OutSample)
+  orig.X <- ts(X, frequency = firstTspX[3], start = firstTspX[1])
+  tsp_ny <- tsp(forecast::msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency))
+  fsample <- ts(OutSample, frequency = max(s.frequency), start = tsp_ny[2] + ifelse(tsp_ny[3]>1, 1/tsp_ny[3], 1))
+  freqYh <- cycle(fsample)
   if (transform.order == "before"){
-    if (!is.null(transform.method)){
-      model.type <- "M"
-      seasonal.type <- "M"
-      warning("seasonal.type and model.type parameter have been set as 'M' because of a transformation techniques from Box-Cox power transformation family selected.")
-    }
     ChgX <- ATA.Transform(X,tMethod=transform.method, tLambda=lambda, tShift=shift, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
-    X <- ChgX$trfmX
+    X <- forecast::msts(ChgX$trfmX, start=firstTspX[1], seasonal.periods = s.frequency)
     lambda <- ChgX$tLambda
     shift <- ChgX$tShift
     if (length(seasonal.type)==1 & length(seasonal.model)==1){
@@ -496,17 +519,19 @@ ATA <- function(X, Y = NULL,
 
 
 
-#' Specialized Screen Print Function of The ATA Method Forecast
+#' Specialized Screen Print Function of The ATAforecasting
 #'
 #' @param object an object of \code{ATA}
 #' @param ... other inputs
 #'
-#' @return a summary for the results of the ATA Methods
+#' @return a summary for the results of the ATAforecasting
 #'
 #' @export
 ATA.print <- function(object,...)
 {
-    x <- object
+	opscipen <- options("scipen" = 100, "digits"=7)
+    on.exit(options(opscipen))
+	x <- object
     cat(x$method,"\n\n")
     if (x$level.fixed==TRUE){
       cat("   level.fixed: TRUE","\n\n")
@@ -576,7 +601,7 @@ ATA.print <- function(object,...)
 
 
 
-#' Specialized Plot Function of The ATA Method Forecast
+#' Specialized Plot Function of The ATAforecasting
 #'
 #' @param object an object of \code{ATA}
 #' @param fcol line color
@@ -584,7 +609,7 @@ ATA.print <- function(object,...)
 #' @param flwd line width
 #' @param ... other inputs
 #'
-#' @return a graphic output for the components of the ATA Methods
+#' @return a graphic output for the components of the ATAforecasting
 #'
 #' @importFrom stats cycle frequency ts tsp tsp<- 
 #' @importFrom graphics axis legend layout lines mtext par plot polygon 
@@ -593,7 +618,8 @@ ATA.print <- function(object,...)
 ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
 {
   x <- object
-  par.default <- par(no.readonly = TRUE)# save default, for resetting...
+  oldpar <- par(no.readonly = TRUE)# save default, for resetting...
+  on.exit(par(oldpar))
   caption <- paste(ifelse(x$model.type=="A"," Additive "," Multiplicative "), x$method, sep="")
   xx <- x$actual
   hpred <- length(x$forecast)
@@ -649,7 +675,7 @@ ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
     par(mar = c(bottom=2, 4.1, top=2, 1.1))
     plot(x$residuals, ylab="residuals")
   }
-  par(par.default)
+  #par(oldpar)
 }
 
 find.precision <- function(x)

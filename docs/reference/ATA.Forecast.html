@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Forecasting Time Series Using the ATA Method — ATA.Forecast • ATAforecasting</title>
+<title>Forecasting Method for The ATAforecasting — ATA.Forecast • ATAforecasting</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Forecasting Time Series Using the ATA Method — ATA.Forecast" />
+<meta property="og:title" content="Forecasting Method for The ATAforecasting — ATA.Forecast" />
 <meta property="og:description" content="ATA.Forecast is a generic function for forecasting of the ATA Method." />
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Forecasting Time Series Using the ATA Method</h1>
+    <h1>Forecasting Method for The ATAforecasting</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA_Forecast.R'><code>R/ATA_Forecast.R</code></a></small>
     <div class="hidden name"><code>ATA.Forecast.Rd</code></div>
     </div>
@@ -155,12 +155,18 @@
     <p>An object of class "<code>ATA</code>".</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Yapar, G., (2016)
-"Modified simple exponential smoothing"
-<em>Hacettepe University Journal of Mathematics and Statistics</em> Early Access. Doi:10.15672/HJMS.201614320580</p>
-<p>Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
-"Modified holt's linear trend method"
-<em>Hacettepe University Journal of Mathematics and Statistics</em> Early Access. Doi: 10.15672/HJMS.2017.493</p>
+    <p>#'Yapar G, Yavuz I, Selamlar HT (2017).
+&#8220;Why and How Does Exponential Smoothing Fail? An In Depth Comparison of ATA-Simple and Simple Exponential Smoothing.&#8221;
+<em>Turkish Journal of Forecasting</em>, <b>1</b>(1), 30--39.</p>
+<p>#'Yapar G, Capar S, Selamlar HT, Yavuz I (2018).
+&#8220;Modified Holt's Linear Trend Method.&#8221;
+<em>Hacettepe University Journal of Mathematics and Statistics</em>, <b>47</b>(5), 1394--1403.</p>
+<p>#'Yapar G (2018).
+&#8220;Modified simple exponential smoothing.&#8221;
+<em>Hacettepe University Journal of Mathematics and Statistics</em>, <b>47</b>(3), 741--754.</p>
+<p>#'Yapar G, Selamlar HT, Capar S, Yavuz I (2019).
+&#8220;ATA method.&#8221;
+<em>Hacettepe Journal of Mathematics and Statistics</em>, <b>48</b>(6), 1838--1844.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>forecast</code>, <code>stlplus</code>, <code>stR</code>, <code><a href='https://rdrr.io/r/stats/stl.html'>stl</a></code>, <code><a href='https://rdrr.io/r/stats/decompose.html'>decompose</a></code>,
@@ -170,12 +176,15 @@
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>fundingTR</span>, <span class='fl'>100</span><span class='op'>)</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Forecast-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(100,3,0.4) 
+    <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>fundingTR</span>, start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/tsp.html'>tsp</a></span><span class='op'>(</span><span class='va'>fundingTR</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, end <span class='op'>=</span> <span class='fl'>2013</span><span class='op'>)</span>
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
+</div><div class='img'><img src='ATA.Forecast-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(91,91,0.15) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
-#&gt;    seasonal.model: no seasonality 
+#&gt;    seasonal.model: decomp 
+#&gt; 
+#&gt;    seasonal.type: M 
 #&gt; 
 #&gt;    forecast horizon: 6 
 #&gt; 
@@ -183,15 +192,17 @@
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;           MAE           MSE          RMSE           MPE          MAPE 
-#&gt;  3.729235e+03  2.362539e+07  4.860596e+03 -1.317158e+00  1.169737e+01 
-#&gt;         sMAPE          MASE           OWA 
-#&gt;  1.166269e+01  1.358930e-01  2.150000e-04 
+#&gt;             MAE             MSE            RMSE             MPE            MAPE 
+#&gt;     2605.616482 22607570.497748     4754.741896       -0.808383        9.108768 
+#&gt;           sMAPE            MASE             OWA 
+#&gt;        9.159325        0.096024        0.000172 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 2.939302e+03 8.639497e+06 2.939302e+03 9.681180e-01 6.658816e+00 6.888151e+00 
+#&gt;          MdAE          MdSE         RMdSE          MdPE         MdAPE 
+#&gt;    684.534859 468587.972767    684.534859     -0.825479      1.658653 
+#&gt;        sMdAPE 
+#&gt;      1.645010 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -205,24 +216,26 @@
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    6.84    0.03    6.94 
+#&gt;   15.31    0.02   15.34 
 #&gt; 
-#&gt; calculation.time: 6.949 
+#&gt; calculation.time: 15.347 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
 #&gt; Time Series:
-#&gt; Start = c(2012, 50) 
-#&gt; End = c(2013, 3) 
+#&gt; Start = c(2013, 2) 
+#&gt; End = c(2013, 7) 
 #&gt; Frequency = 52 
-#&gt; [1] 24843.52 24862.16 24869.61 24872.60 24873.79 24874.27
+#&gt; [1] 23162.16 24364.18 26128.97 24934.00 27679.34 31082.62
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'>ATA.Forecast</span><span class='op'>(</span><span class='va'>ata.fit</span>, h<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ATA(100,3,0.4) 
+</div><div class='output co'>#&gt; ATA(91,91,0.15) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
-#&gt;    seasonal.model: no seasonality 
+#&gt;    seasonal.model: decomp 
+#&gt; 
+#&gt;    seasonal.type: M 
 #&gt; 
 #&gt;    forecast horizon: 18 
 #&gt; 
@@ -230,15 +243,17 @@
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;           MAE           MSE          RMSE           MPE          MAPE 
-#&gt;  3.729235e+03  2.362539e+07  4.860596e+03 -1.317158e+00  1.169737e+01 
-#&gt;         sMAPE          MASE           OWA 
-#&gt;  1.166269e+01  1.358910e-01  2.150000e-04 
+#&gt;             MAE             MSE            RMSE             MPE            MAPE 
+#&gt;     2605.616482 22607570.497748     4754.741896       -0.808383        9.108768 
+#&gt;           sMAPE            MASE             OWA 
+#&gt;        9.159325        0.096024        0.000172 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 2.939302e+03 8.639497e+06 2.939302e+03 9.681180e-01 6.658816e+00 6.888151e+00 
+#&gt;          MdAE          MdSE         RMdSE          MdPE         MdAPE 
+#&gt;    684.534859 468587.972767    684.534859     -0.825479      1.658653 
+#&gt;        sMdAPE 
+#&gt;      1.645010 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -252,21 +267,22 @@
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    6.84    0.03    6.94 
+#&gt;   15.31    0.02   15.34 
 #&gt; 
-#&gt; calculation.time: 6.949 
+#&gt; calculation.time: 15.347 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
 #&gt; Time Series:
-#&gt; Start = c(2012, 50) 
-#&gt; End = c(2013, 15) 
+#&gt; Start = c(2013, 2) 
+#&gt; End = c(2013, 19) 
 #&gt; Frequency = 52 
-#&gt;  [1] 24843.52 24862.16 24869.61 24872.60 24873.79 24874.27 24874.46 24874.53
-#&gt;  [9] 24874.57 24874.58 24874.58 24874.58 24874.59 24874.59 24874.59 24874.59
-#&gt; [17] 24874.59 24874.59
+#&gt;  [1] 23162.16 24364.18 26128.97 24934.00 27679.34 31082.62 26659.71 28766.50
+#&gt;  [9] 31250.50 29381.97 28670.68 27049.20 30779.58 30744.02 24848.22 29390.93
+#&gt; [17] 22950.49 24494.12
 #&gt; 
 #&gt; </div><div class='img'><img src='ATA.Forecast-2.png' alt='' width='700' height='433' /></div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

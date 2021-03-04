@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA.R
 \name{ATA.print}
 \alias{ATA.print}
-\title{Specialized Screen Print Function of The ATA Method Forecast}
+\title{Specialized Screen Print Function of The ATAforecasting}
 \usage{
 ATA.print(object, ...)
 }
@@ -12,8 +12,8 @@ ATA.print(object, ...)
 \item{...}{other inputs}
 }
 \value{
-a summary for the results of the ATA Methods
+a summary for the results of the ATAforecasting
 }
 \description{
-Specialized Screen Print Function of The ATA Method Forecast
+Specialized Screen Print Function of The ATAforecasting
 }

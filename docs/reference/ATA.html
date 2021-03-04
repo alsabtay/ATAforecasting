@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA • ATAforecasting</title>
+<title>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA • ATAforecasting</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,15 @@
 
 
 
-<meta property="og:title" content="Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA" />
-<meta property="og:description" content="ATA is a generic function for ATA Method forecasting from time series or time series models." />
+<meta property="og:title" content="Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA" />
+<meta property="og:description" content="ATA is a generic function for Ata Method forecasting. 
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &amp;lt;doi:10.15672/HJMS.201614320580&amp;gt; , 
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &amp;lt;doi:10.15672/HJMS.2017.493&amp;gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+&amp;lt;doi:10.15672/hujms.461032&amp;gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+the initialization and optimization stages of existing methods.
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
+This methodology performed well on the M3 and M4-competition data." />
 
 
 
@@ -72,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
       </span>
     </div>
 
@@ -108,13 +115,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques</h1>
+    <h1>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA.R'><code>R/ATA.R</code></a></small>
     <div class="hidden name"><code>ATA.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>ATA</code> is a generic function for ATA Method forecasting from time series or time series models.</p>
+    <p><code>ATA</code> is a generic function for Ata Method forecasting. 
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &lt;doi:10.15672/HJMS.201614320580&gt; , 
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &lt;doi:10.15672/HJMS.2017.493&gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+&lt;doi:10.15672/hujms.461032&gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+the initialization and optimization stages of existing methods.
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
+This methodology performed well on the M3 and M4-competition data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ATA</span><span class='op'>(</span>
@@ -143,7 +157,7 @@
   transform.method <span class='op'>=</span> <span class='cn'>NULL</span>,
   transform.attr <span class='op'>=</span> <span class='cn'>NULL</span>,
   lambda <span class='op'>=</span> <span class='cn'>NULL</span>,
-  shift <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shift <span class='op'>=</span> <span class='fl'>0</span>,
   initial.level <span class='op'>=</span> <span class='cn'>NULL</span>,
   initial.trend <span class='op'>=</span> <span class='cn'>NULL</span>,
   ci.level <span class='op'>=</span> <span class='fl'>95</span>,
@@ -195,7 +209,7 @@ After the unit-root test, seasonal test applies on the stationary <code>X</code>
 <li><p>decomp     : classical seasonal decomposition. If <code>decomp</code>, the <code>stats</code> package will be used.</p></li>
 <li><p>stl        : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If <code>stl</code>, the <code>stats</code> and <code>forecast</code> packages will be used. Multiple seasonal periods are allowed.</p></li>
 <li><p>stlplus    : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If <code>stlplus</code>, the <code>stlplus</code> package will be used.</p></li>
-<li><p>tbats   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components.
+<li><p>tbats   : exponential smoothing state space model with Box-Cox transformation, ARMA errors, trend and seasonal components.
                             as described in De Livera, Hyndman &amp; Snyder (2011). Parallel processing is used by default to speed up the computations. If <code>tbats</code>, the <code>forecast</code> package will be used. Multiple seasonal periods are allowed.</p></li>
 <li><p>stR        : seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If <code>stR</code>, the <code>stR</code> package will be used. Multiple seasonal periods are allowed.</p></li>
 <li><p>x13        : seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If <code>x13</code>, the <code>seasonal</code> package will be used.</p></li>
@@ -208,8 +222,9 @@ After the unit-root test, seasonal test applies on the stationary <code>X</code>
     </tr>
     <tr>
       <th>seasonal.type</th>
-      <td><p>An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
-If other seasonal decomposition method except <code>decomp</code> with "M", Box-Cox transformation with <code>lambda</code>=0 is selected.</p></td>
+      <td><p>An one-character string identifying method for the seasonal component framework. The letter "A" for additive model, the letter "M" for multiplicative model.
+If NULL, both letters will be tried and the best model (according to the accuracy measure <code>accuracy.type</code>) returned.
+If seasonal decomposition methods except <code>decomp</code> with "M", Box-Cox transformation with <code>lambda</code>=0 is selected.</p></td>
     </tr>
     <tr>
       <th>seasonal.test.attr</th>
@@ -288,8 +303,8 @@ If TRUE, partition.h will used for holdout data.</p></td>
     </tr>
     <tr>
       <th>transform.method</th>
-      <td><p>Transformation method  --&gt; BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
-When Box-Cox power transformation family is specified, <code>model.type</code> and <code>seasonal.type</code> are set to "A".</p></td>
+      <td><p>Transformation method  --&gt; "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter, 
+<code>ATA.Transform</code> will calculate required shift parameter automatically.</p></td>
     </tr>
     <tr>
       <th>transform.attr</th>
@@ -301,8 +316,7 @@ When Box-Cox power transformation family is specified, <code>model.type</code> a
     </tr>
     <tr>
       <th>shift</th>
-      <td><p>Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
-When <code>lambda</code> is specified, <code>model.type</code> and <code>seasonal.type</code> is set to "A".</p></td>
+      <td><p>Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.</p></td>
     </tr>
     <tr>
       <th>initial.level</th>
@@ -368,7 +382,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <li><p>level.fixed       : A choice of optional level-fixed trended methods.</p></li>
 <li><p>trend.fixed       : A choice of optional trend-fixed trended methods.</p></li>
 <li><p>trend.search      : A choice of optional trend and level optimized trended methods if q &gt; 1.</p></li>
-<li><p>transform.method  : Box-Cox power transformation family method  --&gt; BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.</p></li>
+<li><p>transform.method  : Box-Cox power transformation family method  --&gt; Box_Cox, Sqrt, Reciprocal, Log, NegLog, Modulus, BickelDoksum, Manly, Dual, YeoJohnson, GPower, GLog.</p></li>
 <li><p>transform.order   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.</p></li>
 <li><p>lambda  	: Box-Cox power transformation family parameter.</p></li>
 <li><p>shift		  : Box-Cox power transformation family shifting parameter.</p></li>
@@ -391,14 +405,23 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <li><p>calculation.time	: How much real time 'in seconds' the currently running R process has already taken.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Returns ATA(p,q,phi) applied to <code>X</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Yapar, G., (2016)
-"Modified simple exponential smoothing"
-<em>Hacettepe University Journal of Mathematics and Statistics</em> Early Access. Doi:10.15672/HJMS.201614320580</p>
-<p>Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
-"Modified holt's linear trend method"
-<em>Hacettepe University Journal of Mathematics and Statistics</em> Early Access. Doi: 10.15672/HJMS.2017.493</p>
+    <p>#'Yapar G, Yavuz I, Selamlar HT (2017).
+&#8220;Why and How Does Exponential Smoothing Fail? An In Depth Comparison of ATA-Simple and Simple Exponential Smoothing.&#8221;
+<em>Turkish Journal of Forecasting</em>, <b>1</b>(1), 30--39.</p>
+<p>#'Yapar G, Capar S, Selamlar HT, Yavuz I (2018).
+&#8220;Modified Holt's Linear Trend Method.&#8221;
+<em>Hacettepe University Journal of Mathematics and Statistics</em>, <b>47</b>(5), 1394--1403.</p>
+<p>#'Yapar G (2018).
+&#8220;Modified simple exponential smoothing.&#8221;
+<em>Hacettepe University Journal of Mathematics and Statistics</em>, <b>47</b>(3), 741--754.</p>
+<p>#'Yapar G, Selamlar HT, Capar S, Yavuz I (2019).
+&#8220;ATA method.&#8221;
+<em>Hacettepe Journal of Mathematics and Statistics</em>, <b>48</b>(6), 1838--1844.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>forecast</code>, <code>stlplus</code>, <code>stR</code>, <code><a href='https://rdrr.io/r/stats/stl.html'>stl</a></code>, <code><a href='https://rdrr.io/r/stats/decompose.html'>decompose</a></code>,
@@ -408,7 +431,8 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>84</span><span class='op'>)</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2014.917</span><span class='op'>)</span>
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
 </div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) 
 #&gt; 
 #&gt;    model.type: M 
@@ -423,15 +447,17 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;           MAE           MSE          RMSE           MPE          MAPE 
-#&gt;  1.104111e+05  3.052991e+10  1.747281e+05 -4.107000e-01  4.268832e+00 
-#&gt;         sMAPE          MASE           OWA 
-#&gt;  4.261812e+00  6.883950e-01  1.500000e-05 
+#&gt;                MAE                MSE               RMSE                MPE 
+#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
+#&gt;               MAPE              sMAPE               MASE                OWA 
+#&gt;           4.268832           4.261812           0.688395           0.000015 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 6.276038e+04 3.938865e+09 6.276038e+04 3.065340e-01 2.926998e+00 2.970471e+00 
+#&gt;              MdAE              MdSE             RMdSE              MdPE 
+#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
+#&gt;             MdAPE            sMdAPE 
+#&gt;          2.926998          2.970471 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -445,9 +471,9 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    8.25    0.00    8.26 
+#&gt;    8.28    0.03    8.35 
 #&gt; 
-#&gt; calculation.time: 8.2701 
+#&gt; calculation.time: 8.343 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -473,33 +499,39 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;           MAE           MSE          RMSE           MPE          MAPE 
-#&gt;  1.104111e+05  3.052991e+10  1.747281e+05 -4.107000e-01  4.268832e+00 
-#&gt;         sMAPE          MASE           OWA 
-#&gt;  4.261812e+00  6.883950e-01  1.500000e-05 
+#&gt;                MAE                MSE               RMSE                MPE 
+#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
+#&gt;               MAPE              sMAPE               MASE                OWA 
+#&gt;           4.268832           4.261812           0.688395           0.000015 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 6.276038e+04 3.938865e+09 6.276038e+04 3.065340e-01 2.926998e+00 2.970471e+00 
+#&gt;              MdAE              MdSE             RMdSE              MdPE 
+#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
+#&gt;             MdAPE            sMdAPE 
+#&gt;          2.926998          2.970471 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
-#&gt;          MAE          MSE         RMSE          MPE         MAPE        sMAPE 
-#&gt; 3.827829e+06 1.755212e+13 4.189525e+06 9.999997e+01 9.999997e+01 1.999999e+02 
-#&gt;         MASE          OWA 
-#&gt; 2.324255e+01 6.890000e-04 
+#&gt;                   MAE                   MSE                  RMSE 
+#&gt;        3827828.944531 17552119050161.939453        4189524.919387 
+#&gt;                   MPE                  MAPE                 sMAPE 
+#&gt;             99.999967             99.999967            199.999868 
+#&gt;                  MASE                   OWA 
+#&gt;             23.242546              0.000689 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 4.062352e+06 1.655566e+13 4.068864e+06 9.999998e+01 9.999998e+01 1.999999e+02 
+#&gt;                 MdAE                 MdSE                RMdSE 
+#&gt;        4062352.00000 16555655764673.00000        4068864.18607 
+#&gt;                 MdPE                MdAPE               sMdAPE 
+#&gt;             99.99998             99.99998            199.99990 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    8.25    0.00    8.26 
+#&gt;    8.28    0.03    8.35 
 #&gt; 
-#&gt; calculation.time: 8.2701 
+#&gt; calculation.time: 8.343 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA_Forecast.R
 \name{ATA.Forecast}
 \alias{ATA.Forecast}
-\title{Forecasting Time Series Using the ATA Method}
+\title{Forecasting Method for The ATAforecasting}
 \usage{
 ATA.Forecast(
   object,
@@ -30,18 +30,20 @@ An object of class "\code{ATA}".
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
 }
 \examples{
-ata.fit <- ATA(head(fundingTR, 100), seasonal.test = TRUE)
+demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
+ata.fit <- ATA(demoATA, seasonal.test = TRUE, seasonal.model = "decomp")
 ATA.plot(ATA.Forecast(ata.fit, h=18))
+
 
 }
 \references{
-Yapar, G., (2016)
-"Modified simple exponential smoothing"
-\emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi:10.15672/HJMS.201614320580
+#'\insertRef{yapar2017mses}{ATAforecasting}
 
-Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
-"Modified holt's linear trend method"
-\emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493
+#'\insertRef{yapar2018mhes}{ATAforecasting}
+
+#'\insertRef{yapar2018mses}{ATAforecasting}
+
+#'\insertRef{yapar2019ata}{ATAforecasting}
 }
 \seealso{
 \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
@@ -50,8 +52,8 @@ Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
 }
+\keyword{Ata}
 \keyword{accuracy}
-\keyword{ata}
 \keyword{forecast}
 \keyword{msts}
 \keyword{ts}

@@ -1,4 +1,4 @@
-#' Seasonality Tests for The ATA Method
+#' Seasonality Tests for The ATAforecasting
 #'
 #' @description This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.
 #' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package.
@@ -30,43 +30,37 @@
 #' @seealso \code{forecast}, \code{urca}, \code{tseries}, \code{uroot}, \code{stlplus}, \code{stR},
 #' \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 #'
-#' @references Dickey DA and Fuller WA (1979), "Distribution of the Estimators for
-#' Autoregressive Time Series with a Unit Root", \code{Journal of the American
-#' Statistical Association} \bold{74}:427-431.
+#' @keywords ata ADF Canova-Hansen correlogram HEGY KPSS Phillips-Perron OCSB seasonal unit-root
 #'
-#' Kwiatkowski D, Phillips PCB, Schmidt P and Shin Y (1992) "Testing the Null
-#' Hypothesis of Stationarity against the Alternative of a Unit Root",
-#' \code{Journal of Econometrics} \bold{54}:159-178.
+#' @references
+#' 
+#' #'\insertRef{dickey1979}{ATAforecasting}
 #'
-#' Osborn DR, Chui APL, Smith J, and Birchenhall CR (1988) "Seasonality and the
-#' order of integration for consumption", \code{Oxford Bulletin of Economics
-#' and Statistics} \bold{50}(4):361-377.
+#' #'\insertRef{said1984}{ATAforecasting}
 #'
-#' Osborn, D.R. (1990) "A survey of seasonality in UK macroeconomic variables",
-#' \code{International Journal of Forecasting}, \bold{6}:327-336.
+#' #'\insertRef{dhf1984}{ATAforecasting}
 #'
-#' Said E and Dickey DA (1984), "Testing for Unit Roots in Autoregressive
-#' Moving Average Models of Unknown Order", \code{Biometrika}
-#' \bold{71}:599-607.
-
-#' Wang, X, Smith, KA, Hyndman, RJ (2006) "Characteristic-based clustering
-#' for time series data", \code{Data Mining and Knowledge Discovery},
-#' \bold{13}(3), 335-364.
+#' #'\insertRef{phillips1988}{ATAforecasting}
 #'
-#' Canova F and Hansen BE (1995) "Are Seasonal Patterns Constant
-#' over Time? A Test for Seasonal Stability", \code{Journal of Business and
-#' Economic Statistics} \bold{13}(3):237-252.
+#' #'\insertRef{ocsb1988}{ATAforecasting}
 #'
-#' Hylleberg S, Engle R, Granger C and Yoo B (1990) "Seasonal integration
-#' and cointegration.", \code{Journal of Econometrics} \bold{44}(1), pp. 215-238.
+#' #'\insertRef{hegy1990}{ATAforecasting}
+#'
+#' #'\insertRef{kpss1992}{ATAforecasting}
+#'
+#' #'\insertRef{ch1995}{ATAforecasting}
+#'
+#' #'\insertRef{seas2006}{ATAforecasting}
+#'
 #'
 #' @importFrom forecast ndiffs nsdiffs
+#' @importFrom Rdpack reprompt
 #'
 #' @export
 #'
 ATA.Seasonality <- function(input, ppy, attr_set)
 {
-  if (ppy==1){
+  if (max(ppy)==1){
     test_seasonal <- FALSE
   }else {
     test <- attr_set$suroot.test
@@ -113,7 +107,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
 #' @importFrom stats acf 
 corrgram.test <- function(input, ppy, attr_set)
 {
-  if (ppy==1){
+  if (max(ppy)==1){
     test_seasonal <- FALSE
   }else {
     corrgram.tcrit <- attr_set$corrgram.tcrit

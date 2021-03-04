@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA_Seasonality.R
 \name{ATA.Seasonality}
 \alias{ATA.Seasonality}
-\title{Seasonality Tests for The ATA Method}
+\title{Seasonality Tests for The ATAforecasting}
 \usage{
 ATA.Seasonality(input, ppy, attr_set)
 }
@@ -37,34 +37,23 @@ Please review manual and vignette documents of latest \code{forecast} package. A
 }
 }
 \references{
-Dickey DA and Fuller WA (1979), "Distribution of the Estimators for
-Autoregressive Time Series with a Unit Root", \code{Journal of the American
-Statistical Association} \bold{74}:427-431.
+#'\insertRef{dickey1979}{ATAforecasting}
 
-Kwiatkowski D, Phillips PCB, Schmidt P and Shin Y (1992) "Testing the Null
-Hypothesis of Stationarity against the Alternative of a Unit Root",
-\code{Journal of Econometrics} \bold{54}:159-178.
+#'\insertRef{said1984}{ATAforecasting}
 
-Osborn DR, Chui APL, Smith J, and Birchenhall CR (1988) "Seasonality and the
-order of integration for consumption", \code{Oxford Bulletin of Economics
-and Statistics} \bold{50}(4):361-377.
+#'\insertRef{dhf1984}{ATAforecasting}
 
-Osborn, D.R. (1990) "A survey of seasonality in UK macroeconomic variables",
-\code{International Journal of Forecasting}, \bold{6}:327-336.
+#'\insertRef{phillips1988}{ATAforecasting}
 
-Said E and Dickey DA (1984), "Testing for Unit Roots in Autoregressive
-Moving Average Models of Unknown Order", \code{Biometrika}
-\bold{71}:599-607.
-Wang, X, Smith, KA, Hyndman, RJ (2006) "Characteristic-based clustering
-for time series data", \code{Data Mining and Knowledge Discovery},
-\bold{13}(3), 335-364.
+#'\insertRef{ocsb1988}{ATAforecasting}
 
-Canova F and Hansen BE (1995) "Are Seasonal Patterns Constant
-over Time? A Test for Seasonal Stability", \code{Journal of Business and
-Economic Statistics} \bold{13}(3):237-252.
+#'\insertRef{hegy1990}{ATAforecasting}
 
-Hylleberg S, Engle R, Granger C and Yoo B (1990) "Seasonal integration
-and cointegration.", \code{Journal of Econometrics} \bold{44}(1), pp. 215-238.
+#'\insertRef{kpss1992}{ATAforecasting}
+
+#'\insertRef{ch1995}{ATAforecasting}
+
+#'\insertRef{seas2006}{ATAforecasting}
 }
 \seealso{
 \code{forecast}, \code{urca}, \code{tseries}, \code{uroot}, \code{stlplus}, \code{stR},
@@ -73,3 +62,13 @@ and cointegration.", \code{Journal of Econometrics} \bold{44}(1), pp. 215-238.
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
 }
+\keyword{ADF}
+\keyword{Canova-Hansen}
+\keyword{HEGY}
+\keyword{KPSS}
+\keyword{OCSB}
+\keyword{Phillips-Perron}
+\keyword{ata}
+\keyword{correlogram}
+\keyword{seasonal}
+\keyword{unit-root}

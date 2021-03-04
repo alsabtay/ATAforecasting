@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA_Decomposition.R
 \name{ATA.Decomposition}
 \alias{ATA.Decomposition}
-\title{Automatic Seasonal Decomposition for The ATA Method}
+\title{Seasonal Decomposition for The ATAforecasting}
 \usage{
 ATA.Decomposition(input, s.model, s.type, s.frequency, seas_attr_set)
 }
@@ -15,7 +15,7 @@ ATA.Decomposition(input, s.model, s.type, s.frequency, seas_attr_set)
      \item{decomp}     : classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used.
      \item{stl}        : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed.
      \item{stlplus}    : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used.
-     \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components.
+     \item{tbats}   : exponential smoothing state space model with Box--Cox transformation, ARMA errors, trend and seasonal components.
                             as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
      \item{stR}        : seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
      \item{x13}        : seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used.
@@ -42,6 +42,27 @@ Automatic seasonal decomposition for ATA Method is called \code{ATA.Decompositio
 The function returns seasonally adjusted data constructed by removing the seasonal component. The methodology is fully automatic.
 The \code{ATA.Decomposition} function works with many different types of inputs.
 }
+\references{
+#'\insertRef{shishkin1967}{ATAforecasting}
+
+#'\insertRef{dagum1988}{ATAforecasting}
+
+#'\insertRef{cleveland1990stl}{ATAforecasting}
+
+#'\insertRef{hafen2010local}{ATAforecasting}
+
+#'\insertRef{delivera2011}{ATAforecasting}
+
+#'\insertRef{dokumentov2015}{ATAforecasting}
+
+#'\insertRef{dokumentov2020str}{ATAforecasting}
+
+#'\insertRef{monsell2003toward}{ATAforecasting}
+
+#'\insertRef{monsell2007x}{ATAforecasting}
+
+#'\insertRef{artseasonal2018}{ATAforecasting}
+}
 \seealso{
 \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
 \code{\link[forecast]{tbats}}, \code{\link{stlplus}}, \code{\link[stR]{AutoSTR}}.
@@ -49,8 +70,8 @@ The \code{ATA.Decomposition} function works with many different types of inputs.
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
 }
+\keyword{Ata}
 \keyword{accuracy}
-\keyword{ata}
 \keyword{decomposition}
 \keyword{forecast}
 \keyword{mstl}

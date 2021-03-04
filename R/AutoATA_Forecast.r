@@ -14,11 +14,11 @@ AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
   if(is.null(hh)){
     hh <- ata_output$h
   }
-  # if (initialLevel==TRUE){
-  # Xobs <- mean(X)
-  # }else {
-  Xobs <- X[lenX]
-  # }
+  if (initialLevel==TRUE){
+	Xobs <- mean(X)
+  }else {
+	Xobs <- X[lenX]
+  }
   ata.forecast.fitted <- rep(NA, hh)
   if (modelType=="A"){
     coefph <- abs(ph/lenX)
@@ -48,7 +48,7 @@ AutoATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
       ata.forecast.fitted[h] <- S * (T^phiTotal)
     }
   }
-  ata.forecast.fitted <- ts(ata.forecast.fitted, frequency = tsp_X[3], start = tsp_X[2] + ifelse(tsp_X[3]>1, 1/tsp_X[3], 0))
+  ata.forecast.fitted <- ts(ata.forecast.fitted, frequency = tsp_X[3], start = tsp_X[2] + ifelse(tsp_X[3]>1, 1/tsp_X[3], 1))
   my_list <- ata_output
   my_list$forecast <- ata.forecast.fitted
   return(my_list)

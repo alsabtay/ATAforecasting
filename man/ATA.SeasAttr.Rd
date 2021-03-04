@@ -68,7 +68,7 @@ Please review manual and vignette documents of latest \code{forecast} package. A
 \itemize{
 	\item {uroot.test = 'kpss'}		: the KPSS test is used with the null hypothesis that \code{x} has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level \code{uroot.alpha}.
 	\item {uroot.test = 'adf'}		: the Augmented Dickey-Fuller test is used.
-	\item {uroot.test = 'pp'}			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that \code{x} has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level \code{alpha}.
+	\item {uroot.test = 'pp'}		: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that \code{x} has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level \code{alpha}.
 }
 \code{nsdiffs} uses seasonal unit root tests to determine the number of seasonal differences required for time series to be made stationary. Several different tests are available:
 \itemize{

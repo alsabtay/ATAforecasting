@@ -5,18 +5,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forecasting Time Series using ATA Method • ATAforecasting</title>
+<title>Automatic Time Series Analysis and Forecasting using Ata Method • ATAforecasting</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Forecasting Time Series using ATA Method">
-<meta property="og:description" content="The ATA method based on the modified simple exponential smoothing is a new univariate time series forecasting method which 
-	provides innovative solutions to issues faced during the initialization and optimization stages of existing methods. 
-    Forecasting performance of the ATA method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+<script src="pkgdown.js"></script><meta property="og:title" content="Automatic Time Series Analysis and Forecasting using Ata Method">
+<meta property="og:description" content="The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &lt;doi:10.15672/HJMS.201614320580&gt; , 
+	Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &lt;doi:10.15672/HJMS.2017.493&gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+	&lt;doi:10.15672/hujms.461032&gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+	the initialization and optimization stages of existing methods.
+    Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
     It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
-    This methodology performed well on the M3 and M4-competition data.">
+    This methodology performed well on the M3 and M4-competition data.
+	This package was written based on Ali Sabri Taylan’s PhD dissertation.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -35,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
       </span>
     </div>
 
@@ -74,23 +77,26 @@
 <div id="ataforecasting" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#ataforecasting" class="anchor"></a>ATAforecasting</h1></div>
-<p>Forecasting Time Series by ATA Method.</p>
-<p>The ATA Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA.</p>
+<p>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques.</p>
+</div>
+<div id="description" class="section level1">
+<h1 class="hasAnchor">
+<a href="#description" class="anchor"></a>Description</h1>
+<p>The ATA Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA. The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <a href="https://doi.org/10.15672/HJMS.201614320580">doi:10.15672/HJMS.201614320580</a>, Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <a href="https://doi.org/10.15672/HJMS.2017.493">doi:10.15672/HJMS.2017.493</a> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) <a href="https://doi.org/10.15672/hujms.461032">doi:10.15672/hujms.461032</a> is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods.</p>
+<p>Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal). This methodology performed well on the M3 and M4-competition dat</p>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
-<p>Before installing ATAforecasting package, below packages are required for stR package:</p>
-<p>Download lastest version of pandoc from <a href="https://pandoc.org/" class="uri">https://pandoc.org/</a></p>
-<p>Firstly, open Command Prompt (CMD.exe) and write down</p>
-<pre><code>pacman -S mingw-w64-{i686,x86_64}-freetype</code></pre>
-<p>Secondly, install below R packages.</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("rgl", type = "source", INSTALL_opts = "--force-biarch")</a></code></pre>
-<p>or</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("rgl", type = "source", INSTALL_opts = "--merge-multiarch")</a></code></pre>
 <p>Development version with latest features:</p>
 <pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("alsabtay/ATAforecasting")
 devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)</a></code></pre>
+</div>
+<div id="for-more-information" class="section level1">
+<h1 class="hasAnchor">
+<a href="#for-more-information" class="anchor"></a>For more information</h1>
+<p><a href="https://github.com/alsabtay/ATAforecasting">Github page</a></p>
+<p><a href="https://atamethod.wordpress.com/">Project team website</a></p>
 </div>
 <div id="license" class="section level1">
 <h1 class="hasAnchor">

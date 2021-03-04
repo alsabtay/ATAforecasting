@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA.R
 \name{ATA}
 \alias{ATA}
-\title{Forecasting Time Series by ATA Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
+\title{Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
 \usage{
 ATA(
   X,
@@ -30,7 +30,7 @@ ATA(
   transform.method = NULL,
   transform.attr = NULL,
   lambda = NULL,
-  shift = NULL,
+  shift = 0,
   initial.level = NULL,
   initial.trend = NULL,
   ci.level = 95,
@@ -65,7 +65,7 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
      \item{decomp}     : classical seasonal decomposition. If \code{decomp}, the \code{stats} package will be used.
      \item{stl}        : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stl}, the \code{stats} and \code{forecast} packages will be used. Multiple seasonal periods are allowed.
      \item{stlplus}    : seasonal-trend decomposition procedure based on loess developed by Cleveland et al. (1990). If \code{stlplus}, the \code{stlplus} package will be used.
-     \item{tbats}   : exponential smoothing state space model with box-cox transformation, ARMA errors, trend and seasonal components.
+     \item{tbats}   : exponential smoothing state space model with Box-Cox transformation, ARMA errors, trend and seasonal components.
                             as described in De Livera, Hyndman & Snyder (2011). Parallel processing is used by default to speed up the computations. If \code{tbats}, the \code{forecast} package will be used. Multiple seasonal periods are allowed.
      \item{stR}        : seasonal-trend decomposition procedure based on regression developed by Dokumentov and Hyndman (2015). If \code{stR}, the \code{stR} package will be used. Multiple seasonal periods are allowed.
      \item{x13}        : seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If \code{x13}, the \code{seasonal} package will be used.
@@ -74,8 +74,9 @@ After the unit-root test, seasonal test applies on the stationary \code{X}.}
 
 \item{seasonal.period}{Value(s) of seasonal periodicity. If NULL, \code{frequency} of X is default  If \code{seasonal.period} is not integer, \code{X} must be \code{msts} time series object. c(s1,s2,s3,...) for multiple period. If \code{X} has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.}
 
-\item{seasonal.type}{An one-character string identifying method for the seasonal component framework. If NULL, "M" is default. The letter "A" for additive model, the letter "M" for multiplicative model.
-If other seasonal decomposition method except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
+\item{seasonal.type}{An one-character string identifying method for the seasonal component framework. The letter "A" for additive model, the letter "M" for multiplicative model.
+If NULL, both letters will be tried and the best model (according to the accuracy measure \code{accuracy.type}) returned.
+If seasonal decomposition methods except \code{decomp} with "M", Box-Cox transformation with \code{lambda}=0 is selected.}
 
 \item{seasonal.test.attr}{Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use \code{ATA.SeasAttr} function and its output.
 For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)} equation in \code{ATA} function.}
@@ -130,15 +131,14 @@ If TRUE, partition.h will used for holdout data.}
 
 \item{transform.order}{If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.}
 
-\item{transform.method}{Transformation method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
-When Box-Cox power transformation family is specified, \code{model.type} and \code{seasonal.type} are set to "A".}
+\item{transform.method}{Transformation method  --> "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter, 
+\code{ATA.Transform} will calculate required shift parameter automatically.}
 
 \item{transform.attr}{Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.}
 
 \item{lambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
 
-\item{shift}{Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
-When \code{lambda} is specified, \code{model.type} and \code{seasonal.type} is set to "A".}
+\item{shift}{Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.}
 
 \item{initial.level}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level.
 If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
@@ -184,7 +184,7 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 		 \item{level.fixed}       : A choice of optional level-fixed trended methods.
 		 \item{trend.fixed}       : A choice of optional trend-fixed trended methods.
 		 \item{trend.search}      : A choice of optional trend and level optimized trended methods if q > 1.
-		 \item{transform.method}  : Box-Cox power transformation family method  --> BoxCox, BoxCox Shift, Modulus, Bickel-Doksum, Dual, Yeo-Johnson, GPower, GLog, Log, Log Shift.
+		 \item{transform.method}  : Box-Cox power transformation family method  --> Box_Cox, Sqrt, Reciprocal, Log, NegLog, Modulus, BickelDoksum, Manly, Dual, YeoJohnson, GPower, GLog.
 		 \item{transform.order}   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
 		 \item{lambda}  	: Box-Cox power transformation family parameter.
 		 \item{shift}		  : Box-Cox power transformation family shifting parameter.
@@ -208,21 +208,32 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 }
 }
 \description{
-\code{ATA} is a generic function for ATA Method forecasting from time series or time series models.
+\code{ATA} is a generic function for Ata Method forecasting. 
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> , 
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+<doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+the initialization and optimization stages of existing methods.
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
+This methodology performed well on the M3 and M4-competition data.
+}
+\details{
+Returns ATA(p,q,phi) applied to \code{X}.
 }
 \examples{
-ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+demoATA <-  window(touristTR, start = 2008, end = 2014.917)
+ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
 ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
 
 }
 \references{
-Yapar, G., (2016)
-"Modified simple exponential smoothing"
-\emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi:10.15672/HJMS.201614320580
+#'\insertRef{yapar2017mses}{ATAforecasting}
 
-Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
-"Modified holt's linear trend method"
-\emph{Hacettepe University Journal of Mathematics and Statistics} Early Access. Doi: 10.15672/HJMS.2017.493
+#'\insertRef{yapar2018mhes}{ATAforecasting}
+
+#'\insertRef{yapar2018mses}{ATAforecasting}
+
+#'\insertRef{yapar2019ata}{ATAforecasting}
 }
 \seealso{
 \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}},
@@ -231,8 +242,8 @@ Yapar, G., Capar, S., Selamlar, H. T., Yavuz, I., (2016)
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
 }
+\keyword{Ata}
 \keyword{accuracy}
-\keyword{ata}
 \keyword{forecast}
 \keyword{msts}
 \keyword{ts}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Accuracy Measures for a ATA forecast model — ATA.Accuracy • ATAforecasting</title>
+<title>Accuracy Measures for The ATAforecasting — ATA.Accuracy • ATAforecasting</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Accuracy Measures for a ATA forecast model — ATA.Accuracy" />
+<meta property="og:title" content="Accuracy Measures for The ATAforecasting — ATA.Accuracy" />
 <meta property="og:description" content="Returns ATA(p,q,phi) applied to ATA object.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If out.sample is
@@ -94,7 +94,7 @@ sMdAPE: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@ sMdAPE: symmetric median absolute percentage error.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Accuracy Measures for a ATA forecast model</h1>
+    <h1>Accuracy Measures for The ATAforecasting</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA_Accuracy.R'><code>R/ATA_Accuracy.R</code></a></small>
     <div class="hidden name"><code>ATA.Accuracy.Rd</code></div>
     </div>
@@ -181,10 +181,13 @@ The measures calculated are:</p><ul>
     <p>Matrix giving forecast accuracy measures.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
-of forecast accuracy". <em>International Journal of Forecasting</em>,
-<b>22</b>(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2019)
-"Forecasting: principles and practice", OTexts. Section 5.8 "Evaluating point forecast accuracy". <a href='https://otexts.com/fpp3/accuracy.html'>https://otexts.com/fpp3/accuracy.html</a>.</p>
+    <p>#'Hyndman RJ, Koehler AB (2006).
+&#8220;Another look at measures of forecast accuracy.&#8221;
+<em>International Journal of Forecasting</em>, <b>22</b>(4), 679--688.</p>
+<p>#'Hyndman RJ, Athanasopoulos G (2019).
+<em>Forecasting: principles and practice</em>.
+OTexts.
+<a href='https://otexts.com/fpp3/'>https://otexts.com/fpp3/</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>forecast</code>, <code>stlplus</code>, <code>stR</code>, <code><a href='https://rdrr.io/r/stats/stl.html'>stl</a></code>, <code><a href='https://rdrr.io/r/stats/decompose.html'>decompose</a></code>, <code>tbats</code>, <code>seasadj</code>.</p></div>
@@ -193,7 +196,8 @@ of forecast accuracy". <em>International Journal of Forecasting</em>,
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>84</span><span class='op'>)</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2014.917</span><span class='op'>)</span>
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
 </div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) 
 #&gt; 
 #&gt;    model.type: M 
@@ -208,15 +212,17 @@ of forecast accuracy". <em>International Journal of Forecasting</em>,
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;           MAE           MSE          RMSE           MPE          MAPE 
-#&gt;  1.104111e+05  3.052991e+10  1.747281e+05 -4.107000e-01  4.268832e+00 
-#&gt;         sMAPE          MASE           OWA 
-#&gt;  4.261812e+00  6.883950e-01  1.500000e-05 
+#&gt;                MAE                MSE               RMSE                MPE 
+#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
+#&gt;               MAPE              sMAPE               MASE                OWA 
+#&gt;           4.268832           4.261812           0.688395           0.000015 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;         MdAE         MdSE        RMdSE         MdPE        MdAPE       sMdAPE 
-#&gt; 6.276038e+04 3.938865e+09 6.276038e+04 3.065340e-01 2.926998e+00 2.970471e+00 
+#&gt;              MdAE              MdSE             RMdSE              MdPE 
+#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
+#&gt;             MdAPE            sMdAPE 
+#&gt;          2.926998          2.970471 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -230,9 +236,9 @@ of forecast accuracy". <em>International Journal of Forecasting</em>,
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    9.48    0.01    9.70 
+#&gt;    8.30    0.02    8.32 
 #&gt; 
-#&gt; calculation.time: 9.6961 
+#&gt; calculation.time: 8.325 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 

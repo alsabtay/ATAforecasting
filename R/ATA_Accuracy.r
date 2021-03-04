@@ -1,4 +1,4 @@
-#' Accuracy Measures for a ATA forecast model
+#' Accuracy Measures for The ATAforecasting
 #'
 #' @description Returns ATA(p,q,phi) applied to ATA \code{object}.
 #' Accuracy measures for a forecast model
@@ -33,18 +33,22 @@
 #'
 #' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
 #'
-#' @references Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
-#' of forecast accuracy". \emph{International Journal of Forecasting},
-#' \bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2019)
-#' "Forecasting: principles and practice", OTexts. Section 5.8 "Evaluating point forecast accuracy". \url{https://otexts.com/fpp3/accuracy.html}.
+#' @references
+#' 
+#' #'\insertRef{hyndmanandkoehler2006}{ATAforecasting}
 #'
-#' @keywords ata forecast accuracy ts msts
+#' #'\insertRef{hyndman2019forecasting}{ATAforecasting}
+#'
+#'
+#' @keywords Ata forecast accuracy ts msts
 #'
 #' @importFrom stats median var
 #' @importFrom timeSeries colKurtosis colSkewness
+#' @importFrom Rdpack reprompt
 #' 
 #' @examples
-#' ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+#' demoATA <- window(touristTR, start = 2008, end = 2014.917)
+#' ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
 #' ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
 #' 
 #' @export
@@ -57,7 +61,6 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   inSample <- ata.output$actual
   in_sample_fit <- ata.output$fitted
   out.sample_forecast <- ata.output$forecast
-  # lenX <- length(inSample)
   in_sample <- as.numeric(inSample[-1])
   in_sample_fit <- as.numeric(in_sample_fit[-1])
   if (!is.null(out.sample)){

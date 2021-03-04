@@ -47,7 +47,7 @@ ndiffs and nsdiffs functions to estimate the number of differences required to m
 ndiffs uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
 uroot.test = 'kpss'		: the KPSS test is used with the null hypothesis that x has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level uroot.alpha.
 uroot.test = 'adf'		: the Augmented Dickey-Fuller test is used.
-uroot.test = 'pp'			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that x has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level alpha.
+uroot.test = 'pp'		: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that x has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level alpha.
 nsdiffs uses seasonal unit root tests to determine the number of seasonal differences required for time series to be made stationary. Several different tests are available:
 suroot.test = 'seas'		: a measure of seasonal strength is used, where differencing is selected if the seasonal strength (Wang, Smith &amp;amp; Hyndman, 2006) exceeds 0.64 (based on minimizing MASE when forecasting using auto.arima on M3 and M4 data).
 suroot.test = 'ch'			: the Canova-Hansen (1995) test is used (with null hypothesis of deterministic seasonality)
@@ -87,7 +87,7 @@ suroot.test = 'correlogram'	: this function is written based on M4 Competition S
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
 <code>ndiffs</code> uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:</p><ul>
 <li><p>uroot.test = 'kpss'		: the KPSS test is used with the null hypothesis that <code>x</code> has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level <code>uroot.alpha</code>.</p></li>
 <li><p>uroot.test = 'adf'		: the Augmented Dickey-Fuller test is used.</p></li>
-<li><p>uroot.test = 'pp'			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that <code>x</code> has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level <code>alpha</code>.</p></li>
+<li><p>uroot.test = 'pp'		: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that <code>x</code> has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level <code>alpha</code>.</p></li>
 </ul><p><code>nsdiffs</code> uses seasonal unit root tests to determine the number of seasonal differences required for time series to be made stationary. Several different tests are available:</p><ul>
 <li><p>suroot.test = 'seas'		: a measure of seasonal strength is used, where differencing is selected if the seasonal strength (Wang, Smith &amp; Hyndman, 2006) exceeds 0.64 (based on minimizing MASE when forecasting using auto.arima on M3 and M4 data).</p></li>
 <li><p>suroot.test = 'ch'			: the Canova-Hansen (1995) test is used (with null hypothesis of deterministic seasonality)</p></li>

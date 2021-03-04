@@ -5,14 +5,14 @@
 \title{The ATA.BoxCoxAttr function works with many different types of inputs.}
 \usage{
 ATA.BoxCoxAttr(
-  bcMethod = "loglik",
+  bcMethod = "guerrero",
   bcLower = 0,
-  bcUpper = 1,
+  bcUpper = 5,
   bcBiasAdj = FALSE
 )
 }
 \arguments{
-\item{bcMethod}{Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).}
+\item{bcMethod}{Choose method to be used in calculating lambda. "guerrero" (Guerrero, V.M. (1993) is default. Other method is "loglik").}
 
 \item{bcLower}{Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.}
 
@@ -30,9 +30,9 @@ An object of class \code{ataattrset}.
 The ATA.BoxCoxAttr function works with many different types of inputs.
 }
 \references{
-Box, G. E. P. and Cox, D. R. (1964) An analysis of transformations. \emph{JRSS B} \bold{26} 211--246.
+#'\insertRef{boxcox1964}{ATAforecasting}
 
-Guerrero, V.M. (1993) Time-series analysis supported by power transformations. \emph{Journal of Forecasting}, \bold{12}, 37--48.
+#'\insertRef{guerrero1993}{ATAforecasting}
 }
 \seealso{
 \code{\link{BoxCox}}, \code{\link{InvBoxCox}}, \code{\link{BoxCox.lambda}}

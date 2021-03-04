@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA.R
 \name{ATA.plot}
 \alias{ATA.plot}
-\title{Specialized Plot Function of The ATA Method Forecast}
+\title{Specialized Plot Function of The ATAforecasting}
 \usage{
 ATA.plot(object, fcol = 4, flty = 2, flwd = 2, ...)
 }
@@ -18,8 +18,8 @@ ATA.plot(object, fcol = 4, flty = 2, flwd = 2, ...)
 \item{...}{other inputs}
 }
 \value{
-a graphic output for the components of the ATA Methods
+a graphic output for the components of the ATAforecasting
 }
 \description{
-Specialized Plot Function of The ATA Method Forecast
+Specialized Plot Function of The ATAforecasting
 }

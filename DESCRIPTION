@@ -1,25 +1,38 @@
 Package: ATAforecasting
 Type: Package
-Title: Forecasting Time Series using 'ATA' Method
-Version: 0.0.51
-Date: 2021-01-12
+Title: Automatic Time Series Analysis and Forecasting using Ata Method
+Version: 0.0.52
+Date: 2021-03-04
 Authors@R: c(
   person("Ali Sabri", "Taylan", email="alisabritaylan@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-9514-934X")),
   person("Hanife", "Taylan Selamlar", role=c("aut", "cph"), comment = c(ORCID = "0000-0002-4091-884X")),
   person("Guckan", "Yapar", role=c("aut", "ths", "cph"), comment=c(ORCID = "0000-0002-0971-6676"))
   )
-Description: The 'ATA' method based on the modified simple exponential smoothing is a new univariate time series forecasting method which 
-	provides innovative solutions to issues faced during the initialization and optimization stages of existing methods. 
-    Forecasting performance of the 'ATA' method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+Description: The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> , 
+	Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
+	<doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+	the initialization and optimization stages of existing methods.
+    Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
     It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
     This methodology performed well on the M3 and M4-competition data.
+	This package was written based on Ali Sabri Taylan’s PhD dissertation.
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>
 License: GPL-3
 URL: https://github.com/alsabtay/ATAforecasting
+        https://atamethod.wordpress.com/
 BugReports: https://github.com/alsabtay/ATAforecasting/issues
-Depends: R (>= 4.0), RcppArmadillo
-Imports: forecast, graphics, Rcpp, seasonal, stats, stlplus, stR, timeSeries, TSA, tseries, utils, xts
+Depends: R (>= 4.0)
+Imports: graphics, forecast, Rcpp, Rdpack, seasonal, stats, stlplus,
+        stR, timeSeries, TSA, tseries, utils, xts
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
+RdMacros: Rdpack
+NeedsCompilation: yes
+Packaged: 2021-03-04 15:17:46 UTC; sabri.taylan
+Author: Ali Sabri Taylan [aut, cre, cph]
+    (<https://orcid.org/0000-0001-9514-934X>),
+  Hanife Taylan Selamlar [aut, cph]
+    (<https://orcid.org/0000-0002-4091-884X>),
+  Guckan Yapar [aut, ths, cph] (<https://orcid.org/0000-0002-0971-6676>)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA_Accuracy.R
 \name{ATA.Accuracy}
 \alias{ATA.Accuracy}
-\title{Accuracy Measures for a ATA forecast model}
+\title{Accuracy Measures for The ATAforecasting}
 \usage{
 ATA.Accuracy(object, out.sample = NULL)
 }
@@ -40,15 +40,15 @@ The measures calculated are:
 }
 }
 \examples{
-ata.fit <- ATA(head(touristTR,84), h=18, seasonal.test = TRUE, seasonal.model = "stl")
+demoATA <- window(touristTR, start = 2008, end = 2014.917)
+ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
 ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
 
 }
 \references{
-Hyndman, R.J. and Koehler, A.B. (2006) "Another look at measures
-of forecast accuracy". \emph{International Journal of Forecasting},
-\bold{22}(4), 679-688. Hyndman, R.J. and Athanasopoulos, G. (2019)
-"Forecasting: principles and practice", OTexts. Section 5.8 "Evaluating point forecast accuracy". \url{https://otexts.com/fpp3/accuracy.html}.
+#'\insertRef{hyndmanandkoehler2006}{ATAforecasting}
+
+#'\insertRef{hyndman2019forecasting}{ATAforecasting}
 }
 \seealso{
 \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
@@ -56,8 +56,8 @@ of forecast accuracy". \emph{International Journal of Forecasting},
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar
 }
+\keyword{Ata}
 \keyword{accuracy}
-\keyword{ata}
 \keyword{forecast}
 \keyword{msts}
 \keyword{ts}

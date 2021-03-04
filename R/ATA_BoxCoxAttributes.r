@@ -1,6 +1,6 @@
 #' The ATA.BoxCoxAttr function works with many different types of inputs.
 #'
-#' @param bcMethod Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).
+#' @param bcMethod Choose method to be used in calculating lambda. "guerrero" (Guerrero, V.M. (1993) is default. Other method is "loglik").
 #' @param bcLower Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.
 #' @param bcUpper Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.
 #' @param bcBiasAdj Use adjusted back-transformed mean for Box-Cox transformations.
@@ -14,23 +14,27 @@
 #'
 #' @seealso \code{\link{BoxCox}}, \code{\link{InvBoxCox}}, \code{\link{BoxCox.lambda}}
 #'
-#' @references Box, G. E. P. and Cox, D. R. (1964) An analysis of transformations. \emph{JRSS B} \bold{26} 211--246.
+#' @references
+#' 
+#' #'\insertRef{boxcox1964}{ATAforecasting}
 #'
-#' Guerrero, V.M. (1993) Time-series analysis supported by power transformations. \emph{Journal of Forecasting}, \bold{12}, 37--48.
+#' #'\insertRef{guerrero1993}{ATAforecasting}
+#'
+#'
 #'
 #' @export
-ATA.BoxCoxAttr <- function(bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE)
+ATA.BoxCoxAttr <- function(bcMethod = "guerrero", bcLower = 0, bcUpper = 5, bcBiasAdj = FALSE)
 {
   if ((bcMethod != "guerrero" & bcMethod != "loglik") | !is.character(bcMethod)){
     warning("Selected method for calculating lambda must be string. guerrero or loglik for calculating lambda.")
-    bcMethod <- "loglik"
+    bcMethod <- "guerrero"
   }
-  if(bcLower < -5){
+  if(bcLower < 0){
     warning("Specified lower value is less than the minimum, setting bcLower=0")
     bcLower <- 0
   }else if(bcUpper > 5){
-    warning("Specified upper value is larger than the maximum, setting bcUpper=1")
-    bcUpper <- 1
+    warning("Specified upper value is larger than the maximum, setting bcUpper=5")
+    bcUpper <- 5
   }
   if (!is.logical(bcBiasAdj)) {
     warning("bcBiasAdj information not found, defaulting to FALSE.")

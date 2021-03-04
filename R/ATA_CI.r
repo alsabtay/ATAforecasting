@@ -16,7 +16,7 @@ ATA.CI <- function(object, ci.level = 95)
 		return("The Input must be 'ATA' object. Please use ATA function to produce 'ATA' object. Calculation of Confidence Intervals of ATA Forecasts will terminate!")
 	}
 	ci.alpha <- 1 - (ci.level/100)
-	length_resid <- length(ata.output$residual[!is.na(ata.output$residual)])
+	length_resid <- length(ata.output$residuals[!is.na(ata.output$residuals)])
 	if (length_resid<=30){
 		ci.ZTvalue <- stats::qt(ci.alpha/2, df=length_resid)
 	}else {

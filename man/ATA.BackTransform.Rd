@@ -9,7 +9,8 @@ ATA.BackTransform(X, tMethod, tLambda, tShift, tbiasadj = FALSE, tfvar = NULL)
 \arguments{
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
 
-\item{tMethod}{Box-Cox power transformation family is consist of "BoxCox", "BoxCox Shift", "Sqrt", "Sqrt Shift", "Reciprocal", "Log", "Log Shift", "NegLog", "Modulus", "Bickel-Doksum", "Manly", "Dual", "Yeo-Johnson", "GPower", "GLog" in ATAforecasting package.}
+\item{tMethod}{Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
+"Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package.}
 
 \item{tLambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
 
@@ -31,6 +32,42 @@ A list object consists of transformation parameters and transformed data.
 }
 }
 \description{
-These functions are modified version of \code{trafo::trafos} and \code{forecast::InvBoxCox} functions.
-Please review manual and vignette documents of latest \code{trafo} and \code{forecast} package. The \code{ATA.BackTransform} function works with many different types of inputs.
+The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied. 
+The \code{ATA.BackTransform} function works with many different types of inputs.
 }
+\references{
+#'\insertRef{tukey1957}{ATAforecasting}
+
+#'\insertRef{boxcox1964}{ATAforecasting}
+
+#'\insertRef{manly1976}{ATAforecasting}
+
+#'\insertRef{johndraper1980}{ATAforecasting}
+
+#'\insertRef{bickeldoksum1982}{ATAforecasting}
+
+#'\insertRef{sakia1992}{ATAforecasting}
+
+#'\insertRef{guerrero1993}{ATAforecasting}
+
+#'\insertRef{yeojohn2000}{ATAforecasting}
+
+#'\insertRef{glog2002}{ATAforecasting}
+
+#'\insertRef{neglog2005}{ATAforecasting}
+
+#'\insertRef{yang2006}{ATAforecasting} 
+
+#'\insertRef{gpower2013}{ATAforecasting}
+}
+\keyword{Ata}
+\keyword{Bickel--Doksum}
+\keyword{Box--Cox}
+\keyword{Guerrero}
+\keyword{Manly}
+\keyword{Yeo--Johnson}
+\keyword{dual}
+\keyword{glog}
+\keyword{gpower}
+\keyword{neglog}
+\keyword{transformation}
