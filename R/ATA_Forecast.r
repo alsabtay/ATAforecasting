@@ -34,7 +34,7 @@
 #'
 #' @examples
 #' demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
-#' ata.fit <- ATA(demoATA, seasonal.test = TRUE, seasonal.model = "decomp")
+#' ata.fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
 #' ATA.plot(ATA.Forecast(ata.fit, h=18))
 #' 
 #'
