@@ -77,7 +77,7 @@ ATA.Transform <- function(X
 	return(my_list)
 }
 
-#' Back Transformation Techniques for ATA Method
+#' Back Transformation Techniques for The ATAforecasting
 #'
 #' @description The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied. 
 #' The \code{ATA.BackTransform} function works with many different types of inputs.

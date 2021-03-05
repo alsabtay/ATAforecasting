@@ -152,8 +152,9 @@ corrgram.test <- function(input, ppy, attr_set)
 }
 
 
-
-#' Number of differences required for a stationary series using \code{tseries} package.
+#' Find Number of Differences Required for a Stationary Series
+#'
+#' @description Number of differences required for a stationary series using \code{tseries} package.
 #' This function is also modified and combined version of \code{ndiffs} \code{forecast} and \code{tseries} packages.
 #' Functions to estimate the number of differences required to make a given
 #' time series stationary using \code{tseries} package. 

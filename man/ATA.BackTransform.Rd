@@ -2,7 +2,7 @@
 % Please edit documentation in R/ATA_Transform.R
 \name{ATA.BackTransform}
 \alias{ATA.BackTransform}
-\title{Back Transformation Techniques for ATA Method}
+\title{Back Transformation Techniques for The ATAforecasting}
 \usage{
 ATA.BackTransform(X, tMethod, tLambda, tShift, tbiasadj = FALSE, tfvar = NULL)
 }

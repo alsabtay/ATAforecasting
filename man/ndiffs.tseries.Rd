@@ -2,18 +2,7 @@
 % Please edit documentation in R/ATA_Seasonality.R
 \name{ndiffs.tseries}
 \alias{ndiffs.tseries}
-\title{Number of differences required for a stationary series using \code{tseries} package.
-This function is also modified and combined version of \code{ndiffs} \code{forecast} and \code{tseries} packages.
-Functions to estimate the number of differences required to make a given
-time series stationary using \code{tseries} package. 
-\code{ndiffs.tseries} estimates the number of first differences necessary.
-Please review manual and vignette documents of latest \code{tseries} package.
-\code{ndiffs.tseries} uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
-\itemize{
-	\item {uroot.test = 'adf'}			: the Augmented Dickey-Fuller test is used.
-	\item {uroot.test = 'pp'}			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that \code{x} has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level \code{alpha}.
-	\item {uroot.test = 'kpss'}			: the KPSS test is used with the null hypothesis that \code{x} has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level \code{alpha}.
-}}
+\title{Find Number of Differences Required for a Stationary Series}
 \usage{
 ndiffs.tseries(x, alpha = 0.05, test = c("kpss", "adf", "pp"), max.d = 2)
 }

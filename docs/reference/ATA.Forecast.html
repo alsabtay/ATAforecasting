@@ -177,8 +177,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>fundingTR</span>, start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/tsp.html'>tsp</a></span><span class='op'>(</span><span class='va'>fundingTR</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, end <span class='op'>=</span> <span class='fl'>2013</span><span class='op'>)</span>
-<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Forecast-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(91,91,0.15) 
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, parPHI <span class='op'>=</span> <span class='fl'>1</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
+</div><div class='img'><img src='ATA.Forecast-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(102,0,1) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -193,16 +193,16 @@
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;             MAE             MSE            RMSE             MPE            MAPE 
-#&gt;     2605.616482 22607570.497748     4754.741896       -0.808383        9.108768 
+#&gt;     2572.406010 20591695.486409     4537.807343       -0.596376        9.157709 
 #&gt;           sMAPE            MASE             OWA 
-#&gt;        9.159325        0.096024        0.000172 
+#&gt;        9.250939        0.094779        0.000173 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;          MdAE          MdSE         RMdSE          MdPE         MdAPE 
-#&gt;    684.534859 468587.972767    684.534859     -0.825479      1.658653 
+#&gt;    856.941676 734349.036861    856.941676     -0.948459      2.036591 
 #&gt;        sMdAPE 
-#&gt;      1.645010 
+#&gt;      2.016061 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -216,9 +216,9 @@
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   15.31    0.02   15.34 
+#&gt;    0.10    0.01    0.11 
 #&gt; 
-#&gt; calculation.time: 15.347 
+#&gt; calculation.time: 0.115 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -226,10 +226,10 @@
 #&gt; Start = c(2013, 2) 
 #&gt; End = c(2013, 7) 
 #&gt; Frequency = 52 
-#&gt; [1] 23162.16 24364.18 26128.97 24934.00 27679.34 31082.62
+#&gt; [1] 23110.07 24246.94 25993.20 24803.00 27533.68 30919.02
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'>ATA.Forecast</span><span class='op'>(</span><span class='va'>ata.fit</span>, h<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ATA(91,91,0.15) 
+</div><div class='output co'>#&gt; ATA(102,0,1) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -244,16 +244,16 @@
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;             MAE             MSE            RMSE             MPE            MAPE 
-#&gt;     2605.616482 22607570.497748     4754.741896       -0.808383        9.108768 
+#&gt;     2572.406010 20591695.486409     4537.807343       -0.596376        9.157709 
 #&gt;           sMAPE            MASE             OWA 
-#&gt;        9.159325        0.096024        0.000172 
+#&gt;        9.250939        0.094779        0.000173 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;          MdAE          MdSE         RMdSE          MdPE         MdAPE 
-#&gt;    684.534859 468587.972767    684.534859     -0.825479      1.658653 
+#&gt;    856.941676 734349.036861    856.941676     -0.948459      2.036591 
 #&gt;        sMdAPE 
-#&gt;      1.645010 
+#&gt;      2.016061 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -267,9 +267,9 @@
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   15.31    0.02   15.34 
+#&gt;    0.10    0.01    0.11 
 #&gt; 
-#&gt; calculation.time: 15.347 
+#&gt; calculation.time: 0.115 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -277,9 +277,9 @@
 #&gt; Start = c(2013, 2) 
 #&gt; End = c(2013, 19) 
 #&gt; Frequency = 52 
-#&gt;  [1] 23162.16 24364.18 26128.97 24934.00 27679.34 31082.62 26659.71 28766.50
-#&gt;  [9] 31250.50 29381.97 28670.68 27049.20 30779.58 30744.02 24848.22 29390.93
-#&gt; [17] 22950.49 24494.12
+#&gt;  [1] 23110.07 24246.94 25993.20 24803.00 27533.68 30919.02 26519.38 28615.08
+#&gt;  [9] 31086.01 29227.30 28519.76 26906.81 30617.56 30582.19 24717.42 29236.22
+#&gt; [17] 22829.68 24365.19
 #&gt; 
 #&gt; </div><div class='img'><img src='ATA.Forecast-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
