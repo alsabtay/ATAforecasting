@@ -25,6 +25,8 @@ devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)
 
 [Github page](https://github.com/alsabtay/ATAforecasting)
 
+[Github.io page] https://alsabtay.github.io/ATAforecasting/)
+
 [Project team website](https://atamethod.wordpress.com/)
 
 
