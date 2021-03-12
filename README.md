@@ -1,9 +1,19 @@
-# ATAforecasting
+# ATAforecasting <img src="man/figures/logo.png" align="right" />
+
+<!-- badges: start -->
+[![CRAN](https://www.r-pkg.org/badges/version/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)
+[![CRAN checks](https://cranchecks.info/badges/worst/ATAforecasting)](https://cran.r-project.org/web/checks/check_results_ATAforecasting.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)
+[![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+<!-- badges: end -->
+
+## Synopsis
+
 Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques.
 
-# Description
+## Description
 
-The ATA Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA.
+The Ata Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA.
 The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) [doi:10.15672/HJMS.201614320580](https://doi.org/10.15672/HJMS.201614320580), 
 Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) [doi:10.15672/HJMS.2017.493](https://doi.org/10.15672/HJMS.2017.493) and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
 [doi:10.15672/hujms.461032](https://doi.org/10.15672/hujms.461032) is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
@@ -13,15 +23,14 @@ Forecasting performance of the Ata method is superior to existing methods both i
 It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 This methodology performed well on the M3 and M4-competition dat
 
-# Installation
+## Installation
 
 Development version with latest features:
 ```
 devtools::install_github("alsabtay/ATAforecasting")
-devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)
 ```
 
-# Links
+## Links
 
 [Github page](https://github.com/alsabtay/ATAforecasting)
 
@@ -30,5 +39,5 @@ devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)
 [Project team website](https://atamethod.wordpress.com/)
 
 
-# License
+## License
 This package is free and open source software, licensed under GPL-3.
