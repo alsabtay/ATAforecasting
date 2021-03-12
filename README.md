@@ -1,11 +1,9 @@
 # ATAforecasting <img src="man/figures/logo.png" align="right" />
 
-<!-- badges: start -->
 [![CRAN](https://www.r-pkg.org/badges/version/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)
 [![CRAN checks](https://cranchecks.info/badges/worst/ATAforecasting)](https://cran.r-project.org/web/checks/check_results_ATAforecasting.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-<!-- badges: end -->
 
 ## Synopsis
 
