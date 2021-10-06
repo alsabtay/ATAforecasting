@@ -1,12 +1,12 @@
 #' Transformation Techniques for The ATAforecasting
 #'
-#' @description The function provides the applicability of different types of transformation techniques for the data to which the Ata method will be applied. 
+#' @description The function provides the applicability of different types of transformation techniques for the data to which the Ata method will be applied.
 #' The \code{ATA.Transform} function works with many different types of inputs.
 #'
 #' @param X a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param tMethod Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
-#' "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter, 
-#' \code{ATA.Transform} will calculate required shift parameter automatically. 
+#' "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter,
+#' \code{ATA.Transform} will calculate required shift parameter automatically.
 #' @param tLambda Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.
 #' @param tShift Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
 #' @param bcMethod Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).
@@ -22,7 +22,7 @@
 #'}
 #'
 #' @references
-#' 
+#'
 #' #'\insertRef{tukey1957}{ATAforecasting}
 #'
 #' #'\insertRef{boxcox1964}{ATAforecasting}
@@ -43,7 +43,7 @@
 #'
 #' #'\insertRef{neglog2005}{ATAforecasting}
 #'
-#' #'\insertRef{yang2006}{ATAforecasting} 
+#' #'\insertRef{yang2006}{ATAforecasting}
 #'
 #' #'\insertRef{gpower2013}{ATAforecasting}
 #'
@@ -71,7 +71,7 @@ ATA.Transform <- function(X
 			tLambda <- forecast::BoxCox.lambda(X, method = "loglik", lower=bcLower, upper=bcUpper)
 		  }
 		}
-		out_list <- AutoATA.Transform(X, tMethod = tMethod, tType = "Vanilla", tLambda = tLambda, tShift = tShift)
+		out_list <- SubATA.Transform(X, tMethod = tMethod, tType = "Vanilla", tLambda = tLambda, tShift = tShift)
 		my_list <- list("trfmX" = out_list$tX, "tLambda" = out_list$tLambda, "tShift" = out_list$tShift)
 	}
 	return(my_list)
@@ -79,7 +79,7 @@ ATA.Transform <- function(X
 
 #' Back Transformation Techniques for The ATAforecasting
 #'
-#' @description The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied. 
+#' @description The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied.
 #' The \code{ATA.BackTransform} function works with many different types of inputs.
 #' @param X a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param tMethod Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
@@ -100,7 +100,7 @@ ATA.Transform <- function(X
 #'}
 #'
 #' @references
-#' 
+#'
 #' #'\insertRef{tukey1957}{ATAforecasting}
 #'
 #' #'\insertRef{boxcox1964}{ATAforecasting}
@@ -121,7 +121,7 @@ ATA.Transform <- function(X
 #'
 #' #'\insertRef{neglog2005}{ATAforecasting}
 #'
-#' #'\insertRef{yang2006}{ATAforecasting} 
+#' #'\insertRef{yang2006}{ATAforecasting}
 #'
 #' #'\insertRef{gpower2013}{ATAforecasting}
 #'
@@ -134,7 +134,7 @@ ATA.BackTransform <- function(X, tMethod, tLambda, tShift, tbiasadj=FALSE, tfvar
 	if (is.null(tMethod)){
 		trfmX <- X
 	}else {
-		out_list <- AutoATA.Transform(tX = X, tMethod = tMethod, tType = "Back", tLambda = tLambda, tShift = tShift)
+		out_list <- SubATA.Transform(tX = X, tMethod = tMethod, tType = "Back", tLambda = tLambda, tShift = tShift)
 		trfmX <- out_list$tX
 	}
 	return(trfmX)

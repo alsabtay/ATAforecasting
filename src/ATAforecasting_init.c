@@ -3,21 +3,21 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/* FIXME: 
+/* FIXME:
    Check these declarations against the C/Fortran source code.
 */
 
 /* .Call calls */
 extern SEXP _ATAforecasting_ATAHoldoutForecast(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATA(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATACore(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATACoreHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATACoreHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATADamped(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATADampedHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATADampedHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATAHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ATAforecasting_AutoATAHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATA(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATACore(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATACoreHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATACoreHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATADamped(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATADampedHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATADampedHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATAHoldhin(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ATAforecasting_SubATAHoldout(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ATAforecasting_inMASE(SEXP, SEXP, SEXP);
 extern SEXP _ATAforecasting_inMASEholdin(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ATAforecasting_meanIT(SEXP, SEXP);
@@ -27,15 +27,15 @@ extern SEXP _ATAforecasting_outMASE(SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ATAforecasting_ATAHoldoutForecast",   (DL_FUNC) &_ATAforecasting_ATAHoldoutForecast,   11},
-    {"_ATAforecasting_AutoATA",              (DL_FUNC) &_ATAforecasting_AutoATA,              20},
-    {"_ATAforecasting_AutoATACore",          (DL_FUNC) &_ATAforecasting_AutoATACore,          11},
-    {"_ATAforecasting_AutoATACoreHoldhin",   (DL_FUNC) &_ATAforecasting_AutoATACoreHoldhin,   12},
-    {"_ATAforecasting_AutoATACoreHoldout",   (DL_FUNC) &_ATAforecasting_AutoATACoreHoldout,   12},
-    {"_ATAforecasting_AutoATADamped",        (DL_FUNC) &_ATAforecasting_AutoATADamped,        16},
-    {"_ATAforecasting_AutoATADampedHoldhin", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldhin, 17},
-    {"_ATAforecasting_AutoATADampedHoldout", (DL_FUNC) &_ATAforecasting_AutoATADampedHoldout, 17},
-    {"_ATAforecasting_AutoATAHoldhin",       (DL_FUNC) &_ATAforecasting_AutoATAHoldhin,       21},
-    {"_ATAforecasting_AutoATAHoldout",       (DL_FUNC) &_ATAforecasting_AutoATAHoldout,       21},
+    {"_ATAforecasting_SubATA",              (DL_FUNC) &_ATAforecasting_SubATA,              20},
+    {"_ATAforecasting_SubATACore",          (DL_FUNC) &_ATAforecasting_SubATACore,          11},
+    {"_ATAforecasting_SubATACoreHoldhin",   (DL_FUNC) &_ATAforecasting_SubATACoreHoldhin,   12},
+    {"_ATAforecasting_SubATACoreHoldout",   (DL_FUNC) &_ATAforecasting_SubATACoreHoldout,   12},
+    {"_ATAforecasting_SubATADamped",        (DL_FUNC) &_ATAforecasting_SubATADamped,        16},
+    {"_ATAforecasting_SubATADampedHoldhin", (DL_FUNC) &_ATAforecasting_SubATADampedHoldhin, 17},
+    {"_ATAforecasting_SubATADampedHoldout", (DL_FUNC) &_ATAforecasting_SubATADampedHoldout, 17},
+    {"_ATAforecasting_SubATAHoldhin",       (DL_FUNC) &_ATAforecasting_SubATAHoldhin,       21},
+    {"_ATAforecasting_SubATAHoldout",       (DL_FUNC) &_ATAforecasting_SubATAHoldout,       21},
     {"_ATAforecasting_inMASE",               (DL_FUNC) &_ATAforecasting_inMASE,                3},
     {"_ATAforecasting_inMASEholdin",         (DL_FUNC) &_ATAforecasting_inMASEholdin,          4},
     {"_ATAforecasting_meanIT",               (DL_FUNC) &_ATAforecasting_meanIT,                2},

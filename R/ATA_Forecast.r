@@ -16,7 +16,7 @@
 #' \code{tbats}, \code{seasadj}.
 #'
 #' @references
-#' 
+#'
 #' #'\insertRef{yapar2017mses}{ATAforecasting}
 #'
 #' #'\insertRef{yapar2018mhes}{ATAforecasting}
@@ -30,13 +30,13 @@
 #'
 #' @importFrom stats cycle frequency ts tsp tsp<- var
 #' @importFrom Rdpack reprompt
-#' @importFrom forecast msts 
+#' @importFrom forecast msts
 #'
 #' @examples
 #' demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
 #' ata.fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
 #' ATA.plot(ATA.Forecast(ata.fit, h=18))
-#' 
+#'
 #'
 #' @export
 ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
@@ -45,14 +45,22 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
   if (class(y)!="ATA"){
     return("The Input must be 'ATA' object. Please use ATA(x) function to produce 'ATA' object. ATA Forecast was terminated!")
   }
+  m <- frequency(y$actual)
   if (is.null(h)){
-    if (frequency(y$actual)==4){
+    if (m==4){
       h <- 8
-    }else if (frequency(y$actual)==12){
+    }else if (m==5){
+      h <- 10
+    }else if (m==7){
+      h <- 14
+    }else if (m==12){
       h <- 24
+    }else if (m==24){
+      h <- 48
     }else {
-      h <- 7
+      h <- 6
     }
+    warn(paste("Input forecast horizon has been changed with ", h))
   }
   if(!is.null(out.sample)){
     if (length(out.sample)!=h){
@@ -107,7 +115,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
   OS_SIValue <- ATA.Transform(OS_SIValue, tMethod=transform.method, tLambda=lambda, tShift = shift)$trfmX
   ata.output$level <- forecast::msts(ATA.Transform(y$level, tMethod=transform.method, tLambda=lambda, tShift = shift)$trfmX, start=tsp_y[1], seasonal.periods = y$seasonal.period)
   ata.output$trend <- forecast::msts(ATA.Transform(y$trend, tMethod=transform.method, tLambda=lambda, tShift = shift)$trfmX, start=tsp_y[1], seasonal.periods = y$seasonal.period)
-  ata.output <- AutoATA.Forecast(ata.output, hh=h, initialLevel=ata.output$initial.level)
+  ata.output <- SubATA.Forecast(ata.output, hh=h, initialLevel=ata.output$initial.level)
   forecast.ata <- ata.output$forecast
   if(y$seasonal.type=="A"){
     ATA.forecast <- ATA.BackTransform(X=forecast.ata + OS_SIValue, tMethod=transform.method, tLambda=lambda, tShift = shift, tbiasadj=y$bcBiasAdj, tfvar=ifelse(y$bcBiasAdj==FALSE, NULL, var(y$residuals)))
@@ -139,7 +147,6 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
   }
   attr(y, "class") <- "ATA"
   ATA.print(y)
-  return(y)
-  ATA.print(y)
   gc()
+  return(y)
 }
