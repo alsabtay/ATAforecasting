@@ -22,6 +22,13 @@ This methodology performed well on the M3 and M4-competition dat
 
 ## Installation
 
+You can install the **stable** version from
+[CRAN](https://cran.r-project.org/package=ATAforecasting):
+
+``` 
+install.packages("ATAforecasting")
+```
+
 Development version with latest features:
 ```
 devtools::install_github("alsabtay/ATAforecasting")
