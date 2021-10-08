@@ -19,7 +19,7 @@ ATA.Transform(
 \item{X}{a numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
 
 \item{tMethod}{Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
-"Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter, 
+"Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter,
 \code{ATA.Transform} will calculate required shift parameter automatically.}
 
 \item{tLambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
@@ -42,7 +42,7 @@ A list object consists of transformation parameters and transformed data.
 }
 }
 \description{
-The function provides the applicability of different types of transformation techniques for the data to which the Ata method will be applied. 
+The function provides the applicability of different types of transformation techniques for the data to which the Ata method will be applied.
 The \code{ATA.Transform} function works with many different types of inputs.
 }
 \references{
@@ -66,7 +66,7 @@ The \code{ATA.Transform} function works with many different types of inputs.
 
 #'\insertRef{neglog2005}{ATAforecasting}
 
-#'\insertRef{yang2006}{ATAforecasting} 
+#'\insertRef{yang2006}{ATAforecasting}
 
 #'\insertRef{gpower2013}{ATAforecasting}
 }

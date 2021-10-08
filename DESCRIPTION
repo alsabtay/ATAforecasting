@@ -2,7 +2,7 @@ Package: ATAforecasting
 Type: Package
 Title: Automatic Time Series Analysis and Forecasting Using the Ata Method
 Version: 0.0.53
-Date: 2021-10-06
+Date: 2021-10-08
 Authors@R: c(
   person("Ali Sabri", "Taylan", email="alisabritaylan@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-9514-934X")),
   person("Hanife", "Taylan Selamlar", role=c("aut", "cph"), comment = c(ORCID = "0000-0002-4091-884X")),
@@ -14,7 +14,7 @@ Description: The Ata method (Yapar et al. (2019) <doi:10.15672/hujms.461032>), a
 	implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend 
 	and seasonal). This methodology performed well on the M3 and M4-competition data. This package was written based on Ali Sabri Taylan’s PhD dissertation.
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>
-License: GPL-3
+License: GPL (>= 3)
 URL: https://github.com/alsabtay/ATAforecasting
         https://atamethod.wordpress.com/
 BugReports: https://github.com/alsabtay/ATAforecasting/issues

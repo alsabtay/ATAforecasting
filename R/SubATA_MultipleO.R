@@ -308,8 +308,6 @@ SubATA.MultipleO <- function(ts_input, pb, qb, model.type, seasonal.Test, season
   }else {
     method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
   }
-  method <- paste(method, " (A,", my_list$model.type, ifelse(parPHI==1, ",", "d,"), seasonal.Type, ")", sep="")
-  my_list$method <- method
   my_list$initial.level <- initialLevel
   my_list$initial.trend <- initialTrend
   my_list$level.fixed <- level.Fix
@@ -331,6 +329,8 @@ SubATA.MultipleO <- function(ts_input, pb, qb, model.type, seasonal.Test, season
   }else {
     my_list$seasonal.type <- crit_a
   }
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  my_list$method <- method
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- SeasonalIndex
   my_list$seasonal <- ts(SeasonalActual, frequency = firstTspX[3], start=firstTspX[1])

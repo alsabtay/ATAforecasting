@@ -23,20 +23,23 @@ If \code{out.sample} is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 \itemize{
-		\item{MAE}	 : mean absolute error.
-		\item{MSE}	 : mean square error.
-		\item{RMSE}	 : root mean squared error.
-		\item{MPE}	 : mean percentage error.
-		\item{MAPE}	 : mean absolute percentage error.
-		\item{sMAPE} : symmetric mean absolute percentage error.
-		\item{MASE}	 : mean absolute scaled error.
-		\item{OWA}	 : overall weighted average of MASE and sMAPE.
-		\item{MdAE}	 : median absolute error.
-		\item{MdSE}	 : median square error.
-		\item{RMdSE} : root median squared error.
-		\item{MdPE}	 : median percentage error.
-		\item{MdAPE} : median absolute percentage error.
-		\item{sMdAPE}: symmetric median absolute percentage error.
+	 \item{lik}		: maximum likelihood functions
+	 \item{sigma}	: residual variance.
+	 \item{MAE}		: mean absolute error.
+	 \item{MSE}		: mean square error.
+	 \item{AMSE}	: Average MSE over first `nmse` forecast horizons.
+	 \item{RMSE}	: root mean squared error.
+	 \item{MPE}		: mean percentage error.
+	 \item{MAPE}	: mean absolute percentage error.
+	 \item{sMAPE}	: symmetric mean absolute percentage error.
+	 \item{MASE}	: mean absolute scaled error.
+	 \item{OWA}		: overall weighted average of MASE and sMAPE.
+	 \item{MdAE}	: median absolute error.
+	 \item{MdSE}	: median square error.
+	 \item{RMdSE}	: root median squared error.
+	 \item{MdPE}	: median percentage error.
+	 \item{MdAPE}	: median absolute percentage error.
+	 \item{sMdAPE}	: symmetric median absolute percentage error.
 }
 }
 \examples{

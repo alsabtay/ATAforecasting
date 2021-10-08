@@ -4,7 +4,7 @@
 \alias{ATA.Core}
 \title{The core algorithm of the ATA Method}
 \usage{
-ATA.Core(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
+ATA.Core(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
 }
 \arguments{
 \item{X}{A numeric vector or time series.}
@@ -22,6 +22,8 @@ If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
 
 \item{initialTrend}{If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
 If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.}
+
+\item{nmse}{If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2<=nmse<=30`).}
 }
 \value{
 Returns an object of class "\code{ATA}"

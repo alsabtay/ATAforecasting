@@ -1,4 +1,4 @@
-#' @import Rcpp 
+#' @import Rcpp
 #'
 #' @importFrom graphics axis legend layout lines mtext par plot polygon
 #' @importFrom forecast BoxCox.lambda findfrequency is.constant mstl msts ndiffs nsdiffs seasadj seasonal tbats tbats.components
@@ -12,8 +12,7 @@
 #' @importFrom tseries adf.test kpss.test pp.test
 #' @importFrom utils head tail
 #' @importFrom xts period.apply
+#' @exportPattern("^[[:alpha:]]+")
 #'
 #' @useDynLib ATAforecasting, .registration = TRUE
 NULL
-
-#' @exportPattern("^[[:alpha:]]+")

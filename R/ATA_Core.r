@@ -9,6 +9,7 @@
 #' If TRUE, ATA Method calculates average of first p value in \code{X}for level.
 #' @param initialTrend If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
 #' If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
+#' @param nmse If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2<=nmse<=30`).
 #'
 #' @return Returns an object of class "\code{ATA}"
 #'
@@ -69,9 +70,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S + (phiTotal * T)
         }
        }
@@ -80,14 +81,14 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         ata.coefq[i] <- NA
         ata.S[i] <- S <- Xobs
         ata.T[i] <- T <- 1
-        ata.fitted[i] <- S * (T^phik)
+        ata.fitted[i] <- FF <- S * (T^phik)
         ata.error[i] <- Xh - FF
         S_1 <- S
         T_1 <- T
-        FFC[i,1] <- FF
-        phiTotal <- phih
+        FC[i,1] <- FF
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S * (T^phiTotal)
         }
       }
@@ -102,9 +103,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S + (phiTotal * T)
         }
       }
@@ -118,9 +119,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S * (T^phiTotal)
         }
       }
@@ -134,9 +135,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         ata.error[i] <- Xh - FF
         S_1 <- S
         T_1 <- T
-        phiTotal <- phih
+        phiTotal <- phik
         for(j in 2:nmse) {
-            phiTotal = phiTotal + (phih^j)
+            phiTotal = phiTotal + (phik^j)
             FC[i,j] = S + (phiTotal * T)
         }
       }
@@ -150,9 +151,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S * (T^phiTotal)
         }
       }
@@ -168,9 +169,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S + (phiTotal * T)
         }
       }
@@ -184,9 +185,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S * (T^phiTotal)
         }
       }
@@ -202,9 +203,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S + (phiTotal * T)
         }
       }
@@ -218,9 +219,9 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         S_1 <- S
         T_1 <- T
         FC[i,1] <- FF
-        phiTotal <- phih
+        phiTotal <- phik
         for (j in 2:nmse) {
-            phiTotal <- phiTotal + (phih^j)
+            phiTotal <- phiTotal + (phik^j)
             FC[i,j] <- S * (T^phiTotal)
         }
       }

@@ -95,6 +95,10 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     pre_mape_os <- NA
     pre_smape_os <- NA
   }
+  np <- length(c(stats::na.omit(ata.output$par.specs)))
+  np <- np + 1
+  ny <- length(ata.output$actual)
+
   mae <- round(mean(pre_mae, na.rm=TRUE),6)
   mse <- round(mean(pre_mse, na.rm=TRUE),6)
   lik <- ny * round(log(sum(pre_mse, na.rm=TRUE)),6)
@@ -112,9 +116,6 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   naiveAccry <- round(NaiveSD(as.double(in_sample), as.integer(frequency(inSample))),6)
   owa <- round(((mase/naiveAccry) + (smape/naiveAccry))/2, 6)
 
-  np <- length(c(stats::na.omit(ata.output$par.specs)))
-  np <- np + 1
-  ny <- length(ata.output$actual)
   aic <- lik + 2 * np
   bic <- lik + log(ny) * np
   aicc <- aic + 2 * np * (np + 1) / (ny - np - 1)
@@ -142,7 +143,6 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   if (!is.na(out.sample[1])){
     mae_os <- round(mean(pre_mae_os, na.rm=TRUE),6)
     mse_os <- round(mean(pre_mse_os, na.rm=TRUE),6)
-    lik_os <- nh * round(log(sum(pre_mse_os, na.rm=TRUE)),6)
     rmse_os <- round(sqrt(mse_os),6)
     mpe_os <- round(mean(pre_mpe_os, na.rm=TRUE),6)
     mape_os <- round(mean(pre_mape_os, na.rm=TRUE),6)
@@ -172,10 +172,6 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     mase_os <- NA
     owa_os <- NA
   }
-  nh <- length(out.sample)
-  aic_os <- lik_os + 2 * np
-  bic_os <- lik_os + log(nh) * np
-  aicc_os <- aic_os + 2 * np * (np + 1) / (nh - np - 1)
 
   RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape, "MASE" = (pre_mae/naiveAccry))
   RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os, "MASE" = (pre_mae_os/naiveAccry))
@@ -201,17 +197,16 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   sMAPE_all <- list("inSample"=sMAPE_is, "outSample"=sMAPE_os)
   MASE_all <- list("inSample"=MASE_is, "outSample"=MASE_os)
   OWA_all <- list("inSample"=OWA_is, "outSample"=OWA_os)
-  fits <- c(sigma2 = round(sum(pre_mse, na.rm=TRUE),6) / (ny - np),
-            loglik = -0.5 * lik,
-            AIC = aic,
-            AICc = aicc,
-            BIC = bic,
-            MSE = mse,
-            #AMSE = amse,
-            MAE = mae,
-            sMAPE = smape,
-            MASE = mase,
-            OWA = owa)
+  fits <- list("sigma2" = round(sum(pre_mse, na.rm=TRUE),6) / (ny - np),
+            "loglik" = -0.5 * lik,
+            "AIC" = aic,
+            "AICc" = aicc,
+            "BIC" = bic,
+            "MSE" = mse,
+            "MAE" = mae,
+            "sMAPE" = smape,
+            "MASE" = mase,
+            "OWA" = owa)
   my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all, "OWA"=OWA_all, "RawAccuracy"=RawAccuracy_all, "fits"=fits)
   return(my_list)
 }

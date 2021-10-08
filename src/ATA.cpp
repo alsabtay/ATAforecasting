@@ -147,7 +147,7 @@ double meanIT(NumericVector x, int t){
 }
 
 // [[Rcpp::export]]
-double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int nmse) {
+double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZNMSE) {
   int LENZ = IAZ.size();
   NumericVector IZT_0(LENZ);
   NumericVector IZFIT(LENZ);
@@ -161,7 +161,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
   NumericVector pe(LENZ);
   NumericVector ITsmape(LENZ);
   NumericVector FC_c(LENZ);
-  arma::mat FC(LENZ, nmse);
+  arma::mat FC(LENZ, IZNMSE);
 
   if (IZMO==1)
     IZT_0 = IZTA_0;
@@ -205,7 +205,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -220,7 +220,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -240,7 +240,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -258,7 +258,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -276,7 +276,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -292,7 +292,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -314,7 +314,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -333,7 +333,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -353,7 +353,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -370,7 +370,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -381,7 +381,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
       IZFIT[i] = NA_REAL;
       S_1 = NA_REAL;
       T_1 = NA_REAL;
-      for(h = 0; h < nmse-1; h++)
+      for(h = 0; h < IZNMSE-1; h++)
         FC[i,h] = NA_REAL;
     }
   }
@@ -412,7 +412,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
   else if (IZAC==13)
     accmeasure = 1.0 * ((mean(ITsmape)/NaiveSD(IAZ, IZFRQ)) + (inMASE(IAZ, IZFIT, IZFRQ)/NaiveSD(IAZ, IZFRQ))) / 2;
   else if (IZAC==14){
-      for(h = 0; h < nmse - 1; h++)
+      for(h = 0; h < IZNMSE - 1; h++)
       {
         denom = denom + 1.0;
         FC_c = wrap(FC.col(h));
@@ -1278,7 +1278,7 @@ NumericVector ATAHoldoutForecast(NumericVector IAZ, int IZP, int IZQ, double IZP
 
 
 // [[Rcpp::export]]
-double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZH, int nmse) {
+double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZH, int IZNMSE) {
   int LENZ = IAZ.size();
   NumericVector IZT_0(LENZ);
   NumericVector IZFIT(LENZ);
@@ -1295,7 +1295,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
   NumericVector hITErr(IZH);
   NumericVector hFC(IZH);
   NumericVector FC_c(LENZ);
-  arma::mat FC(LENZ, nmse);
+  arma::mat FC(LENZ, IZNMSE);
 
   if (IZMO==1)
     IZT_0 = IZTA_0;
@@ -1339,7 +1339,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -1354,7 +1354,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -1374,7 +1374,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -1392,7 +1392,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -1410,7 +1410,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -1426,7 +1426,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -1448,7 +1448,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -1467,7 +1467,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -1487,7 +1487,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
           }
@@ -1504,7 +1504,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         if (IZAC==14){
           FC[i,0] = pow(IAZ[i] - IZFIT[i],2);
           phiTotal = IZPHI;
-          for(h = 1; h < nmse-1; h++) {
+          for(h = 1; h < IZNMSE-1; h++) {
             phiTotal = phiTotal + pow(IZPHI, h);
             FC[i,h] = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
           }
@@ -1515,7 +1515,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
       IZFIT[i] = NA_REAL;
       S_1 = NA_REAL;
       T_1 = NA_REAL;
-      for(h = 0; h < nmse-1; h++)
+      for(h = 0; h < IZNMSE-1; h++)
         FC[i,h] = NA_REAL;
     }
   }
@@ -1547,7 +1547,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
   else if (IZAC==13)
     accmeasure = 1.0 * ((mean(tail(ITsmape, IZH))/NaiveSDholdin(IAZ, IZFRQ, IZH)) + (inMASEholdin(IAZ, IZFIT, IZFRQ, IZH)/NaiveSDholdin(IAZ, IZFRQ, IZH))) / 2;
   else if (IZAC==14){
-        for(h = 0; h < nmse - 1; h++)
+        for(h = 0; h < IZNMSE - 1; h++)
         {
           denom = denom + 1.0;
           FC_c = wrap(FC.col(h));

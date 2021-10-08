@@ -18,9 +18,9 @@ ATA(
   seasonal.test.attr = NULL,
   find.period = NULL,
   accuracy.type = NULL,
+  nmse = 3,
   level.fixed = FALSE,
-  trend.fixed = FALSE,
-  trend.search = FALSE,
+  trend.opt = "none",
   h = NULL,
   partition.h = NULL,
   holdout = FALSE,
@@ -91,10 +91,13 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
      \item{5} : multiple period with find.freq & stl
 }}
 
-\item{accuracy.type}{Accuracy measure for selection of the best model. IF NULL, \code{sMAPE} is default.
+\item{accuracy.type}{Accuracy measure for optimization of the best ATA Method forecasting. IF NULL, \code{sMAPE} is default.
 \itemize{
+     \item{lik}        : maximum likelihood functions
+     \item{sigma}    : residual variance.
      \item{MAE}        : mean absolute error.
      \item{MSE}        : mean square error.
+     \item{AMSE}    : Average MSE over first `nmse` forecast horizons.
      \item{RMSE}    : root mean squared error.
      \item{MPE}        : mean percentage error.
      \item{MAPE}    : mean absolute percentage error.
@@ -109,20 +112,25 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
      \item{sMdAPE}    : symmetric median absolute percentage error.
 }}
 
+\item{nmse}{If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2<=nmse<=30`).}
+
 \item{level.fixed}{If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.}
 
-\item{trend.fixed}{If TRUE, "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.}
-
-\item{trend.search}{If TRUE, "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0). Then, fits ATA(p*,q) where q is optimized for p = p*.}
+\item{trend.opt}{When \code{trend.opt},
+\itemize{
+     \item{none} : none
+     \item{fixed} : "pBullet" --> Fits ATA(p,1) where p = p* is optimized for q = 1.
+     \item{search} : "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0). Then, fits ATA(p*,q) where q is optimized for p = p*.
+}}
 
 \item{h}{The number of steps to forecast ahead.
-When the parameter is NULL; if the frequency of \code{X} is 4 the parameter is set to 8; if the frequency of \code{X} is 12 the parameter is set to 18; the parameter is set to 6 for other cases.}
+When the parameter is NULL; if the frequency of \code{X} is 4, the parameter is set to 8; if the frequency of \code{X} is 12, the parameter is set to 18; the parameter is set to 6 for other cases.}
 
 \item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set.
 If the value is between 0 and 1, percentage of length is active. If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
 
 \item{holdout}{Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
-The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set).
+The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
 If TRUE, partition.h will used for holdout data.}
 
 \item{holdout.adjustedP}{Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.}
@@ -131,7 +139,7 @@ If TRUE, partition.h will used for holdout data.}
 
 \item{transform.order}{If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.}
 
-\item{transform.method}{Transformation method  --> "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter, 
+\item{transform.method}{Transformation method  --> "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter,
 \code{ATA.Transform} will calculate required shift parameter automatically.}
 
 \item{transform.attr}{Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.}
@@ -152,7 +160,7 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 
 \item{end.phi}{Upper boundary for searching \code{parPHI}. If NULL, 1 is is default.}
 
-\item{size.phi}{Increment step for searching \code{parPHI}. If NULL, 0.05 is default.}
+\item{size.phi}{Increment step for searching \code{parPHI}. If NULL, the step size will be determined as the value that allows the bounds for the optimised value of \code{parPHI} to be divided into 20 equal parts.}
 
 \item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
 
@@ -178,18 +186,19 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 		 \item{h}		      : The number of steps to forecast ahead.
 		 \item{forecast}	: Point forecasts as a time series.
 		 \item{out.sample}: Test values as a time series.
-		 \item{method}		: The name of the optimum forecasting method as a character string.
+		 \item{method}		: The name of the optimum forecasting method as a character string for ATA(P,Q,PHI)(Error,Trend,Season).
 		 \item{initial.level}     : Selected initial level values for the time series forecasting method.
 		 \item{initial.trend}     : Selected initial trend values for the time series forecasting method.
 		 \item{level.fixed}       : A choice of optional level-fixed trended methods.
-		 \item{trend.fixed}       : A choice of optional trend-fixed trended methods.
-		 \item{trend.search}      : A choice of optional trend and level optimized trended methods if q > 1.
+    \item{trend.opt}       : A choice of optional trend and level optimized trended methods (none, trend.fixed or trend.search).
 		 \item{transform.method}  : Box-Cox power transformation family method  --> Box_Cox, Sqrt, Reciprocal, Log, NegLog, Modulus, BickelDoksum, Manly, Dual, YeoJohnson, GPower, GLog.
 		 \item{transform.order}   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.
 		 \item{lambda}  	: Box-Cox power transformation family parameter.
 		 \item{shift}		  : Box-Cox power transformation family shifting parameter.
 		 \item{accuracy.type}		  : Accuracy measure that is chosen for model selection.
+		 \item{nmse}		  : The number of steps for average multistep MSE.
 		 \item{accuracy} 	: In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.
+		 \item{par.specs} 	: Parameter sets for Information Criteria.
 		 \item{holdout}		: Holdout forecasting is TRUE or FALSE.
 		 \item{holdout.training} 	: Training set in holdout forecasting.
 		 \item{holdout.validation}: Validation set in holdout forecasting.
@@ -208,12 +217,12 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 }
 }
 \description{
-\code{ATA} is a generic function for Ata Method forecasting. 
-The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> , 
-Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
-<doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+\code{ATA} is a generic function for Ata Method forecasting.
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> ,
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019)
+<doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during
 the initialization and optimization stages of existing methods.
-Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting.
 It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 This methodology performed well on the M3 and M4-competition data.
 }

@@ -60,7 +60,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     }else {
       h <- 6
     }
-    warn(paste("Input forecast horizon has been changed with ", h))
+    warning(paste("Input forecast horizon has been changed with ", h))
   }
   if(!is.null(out.sample)){
     if (length(out.sample)!=h){

@@ -300,8 +300,6 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   }else {
     method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
   }
-  method <- paste(method, " (A,", my_list$model.type, ifelse(parPHI==1, ",", "d,"), seasonal.Type, ")", sep="")
-  my_list$method <- method
   my_list$initial.level <- initialLevel
   my_list$initial.trend <- initialTrend
   my_list$level.fixed <- level.Fix
@@ -323,6 +321,8 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   }else {
     my_list$seasonal.type <- crit_a
   }
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  my_list$method <- method
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- ATA.BackTransform(X=SeasonalIndex, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   my_list$seasonal <- ts(ATA.BackTransform(X=SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])

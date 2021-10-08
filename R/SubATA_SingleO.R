@@ -127,8 +127,6 @@ SubATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mo
   }else {
     method <- paste("ATA(", my_list$p, "," ,my_list$q, ",", my_list$phi, ")", sep="")
   }
-  method <- paste(method, " (A", my_list$model.type, ifelse(parPHI==1, ",", "d,"), seasonal.type, ")", sep="")
-  my_list$method <- method
   my_list$initial.level <- initial.level
   my_list$initial.trend <- initial.trend
   my_list$level.fixed <- level.fixed
@@ -146,6 +144,8 @@ SubATA.SingleO <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mo
   my_list$is.season <- is.season
   my_list$seasonal.model <- seasonal.model
   my_list$seasonal.type <- seasonal.type
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  my_list$method <- method
   my_list$seasonal.period <- s.frequency
   my_list$seasonal.index <- SeasonalIndex
   my_list$seasonal <- ts(SeasonalActual, frequency = firstTspX[3], start=firstTspX[1])

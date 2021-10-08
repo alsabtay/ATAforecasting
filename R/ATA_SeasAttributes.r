@@ -24,7 +24,7 @@
 #' @param suroot.test Type of seasonal unit root test to use. Possible values are "correlogram", "seas", "hegy", "ch" and "ocsb".
 #' @param suroot.uroot If TRUE, unit root test for stationary before seasonal unit root test is allowed.
 #' @param uroot.type Specification of the deterministic component in the regression for unit root test. Possible values are "level" and "trend".
-#' @param uroot.alpha Significant level of the unit root test, possible values range from 0.01 to 0.1
+#' @param uroot.alpha Significant level of the unit root test, possible values range from 0.01 to 0.1.
 #' @param suroot.alpha Significant level of the seasonal unit root test, possible values range from 0.01 to 0.1
 #' @param uroot.maxd Maximum number of non-seasonal differences allowed.
 #' @param suroot.maxD Maximum number of seasonal differences allowed.

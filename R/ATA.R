@@ -126,7 +126,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @param ci.level Confidence Interval levels for forecasting.
 #' @param start.phi Lower boundary for searching \code{parPHI}.If NULL, 0 is default.
 #' @param end.phi Upper boundary for searching \code{parPHI}. If NULL, 1 is is default.
-#' @param size.phi Increment step for searching \code{parPHI}. If NULL, 0.05 is default.
+#' @param size.phi Increment step for searching \code{parPHI}. If NULL, the step size will be determined as the value that allows the bounds for the optimised value of \code{parPHI} to be divided into 20 equal parts.
 #' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.
 #' @param print.out Default is TRUE. If FALSE, summary of ATA Method is not shown.
 #' @param plot.out Default is TRUE. If FALSE, graphics of ATA Method are not shown.
@@ -262,14 +262,14 @@ ATA <- function(X, Y = NULL,
     }
   }else {
     if (parPHI == "opt"){
-      if (is.null(size.phi)){
-        size.phi <- 0.05
-      }
       if (is.null(start.phi)){
         start.phi <- 0
       }
       if (is.null(end.phi)){
         end.phi <- 1
+      }
+      if (is.null(size.phi)){
+        size.phi <- (end.phi - start.phi)
       }
     }else {
       start.phi <- parPHI
@@ -312,22 +312,22 @@ ATA <- function(X, Y = NULL,
     s.frequency <- seasonal.period
   }
   if (s.frequency == 1 & seasonal.test == TRUE){
-    abort("'period' can not be equal 1 if 'seasonal.test' is set TRUE.")
+    stop("'period' can not be equal 1 if 'seasonal.test' is set TRUE.")
   }
   if (length(s.frequency)>1 & length(seasonal.model)==1){
     if (seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "stl"){
        seasonal.model <- "stl"
 	     seasonal.test <- TRUE
-       warn("Seasonal decompostion method has been set to 'stl' because invalid method is chosen.")
+       warning("Seasonal decompostion method has been set to 'stl' because invalid method is chosen.")
     }
   }else if (length(s.frequency)>1 & is.null(seasonal.model)){
     seasonal.model <- c("stl","stR","tbats")
-    warn("Seasonal decompostion method has been set to c('stl', 'stR', 'tbats').")
+    warning("Seasonal decompostion method has been set to c('stl', 'stR', 'tbats').")
   }else {
   	if (s.frequency > 1 & is.null(seasonal.model)){
   		seasonal.model <- "decomp"
   		seasonal.test <- TRUE
-      warn("Seasonal decompostion method has been set to 'decomp'.")
+      warning("Seasonal decompostion method has been set to 'decomp'.")
   	}
   }
   if (is.null(accuracy.type)){
@@ -337,12 +337,12 @@ ATA <- function(X, Y = NULL,
     trend.search <- TRUE
     level.fixed <- FALSE
     trend.fixed <- FALSE
-    warn("level.fixed parameter has been turned FALSE as trend.opt is set 'search'")
+    warning("level.fixed parameter has been turned FALSE as trend.opt is set 'search'")
   }else if (trend.opt=="fixed"){
     trend.search <- FALSE
     level.fixed <- FALSE
     trend.fixed <- TRUE
-    warn("level.fixed parameter has been turned FALSE as trend.opt is set 'search'")
+    warning("level.fixed parameter has been turned FALSE as trend.opt is set 'search'")
   } else if (trend.opt=="none"){
     trend.search <- FALSE
     trend.fixed <- FALSE
@@ -375,15 +375,15 @@ ATA <- function(X, Y = NULL,
     return("Only one parameter of the two parameters (holdout or holdin) must be selected. Please choose one one of them. ATA Method was terminated!")
   }
   if (holdout == TRUE & accuracy.type == "AMSE") {
-    accuracy.type = "sMAPE"
-    warn("ATA Method does not support 'AMSE' for 'holdout' forecasting. 'accuracy.type' is set to 'sMAPE'.")
+    accuracy.type <- "sMAPE"
+    warning("ATA Method does not support 'AMSE' for 'holdout' forecasting. 'accuracy.type' is set to 'sMAPE'.")
   }
   if (nmse > 30 & accuracy.type == "AMSE") {
     nmse <- 30
-    warn("'nmse' must be less than 30. 'nmse' is set to 30.")
+    warning("'nmse' must be less than 30. 'nmse' is set to 30.")
   }else if ((is.null(nmse) | nmse <= 1) & accuracy.type == "AMSE") {
     nmse <- 3
-    warn("'nmse' must be greater than 1. 'nmse' is set to 3.")
+    warning("'nmse' must be greater than 1. 'nmse' is set to 3.")
   }else{
   }
 
@@ -450,7 +450,7 @@ ATA <- function(X, Y = NULL,
   if (!is.null(transform.method)){
     if ((transform.method != "Box_Cox" & transform.method != "Box_Cox_Shift" & transform.method != "Modulus" & transform.method != "BickelDoksum" & transform.method != "Dual"  & transform.method != "Manly"  & transform.method != "Sqrt" & transform.method != "SqrtShift" &
          transform.method != "YeoJohnson" & transform.method != "GPower" & transform.method != "GLog" & transform.method != "Log" & transform.method != "Reciprocal" & transform.method !="ReciprocalShift" & transform.method != "NegLog" &
-		 transform.method != "LogShift") | !is.character(transform.method) | length(transform.method) > 1){
+		     transform.method != "LogShift") | !is.character(transform.method) | length(transform.method) > 1){
       return("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATA Method was terminated!")
     }
   }
@@ -498,7 +498,7 @@ ATA <- function(X, Y = NULL,
         }else {
           h <- 6
         }
-        warn(paste("Input forecast horizon has been changed with ", h))
+        warning(paste("Input forecast horizon has been changed with ", h))
       }
       OutSample <- rep(NA,times=h)
       OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
@@ -514,14 +514,14 @@ ATA <- function(X, Y = NULL,
   par.specs <- c(parP = parP, parQ = parQ, parPHI = parPHI,
                 trend = ifelse(is.null(model.type), "opt", ifelse(parQ==0, "N", model.type)),
                 seasonal = ifelse(is.null(seasonal.type), "opt", seasonal.type),
-                initial_level = ifelse(my_list$initial.level==FALSE, NA, TRUE),
-                initial_trend = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+                initial_level = ifelse(initial.level==FALSE, NA, TRUE),
+                initial_trend = ifelse(initial.trend==FALSE, NA, TRUE))
   if (!is.null(par.specs)) {
       par_specs <- c(stats::na.omit(par.specs))
   }
   np <- length(par_specs)
   if (np >= length(X) - 1) {
-    abort("Not enough data to estimate this ATA method.")
+    stop("Not enough data to estimate this ATA method.")
   }
   if (transform.order == "before"){
     ChgX <- ATA.Transform(X,tMethod=transform.method, tLambda=lambda, tShift=shift, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
@@ -608,7 +608,7 @@ ATA.print <- function(object,...)
     cat(paste("   forecast horizon:",x$h, "\n\n"))
     cat(paste("   accuracy.type:",x$accuracy.type, "\n\n"))
 
-    cat("In-Sample Accuracy Measures:","\n")
+    cat("Model Fitting Measures:","\n")
     stats <- c(x$accuracy$fits$sigma2, x$accuracy$fits$loglik, x$accuracy$MAE$inSample$MAE, x$accuracy$MSE$inSample$MSE, x$accuracy$MSE$inSample$RMSE, x$accuracy$MPE$inSample$MPE, x$accuracy$MAPE$inSample$MAPE, x$accuracy$sMAPE$inSample$sMAPE, x$accuracy$MASE$inSample$MASE, x$accuracy$OWA$inSample$OWA)
     names(stats) <- c("sigma2", "loglik", "MAE", "MSE", "RMSE", "MPE", "MAPE", "sMAPE", "MASE", "OWA")
     cat("\n")

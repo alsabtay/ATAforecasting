@@ -90,8 +90,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // SubATACore
-double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int nmse);
-RcppExport SEXP _ATAforecasting_SubATACore(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP nmseSEXP) {
+double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZNMSE);
+RcppExport SEXP _ATAforecasting_SubATACore(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IZNMSESEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -106,8 +106,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type IZTA_0(IZTA_0SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IZTM_0(IZTM_0SEXP);
     Rcpp::traits::input_parameter< int >::type IZFRQ(IZFRQSEXP);
-    Rcpp::traits::input_parameter< int >::type nmse(nmseSEXP);
-    rcpp_result_gen = Rcpp::wrap(SubATACore(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, nmse));
+    Rcpp::traits::input_parameter< int >::type IZNMSE(IZNMSESEXP);
+    rcpp_result_gen = Rcpp::wrap(SubATACore(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZNMSE));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -271,8 +271,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // SubATACoreHoldhin
-double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZH, int nmse);
-RcppExport SEXP _ATAforecasting_SubATACoreHoldhin(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IZHSEXP, SEXP nmseSEXP) {
+double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZH, int IZNMSE);
+RcppExport SEXP _ATAforecasting_SubATACoreHoldhin(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IZHSEXP, SEXP IZNMSESEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -288,8 +288,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type IZTM_0(IZTM_0SEXP);
     Rcpp::traits::input_parameter< int >::type IZFRQ(IZFRQSEXP);
     Rcpp::traits::input_parameter< int >::type IZH(IZHSEXP);
-    Rcpp::traits::input_parameter< int >::type nmse(nmseSEXP);
-    rcpp_result_gen = Rcpp::wrap(SubATACoreHoldhin(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH, nmse));
+    Rcpp::traits::input_parameter< int >::type IZNMSE(IZNMSESEXP);
+    rcpp_result_gen = Rcpp::wrap(SubATACoreHoldhin(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH, IZNMSE));
     return rcpp_result_gen;
 END_RCPP
 }

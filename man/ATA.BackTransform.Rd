@@ -32,7 +32,7 @@ A list object consists of transformation parameters and transformed data.
 }
 }
 \description{
-The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied. 
+The function provides the applicability of different types of back transformation techniques for the transformed data to which the Ata method will be applied.
 The \code{ATA.BackTransform} function works with many different types of inputs.
 }
 \references{
@@ -56,7 +56,7 @@ The \code{ATA.BackTransform} function works with many different types of inputs.
 
 #'\insertRef{neglog2005}{ATAforecasting}
 
-#'\insertRef{yang2006}{ATAforecasting} 
+#'\insertRef{yang2006}{ATAforecasting}
 
 #'\insertRef{gpower2013}{ATAforecasting}
 }
