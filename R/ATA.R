@@ -678,7 +678,7 @@ ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
   x <- object
   oldpar <- par(no.readonly = TRUE)# save default, for resetting...
   on.exit(par(oldpar))
-  caption <- paste(ifelse(x$model.type=="A"," Additive "," Multiplicative "), x$method, sep="")
+  caption <- x$method
   xx <- x$actual
   hpred <- length(x$forecast)
   freq <- frequency(xx)
@@ -721,7 +721,7 @@ ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
     lines(x$forecast, lty = flty, lwd = flwd, col = fcol)
     lines(x$out.sample, lty = 1, lwd = flwd, col = fcol+2)
     legend("topleft", legend_names, col=c(1,2,fcol+2,fcol), lty=1, cex=.80, box.lty=0, text.font=2, ncol=2, bg="transparent")
-    mtext(paste(caption,"with ",ifelse(x$seasonal.type=="A","Additive","Multiplicative"), " Decomposition by '",ifelse(x$seasonal.model=="decomp","classical",x$seasonal.model),"' Method"), side = 3, line = -1.5, outer = TRUE)
+    mtext(paste(caption, " with ", ifelse(x$seasonal.model=="decomp","classical",x$seasonal.model), " decomposition method", sep=""), side = 3, line = -1.5, outer = TRUE)
     par(mar = c(bottom=1, 4.1, top=2, 1.1))
     plot(x$seasonal.adjusted,ylab="deseasonalized")
     par(mar = c(bottom=1, 4.1, top=2, 1.1))

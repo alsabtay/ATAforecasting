@@ -139,7 +139,7 @@ SubATA.Single <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mod
   my_list$is.season <- is.season
   my_list$seasonal.model <- seasonal.model
   my_list$seasonal.type <- seasonal.type
-  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$phi==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
   my_list$method <- method
   my_list$seasonal.period <- s.frequency
   my_list$seasonal.index <- SeasonalIndex

@@ -321,7 +321,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   }else {
     my_list$seasonal.type <- crit_a
   }
-  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$phi==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
   my_list$method <- method
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- ATA.BackTransform(X=SeasonalIndex, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))

@@ -329,7 +329,7 @@ SubATA.MultipleO <- function(ts_input, pb, qb, model.type, seasonal.Test, season
   }else {
     my_list$seasonal.type <- crit_a
   }
-  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$parPHI==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$phi==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
   my_list$method <- method
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- SeasonalIndex
