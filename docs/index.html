@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automatic Time Series Analysis and Forecasting Using the Ata Method • ATAforecasting</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -17,6 +23,7 @@
 	initialization and optimization stages of existing forecasting methods. Forecasting performance of the Ata method is superior to existing methods both in terms of easy 
 	implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend 
 	and seasonal). This methodology performed well on the M3 and M4-competition data. This package was written based on Ali Sabri Taylan’s PhD dissertation.">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -35,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
       </span>
     </div>
 
@@ -70,44 +77,51 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<div id="ataforecasting" class="section level1">
+<div id="ataforecasting-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#ataforecasting" class="anchor"></a>ATAforecasting</h1></div>
+<a href="#ataforecasting-" class="anchor"></a>ATAforecasting <img src="reference/figures/logo.png" align="right">
+</h1></div>
+
+<div id="synopsis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#synopsis" class="anchor"></a>Synopsis</h2>
 <p>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques.</p>
 </div>
-<div id="description" class="section level1">
-<h1 class="hasAnchor">
-<a href="#description" class="anchor"></a>Description</h1>
-<p>The ATA Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA. The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <a href="https://doi.org/10.15672/HJMS.201614320580">doi:10.15672/HJMS.201614320580</a>, Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <a href="https://doi.org/10.15672/HJMS.2017.493">doi:10.15672/HJMS.2017.493</a> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) <a href="https://doi.org/10.15672/hujms.461032">doi:10.15672/hujms.461032</a> is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods.</p>
+<div id="description" class="section level2">
+<h2 class="hasAnchor">
+<a href="#description" class="anchor"></a>Description</h2>
+<p>The Ata Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA. The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <a href="https://doi.org/10.15672/HJMS.201614320580">doi:10.15672/HJMS.201614320580</a>, Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <a href="https://doi.org/10.15672/HJMS.2017.493">doi:10.15672/HJMS.2017.493</a> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) <a href="https://doi.org/10.15672/hujms.461032">doi:10.15672/hujms.461032</a> is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods.</p>
 <p>Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal). This methodology performed well on the M3 and M4-competition dat</p>
 </div>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>You can install the <strong>stable</strong> version from <a href="https://cran.r-project.org/package=ATAforecasting">CRAN</a>:</p>
+<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("ATAforecasting")</a></code></pre>
 <p>Development version with latest features:</p>
-<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("alsabtay/ATAforecasting")
-devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)</a></code></pre>
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("alsabtay/ATAforecasting")</a></code></pre>
 </div>
-<div id="links" class="section level1">
-<h1 class="hasAnchor">
-<a href="#links" class="anchor"></a>Links</h1>
+<div id="links" class="section level2">
+<h2 class="hasAnchor">
+<a href="#links" class="anchor"></a>Links</h2>
 <p><a href="https://github.com/alsabtay/ATAforecasting">Github page</a></p>
 <p><a href="https://alsabtay.github.io/ATAforecasting/">Github.io page</a></p>
 <p><a href="https://atamethod.wordpress.com/">Project team website</a></p>
 </div>
-<div id="license" class="section level1">
-<h1 class="hasAnchor">
-<a href="#license" class="anchor"></a>License</h1>
+<div id="license" class="section level2">
+<h2 class="hasAnchor">
+<a href="#license" class="anchor"></a>License</h2>
 <p>This package is free and open source software, licensed under GPL-3.</p>
 </div>
-
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=ATAforecasting">https://​cloud.r-project.org/​package=ATAforecasting</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/alsabtay/ATAforecasting/">https://​github.com/​alsabtay/​ATAforecasting/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/alsabtay/ATAforecasting/issues">https://​github.com/​alsabtay/​ATAforecasting/​issues</a>
@@ -117,7 +131,8 @@ devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)<
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
 <div class="developers">
@@ -129,7 +144,15 @@ devtools::install_github("alsabtay/ATAforecasting", upgrade_dependencies=FALSE)<
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=ATAforecasting"><img src="https://www.r-pkg.org/badges/version/ATAforecasting" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/package=ATAforecasting"><img src="https://cranlogs.r-pkg.org/badges/ATAforecasting" alt="Downloads"></a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/licence-GPL--3-blue.svg" alt="Licence"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 

@@ -8,6 +8,13 @@
 
 <title>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA • ATAforecasting</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -40,14 +47,15 @@
 
 
 <meta property="og:title" content="Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques — ATA" />
-<meta property="og:description" content="ATA is a generic function for Ata Method forecasting. 
-The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &amp;lt;doi:10.15672/HJMS.201614320580&amp;gt; , 
-Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &amp;lt;doi:10.15672/HJMS.2017.493&amp;gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
-&amp;lt;doi:10.15672/hujms.461032&amp;gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+<meta property="og:description" content="ATA is a generic function for Ata Method forecasting.
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &amp;lt;doi:10.15672/HJMS.201614320580&amp;gt; ,
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &amp;lt;doi:10.15672/HJMS.2017.493&amp;gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019)
+&amp;lt;doi:10.15672/hujms.461032&amp;gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during
 the initialization and optimization stages of existing methods.
-Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting.
 It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 This methodology performed well on the M3 and M4-competition data." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -79,7 +87,7 @@ This methodology performed well on the M3 and M4-competition data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
       </span>
     </div>
 
@@ -121,12 +129,12 @@ This methodology performed well on the M3 and M4-competition data." />
     </div>
 
     <div class="ref-description">
-    <p><code>ATA</code> is a generic function for Ata Method forecasting. 
-The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &lt;doi:10.15672/HJMS.201614320580&gt; , 
-Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &lt;doi:10.15672/HJMS.2017.493&gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) 
-&lt;doi:10.15672/hujms.461032&gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during 
+    <p><code>ATA</code> is a generic function for Ata Method forecasting.
+The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) &lt;doi:10.15672/HJMS.201614320580&gt; ,
+Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) &lt;doi:10.15672/HJMS.2017.493&gt; and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019)
+&lt;doi:10.15672/hujms.461032&gt; is a new univariate time series forecasting method which provides innovative solutions to issues faced during
 the initialization and optimization stages of existing methods.
-Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. 
+Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting.
 It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 This methodology performed well on the M3 and M4-competition data.</p>
     </div>
@@ -145,9 +153,9 @@ This methodology performed well on the M3 and M4-competition data.</p>
   seasonal.test.attr <span class='op'>=</span> <span class='cn'>NULL</span>,
   find.period <span class='op'>=</span> <span class='cn'>NULL</span>,
   accuracy.type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nmse <span class='op'>=</span> <span class='fl'>3</span>,
   level.fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  trend.fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  trend.search <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  trend.opt <span class='op'>=</span> <span class='st'>"none"</span>,
   h <span class='op'>=</span> <span class='cn'>NULL</span>,
   partition.h <span class='op'>=</span> <span class='cn'>NULL</span>,
   holdout <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -244,9 +252,12 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
     </tr>
     <tr>
       <th>accuracy.type</th>
-      <td><p>Accuracy measure for selection of the best model. IF NULL, <code>sMAPE</code> is default.</p><ul>
+      <td><p>Accuracy measure for optimization of the best ATA Method forecasting. IF NULL, <code>sMAPE</code> is default.</p><ul>
+<li><p>lik        : maximum likelihood functions</p></li>
+<li><p>sigma    : residual variance.</p></li>
 <li><p>MAE        : mean absolute error.</p></li>
 <li><p>MSE        : mean square error.</p></li>
+<li><p>AMSE    : Average MSE over first `nmse` forecast horizons.</p></li>
 <li><p>RMSE    : root mean squared error.</p></li>
 <li><p>MPE        : mean percentage error.</p></li>
 <li><p>MAPE    : mean absolute percentage error.</p></li>
@@ -262,21 +273,25 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 </ul></td>
     </tr>
     <tr>
+      <th>nmse</th>
+      <td><p>If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2&lt;=nmse&lt;=30`).</p></td>
+    </tr>
+    <tr>
       <th>level.fixed</th>
       <td><p>If TRUE, "pStarQ"  --&gt; First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.</p></td>
     </tr>
     <tr>
-      <th>trend.fixed</th>
-      <td><p>If TRUE, "pBullet" --&gt; Fits ATA(p,1) where p = p* is optimized for q = 1.</p></td>
-    </tr>
-    <tr>
-      <th>trend.search</th>
-      <td><p>If TRUE, "qBullet" --&gt; Fits ATA(p,q) where p = p* is optimized for q = q* (q &gt; 0). Then, fits ATA(p*,q) where q is optimized for p = p*.</p></td>
+      <th>trend.opt</th>
+      <td><p>When <code>trend.opt</code>,</p><ul>
+<li><p>none : none</p></li>
+<li><p>fixed : "pBullet" --&gt; Fits ATA(p,1) where p = p* is optimized for q = 1.</p></li>
+<li><p>search : "qBullet" --&gt; Fits ATA(p,q) where p = p* is optimized for q = q* (q &gt; 0). Then, fits ATA(p*,q) where q is optimized for p = p*.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>h</th>
       <td><p>The number of steps to forecast ahead.
-When the parameter is NULL; if the frequency of <code>X</code> is 4 the parameter is set to 8; if the frequency of <code>X</code> is 12 the parameter is set to 18; the parameter is set to 6 for other cases.</p></td>
+When the parameter is NULL; if the frequency of <code>X</code> is 4, the parameter is set to 8; if the frequency of <code>X</code> is 12, the parameter is set to 18; the parameter is set to 6 for other cases.</p></td>
     </tr>
     <tr>
       <th>partition.h</th>
@@ -286,7 +301,7 @@ If the value is between 0 and 1, percentage of length is active. If <code>holdou
     <tr>
       <th>holdout</th>
       <td><p>Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
-The remaining historical data series is called in-sample data (training set), and the holdout data is called out-of-sample data (holdout set).
+The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
 If TRUE, partition.h will used for holdout data.</p></td>
     </tr>
     <tr>
@@ -303,7 +318,7 @@ If TRUE, partition.h will used for holdout data.</p></td>
     </tr>
     <tr>
       <th>transform.method</th>
-      <td><p>Transformation method  --&gt; "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter, 
+      <td><p>Transformation method  --&gt; "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter,
 <code>ATA.Transform</code> will calculate required shift parameter automatically.</p></td>
     </tr>
     <tr>
@@ -342,7 +357,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
     </tr>
     <tr>
       <th>size.phi</th>
-      <td><p>Increment step for searching <code>parPHI</code>. If NULL, 0.05 is default.</p></td>
+      <td><p>Increment step for searching <code>parPHI</code>. If NULL, the step size will be determined as the value that allows the bounds for the optimised value of <code>parPHI</code> to be divided into 20 equal parts.</p></td>
     </tr>
     <tr>
       <th>negative.forecast</th>
@@ -376,18 +391,19 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <li><p>h		      : The number of steps to forecast ahead.</p></li>
 <li><p>forecast	: Point forecasts as a time series.</p></li>
 <li><p>out.sample: Test values as a time series.</p></li>
-<li><p>method		: The name of the optimum forecasting method as a character string.</p></li>
+<li><p>method		: The name of the optimum forecasting method as a character string for ATA(P,Q,PHI)(Error,Trend,Season).</p></li>
 <li><p>initial.level     : Selected initial level values for the time series forecasting method.</p></li>
 <li><p>initial.trend     : Selected initial trend values for the time series forecasting method.</p></li>
 <li><p>level.fixed       : A choice of optional level-fixed trended methods.</p></li>
-<li><p>trend.fixed       : A choice of optional trend-fixed trended methods.</p></li>
-<li><p>trend.search      : A choice of optional trend and level optimized trended methods if q &gt; 1.</p></li>
+<li><p>trend.opt       : A choice of optional trend and level optimized trended methods (none, trend.fixed or trend.search).</p></li>
 <li><p>transform.method  : Box-Cox power transformation family method  --&gt; Box_Cox, Sqrt, Reciprocal, Log, NegLog, Modulus, BickelDoksum, Manly, Dual, YeoJohnson, GPower, GLog.</p></li>
 <li><p>transform.order   : Define how to apply Box-Cox power transformation techniques, before or after seasonal decomposition.</p></li>
 <li><p>lambda  	: Box-Cox power transformation family parameter.</p></li>
 <li><p>shift		  : Box-Cox power transformation family shifting parameter.</p></li>
 <li><p>accuracy.type		  : Accuracy measure that is chosen for model selection.</p></li>
+<li><p>nmse		  : The number of steps for average multistep MSE.</p></li>
 <li><p>accuracy 	: In and out sample accuracy measures and its descriptives that are calculated for optimum model are given.</p></li>
+<li><p>par.specs 	: Parameter sets for Information Criteria.</p></li>
 <li><p>holdout		: Holdout forecasting is TRUE or FALSE.</p></li>
 <li><p>holdout.training 	: Training set in holdout forecasting.</p></li>
 <li><p>holdout.validation: Validation set in holdout forecasting.</p></li>
@@ -421,7 +437,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <em>Hacettepe University Journal of Mathematics and Statistics</em>, <b>47</b>(3), 741--754.</p>
 <p>#'Yapar G, Selamlar HT, Capar S, Yavuz I (2019).
 &#8220;ATA method.&#8221;
-<em>Hacettepe Journal of Mathematics and Statistics</em>, <b>48</b>(6), 1838--1844.</p>
+<em>Hacettepe Journal of Mathematics and Statistics</em>, <b>48</b>(6), 1838-1844.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>forecast</code>, <code>stlplus</code>, <code>stR</code>, <code><a href='https://rdrr.io/r/stats/stl.html'>stl</a></code>, <code><a href='https://rdrr.io/r/stats/decompose.html'>decompose</a></code>,
@@ -433,7 +449,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2014.917</span><span class='op'>)</span>
 <span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) 
+</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) (A,M,M) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -445,19 +461,23 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt;    accuracy.type: sMAPE 
 #&gt; 
+#&gt; Model Fitting Measures: 
+#&gt; 
+#&gt;               sigma2               loglik                  MAE 
+#&gt; 32075724981.71932602       -1199.55415440      110411.06047533 
+#&gt;                  MSE                 RMSE                  MPE 
+#&gt; 30529906910.31116104      174728.09422160          -0.41069982 
+#&gt;                 MAPE                sMAPE                 MASE 
+#&gt;           4.26883209           4.26181232           0.69552721 
+#&gt;                  OWA 
+#&gt;           0.00001529 
+#&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;                MAE                MSE               RMSE                MPE 
-#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
-#&gt;               MAPE              sMAPE               MASE                OWA 
-#&gt;           4.268832           4.261812           0.688395           0.000015 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;              MdAE              MdSE             RMdSE              MdPE 
-#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
-#&gt;             MdAPE            sMdAPE 
-#&gt;          2.926998          2.970471 
+#&gt;               MdAE               MdSE              RMdSE               MdPE 
+#&gt;      62760.3797595 3938865267.5622582      62760.3797595          0.3065342 
+#&gt;              MdAPE             sMdAPE 
+#&gt;          2.9269985          2.9704713 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -469,11 +489,16 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt;   MdAE   MdSE  RMdSE   MdPE  MdAPE sMdAPE 
 #&gt;     NA     NA     NA     NA     NA     NA 
 #&gt; 
+#&gt; Information Criteria: 
+#&gt; 
+#&gt;      AIC     AICc      BIC 
+#&gt; 2409.108 2409.878 2421.262 
+#&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    3.80    0.02    3.83 
+#&gt;   1.144   0.146   1.293 
 #&gt; 
-#&gt; calculation.time: 3.8257 
+#&gt; calculation.time: 1.2931 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -485,64 +510,25 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 2016                        
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata.fit</span>,h<span class='op'>=</span><span class='fl'>18</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ATA(2,2,1) 
-#&gt; 
-#&gt;    model.type: M 
-#&gt; 
-#&gt;    seasonal.model: stl 
-#&gt; 
-#&gt;    seasonal.type: M 
-#&gt; 
-#&gt;    forecast horizon: 18 
-#&gt; 
-#&gt;    accuracy.type: sMAPE 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;                MAE                MSE               RMSE                MPE 
-#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
-#&gt;               MAPE              sMAPE               MASE                OWA 
-#&gt;           4.268832           4.261812           0.688395           0.000015 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;              MdAE              MdSE             RMdSE              MdPE 
-#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
-#&gt;             MdAPE            sMdAPE 
-#&gt;          2.926998          2.970471 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;                   MAE                   MSE                  RMSE 
-#&gt;        3827828.944531 17552119050161.939453        4189524.919387 
-#&gt;                   MPE                  MAPE                 sMAPE 
-#&gt;             99.999967             99.999967            199.999868 
-#&gt;                  MASE                   OWA 
-#&gt;             23.242546              0.000689 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;                 MdAE                 MdSE                RMdSE 
-#&gt;        4062352.00000 16555655764673.00000        4068864.18607 
-#&gt;                 MdPE                MdAPE               sMdAPE 
-#&gt;             99.99998             99.99998            199.99990 
-#&gt; 
-#&gt; 
-#&gt;    user  system elapsed 
-#&gt;    3.80    0.02    3.83 
-#&gt; 
-#&gt; calculation.time: 3.8257 
-#&gt; 
-#&gt; 
-#&gt; Forecasts: 
-#&gt;            Jan       Feb       Mar       Apr       May       Jun       Jul
-#&gt; 2015 0.9984418 0.9999914 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
-#&gt; 2016 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000          
-#&gt;            Aug       Sep       Oct       Nov       Dec
-#&gt; 2015 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
-#&gt; 2016                                                  
-#&gt; 
-#&gt; </div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt;               lower  forecast     upper
+#&gt; Jan 2015  -344502.6 0.9984418  344504.6
+#&gt; Feb 2015  -487200.6 0.9999914  487202.6
+#&gt; Mar 2015  -596696.7 1.0000000  596698.7
+#&gt; Apr 2015  -689006.2 1.0000000  689008.2
+#&gt; May 2015  -770332.4 1.0000000  770334.4
+#&gt; Jun 2015  -843857.0 1.0000000  843859.0
+#&gt; Jul 2015  -911469.8 1.0000000  911471.8
+#&gt; Aug 2015  -974402.3 1.0000000  974404.3
+#&gt; Sep 2015 -1033509.7 1.0000000 1033511.7
+#&gt; Oct 2015 -1089415.0 1.0000000 1089417.0
+#&gt; Nov 2015 -1142588.1 1.0000000 1142590.1
+#&gt; Dec 2015 -1193394.4 1.0000000 1193396.4
+#&gt; Jan 2016 -1242124.3 1.0000000 1242126.3
+#&gt; Feb 2016 -1289013.4 1.0000000 1289015.4
+#&gt; Mar 2016 -1334255.6 1.0000000 1334257.6
+#&gt; Apr 2016 -1378013.3 1.0000000 1378015.3
+#&gt; May 2016 -1420423.6 1.0000000 1420425.6
+#&gt; Jun 2016 -1461603.9 1.0000000 1461605.9</div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

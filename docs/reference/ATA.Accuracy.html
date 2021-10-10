@@ -8,6 +8,13 @@
 
 <title>Accuracy Measures for The ATAforecasting — ATA.Accuracy • ATAforecasting</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,22 +54,26 @@ provided, the function measures test set forecast accuracy.
 If out.sample is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
-MAE	 : mean absolute error.
-MSE	 : mean square error.
-RMSE	 : root mean squared error.
-MPE	 : mean percentage error.
-MAPE	 : mean absolute percentage error.
-sMAPE : symmetric mean absolute percentage error.
-MASE	 : mean absolute scaled error.
-OWA	 : overall weighted average of MASE and sMAPE.
-MdAE	 : median absolute error.
-MdSE	 : median square error.
-RMdSE : root median squared error.
-MdPE	 : median percentage error.
-MdAPE : median absolute percentage error.
-sMdAPE: symmetric median absolute percentage error.
+lik		: maximum likelihood functions
+sigma	: residual variance.
+MAE		: mean absolute error.
+MSE		: mean square error.
+AMSE	: Average MSE over first `nmse` forecast horizons.
+RMSE	: root mean squared error.
+MPE		: mean percentage error.
+MAPE	: mean absolute percentage error.
+sMAPE	: symmetric mean absolute percentage error.
+MASE	: mean absolute scaled error.
+OWA		: overall weighted average of MASE and sMAPE.
+MdAE	: median absolute error.
+MdSE	: median square error.
+RMdSE	: root median squared error.
+MdPE	: median percentage error.
+MdAPE	: median absolute percentage error.
+sMdAPE	: symmetric median absolute percentage error.
 
 " />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -94,7 +105,7 @@ sMdAPE: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
       </span>
     </div>
 
@@ -143,20 +154,23 @@ provided, the function measures test set forecast accuracy.
 If <code>out.sample</code> is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:</p><ul>
-<li><p>MAE	 : mean absolute error.</p></li>
-<li><p>MSE	 : mean square error.</p></li>
-<li><p>RMSE	 : root mean squared error.</p></li>
-<li><p>MPE	 : mean percentage error.</p></li>
-<li><p>MAPE	 : mean absolute percentage error.</p></li>
-<li><p>sMAPE : symmetric mean absolute percentage error.</p></li>
-<li><p>MASE	 : mean absolute scaled error.</p></li>
-<li><p>OWA	 : overall weighted average of MASE and sMAPE.</p></li>
-<li><p>MdAE	 : median absolute error.</p></li>
-<li><p>MdSE	 : median square error.</p></li>
-<li><p>RMdSE : root median squared error.</p></li>
-<li><p>MdPE	 : median percentage error.</p></li>
-<li><p>MdAPE : median absolute percentage error.</p></li>
-<li><p>sMdAPE: symmetric median absolute percentage error.</p></li>
+<li><p>lik		: maximum likelihood functions</p></li>
+<li><p>sigma	: residual variance.</p></li>
+<li><p>MAE		: mean absolute error.</p></li>
+<li><p>MSE		: mean square error.</p></li>
+<li><p>AMSE	: Average MSE over first `nmse` forecast horizons.</p></li>
+<li><p>RMSE	: root mean squared error.</p></li>
+<li><p>MPE		: mean percentage error.</p></li>
+<li><p>MAPE	: mean absolute percentage error.</p></li>
+<li><p>sMAPE	: symmetric mean absolute percentage error.</p></li>
+<li><p>MASE	: mean absolute scaled error.</p></li>
+<li><p>OWA		: overall weighted average of MASE and sMAPE.</p></li>
+<li><p>MdAE	: median absolute error.</p></li>
+<li><p>MdSE	: median square error.</p></li>
+<li><p>RMdSE	: root median squared error.</p></li>
+<li><p>MdPE	: median percentage error.</p></li>
+<li><p>MdAPE	: median absolute percentage error.</p></li>
+<li><p>sMdAPE	: symmetric median absolute percentage error.</p></li>
 </ul>
 
     </div>
@@ -198,7 +212,7 @@ OTexts.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2014.917</span><span class='op'>)</span>
 <span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) 
+</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) (A,M,M) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -210,19 +224,23 @@ OTexts.
 #&gt; 
 #&gt;    accuracy.type: sMAPE 
 #&gt; 
+#&gt; Model Fitting Measures: 
+#&gt; 
+#&gt;               sigma2               loglik                  MAE 
+#&gt; 32075724981.71932602       -1199.55415440      110411.06047533 
+#&gt;                  MSE                 RMSE                  MPE 
+#&gt; 30529906910.31116104      174728.09422160          -0.41069982 
+#&gt;                 MAPE                sMAPE                 MASE 
+#&gt;           4.26883209           4.26181232           0.69552721 
+#&gt;                  OWA 
+#&gt;           0.00001529 
+#&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;                MAE                MSE               RMSE                MPE 
-#&gt;      110411.060475 30529906910.307953      174728.094222          -0.410700 
-#&gt;               MAPE              sMAPE               MASE                OWA 
-#&gt;           4.268832           4.261812           0.688395           0.000015 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;              MdAE              MdSE             RMdSE              MdPE 
-#&gt;      62760.379760 3938865267.565152      62760.379760          0.306534 
-#&gt;             MdAPE            sMdAPE 
-#&gt;          2.926998          2.970471 
+#&gt;               MdAE               MdSE              RMdSE               MdPE 
+#&gt;      62760.3797595 3938865267.5622582      62760.3797595          0.3065342 
+#&gt;              MdAPE             sMdAPE 
+#&gt;          2.9269985          2.9704713 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -234,11 +252,16 @@ OTexts.
 #&gt;   MdAE   MdSE  RMdSE   MdPE  MdAPE sMdAPE 
 #&gt;     NA     NA     NA     NA     NA     NA 
 #&gt; 
+#&gt; Information Criteria: 
+#&gt; 
+#&gt;      AIC     AICc      BIC 
+#&gt; 2409.108 2409.878 2421.262 
+#&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;    3.61    0.01    3.61 
+#&gt;   1.077   0.158   1.235 
 #&gt; 
-#&gt; calculation.time: 3.6101 
+#&gt; calculation.time: 1.2348 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 

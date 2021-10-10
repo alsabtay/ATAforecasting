@@ -8,6 +8,13 @@
 
 <title>Attributes Set For Unit Root and Seasonality Tests — ATA.SeasAttr • ATAforecasting</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -56,6 +63,7 @@ suroot.test = 'ocsb'		: the Osborn-Chui-Smith-Birchenhall (1988) test is used (w
 suroot.test = 'correlogram'	: this function is written based on M4 Competition Seasonality Test.
 
 " />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -87,7 +95,7 @@ suroot.test = 'correlogram'	: this function is written based on M4 Competition S
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
       </span>
     </div>
 
@@ -152,7 +160,7 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
   uroot.test <span class='op'>=</span> <span class='st'>"adf"</span>,
   suroot.test <span class='op'>=</span> <span class='st'>"correlogram"</span>,
   suroot.uroot <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  uroot.type <span class='op'>=</span> <span class='st'>"trend"</span>,
+  uroot.type <span class='op'>=</span> <span class='st'>"level"</span>,
   uroot.alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
   suroot.alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
   uroot.maxd <span class='op'>=</span> <span class='fl'>2</span>,
@@ -191,7 +199,7 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
     </tr>
     <tr>
       <th>uroot.alpha</th>
-      <td><p>Significant level of the unit root test, possible values range from 0.01 to 0.1</p></td>
+      <td><p>Significant level of the unit root test, possible values range from 0.01 to 0.1.</p></td>
     </tr>
     <tr>
       <th>suroot.alpha</th>
@@ -207,7 +215,7 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
     </tr>
     <tr>
       <th>suroot.m</th>
-      <td><p>Deprecated. Length of seasonal period: frequency of data for nsdiff.</p></td>
+      <td><p>Deprecated. Length of seasonal period: frequency of data for nsdiffs.</p></td>
     </tr>
     <tr>
       <th>uroot.pkg</th>
