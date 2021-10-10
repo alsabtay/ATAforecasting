@@ -7,6 +7,7 @@
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #' @param ci.level Confidence Interval levels for forecasting. Default value is 95.
 #' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.
+#' @param print.out Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.
 #'
 #' @return An object of class "\code{ATA}".
 #'
@@ -39,7 +40,7 @@
 #'
 #'
 #' @export
-ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE)
+ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE, print.out = TRUE)
 {
   y <- object
   if (class(y)!="ATA"){
@@ -146,7 +147,11 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     y$forecast.upper <- ci_up
   }
   attr(y, "class") <- "ATA"
-  ATA.print(y)
+  print_out <- cbind(y$forecast.lower, y$forecast, y$forecast.upper)
+  colnames(print_out) <- c("lower", "forecast", "upper")
+  if (print.out==TRUE) {
+    print(print_out)
+  }
   gc()
   return(y)
 }
