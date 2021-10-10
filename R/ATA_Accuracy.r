@@ -96,7 +96,6 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     pre_smape_os <- NA
   }
   np <- length(c(stats::na.omit(unlist(ata.output$par.specs))))
-  np <- np + 1
   ny <- length(ata.output$actual)
 
   mae <- round(mean(pre_mae, na.rm=TRUE),8)
