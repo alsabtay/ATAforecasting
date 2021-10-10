@@ -28,7 +28,7 @@
 #' @param suroot.alpha Significant level of the seasonal unit root test, possible values range from 0.01 to 0.1
 #' @param uroot.maxd Maximum number of non-seasonal differences allowed.
 #' @param suroot.maxD Maximum number of seasonal differences allowed.
-#' @param suroot.m Deprecated. Length of seasonal period: frequency of data for nsdiff.
+#' @param suroot.m Deprecated. Length of seasonal period: frequency of data for nsdiffs.
 #' @param uroot.pkg Using \code{urca} or \code{tseries} packages for unit root test. The default value is "urca".
 #' @param multi.period Selection type of multi seasonal period. \code{min} or \code{max} function for selection
 #' @param x13.estimate.maxiter Maximum iteration for X13ARIMA/SEATS estimation

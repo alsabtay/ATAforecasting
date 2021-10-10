@@ -24,7 +24,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
     }else if (is.season==TRUE & length(seasonal.Frequency)==1){
       seas.model <- c("decomp","stl","stR","tbats")
     }else {
-      if (is.season==FALSE | seasonal.Frequency==1){
+      if (is.season==FALSE | min(seasonal.Frequency)==1){
         seas.model <- "none"
         seasonal.Type <- "A"
       }else {
@@ -36,7 +36,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
       }
     }
   }else {
-    if (is.season==FALSE | seasonal.Frequency==1){
+    if (is.season==FALSE | min(seasonal.Frequency)==1){
       seas.model <- "none"
       seasonal.Type <- "A"
     }else if (length(seasonal.Frequency)>1){
@@ -279,12 +279,6 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
     ATA.last$forecast <- ts(ATA.forecast, frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
   }
   ATA.last$residuals <- ATA.last$actual - ATA.last$fitted
-  ATA.last$par.specs <- c(parP = ATA.last$parP, parQ = ATA.last$parQ, parPHI = ATA.last$parPHI,
-                trend = ifelse(ATA.last$parQ == 0, "N", ATA.last$model.type),
-                seasonal = ifelse(ATA.last$seasonal.model == "none", "N", ATA.last$seasonal.type),
-                initial_level = ifelse(ATA.last$initial.level==FALSE, NA, TRUE),
-                initial_trend = ifelse(ATA.last$initial.trend==FALSE, NA, TRUE))
-  accuracy.ata <- ATA.Accuracy(ATA.last, OutSample)
   if (Holdout == TRUE){
     ATA.last$holdout.training <- ts(ATA.last$actual[1:HoldOutLen], frequency = firstTspX[3], start = firstTspX[1])
     ATA.last$holdout.validation <- ts(ATA.last$actual[(HoldOutLen+1):InsampleLen], frequency = firstTspX[3], start = tsp(ATA.last$holdout.training)[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
@@ -313,7 +307,6 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   my_list$bcBiasAdj <- boxcox_attr_set$bcBiasAdj
   my_list$accuracy.type <- accuracy.Type
   my_list$nmse <- nmse
-  my_list$accuracy <- accuracy.ata
   my_list$is.season <- is.season
   my_list$seasonal.model <- ifelse(is.season==TRUE, switch(output[5]+1, "none", "decomp", "stl", "stlplus", "stR", "tbats", "x13", "x11"), "none")
   if  (!is.null(seasonal.Type)){
@@ -321,8 +314,27 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   }else {
     my_list$seasonal.type <- crit_a
   }
-  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$phi==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  if(my_list$q==0){
+    trend_mthd <- "N"
+  }else if (my_list$q!=0 & my_list$phi!=1 & my_list$phi>0){
+    trend_mthd <- paste(my_list$model.type, "d", sep="")
+  }else{
+    trend_mthd <- my_list$model.type
+  }
+  if(my_list$seasonal.model == "none"){
+    seas_mthd <- "N"
+  }else{
+    seas_mthd <- my_list$seasonal.type
+  }
+  method <- paste(method, " (A,", trend_mthd, ",", seas_mthd, ")", sep="")
   my_list$method <- method
+  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
+                              "trend" = trend_mthd,
+                              "seasonal" = seas_mthd,
+                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+  accuracy.ata <- ATA.Accuracy(my_list, OutSample)
+  my_list$accuracy <- accuracy.ata
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- ATA.BackTransform(X=SeasonalIndex, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   my_list$seasonal <- ts(ATA.BackTransform(X=SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])

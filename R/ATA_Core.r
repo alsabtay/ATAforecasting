@@ -246,7 +246,8 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
   ata.T <- as.ts(ata.T)
   ata.coefp <- as.ts(ata.coefp)
   ata.coefq <- as.ts(ata.coefq)
-  my_list <- list("actual" = X, "fitted" = ata.fitted , "level" = ata.S, "trend" = ata.T, "residuals" = ata.error, "coefp" = ata.coefp, "coefq" = ata.coefq, "p" = pk, "q" = qk, "phi" = phik, "model.type" = mdlType, "amse.fc" = FC)
+  my_list <- list("actual" = X, "fitted" = ata.fitted , "level" = ata.S, "trend" = ata.T, "residuals" = ata.error, "coefp" = ata.coefp, "coefq" = ata.coefq,
+                  "p" = as.integer(pk), "q" = as.integer(qk), "phi" = signif(phik,6), "model.type" = mdlType, "amse.fc" = FC)
   attr(my_list, 'class') <- "ATA"
   return(my_list)
 }

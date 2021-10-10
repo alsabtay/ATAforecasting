@@ -42,7 +42,7 @@ ATA.SeasAttr(
 
 \item{suroot.maxD}{Maximum number of seasonal differences allowed.}
 
-\item{suroot.m}{Deprecated. Length of seasonal period: frequency of data for nsdiff.}
+\item{suroot.m}{Deprecated. Length of seasonal period: frequency of data for nsdiffs.}
 
 \item{uroot.pkg}{Using \code{urca} or \code{tseries} packages for unit root test. The default value is "urca".}
 

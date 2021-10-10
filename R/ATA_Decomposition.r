@@ -35,7 +35,7 @@
 #' @keywords Ata seasonal decomposition forecast accuracy ts msts mstl
 #'
 #' @references
-#' 
+#'
 #' #'\insertRef{shishkin1967}{ATAforecasting}
 #'
 #' #'\insertRef{dagum1988}{ATAforecasting}
@@ -58,7 +58,7 @@
 #'
 #'
 #' @importFrom forecast mstl msts tbats tbats.components
-#' @importFrom stats cycle decompose frequency ts tsp tsp<- stl 
+#' @importFrom stats cycle decompose frequency ts tsp tsp<- stl
 #' @importFrom stlplus stlplus
 #' @importFrom stR AutoSTR components
 #' @importFrom seasonal seas series udg
@@ -70,7 +70,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
 {
   tsp_input <- tsp(input)
   last_seas_type <- s.type
-  if (s.model == "none" | max(s.frequency)==1){
+  if (s.model == "none" | min(s.frequency)==1){
     if (s.type=="A"){
       adjX <- input
       SeasActual <- rep(0,times=length(input))
@@ -320,4 +320,3 @@ stR_seasadj <- function(object, include = c("Trend", "Random"))
   }
   return(result)
 }
-

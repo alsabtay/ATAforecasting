@@ -101,12 +101,6 @@ SubATA.Single <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mod
     ata.output$forecast <- ts(ATA.forecast, frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
   }
   ata.output$residuals <- ata.output$actual - ata.output$fitted
-  ata.output$par.specs <- c(parP = ata.output$parP, parQ = ata.output$parQ, parPHI = ata.output$parPHI,
-                trend = ifelse(ata.output$parQ == 0, "N", ata.output$model.type),
-                seasonal = ifelse(ata.output$seasonal.model == "none", "N", ata.output$seasonal.type),
-                initial_level = ifelse(ata.output$initial.level==FALSE, NA, TRUE),
-                initial_trend = ifelse(ata.output$initial.trend==FALSE, NA, TRUE))
-  accuracy.ata <- ATA.Accuracy(ata.output, OutSample)
   if (holdout == TRUE){
     ata.output$holdout.training <- ts(ata.output$actual[1:HoldOutLen], frequency = firstTspX[3], start = firstTspX[1])
     ata.output$holdout.validation <- ts(ata.output$actual[(HoldOutLen+1):InsampleLen], frequency = firstTspX[3], start = tsp(ata.output$holdout.training)[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
@@ -135,12 +129,30 @@ SubATA.Single <- function(X, parP, parQ, model.type, seasonal.test, seasonal.mod
   my_list$bcBiasAdj <- boxcox_attr_set$bcBiasAdj
   my_list$accuracy.type <- accuracy.type
   my_list$nmse <- nmse
-  my_list$accuracy <- accuracy.ata
   my_list$is.season <- is.season
   my_list$seasonal.model <- seasonal.model
   my_list$seasonal.type <- seasonal.type
-  method <- paste(method, " (A,", my_list$model.type, ifelse(my_list$phi==1, ",", "d,"), my_list$seasonal.type, ")", sep="")
+  if(my_list$q==0){
+    trend_mthd <- "N"
+  }else if (my_list$q!=0 & my_list$phi!=1 & my_list$phi>0){
+    trend_mthd <- paste(my_list$model.type, "d", sep="")
+  }else{
+    trend_mthd <- my_list$model.type
+  }
+  if(my_list$seasonal.model == "none"){
+    seas_mthd <- "N"
+  }else{
+    seas_mthd <- my_list$seasonal.type
+  }
+  method <- paste(method, " (A,", trend_mthd, ",", seas_mthd, ")", sep="")
   my_list$method <- method
+  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
+                              "trend" = trend_mthd,
+                              "seasonal" = seas_mthd,
+                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+  accuracy.ata <- ATA.Accuracy(my_list, OutSample)
+  my_list$accuracy <- accuracy.ata
   my_list$seasonal.period <- s.frequency
   my_list$seasonal.index <- SeasonalIndex
   my_list$seasonal <- ts(SeasonalActual, frequency = firstTspX[3], start=firstTspX[1])

@@ -251,31 +251,21 @@ ATA <- function(X, Y = NULL,
   }
   if (is.null(parPHI)){
     parPHI <- "opt"
-    if (is.null(size.phi)){
-      size.phi <- 0.05
-    }
-    if (is.null(start.phi)){
-      start.phi <- 0
-    }
-    if (is.null(end.phi)){
-      end.phi <- 1
-    }
-  }else {
-    if (parPHI == "opt"){
+  }
+  if (parPHI == "opt"){
       if (is.null(start.phi)){
-        start.phi <- 0
+        start.phi <- 0.4
       }
       if (is.null(end.phi)){
         end.phi <- 1
       }
       if (is.null(size.phi)){
-        size.phi <- (end.phi - start.phi)
+        size.phi <- signif((end.phi - start.phi) / 20, 6)
       }
-    }else {
+  }else {
       start.phi <- parPHI
       end.phi <- parPHI
       size.phi <- 1
-    }
   }
   if (!is.null(seasonal.period)){
     find.period <- 0
@@ -311,9 +301,6 @@ ATA <- function(X, Y = NULL,
     }
     s.frequency <- seasonal.period
   }
-  if (s.frequency == 1 & seasonal.test == TRUE){
-    stop("'period' can not be equal 1 if 'seasonal.test' is set TRUE.")
-  }
   if (length(s.frequency)>1 & length(seasonal.model)==1){
     if (seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "stl"){
        seasonal.model <- "stl"
@@ -343,7 +330,7 @@ ATA <- function(X, Y = NULL,
     level.fixed <- FALSE
     trend.fixed <- TRUE
     warning("level.fixed parameter has been turned FALSE as trend.opt is set 'search'")
-  } else if (trend.opt=="none"){
+  }else if (trend.opt=="none"){
     trend.search <- FALSE
     trend.fixed <- FALSE
   }else {
@@ -365,6 +352,9 @@ ATA <- function(X, Y = NULL,
     }
   }else {
 	seasonal.test <- FALSE
+  }
+  if (min(s.frequency) == 1 & seasonal.test == TRUE){
+    stop("'period' can not be equal 1 if 'seasonal.test' is set TRUE.")
   }
   if (is.null(transform.attr)) {
     boxcox_attr_set <- ATA.BoxCoxAttr()
@@ -424,7 +414,9 @@ ATA <- function(X, Y = NULL,
       }
     }
   }
-  if ((accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "RMSE" & accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" & accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){
+  if ((accuracy.type != "lik" & accuracy.type != "sigma" & accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "RMSE" &
+          accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" &
+          accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){
     return("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATA Method was terminated!")
   }
   if (!is.null(model.type)){
@@ -481,7 +473,7 @@ ATA <- function(X, Y = NULL,
     }
   }else {
     if (!is.null(partition.h)){
-      part_h <- ifelse(partition.h > 0 & partition.h < 1, floor(length(X) * partition.h), partition.h)
+      part_h <- as.integer(ifelse(partition.h > 0 & partition.h < 1, floor(length(X) * partition.h), partition.h))
       OSLen <- length(X)- part_h
       ISLen <- length(X)
       OutSample <- X[(OSLen+1):ISLen]
@@ -490,15 +482,21 @@ ATA <- function(X, Y = NULL,
       X <- ts(X, frequency = tspX[3], start = tspX[1])
       h <- length(OutSample)
     }else {
+      m <- max(s.frequency)
       if (is.null(h)){
-        if (max(s.frequency)==4){
+        if (m==4){
           h <- 8
-        }else if (max(s.frequency)==12){
-          h <- 18
+        }else if (m==5){
+          h <- 10
+        }else if (m==7){
+          h <- 14
+        }else if (m==12){
+          h <- 24
+        }else if (m==24){
+          h <- 48
         }else {
           h <- 6
         }
-        warning(paste("Input forecast horizon has been changed with ", h))
       }
       OutSample <- rep(NA,times=h)
       OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
@@ -506,19 +504,17 @@ ATA <- function(X, Y = NULL,
         partition.h	<- h
       }
     }
-  }
+   }
   orig.X <- ts(X, frequency = firstTspX[3], start = firstTspX[1])
   tsp_ny <- tsp(forecast::msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency))
   fsample <- ts(OutSample, frequency = max(s.frequency), start = tsp_ny[2] + ifelse(tsp_ny[3]>1, 1/tsp_ny[3], 1))
   freqYh <- cycle(fsample)
-  par.specs <- c(parP = parP, parQ = parQ, parPHI = parPHI,
-                trend = ifelse(is.null(model.type), "opt", ifelse(parQ==0, "N", model.type)),
-                seasonal = ifelse(is.null(seasonal.type), "opt", seasonal.type),
-                initial_level = ifelse(initial.level==FALSE, NA, TRUE),
-                initial_trend = ifelse(initial.trend==FALSE, NA, TRUE))
-  if (!is.null(par.specs)) {
-      par_specs <- c(stats::na.omit(par.specs))
-  }
+  par.specs <- list("p" = parP, "q" = parQ, "phi" = parPHI,
+                "trend" = ifelse(is.null(model.type), "opt", ifelse(parQ==0, "N", model.type)),
+                "seasonal" = ifelse(is.null(seasonal.type), "opt", seasonal.type),
+                "initial_level" = ifelse(initial.level==FALSE, NA, TRUE),
+                "initial_trend" = ifelse(initial.trend==FALSE, NA, TRUE))
+  par_specs <- c(stats::na.omit(unlist(par.specs)))
   np <- length(par_specs)
   if (np >= length(X) - 1) {
     stop("Not enough data to estimate this ATA method.")
@@ -563,8 +559,10 @@ ATA <- function(X, Y = NULL,
   if (plot.out==TRUE) {
     ATA.plot(my_list)
   }
+  if (print.out==TRUE) {
+    ATA.print(my_list)
+  }
   gc()
-  ATA.print(my_list)
   return(my_list)
 }
 
@@ -689,7 +687,7 @@ ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
   range_y <- abs(max_y - min_y)
   min_last <- floor(min_y - range_y * 0.20)
   max_last <- ceiling(max_y + range_y * 0.20)
-  range_last <- abs(max_last - min_last)
+  range_last <- signif(abs(max_last - min_last),6)
   rnd_par <- ifelse(range_last<10, 1, 0)
   dataset <- cbind(xxx,xxy)
   colnames(dataset, do.NULL = FALSE)

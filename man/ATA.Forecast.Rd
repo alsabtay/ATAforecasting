@@ -9,7 +9,8 @@ ATA.Forecast(
   h = NULL,
   out.sample = NULL,
   ci.level = 95,
-  negative.forecast = TRUE
+  negative.forecast = TRUE,
+  print.out = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ ATA.Forecast(
 \item{ci.level}{Confidence Interval levels for forecasting. Default value is 95.}
 
 \item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
+
+\item{print.out}{Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.}
 }
 \value{
 An object of class "\code{ATA}".
