@@ -48,7 +48,6 @@
 
 <meta property="og:title" content="Forecasting Method for The ATAforecasting — ATA.Forecast" />
 <meta property="og:description" content="ATA.Forecast is a generic function for forecasting of the ATA Method." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -80,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
       </span>
     </div>
 
@@ -165,7 +164,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class "<code>ATA</code>".</p>
+    <p>An object of class "<code>ata</code>".</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>#'Yapar G, Yavuz I, Selamlar HT (2017).
@@ -206,11 +205,11 @@
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;            sigma2            loglik               MAE               MSE 
-#&gt; 21423683.18282947    -1116.70662532     2572.40601029 20591695.48640890 
+#&gt; 21865408.60927956    -1116.70662532     2572.40601029 20591695.48640890 
 #&gt;              RMSE               MPE              MAPE             sMAPE 
 #&gt;     4537.80734347       -0.59637643        9.15770863        9.25093877 
 #&gt;              MASE               OWA 
-#&gt;        0.10135639        0.00017348 
+#&gt;        0.06425588                NA 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
@@ -232,46 +231,46 @@
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 2243.413 2244.025 2256.635 
+#&gt; 2247.413 2248.580 2265.924 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   0.096   0.018   0.115 
+#&gt;   0.270   0.014   0.285 
 #&gt; 
-#&gt; calculation.time: 0.1146 
+#&gt; calculation.time: 0.2844 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
 #&gt; Time Series:
-#&gt; Start = c(2013, 2) 
-#&gt; End = c(2013, 7) 
+#&gt; Start = 2013.01960059172 
+#&gt; End = 2013.11575443787 
 #&gt; Frequency = 52 
 #&gt; [1] 23110.07 24246.94 25993.20 24803.00 27533.68 30919.02
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'>ATA.Forecast</span><span class='op'>(</span><span class='va'>ata.fit</span>, h<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Time Series:
-#&gt; Start = c(2013, 2) 
-#&gt; End = c(2013, 19) 
+#&gt; Start = 2013.01960059172 
+#&gt; End = 2013.34652366864 
 #&gt; Frequency = 52 
 #&gt;                lower forecast    upper
-#&gt; 2013.019  14173.1645 23110.07 32046.98
-#&gt; 2013.038  11608.2414 24246.94 36885.63
+#&gt; 2013.020  14173.1645 23110.07 32046.98
+#&gt; 2013.039  11608.2414 24246.94 36885.63
 #&gt; 2013.058  10514.0231 25993.20 41472.37
 #&gt; 2013.077   6929.1923 24803.00 42676.82
-#&gt; 2013.096   7550.1546 27533.68 47517.21
-#&gt; 2013.115   9028.1566 30919.02 52809.88
+#&gt; 2013.097   7550.1546 27533.68 47517.21
+#&gt; 2013.116   9028.1566 30919.02 52809.88
 #&gt; 2013.135   2874.5468 26519.38 50164.21
 #&gt; 2013.154   3337.6940 28615.08 53892.47
 #&gt; 2013.173   4275.2879 31086.01 57896.72
-#&gt; 2013.192    966.3244 29227.30 57488.28
+#&gt; 2013.193    966.3244 29227.30 57488.28
 #&gt; 2013.212  -1120.6046 28519.76 58160.12
 #&gt; 2013.231  -4051.5388 26906.81 57865.16
 #&gt; 2013.250  -1604.9163 30617.56 62840.03
-#&gt; 2013.269  -2856.6481 30582.19 64021.03
-#&gt; 2013.288  -9895.0686 24717.42 59329.91
+#&gt; 2013.270  -2856.6481 30582.19 64021.03
+#&gt; 2013.289  -9895.0686 24717.42 59329.91
 #&gt; 2013.308  -6511.4046 29236.22 64983.84
 #&gt; 2013.327 -14018.1293 22829.68 59677.49
-#&gt; 2013.346 -13550.8934 24365.19 62281.27</div><div class='img'><img src='ATA.Forecast-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 2013.347 -13550.8934 24365.19 62281.27</div><div class='img'><img src='ATA.Forecast-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

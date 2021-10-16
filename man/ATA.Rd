@@ -12,7 +12,7 @@ ATA(
   parPHI = NULL,
   model.type = NULL,
   seasonal.test = NULL,
-  seasonal.model = NULL,
+  seasonal.model = "decomp",
   seasonal.period = NULL,
   seasonal.type = NULL,
   seasonal.test.attr = NULL,
@@ -22,9 +22,10 @@ ATA(
   level.fixed = FALSE,
   trend.opt = "none",
   h = NULL,
-  partition.h = NULL,
+  train_test_split = NULL,
   holdout = FALSE,
   holdout.adjustedP = TRUE,
+  holdout.set_size = NULL,
   holdin = FALSE,
   transform.order = "before",
   transform.method = NULL,
@@ -45,7 +46,7 @@ ATA(
 \arguments{
 \item{X}{A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.}
 
-\item{Y}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{partition.h} argument.}
+\item{Y}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{train_test_split} argument.}
 
 \item{parP}{Value of Level parameter \code{p}. If NULL or "opt", it is estimated. \code{p} has all integer values from 1 to \code{length(X)}.}
 
@@ -126,14 +127,16 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 \item{h}{The number of steps to forecast ahead.
 When the parameter is NULL; if the frequency of \code{X} is 4, the parameter is set to 8; if the frequency of \code{X} is 12, the parameter is set to 18; the parameter is set to 6 for other cases.}
 
-\item{partition.h}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set.
-If the value is between 0 and 1, percentage of length is active. If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
+\item{train_test_split}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{train_test_split} is number of periods for forecasting and size of test set.
+If the value is between 0 and 1, percentage of length is active.}
 
 \item{holdout}{Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
 The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
-If TRUE, partition.h will used for holdout data.}
+If TRUE, holdout.set_size will used for holdout data.}
 
 \item{holdout.adjustedP}{Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.}
+
+\item{holdout.set_size}{If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
 
 \item{holdin}{Default is FALSE. If TRUE, ATA Method uses the hold-in forecasting for accuracy measure to select the best model. In hold-in forecasting, the last h-length data points are used for accuracy measure.}
 
@@ -169,7 +172,7 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 \item{plot.out}{Default is TRUE. If FALSE, graphics of ATA Method are not shown.}
 }
 \value{
-Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
+Returns an object of class \code{ata}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
 \code{ATA} object is a list containing at least the following elements
 \itemize{
 		 \item{actual}		: The original time series.
@@ -185,7 +188,7 @@ Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.
 		 \item{model.type}: Form of trend.
 		 \item{h}		      : The number of steps to forecast ahead.
 		 \item{forecast}	: Point forecasts as a time series.
-		 \item{out.sample}: Test values as a time series.
+		 \item{out.sample}: Test set as a time series.
 		 \item{method}		: The name of the optimum forecasting method as a character string for ATA(P,Q,PHI)(Error,Trend,Season).
 		 \item{initial.level}     : Selected initial level values for the time series forecasting method.
 		 \item{initial.trend}     : Selected initial trend values for the time series forecasting method.

@@ -33,7 +33,7 @@
 #' @keywords ata ADF Canova-Hansen correlogram HEGY KPSS Phillips-Perron OCSB seasonal unit-root
 #'
 #' @references
-#' 
+#'
 #' #'\insertRef{dickey1979}{ATAforecasting}
 #'
 #' #'\insertRef{said1984}{ATAforecasting}
@@ -104,7 +104,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
 }
 
 #' @importFrom forecast ndiffs nsdiffs
-#' @importFrom stats acf 
+#' @importFrom stats acf
 corrgram.test <- function(input, ppy, attr_set)
 {
   if (max(ppy)==1){
@@ -152,39 +152,9 @@ corrgram.test <- function(input, ppy, attr_set)
 }
 
 
-#' Find Number of Differences Required for a Stationary Series
-#'
-#' @description Number of differences required for a stationary series using \code{tseries} package.
-#' This function is also modified and combined version of \code{ndiffs} \code{forecast} and \code{tseries} packages.
-#' Functions to estimate the number of differences required to make a given
-#' time series stationary using \code{tseries} package. 
-#' \code{ndiffs.tseries} estimates the number of first differences necessary.
-#' Please review manual and vignette documents of latest \code{tseries} package.
-#' \code{ndiffs.tseries} uses unit root tests to determine the number of differences required for time series to be made trend stationary. Several different tests are available:
-#' \itemize{
-#' 	\item {uroot.test = 'adf'}			: the Augmented Dickey-Fuller test is used.
-#' 	\item {uroot.test = 'pp'}			: the Phillips-Perron test is used. In both of these cases, the null hypothesis is that \code{x} has a unit root against a stationary root alternative. Then the test returns the least number of differences required to fail the test at the level \code{alpha}.
-#' 	\item {uroot.test = 'kpss'}			: the KPSS test is used with the null hypothesis that \code{x} has a stationary root against a unit-root alternative. Then the test returns the least number of differences required to pass the test at the level \code{alpha}.
-#' }
-#'
-#' @param x A univariate time series
-#' @param alpha Level of the test, possible values range from 0.01 to 0.1.
-#' @param test Type of unit root test to use
-#' @param max.d Maximum number of non-seasonal differences allowed
-#'
-#' @return An integer indicating the number of differences required for stationarity.
-#'
-#' @author Ali Sabri Taylan and Hanife Taylan Selamlar
-#'
-#' @seealso \code{\link{ndiffs}} \code{\link{adf.test}} \code{\link{kpss.test}} \code{\link{pp.test}}
-#'
-#' @keywords ts stationary
-#'
 #' @importFrom stats acf na.omit
 #' @importFrom forecast is.constant
 #' @importFrom tseries adf.test kpss.test pp.test
-#'
-#' @export
 ndiffs.tseries <- function(x, alpha = 0.05, test = c("kpss","adf","pp"), max.d=2)
 {
   #ndiffs function using tseries package

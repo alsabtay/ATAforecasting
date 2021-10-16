@@ -4,12 +4,14 @@
 \alias{ATA.Shift}
 \title{Lag/Lead (Shift) Function for Univariate Series}
 \usage{
-ATA.Shift(x, shift_by)
+ATA.Shift(x, shift_by, fill = NA)
 }
 \arguments{
-\item{x}{given variable(s)}
+\item{x}{given vector}
 
 \item{shift_by}{lag or lead parameter}
+
+\item{fill}{a value to be used to fill the rows}
 }
 \value{
 Generating a lag/lead variables

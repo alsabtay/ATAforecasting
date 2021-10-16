@@ -36,7 +36,7 @@
 #' @param x11.estimate.maxiter Maximum iteration for X11 estimation
 #' @param x11.estimate.tol Convergence tolerence for X11 estimation
 #'
-#' @return An object of class \code{ataattrset}.
+#' @return An object of class \code{ataoptim}.
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{forecast}, \code{stlplus}, \code{stR}, \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{tbats}, \code{seasadj}.
@@ -86,6 +86,6 @@ ATA.SeasAttr <- function(corrgram.tcrit=1.28, uroot.test="adf", suroot.test="cor
     suroot.alpha <- 0.1
   }
   mylist <- list("corrgram.tcrit"=corrgram.tcrit, "uroot.test"=uroot.test, "suroot.test"=suroot.test, "suroot.uroot"=suroot.uroot, "uroot.type"=uroot.type, "uroot.alpha"=uroot.alpha, "suroot.alpha"=suroot.alpha, "uroot.maxd"=uroot.maxd, "suroot.maxD"=suroot.maxD, "suroot.m"=suroot.m, "uroot.pkg"=uroot.pkg, "multi.period"=multi.period, "x13.estimate.maxiter"=x13.estimate.maxiter, "x13.estimate.tol"=x13.estimate.tol, "x11.estimate.maxiter"=x11.estimate.maxiter, "x11.estimate.tol"=x11.estimate.tol)
-  attr(mylist, "class") <- "ataattrset"
+  attr(mylist, "class") <- "ataoptim"
   return(mylist)
 }

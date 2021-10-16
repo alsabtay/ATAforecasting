@@ -1,15 +1,15 @@
 #' @importFrom forecast msts
-#' @importFrom stats frequency ts tsp tsp<- var
-SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasonal.Model, seasonal.Type, seasonal.Frequency, h, accuracy.Type,
-                             level.Fix, trend.Fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, transform.Method, Lambda, Shift, orig_X,
-                             OutSample, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, partition_h, Adjusted_P, Holdin, nmse)
+#' @importFrom stats end start ts tsp tsp<- var
+SubATA_Multi_Before <- function(train_set, pb, qb, model.type, seasonal.Test, seasonal.Model, seasonal.Type, seasonal.Frequency, h, accuracy.Type,
+                                level.Fix, trend.Fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, transform.Method, Lambda, Shift, main_set,
+                                test_set, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, hold_set_size, Adjusted_P, Holdin, nmse)
 {
-  tspX <- tsp(ts_input)
-  firstTspX <- tsp(orig_X)
+  tspX <- tsp(train_set)
+  firstTspX <- tsp(main_set)
   if (is.null(seasonal.Test)){
-    is.season <- ATA.Seasonality(ts_input, seasonal.Frequency, seas_attr_set)
+    is.season <- ATA.Seasonality(train_set, seasonal.Frequency, seas_attr_set)
   }else if (seasonal.Test==TRUE){
-    is.season <- ATA.Seasonality(ts_input, seasonal.Frequency, seas_attr_set)
+    is.season <- ATA.Seasonality(train_set, seasonal.Frequency, seas_attr_set)
   }else {
     if (max(seasonal.Frequency)==1){
       is.season <- FALSE
@@ -24,7 +24,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
     }else if (is.season==TRUE & length(seasonal.Frequency)==1){
       seas.model <- c("decomp","stl","stR","tbats")
     }else {
-      if (is.season==FALSE | min(seasonal.Frequency)==1){
+      if (is.season==FALSE | max(seasonal.Frequency)==1){
         seas.model <- "none"
         seasonal.Type <- "A"
       }else {
@@ -36,7 +36,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
       }
     }
   }else {
-    if (is.season==FALSE | min(seasonal.Frequency)==1){
+    if (is.season==FALSE | max(seasonal.Frequency)==1){
       seas.model <- "none"
       seasonal.Type <- "A"
     }else if (length(seasonal.Frequency)>1){
@@ -54,26 +54,26 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
     max_st <- 2
   }
   if (is.season==TRUE){
-    DeSeas <- rep(NA,length(ts_input))
+    train_set_mat <- rep(NA,length(train_set))
     DeSI <- rep(NA,max(seasonal.Frequency))
-    DeSA <- rep(NA,length(ts_input))
-    TA_0 <- rep(NA,length(ts_input))
-    TM_0 <- rep(NA,length(ts_input))
+    DeSA <- rep(NA,length(train_set))
+    TA_0 <- rep(NA,length(train_set))
+    TM_0 <- rep(NA,length(train_set))
     typeName <- as.data.frame("omit")
     for (smo in 1:max_smo){
       for (st in 1:max_st){
         if (seas.model[smo]!="none"){
           org.seas.Type <- seas.type[st]
           if (seas.model[smo]!="decomp" & seas.type[st]=="M"){
-            out.transform <- ATA.Transform(ts_input, tMethod = "Box_Cox", tLambda = 0, tShift = 0)  # lambda = 0 for multiplicative model
-			X <- forecast::msts(out.transform$trfmX, start = tspX[1], seasonal.periods = seasonal.Frequency)
+            out.transform <- ATA.Transform(train_set, tMethod = "Box_Cox", tLambda = 0, tShift = 0)  # lambda = 0 for multiplicative model
+			      seas_train_set <- forecast::msts(out.transform$trfmX, start = start(train_set), seasonal.periods = seasonal.Frequency)
             seas.Type <- "A"
             seas.Model <- seas.model[smo]
             seas.Lambda <- out.transform$tLambda
 			      seas.Shift <- out.transform$tShift
             seas.Transform <- "Box_Cox"
           }else {
-            X <- ts_input
+            seas_train_set <- train_set
             seas.Type <- seas.type[st]
             seas.Model <- seas.model[smo]
             seas.Lambda <- NULL
@@ -81,40 +81,40 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
             seas.Transform <- NULL
           }
         }else {
-          X <- ts_input
+          seas_train_set <- train_set
           seas.Type <- "A"
           seas.Model <- "none"
           seas.Lambda <- NULL
     		  seas.Shift <- 0
           seas.Transform <- NULL
         }
-        ata.seasonal.component <- ATA.Decomposition(X, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
-        AdjX <- ATA.BackTransform(X=ata.seasonal.component$AdjustedX, tMethod=seas.Transform, tLambda=seas.Lambda, tShift=seas.Shift)
+        ata.seasonal.component <- ATA.Decomposition(seas_train_set, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
+        seasadj_train_set <- ATA.BackTransform(X=ata.seasonal.component$AdjustedX, tMethod=seas.Transform, tLambda=seas.Lambda, tShift=seas.Shift)
         AdjSI <- ATA.BackTransform(X=ata.seasonal.component$SeasIndex, tMethod=seas.Transform, tLambda=seas.Lambda, tShift=seas.Shift)
         AdjSA <- ATA.BackTransform(X=ata.seasonal.component$SeasActual, tMethod=seas.Transform, tLambda=seas.Lambda, tShift=seas.Shift)
         if (seas.Model=="x13" | seas.Model=="x11"){
           seas.Type <- ata.seasonal.component$SeasType
         }
-        DeSeas <- as.matrix.data.frame(cbind(DeSeas, as.numeric(AdjX)))
+        train_set_mat <- as.matrix.data.frame(cbind(train_set_mat, as.numeric(seasadj_train_set)))
         DeSI <- as.matrix.data.frame(cbind(DeSI, as.numeric(AdjSI)))
         DeSA <- as.matrix.data.frame(cbind(DeSA, as.numeric(AdjSA)))
         typeName <- cbind(typeName, seas.Type)
-        TA_0 <- cbind(TA_0, as.double(AdjX-ATA.Shift(AdjX,1)))
-        TM_0 <- cbind(TM_0, as.double(AdjX/ATA.Shift(AdjX,1)))
+        TA_0 <- cbind(TA_0, as.double(seasadj_train_set - ATA.Shift(seasadj_train_set,1)))
+        TM_0 <- cbind(TM_0, as.double(seasadj_train_set / ATA.Shift(seasadj_train_set,1)))
       }
     }
-    orig_DeSeas <- DeSeas <- DeSeas[,-1]
+    main_train_set_mat <- train_set_mat <- train_set_mat[,-1]
     DeSI <- DeSI[,-1]
     DeSA <- DeSA[,-1]
     TA_0 <- TA_0[,-1]
     TM_0 <- TM_0[,-1]
     if (Holdout == TRUE){
-      holdout_part <- ifelse(partition_h > 0 & partition_h < 1, floor(length(ts_input) * partition_h), partition_h)
-      HoldOutLen <- length(ts_input) - holdout_part
-      InsampleLen <- length(ts_input)
-      HoldoutSet <- ts(DeSeas[(HoldOutLen+1):InsampleLen,], frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-      DeSeas <- ts(DeSeas[1:HoldOutLen,], frequency = tspX[3], start = tspX[1])
-      output <- SubATAHoldout(as.matrix.data.frame(DeSeas)
+      holdout_part <- ifelse(hold_set_size > 0 & hold_set_size < 1, floor(length(train_set) * hold_set_size), hold_set_size)
+      valid_len <- length(train_set) - holdout_part
+      train_len <- length(train_set)
+      train_set_mat <- forecast::msts(train_set_mat[1:valid_len,], start = start(main_set), seasonal.periods = seasonal.Frequency)
+      validation_set <- forecast::msts(train_set_mat[(valid_len+1):train_len,], start = end(train_set_mat) - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1), seasonal.periods = seasonal.Frequency)
+      output <- SubATAHoldout(as.matrix.data.frame(train_set_mat)
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
                                , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
@@ -133,12 +133,12 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
                                , as.integer(sapply(seas.type, switch, "A"=0,"M"=1))
                                , as.integer(max_smo)
                                , as.integer(max_st)
-                               , as.integer(frequency(ts_input))
-                               , as.matrix.data.frame(HoldoutSet))
+                               , as.double(seasonal.Frequency)
+                               , as.matrix.data.frame(validation_set))
 
     }else if (Holdin == TRUE){
-      HoldoutSet <- NA
-      output <- SubATAHoldhin(as.matrix.data.frame(DeSeas)
+      validation_set <- NA
+      output <- SubATAHoldhin(as.matrix.data.frame(train_set_mat)
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
                                , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
@@ -157,12 +157,12 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
                                , as.integer(sapply(seas.type, switch, "A"=0,"M"=1))
                                , as.integer(max_smo)
                                , as.integer(max_st)
-                               , as.integer(frequency(ts_input))
+                               , as.double(seasonal.Frequency)
                                , as.integer(h)
                                , as.integer(nmse))
     }else {
-      HoldoutSet <- NA
-      output <- SubATA(as.matrix.data.frame(DeSeas)
+      validation_set <- NA
+      output <- SubATA(as.matrix.data.frame(train_set_mat)
                         , as.integer(ifelse(pb=="opt", -1, pb))
                         , as.integer(ifelse(qb=="opt", -1, qb))
                         , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
@@ -181,7 +181,7 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
                         , as.integer(sapply(seas.type, switch, "A"=0,"M"=1))
                         , as.integer(max_smo)
                         , as.integer(max_st)
-                        , as.integer(frequency(ts_input))
+                        , as.double(seasonal.Frequency)
                         , as.integer(nmse))
     }
     #output[1] = d_opt_p
@@ -193,8 +193,8 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
     #output[7] = mod_clmn
     #output[8] = holdout.accuracy
 
-    AdjInput <- forecast::msts(as.numeric(orig_DeSeas[,output[7]]), start=firstTspX[1], seasonal.periods = seasonal.Frequency)
-    SeasonalActual <- forecast::msts(as.numeric(DeSA[,output[7]]), start=firstTspX[1], seasonal.periods = seasonal.Frequency)
+    AdjInput <- forecast::msts(as.numeric(main_train_set_mat[,output[7]]), start = start(main_set), seasonal.periods = seasonal.Frequency)
+    SeasonalActual <- forecast::msts(as.numeric(DeSA[,output[7]]), start = start(main_set), seasonal.periods = seasonal.Frequency)
     SeasonalIndex <- as.numeric(DeSI[,output[7]])
     if (is.season==FALSE & output[6]==0){
       OS_SIValue <- rep(0,times=h)
@@ -207,13 +207,13 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
       }
     }else{
     }
-    ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(ts_input))/ length(DeSeas[,output[7]])), new_pk <- output[1])
+    ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(train_set))/ length(train_set_mat[,output[7]])), new_pk <- output[1])
     ATA.last <- ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend, nmse = nmse)
     ATA.last$holdout <- Holdout
     ATA.last$holdin <- Holdin
     if(Holdout==TRUE){
       ATA.last$holdout.accuracy <- output[8]
-      ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(DeSeas[,output[7]])
+      ATA.last$holdout.forecast <- ATAHoldoutForecast(as.double(train_set_mat[,output[7]])
                                                       , as.integer(output[1])
                                                       , as.integer(output[2])
                                                       , as.double(output[3])
@@ -222,69 +222,74 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
                                                       , as.integer(ifelse(initialTrend, 1, 0))
                                                       , as.double(TA_0)
                                                       , as.double(TM_0)
-                                                      , as.integer(frequency(ts_input))
-                                                      , as.integer(length(HoldoutSet)))
+                                                      , as.integer(frequency(train_set))
+                                                      , as.integer(length(validation_set)))
     }
   }else {
-    X <- ts_input
     seas.Type <- "A"
     OS_SIValue <- rep(0,times=h)
     seas.Model <- "none"
     seas.Lambda <- NULL
 	  seas.Shift <- 0
     seas.Transform <- NULL
-    ata.seasonal.component <- ATA.Decomposition(X, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
+    ata.seasonal.component <- ATA.Decomposition(train_set, s.model=seas.Model, s.type=seas.Type, s.frequency=seasonal.Frequency, seas_attr_set=seas_attr_set)
     SeasonalActual <- ata.seasonal.component$SeasActual
     SeasonalIndex <- ata.seasonal.component$SeasIndex
-	AdjInput <- ata.seasonal.component$AdjustedX
+	  AdjInput <- seasadj_train_set <- ata.seasonal.component$AdjustedX
     if (Holdout == TRUE){
-      holdout_part <- ifelse(partition_h > 0 & partition_h < 1, floor(length(ts_input) * partition_h), partition_h)
-      HoldOutLen <- length(ts_input) - holdout_part
-      InsampleLen <- length(ts_input)
-      HoldoutSet <- ts(X[(HoldOutLen+1):InsampleLen], frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1))
-	  tspHoldout <- tsp(HoldoutSet)
-      X <- ts(X[1:HoldOutLen], frequency = tspX[3], start = tspX[1])
+      holdout_part <- ifelse(hold_set_size > 0 & hold_set_size < 1, floor(length(train_set) * hold_set_size), hold_set_size)
+      valid_len <- length(train_set) - holdout_part
+      train_len <- length(train_set)
+      train_set_mat <- forecast::msts(seasadj_train_set[1:valid_len], start = start(train_set), seasonal.periods = seasonal.Frequency)
+      validation_set <- forecast::msts(seasadj_train_set[(valid_len+1):train_len], start = end(train_set_mat) - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1), seasonal.periods = seasonal.Frequency)
     }else {
-      HoldoutSet <- NA
+      train_set_mat <- seasadj_train_set
+      validation_set <- NA
     }
-    ATA.last <- SubATA.Damped(X, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, trend.Search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend, orig_X = ts_input, Holdout = Holdout, HoldoutSet = HoldoutSet, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin, nmse = nmse)
+    ATA.last <- SubATA.Damped(train_set_mat, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, trend.Search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize,
+                              initialLevel = initialLevel, initialTrend = initialTrend, main_set = seasadj_train_set, Holdout = Holdout, HoldoutSet = validation_set, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin, nmse = nmse, seas_periods = seasonal.Frequency)
   }
   ATA.last$h <- h
   ATA.last <- SubATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
-  ATA.last$actual <- orig_X
+  ATA.last$actual <- main_set
   fit.ata <- ATA.last$fitted
   forecast.ata <- ATA.last$forecast
-  ATA.last$level <- ts(ATA.BackTransform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])
-  ATA.last$trend <- ts(ATA.BackTransform(X=ATA.last$trend, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])
+  fc.amse <- ATA.last$amse.fc
+  ATA.last$level <- forecast::msts(ATA.BackTransform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                   start = start(main_set), seasonal.periods = seasonal.Frequency)
+  ATA.last$trend <- forecast::msts(ATA.BackTransform(X=ATA.last$trend, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                   start = start(main_set), seasonal.periods = seasonal.Frequency)
   crit_a <- ifelse(is.season==TRUE, ifelse(output[6]==0,"A","M"), seas.Type)
   crit_a <- ifelse(is.season==FALSE, "A", crit_a)
   if(crit_a=="A"){
     ATA.fitted <- ATA.BackTransform(X = fit.ata + SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
     ATA.forecast <- ATA.BackTransform(X = forecast.ata + OS_SIValue, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
     if (Holdout == TRUE){
-      ATA.last$holdout.forecast <- ts(ATA.BackTransform(X = ATA.last$holdout.forecast + SeasonalActual[(HoldOutLen+1):InsampleLen], tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+      ATA.last$holdout.forecast <- forecast::msts(ATA.BackTransform(X = ATA.last$holdout.forecast + SeasonalActual[(valid_len+1):train_len], tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                      start = end(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
     }
   }else {
     ATA.fitted <- ATA.BackTransform(X = fit.ata * SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
     ATA.forecast <- ATA.BackTransform(X = forecast.ata * OS_SIValue, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
     if (Holdout == TRUE){
-      ATA.last$holdout.forecast <- ts(ATA.BackTransform(X = ATA.last$holdout.forecast * SeasonalActual[(HoldOutLen+1):InsampleLen], tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+      ATA.last$holdout.forecast <- forecast::msts(ATA.BackTransform(X = ATA.last$holdout.forecast * SeasonalActual[(valid_len+1):train_len], tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                      start = end(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
     }
   }
-  ATA.last$fitted <- ts(ATA.fitted, frequency = firstTspX[3], start =firstTspX[1])
+  ATA.last$fitted <- forecast::msts(ATA.fitted, start = start(main_set), seasonal.periods = seasonal.Frequency)
   if (negative.Forecast==TRUE){
-    ATA.last$forecast <- ts(ATA.forecast, frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+    ATA.last$forecast <- forecast::msts(ATA.forecast, start = end(main_set) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
   }else {
     ATA.forecast[ATA.forecast<0] <- 0
-    ATA.last$forecast <- ts(ATA.forecast, frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+    ATA.last$forecast <- forecast::msts(ATA.forecast, start = end(main_set) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
   }
   ATA.last$residuals <- ATA.last$actual - ATA.last$fitted
   if (Holdout == TRUE){
-    ATA.last$holdout.training <- ts(ATA.last$actual[1:HoldOutLen], frequency = firstTspX[3], start = firstTspX[1])
-    ATA.last$holdout.validation <- ts(ATA.last$actual[(HoldOutLen+1):InsampleLen], frequency = firstTspX[3], start = tsp(ATA.last$holdout.training)[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+    ATA.last$holdout.training <- forecast::msts(ATA.last$actual[1:valid_len], start = start(main_set), seasonal.periods = seasonal.Frequency)
+    ATA.last$holdout.validation <- forecast::msts(ATA.last$actual[(valid_len+1):train_len], start = end(ATA.last$holdout.training) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
   }
   my_list <- ATA.last
-  my_list$out.sample <- ts(OutSample, frequency = firstTspX[3], start = firstTspX[2] + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1))
+  my_list$out.sample <- forecast::msts(test_set, start = end(main_set) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
   if (level.Fix==TRUE){
     method <- paste("ATA(",my_list$p, ",", my_list$q,",", my_list$phi, ")", sep="")
   }else if (trend.Fix==TRUE){
@@ -331,14 +336,18 @@ SubATA.Multiple <- function(ts_input, pb, qb, model.type, seasonal.Test, seasona
   my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
                               "trend" = trend_mthd,
                               "seasonal" = seas_mthd,
+                              "period" = seasonal.Frequency,
+                              "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
                               "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
                               "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
-  accuracy.ata <- ATA.Accuracy(my_list, OutSample)
+  accuracy.ata <- ATA.Accuracy(my_list, test_set)
   my_list$accuracy <- accuracy.ata
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- ATA.BackTransform(X=SeasonalIndex, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
-  my_list$seasonal <- ts(ATA.BackTransform(X=SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])
-  my_list$seasonal.adjusted <- ts(ATA.BackTransform(X=AdjInput, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))), frequency = firstTspX[3], start = firstTspX[1])
+  my_list$seasonal <- forecast::msts(ATA.BackTransform(X=SeasonalActual, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                     start = start(main_set), seasonal.periods = seasonal.Frequency)
+  my_list$seasonal.adjusted <- forecast::msts(ATA.BackTransform(X=AdjInput, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
+                                              start = start(main_set), seasonal.periods = seasonal.Frequency)
   ci.output <- ATA.CI(object = my_list, ci.level = ci.Level)
   my_list$ci.level <- ci.Level
   if (negative.Forecast==TRUE){

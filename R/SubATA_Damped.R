@@ -1,7 +1,7 @@
 #' @importFrom stats frequency
-SubATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, orig_X, Holdout, HoldoutSet, Adjusted_P, h, Holdin, nmse)
+SubATA.Damped <- function(train_set, pb, qb, model.Type, accuracy.Type, level.fix, trend.fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, main_set, Holdout, HoldoutSet, Adjusted_P, h, Holdin, nmse, seas_periods)
 {
-  Xdata <- as.numeric(ts_input)
+  Xdata <- as.numeric(train_set)
   TA_0 <- Xdata-ATA.Shift(Xdata,1)
   TM_0 <- Xdata/ATA.Shift(Xdata,1)
   model.Type <- ifelse(is.null(model.Type),"B",model.Type)
@@ -21,7 +21,7 @@ SubATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix
                                    , as.integer(ifelse(initialTrend, 1, 0))
                                    , as.double(TA_0)
                                    , as.double(TM_0)
-                                   , as.integer(frequency(ts_input))
+                                   , as.integer(seas_periods)
                                    , as.double(HoldoutSet))
   }else if (Holdin==TRUE){
     output <- SubATADampedHoldhin(as.double(Xdata)
@@ -39,7 +39,7 @@ SubATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix
                                    , as.integer(ifelse(initialTrend, 1, 0))
                                    , as.double(TA_0)
                                    , as.double(TM_0)
-                                   , as.integer(frequency(ts_input))
+                                   , as.integer(seas_periods)
                                    , as.integer(h)
                                    , as.integer(nmse))
   }else {
@@ -58,11 +58,11 @@ SubATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix
                             , as.integer(ifelse(initialTrend, 1, 0))
                             , as.double(TA_0)
                             , as.double(TM_0)
-                            , as.integer(frequency(ts_input))
+                            , as.integer(seas_periods)
                             , as.integer(nmse))
   }
-  ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(orig_X))/ length(ts_input)), new_pk <- output[1])
-  ATA.last <- ATA.Core(orig_X, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend, nmse)
+  ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(main_set))/ length(train_set)), new_pk <- output[1])
+  ATA.last <- ATA.Core(main_set, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend, nmse)
   ATA.last$holdout <- Holdout
   ATA.last$holdin <- Holdin
   if(Holdout==TRUE){
@@ -76,7 +76,7 @@ SubATA.Damped <- function(ts_input, pb, qb, model.Type, accuracy.Type, level.fix
                                                     , as.integer(ifelse(initialTrend, 1, 0))
                                                     , as.double(TA_0)
                                                     , as.double(TM_0)
-                                                    , as.integer(frequency(ts_input))
+                                                    , as.integer(frequency(train_set))
                                                     , as.integer(length(HoldoutSet)))
   }
   return(ATA.last)

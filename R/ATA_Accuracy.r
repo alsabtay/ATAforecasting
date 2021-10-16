@@ -4,7 +4,7 @@
 #' Accuracy measures for a forecast model
 #' Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 #' provided, the function measures test set forecast accuracy.
-#' If \code{out.sample} is not provided, the function only produces
+#' If \code{test_set} is not provided, the function only produces
 #' training set accuracy measures.
 #' The measures calculated are:
 #' \itemize{
@@ -27,7 +27,7 @@
 #'		 \item{sMdAPE}	: symmetric median absolute percentage error.
 #' }
 #'
-#' @param object An object of class \code{ATA} is required.
+#' @param object An object of class \code{ata} is required.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #'
 #' @return Matrix giving forecast accuracy measures.
@@ -57,37 +57,35 @@
 #' @export
 ATA.Accuracy <- function(object, out.sample=NULL)
 {
-  ata.output <- object
-  if (class(ata.output)!="ATA"){
-    return("The Input must be 'ATA' object. Please use ATA function to produce 'ATA' object. ATA Accuracy will terminate!")
+  if (class(object)!="ata"){
+    return("The Input must be 'ATA' object. Please use ATA function to produce 'ata' object. ATA Accuracy will terminate!")
   }
-  inSample <- ata.output$actual
-  in_sample_fit <- ata.output$fitted
-  out.sample_forecast <- ata.output$forecast
-  in_sample <- as.numeric(inSample[-1])
-  in_sample_fit <- as.numeric(in_sample_fit[-1])
-  if (!is.null(out.sample)){
-    out.sample <- as.numeric(out.sample)
+  train_set <- object$actual
+  ts_fit <- object$fitted
+  ts_fc <- object$forecast
+  ts_act <- as.numeric(train_set[-1])
+  ts_fit <- as.numeric(ts_fit[-1])
+  if (is.null(out.sample)) {
+    test_set <- NA
   }else {
-    out.sample <- NA
+    test_set <- as.numeric(out.sample)
   }
-  ata.error <- in_sample - in_sample_fit
-  ata.pe <- ata.error / in_sample * 100
+  ata.error <- ts_act - ts_fit
+  ata.pe <- ata.error / ts_act * 100
   pre_mae <- abs(ata.error)
   pre_mse <- ata.error^2
   pre_mpe <- ata.pe
   pre_mape <- abs(ata.pe)
-  pre_smape <- abs(in_sample - in_sample_fit)/(abs(in_sample) + abs(in_sample_fit)) * 200
+  pre_smape <- abs(ts_act - ts_fit)/(abs(ts_act) + abs(ts_fit)) * 200
 
-  if (!is.null(out.sample)){
-    ata.error.os <- out.sample - out.sample_forecast
-    ata.pe.os <- ata.error.os / out.sample * 100
+  if (!is.null(test_set)){
+    ata.error.os <- test_set - ts_fc
+    ata.pe.os <- ata.error.os / test_set * 100
     pre_mae_os <- abs(ata.error.os)
     pre_mse_os <- ata.error.os^2
     pre_mpe_os <- ata.pe.os
     pre_mape_os <- abs(ata.pe.os)
-    pre_smape_os <- abs(out.sample - out.sample_forecast)/(abs(out.sample) + abs(out.sample_forecast)) * 200
-    pre_mase_os <- outMASE(as.double(in_sample), as.double(out.sample), as.double(out.sample_forecast), as.integer(frequency(inSample)))
+    pre_smape_os <- abs(test_set - ts_fc)/(abs(test_set) + abs(ts_fc)) * 200
   }else {
     pre_mae_os <- NA
     pre_mse_os <- NA
@@ -95,8 +93,8 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     pre_mape_os <- NA
     pre_smape_os <- NA
   }
-  np <- length(c(stats::na.omit(unlist(ata.output$par.specs))))
-  ny <- length(ata.output$actual)
+  np <- length(c(stats::na.omit(unlist(object$par.specs))))
+  ny <- length(train_set)
 
   mae <- round(mean(pre_mae, na.rm=TRUE),8)
   mse <- round(mean(pre_mse, na.rm=TRUE),8)
@@ -111,10 +109,16 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   mdpe <- round(median(pre_mpe, na.rm=TRUE),8)
   mdape <- round(median(pre_mape, na.rm=TRUE),8)
   smdape <- round(median(pre_smape, na.rm=TRUE),8)
-  mase <- round(inMASE(as.double(in_sample), as.double(in_sample_fit), as.integer(frequency(inSample))),8)
-  naiveAccry <- round(NaiveSD(as.double(in_sample), as.integer(frequency(inSample))),8)
-  owa <- round(((mase/naiveAccry) + (smape/naiveAccry))/2, 8)
-
+  naive1Accry <- round(NaiveS_Accry(as.double(ts_act), as.double(object$seasonal.period), 1), 8)
+  if (object$is.season==TRUE){
+    Dec <- stats::decompose(train_set,type="multiplicative")
+    des_input <- train_set/Dec$seasonal
+  }else{
+    des_input <- train_set
+  }
+  naive2Accry <- round(NaiveS_Accry(as.double(des_input), as.double(frequency(train_set)), 1), 8)
+  mase <- round(mae / naive1Accry, 8)
+  owa <- round(((smape / naive2Accry) + (mase / naive2Accry)) / 2, 8)
   aic <- lik + 2 * np
   bic <- lik + log(ny) * np
   aicc <- aic + 2 * np * (np + 1) / (ny - np - 1)
@@ -139,7 +143,7 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   skew_smape <- round(timeSeries::colSkewness(pre_smape),8)
   kurt_smape <- round(timeSeries::colKurtosis(pre_smape),8)
 
-  if (!is.na(out.sample[1])){
+  if (!is.na(test_set[1])){
     mae_os <- round(mean(pre_mae_os, na.rm=TRUE),8)
     mse_os <- round(mean(pre_mse_os, na.rm=TRUE),8)
     rmse_os <- round(sqrt(mse_os),8)
@@ -152,8 +156,8 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     mdpe_os <- round(median(pre_mpe_os, na.rm=TRUE),8)
     mdape_os <- round(median(pre_mape_os, na.rm=TRUE),8)
     smdape_os <- round(median(pre_smape_os, na.rm=TRUE),8)
-    mase_os <- round(pre_mase_os,8)
-    owa_os <- round(((mase_os/naiveAccry) + (smape_os/naiveAccry))/2,8)
+    mase_os <- round(pre_mae_os / naive1Accry, 8)
+    owa_os <- round(((smape_os / naive2Accry) + (mase_os / naive2Accry)) / 2, 8)
   }else {
     mae_os <- NA
     mse_os <- NA
@@ -172,8 +176,8 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     owa_os <- NA
   }
 
-  RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape, "MASE" = (pre_mae/naiveAccry))
-  RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os, "MASE" = (pre_mae_os/naiveAccry))
+  RawAccuracy_is <- list("MAE"=pre_mae, "MSE"=pre_mse, "MPE"= pre_mpe, "MAPE"=pre_mape, "sMAPE"=pre_smape)
+  RawAccuracy_os <- list("MAE"=pre_mae_os, "MSE"=pre_mse_os, "MPE"= pre_mpe_os, "MAPE"=pre_mape_os, "sMAPE"=pre_smape_os)
   RawAccuracy_all <- list("inSample"=RawAccuracy_is, "outSample"=RawAccuracy_os)
   MAE_is <- list("MAE"=mae, "MdAE"=mdae, "stdDev.MAE"=stdDev_mae, "skewness.MAE"=skew_mae, "kurtosis.MAE"=kurt_mae)
   MSE_is <- list("MSE"=mse, "MdSE"=mdse, "RMSE" = rmse, "RMdSE" = rmdse, "stdDev.MSE"=stdDev_mse, "skewness.MSE"=skew_mse, "kurtosis.MSE"=kurt_mse)

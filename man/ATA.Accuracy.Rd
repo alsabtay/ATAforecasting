@@ -7,7 +7,7 @@
 ATA.Accuracy(object, out.sample = NULL)
 }
 \arguments{
-\item{object}{An object of class \code{ATA} is required.}
+\item{object}{An object of class \code{ata} is required.}
 
 \item{out.sample}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.}
 }
@@ -19,7 +19,7 @@ Returns ATA(p,q,phi) applied to ATA \code{object}.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 provided, the function measures test set forecast accuracy.
-If \code{out.sample} is not provided, the function only produces
+If \code{test_set} is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 \itemize{

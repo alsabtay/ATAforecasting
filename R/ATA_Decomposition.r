@@ -60,7 +60,7 @@
 #' @importFrom forecast mstl msts tbats tbats.components
 #' @importFrom stats cycle decompose frequency ts tsp tsp<- stl
 #' @importFrom stlplus stlplus
-#' @importFrom stR AutoSTR components
+#' @importFrom stR AutoSTR
 #' @importFrom seasonal seas series udg
 #' @importFrom Rdpack reprompt
 #'
@@ -164,7 +164,7 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
       }else {
         stRdesX <- stR::AutoSTR(input, robust=TRUE)
       }
-      stRcomp <- stR::components(stRdesX)
+      stRcomp <- stR_components(stRdesX)
       nameCol <- colnames(stRcomp)
       nameCol <- grep('Seasonal', nameCol, value=TRUE)
       if (length(nameCol)==0){
@@ -277,45 +277,49 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
 }
 
 
+### Extract STR components
+stR_components <- function(object)
+{
+  len_y <- length(object$input$data)
+  len_x <- length(object$output$predictors) + 2
+  str_cmp <- matrix(0, len_y, len_x)
+
+  str_cmp[, 1] <- as.vector(object$input$data)
+  str_cmp[, ncol(str_cmp)] <- as.vector(object$output$random$data)
+  names <- rep("", ncol(str_cmp))
+  names[c(1, ncol(str_cmp))] = c("Data", "Random")
+
+  for(i in seq_along(object$output$predictors)) {
+    str_cmp[, i+1] <- object$output$predictors[[i]]$data
+    names[i+1] <- object$input$predictors[[i]]$name
+  }
+  colnames(str_cmp) <- names
+
+  str_cmp <- ts(str_cmp)
+  if("ts" %in% class(object$input$data))
+    tsp(str_cmp) <- tsp(object$input$data)
+  return(str_cmp)
+}
 
 
-#' @title Seasonal adjustment based on STR
-#' @description This function is written to avoid conflict two functions with the same name, \code{seasadj}, in two different packages: \code{forecast} and \code{stR}.
-#'
-#' @param object Result of \code{AutoSTR} function in ATA.Decomposition
-#' @param include Vector of component names to include in the result. The default is \code{c("Trend", "Random")}.
-#'
-#' @return Seasonal adjusted data using stR package.
-#'
-#' @keywords stR seasonal decomposition
-#'
-#' @importFrom stR components
-#'
-#' @export
+### Seasonal adjustment based on STR
 stR_seasadj <- function(object, include = c("Trend", "Random"))
 {
-  # Extract all components
-  compTs <- stR::components(object)
-
-  # Find trend
-  trendName <- colnames(compTs)[2]
-  if(is.null(trendName) || is.na(trendName) || nchar(trendName) == 0) {
+  str_cmp <- stR_components(object)
+  nameTrend <- colnames(str_cmp)[2]
+  if(is.null(nameTrend) || is.na(nameTrend) || nchar(nameTrend) == 0) {
     warning("Trend component is not specified by name, using the first component as the Trend component.")
-    colnames(compTs)[2] <- "Trend"
+    colnames(str_cmp)[2] <- "Trend"
   }
-
-  # Check all components are available
-  for(name in include[!(include %in% colnames(compTs))]) {
-    warning(paste(name, "is not one of the components of the decomposion, skipping..."))
+  for(cmpname in include[!(include %in% colnames(str_cmp))]) {
+    warning(paste(cmpname, "is not one of the components of the decomposion, skipping..."))
   }
-
-  # Add together the components listed in include argument.
   result <- NULL
-  for(i in include[include %in% colnames(compTs)]) {
+  for(i in include[include %in% colnames(str_cmp)]) {
     if(is.null(result)) {
-      result <- compTs[,i]
+      result <- str_cmp[,i]
     } else {
-      result <- result + compTs[,i]
+      result <- result + str_cmp[,i]
     }
   }
   return(result)

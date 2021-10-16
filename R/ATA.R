@@ -41,7 +41,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' Returns ATA(p,q,phi) applied to \code{X}.
 #'
 #' @param X A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
-#' @param Y A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{partition.h} argument.
+#' @param Y A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{train_test_split} argument.
 #' @param parP Value of Level parameter \code{p}. If NULL or "opt", it is estimated. \code{p} has all integer values from 1 to \code{length(X)}.
 #' @param parQ Value of Trend parameter \code{q}. If NULL or "opt", it is estimated. \code{q} has all integer values from 0 to \code{p}.
 #' @param parPHI Value of Damping Trend parameter \code{phi}. If NULL or "opt", it is estimated. phi has all values from 0 to 1.
@@ -106,12 +106,13 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' }
 #' @param h The number of steps to forecast ahead.
 #' When the parameter is NULL; if the frequency of \code{X} is 4, the parameter is set to 8; if the frequency of \code{X} is 12, the parameter is set to 18; the parameter is set to 6 for other cases.
-#' @param partition.h If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{partition.h} is number of periods for forecasting and size of test set.
-#' If the value is between 0 and 1, percentage of length is active. If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.
+#' @param train_test_split If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{train_test_split} is number of periods for forecasting and size of test set.
+#' If the value is between 0 and 1, percentage of length is active.
 #' @param holdout Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
 #' The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
-#' If TRUE, partition.h will used for holdout data.
+#' If TRUE, holdout.set_size will used for holdout data.
 #' @param holdout.adjustedP Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.
+#' @param holdout.set_size If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.
 #' @param holdin Default is FALSE. If TRUE, ATA Method uses the hold-in forecasting for accuracy measure to select the best model. In hold-in forecasting, the last h-length data points are used for accuracy measure.
 #' @param transform.order If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.
 #' @param transform.method Transformation method  --> "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter,
@@ -131,7 +132,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @param print.out Default is TRUE. If FALSE, summary of ATA Method is not shown.
 #' @param plot.out Default is TRUE. If FALSE, graphics of ATA Method are not shown.
 #'
-#' @return Returns an object of class \code{ATA}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
+#' @return Returns an object of class \code{ata}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
 #' \code{ATA} object is a list containing at least the following elements
 #' \itemize{
 #' 		 \item{actual}		: The original time series.
@@ -147,7 +148,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' 		 \item{model.type}: Form of trend.
 #' 		 \item{h}		      : The number of steps to forecast ahead.
 #' 		 \item{forecast}	: Point forecasts as a time series.
-#' 		 \item{out.sample}: Test values as a time series.
+#' 		 \item{out.sample}: Test set as a time series.
 #' 		 \item{method}		: The name of the optimum forecasting method as a character string for ATA(P,Q,PHI)(Error,Trend,Season).
 #' 		 \item{initial.level}     : Selected initial level values for the time series forecasting method.
 #' 		 \item{initial.trend}     : Selected initial trend values for the time series forecasting method.
@@ -211,7 +212,7 @@ ATA <- function(X, Y = NULL,
                 parPHI = NULL,
                 model.type = NULL,
                 seasonal.test = NULL,
-                seasonal.model = NULL,
+                seasonal.model = "decomp",
                 seasonal.period = NULL,
                 seasonal.type = NULL,
                 seasonal.test.attr = NULL,
@@ -221,9 +222,10 @@ ATA <- function(X, Y = NULL,
                 level.fixed = FALSE,
                 trend.opt = "none",
                 h = NULL,
-                partition.h = NULL,
+                train_test_split = NULL,
                 holdout = FALSE,
                 holdout.adjustedP = TRUE,
+                holdout.set_size = NULL,
                 holdin = FALSE,
                 transform.order = "before",
                 transform.method = NULL,
@@ -240,9 +242,6 @@ ATA <- function(X, Y = NULL,
                 print.out = TRUE,
                 plot.out = TRUE)
 {
-  if (class(X)[1]!="ts" & class(X)[1]!="msts"){
-    return("Class of X must be ts/msts object with single/multiple period seasonality. ATA Method was terminated!")
-  }
   if (is.null(parQ)){
     parQ <- "opt"
   }
@@ -270,12 +269,26 @@ ATA <- function(X, Y = NULL,
   if (!is.null(seasonal.period)){
     find.period <- 0
     s.frequency <- seasonal.period
+    X <- forecast::msts(X, seasonal.periods = seasonal.period)
   }else{
     if (is.null(find.period)){
       find.period <- 0
     }
-    s.frequency <- frequency(X)
-    seasonal.period <- frequency(X)
+    X_len <- length(X)
+    if ("msts" %in% class(X)) {
+         X_msts <- attributes(X)$msts
+         if (any(X_msts >= X_len / 2)) {
+           warning("Dropping seasonal components with fewer than two full periods.")
+           X_msts <- X_msts[X_msts < X_len / 2]
+           X <- forecast::msts(X, seasonal.periods = X_msts)
+         }
+         s.frequency <- seasonal.period <- sort(X_msts, decreasing = FALSE)
+    }else if ("ts" %in% class(X)) {
+         s.frequency <- seasonal.period <- frequency(X)
+    }else {
+         X <- as.ts(X)
+         s.frequency <- seasonal.period <- 1L
+    }
   }
   if (find.period!=0){
     if(find.period==1){
@@ -297,7 +310,7 @@ ATA <- function(X, Y = NULL,
       seasonal.model=="stl"
 	    seasonal.test <- TRUE
     }else {
-      return("find.period must be integer and between 0 and 5. ATA Method was terminated!")
+      return("find.period must be integer and between 0 and 5. ATAforecasting was terminated!")
     }
     s.frequency <- seasonal.period
   }
@@ -362,7 +375,7 @@ ATA <- function(X, Y = NULL,
     boxcox_attr_set <- transform.attr
   }
   if (holdout == TRUE & holdin == TRUE){
-    return("Only one parameter of the two parameters (holdout or holdin) must be selected. Please choose one one of them. ATA Method was terminated!")
+    return("Only one parameter of the two parameters (holdout or holdin) must be selected. Please choose one one of them. ATAforecasting was terminated!")
   }
   if (holdout == TRUE & accuracy.type == "AMSE") {
     accuracy.type <- "sMAPE"
@@ -380,107 +393,97 @@ ATA <- function(X, Y = NULL,
   Qlen <- length(parQ)
   Plen <- length(parP)
   if (class(parP) =="character" & parP!="opt"){
-    return("p value must be integer and between 1 and length of input. ATA Method was terminated!")
+    return("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
   }else if ((class(parP)=="numeric" |class(parP)=="integer") & Plen>1 & (max(parP)>length(X))){
-    return("p value must be integer and between 1 and length of input. ATA Method was terminated!")
+    return("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
   }else{
   }
   if (class(parQ)=="character" & parQ!="opt"){
-    return("p value must be integer and between 0 and p. ATA Method was terminated!")
+    return("p value must be integer and between 0 and p. ATAforecasting was terminated!")
   }else if ((class(parP)=="numeric" |class(parP)=="integer") & Qlen>1 & (max(parQ)>=max(parP))){
-    return("q value must be integer and between 0 and p. ATA Method was terminated!")
+    return("q value must be integer and between 0 and p. ATAforecasting was terminated!")
   }else{
   }
   if (class(parPHI)=="character" & parPHI!="opt"){
-    return("phi value must be numeric and between 0 and 1. ATA Method was terminated!")
+    return("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
   }else if ((class(parPHI)=="numeric" |class(parPHI)=="integer") & parPHI<0 & parPHI>1 & length(parPHI)>1){
-    return("phi value must be numeric and between 0 and 1. ATA Method was terminated!")
+    return("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
   }
   if (!is.null(seasonal.type)){
     if ((seasonal.type != "A" & seasonal.type != "M") | !is.character(seasonal.type) | length(seasonal.type) > 1){
-      return("Seasonal Type value must be string. A for additive or M for multiplicative. ATA Method was terminated!")
+      return("Seasonal Type value must be string. A for additive or M for multiplicative. ATAforecasting was terminated!")
     }
   }
   if (!is.null(seasonal.model)){
     if (length(seasonal.model) == 1){
       if ((seasonal.model != "none" & seasonal.model != "decomp" & seasonal.model != "stl" & seasonal.model != "stlplus" & seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "x13" & seasonal.model != "x11") | !is.character(seasonal.model)){
-        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATA Method was terminated!")
+        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
       }
     }else {
       if(any(seasonal.model %in% c("decomp","stl", "stlplus", "stR", "tbats", "x13", "x11"))){
 
       }else {
-        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATA Method was terminated!")
+        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
       }
     }
   }
   if ((accuracy.type != "lik" & accuracy.type != "sigma" & accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "RMSE" &
           accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" &
           accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){
-    return("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATA Method was terminated!")
+    return("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATAforecasting was terminated!")
   }
   if (!is.null(model.type)){
     if ((model.type != "A" & model.type != "M") | !is.character(model.type) | length(model.type) > 1){
-      return("Model Type value must be string. A for additive or M for multiplicative or NULL for both of them. ATA Method was terminated!")
+      return("Model Type value must be string. A for additive or M for multiplicative or NULL for both of them. ATAforecasting was terminated!")
     }
   }
   if (!is.null(initial.level)){
     if (initial.level != FALSE & initial.level != TRUE) {
-      return("Initial value for Level must be boolean and it must get one value: TRUE or FALSE. ATA Method was terminated!")
+      return("Initial value for Level must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
     }
   }
   if (!is.null(initial.trend)){
     if (initial.trend != FALSE & initial.trend != TRUE) {
-      return("Initial value for Trend must be boolean and it must get one value: TRUE or FALSE. ATA Method was terminated!")
+      return("Initial value for Trend must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
     }
   }
   if (!is.null(transform.order)){
     if ((transform.order != "before" & transform.order != "after") | !is.character(transform.order) | length(transform.order) > 1){
-      return("Transformation Order value must be string. 'before' for Transformation --> Decompostion or 'after' for Decomposition --> Transformation. ATA Method was terminated!")
+      return("Transformation Order value must be string. 'before' for Transformation --> Decompostion or 'after' for Decomposition --> Transformation. ATAforecasting was terminated!")
     }
   }
   if (!is.null(transform.method)){
     if ((transform.method != "Box_Cox" & transform.method != "Box_Cox_Shift" & transform.method != "Modulus" & transform.method != "BickelDoksum" & transform.method != "Dual"  & transform.method != "Manly"  & transform.method != "Sqrt" & transform.method != "SqrtShift" &
          transform.method != "YeoJohnson" & transform.method != "GPower" & transform.method != "GLog" & transform.method != "Log" & transform.method != "Reciprocal" & transform.method !="ReciprocalShift" & transform.method != "NegLog" &
 		     transform.method != "LogShift") | !is.character(transform.method) | length(transform.method) > 1){
-      return("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATA Method was terminated!")
+      return("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATAforecasting was terminated!")
     }
   }
-  if (class(seas_attr_set)!="ataattrset"){
-    return("Attributes set for unit root and seasonality tests are not suitable set. ATA Method was terminated!")
+  if (class(seas_attr_set)!="ataoptim"){
+    return("Attributes set for unit root and seasonality tests are not suitable set. ATAforecasting was terminated!")
   }
-  if (class(boxcox_attr_set)!="ataattrset"){
-    return("Attributes set for Box-Cox transformation are not suitable set. ATA Method was terminated!")
+  if (class(boxcox_attr_set)!="ataoptim"){
+    return("Attributes set for Box-Cox transformation are not suitable set. ATAforecasting was terminated!")
   }
 
   WD <- getwd()
   start.time <- Sys.time()
   ptm <- proc.time()
-  class_X <- class(X)
-  X <- ts(X, frequency = min(s.frequency), start = tsp(X)[1])
-  firstTspX <- tsp(X)
-  X <- forecast::msts(X, start=firstTspX[1], seasonal.periods = s.frequency)
-  tspX <- tsp(X)
+  train_set <- main_set <- forecast::msts(X, start = start(X), seasonal.periods = s.frequency)
+  tspX <- tsp(main_set)
   if (!is.null(Y[1])){
-    OutSample <- Y
+    test_set <- Y
     h <- length(Y)
-    if (holdout == TRUE){
-      if (is.null(partition.h)){
-        partition.h	<- h
-      }
-    }else {
-      partition.h <- NULL
-    }
   }else {
-    if (!is.null(partition.h)){
-      part_h <- as.integer(ifelse(partition.h > 0 & partition.h < 1, floor(length(X) * partition.h), partition.h))
-      OSLen <- length(X)- part_h
-      ISLen <- length(X)
-      OutSample <- X[(OSLen+1):ISLen]
-      OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] - ifelse(tspX[3]>1, (part_h - 1) * (1/tspX[3]), (part_h - 1) * 1))
-      X <- X[1:OSLen]
-      X <- ts(X, frequency = tspX[3], start = tspX[1])
-      h <- length(OutSample)
+    if (!is.null(train_test_split)){
+      part_h <- as.integer(ifelse(train_test_split > 0 & train_test_split < 1, floor(length(main_set) * train_test_split), train_test_split))
+      test_len <- length(main_set)- part_h
+      train_len <- length(main_set)
+      main_set <- train_set <- main_set[1:test_len]
+      train_set <- forecast::msts(train_set, start = start(X), seasonal.periods = s.frequency)
+      test_set <- main_set[(test_len+1):train_len]
+      test_set <- forecast::msts(test_set, start = end(train_set) - ifelse(tspX[3]>1, (part_h - 1) * (1/tspX[3]), (part_h - 1) * 1), seasonal.periods = s.frequency)
+      h <- length(test_set)
     }else {
       m <- max(s.frequency)
       if (is.null(h)){
@@ -498,40 +501,36 @@ ATA <- function(X, Y = NULL,
           h <- 6
         }
       }
-      OutSample <- rep(NA,times=h)
-      OutSample <- ts(OutSample, frequency = tspX[3], start = tspX[2] + ifelse(tspX[3]>1, 1/tspX[3], 1))
-      if (holdout == TRUE){
-        partition.h	<- h
-      }
     }
-   }
-  orig.X <- ts(X, frequency = firstTspX[3], start = firstTspX[1])
-  tsp_ny <- tsp(forecast::msts(orig.X, start=tsp(orig.X)[1], seasonal.periods = s.frequency))
-  fsample <- ts(OutSample, frequency = max(s.frequency), start = tsp_ny[2] + ifelse(tsp_ny[3]>1, 1/tsp_ny[3], 1))
-  freqYh <- cycle(fsample)
+  }
+  test_set <- rep(NA,times=h)
+  test_set <- forecast::msts(test_set, start = end(train_set) + ifelse(tspX[3]>1, 1/tspX[3], 1), seasonal.periods = s.frequency)
+  freqYh <- cycle(test_set)
   par.specs <- list("p" = parP, "q" = parQ, "phi" = parPHI,
-                "trend" = ifelse(is.null(model.type), "opt", ifelse(parQ==0, "N", model.type)),
+                "trend" = ifelse(is.null(model.type), "opt", ifelse(parQ==0, "N", ifelse(parPHI==0, "N", model.type))),
                 "seasonal" = ifelse(is.null(seasonal.type), "opt", seasonal.type),
+                "period" = s.frequency,
+                "decomp_model" = seasonal.model,
                 "initial_level" = ifelse(initial.level==FALSE, NA, TRUE),
                 "initial_trend" = ifelse(initial.trend==FALSE, NA, TRUE))
   par_specs <- c(stats::na.omit(unlist(par.specs)))
   np <- length(par_specs)
-  if (np >= length(X) - 1) {
+  if (np >= length(train_set) - 1) {
     stop("Not enough data to estimate this ATA method.")
   }
   if (transform.order == "before"){
-    ChgX <- ATA.Transform(X,tMethod=transform.method, tLambda=lambda, tShift=shift, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
-    X <- forecast::msts(ChgX$trfmX, start=firstTspX[1], seasonal.periods = s.frequency)
-    lambda <- ChgX$tLambda
-    shift <- ChgX$tShift
+    trfm_train_set <- ATA.Transform(train_set,tMethod=transform.method, tLambda=lambda, tShift=shift, bcMethod = boxcox_attr_set$bcMethod, bcLower = boxcox_attr_set$bcLower, bcUpper = boxcox_attr_set$bcUpper)
+    train_set <- forecast::msts(trfm_train_set$trfmX, start = start(main_set), seasonal.periods = s.frequency)
+    lambda <- trfm_train_set$tLambda
+    shift <- trfm_train_set$tShift
     if (length(seasonal.type)==1 & length(seasonal.model)==1){
-      my_list <- SubATA.Single(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
+      my_list <- SubATA_Single_Before(train_set, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                                 level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method,
-                                lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin, nmse)
+                                lambda, shift, main_set, test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, holdout.set_size, holdout.adjustedP, holdin, nmse)
     }else {
-      my_list <- SubATA.Multiple(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
+      my_list <- SubATA_Multi_Before(train_set, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                                   level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method,
-                                  lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin, nmse)
+                                  lambda, shift, main_set, test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, holdout.set_size, holdout.adjustedP, holdin, nmse)
     }
   }else {
     if (!is.null(transform.method)){
@@ -539,13 +538,13 @@ ATA <- function(X, Y = NULL,
       warning("model.type parameter has been set as 'M' because of a transformation techniques from Box-Cox power transformation family selected.")
     }
     if (length(seasonal.type)==1 & length(seasonal.model)==1){
-      my_list <- SubATA.SingleO(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
+      my_list <- SubATA_Single_After(train_set, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                                  level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method,
-                                 lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin, nmse)
+                                 lambda, shift, main_set, test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, holdout.set_size, holdout.adjustedP, holdin, nmse)
     }else {
-      my_list <- SubATA.MultipleO(X, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
+      my_list <- SubATA_Multi_After(train_set, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                                    level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method,
-                                   lambda, shift, orig.X, OutSample, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, partition.h, holdout.adjustedP, holdin, nmse)
+                                   lambda, shift, main_set, test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, holdout.set_size, holdout.adjustedP, holdin, nmse)
     }
   }
 
@@ -555,7 +554,7 @@ ATA <- function(X, Y = NULL,
   end.time <- Sys.time()
   my_list$execution.time <- executionTime
   my_list$calculation.time <- round(as.double(difftime(end.time, start.time,units="sec")),4)
-  attr(my_list, "class") <- "ATA"
+  attr(my_list, "class") <- "ata"
   if (plot.out==TRUE) {
     ATA.plot(my_list)
   }

@@ -13,14 +13,26 @@
 #'
 #' @return Returns an object of class "\code{ATA}"
 #'
-#' @importFrom stats as.ts tsp tsp<-
+#' @importFrom forecast msts
+#' @importFrom stats as.ts ts tsp tsp<-
 #'
 #' @export
 ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
 {
-  tsp_X <- tsp(X)
-  X <- as.numeric(X)
+  tspX <- tsp(X)
   lenX <- length(X)
+  if ("msts" %in% class(X)) {
+       X_msts <- attributes(X)$msts
+       if (any(X_msts >= lenX / 2)) {
+         X_msts <- X_msts[X_msts < lenX / 2]
+       }
+       X_msts <- sort(X_msts, decreasing = FALSE)
+  }else if ("ts" %in% class(X)) {
+       X_ts <- frequency(X)
+  }else {
+       X_ts <- 1L
+  }
+  X <- as.numeric(X)
   ata.S <- rep(NA, lenX)
   ata.T <- rep(NA, lenX)
   ata.error <- rep(NA, lenX)
@@ -39,7 +51,7 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
     }
   }
 
-  for(i in 1:lenX-1){
+  for(i in 1:(lenX-1)){
     Xh = X[i+1]
     if (i==1) {
       Xlag = X[i]
@@ -135,6 +147,7 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
         ata.error[i] <- Xh - FF
         S_1 <- S
         T_1 <- T
+        FC[i,1] <- FF
         phiTotal <- phik
         for(j in 2:nmse) {
             phiTotal = phiTotal + (phik^j)
@@ -238,16 +251,26 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend, nmse)
   }
   ata.fitted <- ATA.Shift(ata.fitted,-1)
   ata.error <- ATA.Shift(ata.error,-1)
-  tsp(X) <- tsp(ata.fitted) <- tsp(ata.error) <- tsp(ata.S) <- tsp(ata.T) <- tsp(ata.coefp) <- tsp(ata.coefq) <- tsp_X
-  X <- as.ts(X)
-  ata.fitted <- as.ts(ata.fitted)
-  ata.error <- as.ts(ata.error)
-  ata.S <- as.ts(ata.S)
-  ata.T <- as.ts(ata.T)
-  ata.coefp <- as.ts(ata.coefp)
-  ata.coefq <- as.ts(ata.coefq)
+  FC <- ATA.Shift_Mat(FC, "down", 1)
+  if ("msts" %in% class(X)) {
+         X <- forecast::msts(X, start = tspX[1], seasonal.periods = X_msts)
+         ata.fitted <- forecast::msts(ata.fitted, start = tspX[1], seasonal.periods = X_msts)
+         ata.error <- forecast::msts(ata.error, start = tspX[1], seasonal.periods = X_msts)
+         ata.S <- forecast::msts(ata.S, start = tspX[1], seasonal.periods = X_msts)
+         ata.T <- forecast::msts(ata.T, start = tspX[1], seasonal.periods = X_msts)
+         ata.coefp <- forecast::msts(ata.coefp, start = tspX[1], seasonal.periods = X_msts)
+         ata.coefq <- forecast::msts(ata.coefq, start = tspX[1], seasonal.periods = X_msts)
+  }else {
+       X <- ts(X, frequency = X_ts, start = tspX[1])
+       ata.fitted <- ts(ata.fitted, frequency = X_ts, start = tspX[1])
+       ata.error <- ts(ata.error, frequency = X_ts, start = tspX[1])
+       ata.S <- ts(ata.S, frequency = X_ts, start = tspX[1])
+       ata.T <- ts(ata.T, frequency = X_ts, start = tspX[1])
+       ata.coefp <- ts(ata.coefp, frequency = X_ts, start = tspX[1])
+       ata.coefq <- ts(ata.coefq, frequency = X_ts, start = tspX[1])
+  }
   my_list <- list("actual" = X, "fitted" = ata.fitted , "level" = ata.S, "trend" = ata.T, "residuals" = ata.error, "coefp" = ata.coefp, "coefq" = ata.coefq,
                   "p" = as.integer(pk), "q" = as.integer(qk), "phi" = signif(phik,6), "model.type" = mdlType, "amse.fc" = FC)
-  attr(my_list, 'class') <- "ATA"
+  attr(my_list, 'class') <- "ata"
   return(my_list)
 }

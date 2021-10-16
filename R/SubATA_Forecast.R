@@ -1,9 +1,6 @@
 #' @importFrom stats ts tsp tsp<-
 SubATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 {
-  if (class(ata_output)!="ATA"){
-    return("The Input must be 'ATA' object. Please use ATA(x) function to produce 'ATA' object. ATA Forecast was terminated!")
-  }
   tsp_X <- tsp(ata_output$actual)
   X <- as.numeric(ata_output$actual)
   ph <- ata_output$p

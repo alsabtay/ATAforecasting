@@ -57,7 +57,7 @@ ATA.SeasAttr(
 \item{x11.estimate.tol}{Convergence tolerence for X11 estimation}
 }
 \value{
-An object of class \code{ataattrset}.
+An object of class \code{ataoptim}.
 }
 \description{
 This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.

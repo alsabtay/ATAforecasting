@@ -11,69 +11,30 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// NaiveSD
-double NaiveSD(NumericVector insmp, int frqx);
-RcppExport SEXP _ATAforecasting_NaiveSD(SEXP insmpSEXP, SEXP frqxSEXP) {
+// NaiveS_Accry
+double NaiveS_Accry(NumericVector train_set, NumericVector frqx, int accry);
+RcppExport SEXP _ATAforecasting_NaiveS_Accry(SEXP train_setSEXP, SEXP frqxSEXP, SEXP accrySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
-    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
-    rcpp_result_gen = Rcpp::wrap(NaiveSD(insmp, frqx));
+    Rcpp::traits::input_parameter< NumericVector >::type train_set(train_setSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type frqx(frqxSEXP);
+    Rcpp::traits::input_parameter< int >::type accry(accrySEXP);
+    rcpp_result_gen = Rcpp::wrap(NaiveS_Accry(train_set, frqx, accry));
     return rcpp_result_gen;
 END_RCPP
 }
-// NaiveSDholdin
-double NaiveSDholdin(NumericVector insmp, int frqx, int frqh);
-RcppExport SEXP _ATAforecasting_NaiveSDholdin(SEXP insmpSEXP, SEXP frqxSEXP, SEXP frqhSEXP) {
+// NaiveS_Accry_hin
+double NaiveS_Accry_hin(NumericVector train_set, NumericVector frqx, int accry, int h);
+RcppExport SEXP _ATAforecasting_NaiveS_Accry_hin(SEXP train_setSEXP, SEXP frqxSEXP, SEXP accrySEXP, SEXP hSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
-    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
-    Rcpp::traits::input_parameter< int >::type frqh(frqhSEXP);
-    rcpp_result_gen = Rcpp::wrap(NaiveSDholdin(insmp, frqx, frqh));
-    return rcpp_result_gen;
-END_RCPP
-}
-// outMASE
-double outMASE(NumericVector insmp, NumericVector outsmp, NumericVector frcst, int frqx);
-RcppExport SEXP _ATAforecasting_outMASE(SEXP insmpSEXP, SEXP outsmpSEXP, SEXP frcstSEXP, SEXP frqxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type outsmp(outsmpSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type frcst(frcstSEXP);
-    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
-    rcpp_result_gen = Rcpp::wrap(outMASE(insmp, outsmp, frcst, frqx));
-    return rcpp_result_gen;
-END_RCPP
-}
-// inMASE
-double inMASE(NumericVector insmp, NumericVector fitsmp, int frqx);
-RcppExport SEXP _ATAforecasting_inMASE(SEXP insmpSEXP, SEXP fitsmpSEXP, SEXP frqxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type fitsmp(fitsmpSEXP);
-    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
-    rcpp_result_gen = Rcpp::wrap(inMASE(insmp, fitsmp, frqx));
-    return rcpp_result_gen;
-END_RCPP
-}
-// inMASEholdin
-double inMASEholdin(NumericVector insmp, NumericVector fitsmp, int frqx, int frqh);
-RcppExport SEXP _ATAforecasting_inMASEholdin(SEXP insmpSEXP, SEXP fitsmpSEXP, SEXP frqxSEXP, SEXP frqhSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type insmp(insmpSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type fitsmp(fitsmpSEXP);
-    Rcpp::traits::input_parameter< int >::type frqx(frqxSEXP);
-    Rcpp::traits::input_parameter< int >::type frqh(frqhSEXP);
-    rcpp_result_gen = Rcpp::wrap(inMASEholdin(insmp, fitsmp, frqx, frqh));
+    Rcpp::traits::input_parameter< NumericVector >::type train_set(train_setSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type frqx(frqxSEXP);
+    Rcpp::traits::input_parameter< int >::type accry(accrySEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
+    rcpp_result_gen = Rcpp::wrap(NaiveS_Accry_hin(train_set, frqx, accry, h));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -90,7 +51,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // SubATACore
-double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, int IZFRQ, int IZNMSE);
+double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, int IZAC, int IZIL, int IZIT, NumericVector IZTA_0, NumericVector IZTM_0, NumericVector IZFRQ, int IZNMSE);
 RcppExport SEXP _ATAforecasting_SubATACore(SEXP IAZSEXP, SEXP IZPSEXP, SEXP IZQSEXP, SEXP IZPHISEXP, SEXP IZMOSEXP, SEXP IZACSEXP, SEXP IZILSEXP, SEXP IZITSEXP, SEXP IZTA_0SEXP, SEXP IZTM_0SEXP, SEXP IZFRQSEXP, SEXP IZNMSESEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -105,7 +66,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type IZIT(IZITSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IZTA_0(IZTA_0SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type IZTM_0(IZTM_0SEXP);
-    Rcpp::traits::input_parameter< int >::type IZFRQ(IZFRQSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type IZFRQ(IZFRQSEXP);
     Rcpp::traits::input_parameter< int >::type IZNMSE(IZNMSESEXP);
     rcpp_result_gen = Rcpp::wrap(SubATACore(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZNMSE));
     return rcpp_result_gen;

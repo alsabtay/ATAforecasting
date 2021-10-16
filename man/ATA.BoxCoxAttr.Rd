@@ -16,7 +16,7 @@ ATA.BoxCoxAttr(
 
 \item{bcLower}{Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.}
 
-\item{bcUpper}{Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.}
+\item{bcUpper}{Upper limit for possible lambda values. The upper value is limited by 5. Default value is 5.}
 
 \item{bcBiasAdj}{Use adjusted back-transformed mean for Box-Cox transformations.
 If transformed data is used to produce forecasts and fitted values, a regular back transformation will result in median forecasts.
@@ -24,7 +24,7 @@ If bcBiasAdj is TRUE, an adjustment will be made to produce mean forecasts and f
 If bcBiasAdj=TRUE. Can either be the forecast variance, or a list containing the interval \code{level}, the corresponding \code{upper} and \code{lower} intervals.}
 }
 \value{
-An object of class \code{ataattrset}.
+An object of class \code{ataoptim}.
 }
 \description{
 The ATA.BoxCoxAttr function works with many different types of inputs.

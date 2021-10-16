@@ -27,7 +27,7 @@ ATA.Forecast(
 \item{print.out}{Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.}
 }
 \value{
-An object of class "\code{ATA}".
+An object of class "\code{ata}".
 }
 \description{
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.

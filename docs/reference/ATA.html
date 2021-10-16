@@ -55,7 +55,6 @@ the initialization and optimization stages of existing methods.
 Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting.
 It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 This methodology performed well on the M3 and M4-competition data." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -87,7 +86,7 @@ This methodology performed well on the M3 and M4-competition data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
       </span>
     </div>
 
@@ -147,7 +146,7 @@ This methodology performed well on the M3 and M4-competition data.</p>
   parPHI <span class='op'>=</span> <span class='cn'>NULL</span>,
   model.type <span class='op'>=</span> <span class='cn'>NULL</span>,
   seasonal.test <span class='op'>=</span> <span class='cn'>NULL</span>,
-  seasonal.model <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span>,
   seasonal.period <span class='op'>=</span> <span class='cn'>NULL</span>,
   seasonal.type <span class='op'>=</span> <span class='cn'>NULL</span>,
   seasonal.test.attr <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -157,9 +156,10 @@ This methodology performed well on the M3 and M4-competition data.</p>
   level.fixed <span class='op'>=</span> <span class='cn'>FALSE</span>,
   trend.opt <span class='op'>=</span> <span class='st'>"none"</span>,
   h <span class='op'>=</span> <span class='cn'>NULL</span>,
-  partition.h <span class='op'>=</span> <span class='cn'>NULL</span>,
+  train_test_split <span class='op'>=</span> <span class='cn'>NULL</span>,
   holdout <span class='op'>=</span> <span class='cn'>FALSE</span>,
   holdout.adjustedP <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  holdout.set_size <span class='op'>=</span> <span class='cn'>NULL</span>,
   holdin <span class='op'>=</span> <span class='cn'>FALSE</span>,
   transform.order <span class='op'>=</span> <span class='st'>"before"</span>,
   transform.method <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -186,7 +186,7 @@ This methodology performed well on the M3 and M4-competition data.</p>
     </tr>
     <tr>
       <th>Y</th>
-      <td><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with <code>partition.h</code> argument.</p></td>
+      <td><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with <code>train_test_split</code> argument.</p></td>
     </tr>
     <tr>
       <th>parP</th>
@@ -294,19 +294,23 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 When the parameter is NULL; if the frequency of <code>X</code> is 4, the parameter is set to 8; if the frequency of <code>X</code> is 12, the parameter is set to 18; the parameter is set to 6 for other cases.</p></td>
     </tr>
     <tr>
-      <th>partition.h</th>
-      <td><p>If <code>Y</code> is NULL, this parameter divides <code>X</code> into two parts: training set (in-sample) and test set (out-sample). <code>partition.h</code> is number of periods for forecasting and size of test set.
-If the value is between 0 and 1, percentage of length is active. If <code>holdout</code> is TRUE, this parameter will be same as <code>h</code> for defining holdout set.</p></td>
+      <th>train_test_split</th>
+      <td><p>If <code>Y</code> is NULL, this parameter divides <code>X</code> into two parts: training set (in-sample) and test set (out-sample). <code>train_test_split</code> is number of periods for forecasting and size of test set.
+If the value is between 0 and 1, percentage of length is active.</p></td>
     </tr>
     <tr>
       <th>holdout</th>
       <td><p>Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
 The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
-If TRUE, partition.h will used for holdout data.</p></td>
+If TRUE, holdout.set_size will used for holdout data.</p></td>
     </tr>
     <tr>
       <th>holdout.adjustedP</th>
       <td><p>Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.</p></td>
+    </tr>
+    <tr>
+      <th>holdout.set_size</th>
+      <td><p>If <code>holdout</code> is TRUE, this parameter will be same as <code>h</code> for defining holdout set.</p></td>
     </tr>
     <tr>
       <th>holdin</th>
@@ -375,7 +379,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns an object of class <code>ATA</code>. The generic accessor functions <code>ATA.Forecast</code> and <code>ATA.Accuracy</code> extract useful features of the value returned by <code>ATA</code> and associated functions.
+    <p>Returns an object of class <code>ata</code>. The generic accessor functions <code>ATA.Forecast</code> and <code>ATA.Accuracy</code> extract useful features of the value returned by <code>ATA</code> and associated functions.
 <code>ATA</code> object is a list containing at least the following elements</p><ul>
 <li><p>actual		: The original time series.</p></li>
 <li><p>fitted		: Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.</p></li>
@@ -390,7 +394,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <li><p>model.type: Form of trend.</p></li>
 <li><p>h		      : The number of steps to forecast ahead.</p></li>
 <li><p>forecast	: Point forecasts as a time series.</p></li>
-<li><p>out.sample: Test values as a time series.</p></li>
+<li><p>out.sample: Test set as a time series.</p></li>
 <li><p>method		: The name of the optimum forecasting method as a character string for ATA(P,Q,PHI)(Error,Trend,Season).</p></li>
 <li><p>initial.level     : Selected initial level values for the time series forecasting method.</p></li>
 <li><p>initial.trend     : Selected initial trend values for the time series forecasting method.</p></li>
@@ -464,13 +468,13 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 32075724981.71932602       -1199.55415440      110411.06047533 
+#&gt; 32908860695.53021622       -1199.55415440      110411.06047533 
 #&gt;                  MSE                 RMSE                  MPE 
 #&gt; 30529906910.31116104      174728.09422160          -0.41069982 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.26883209           4.26181232           0.69552721 
+#&gt;           4.26883209           4.26181232           0.04288005 
 #&gt;                  OWA 
-#&gt;           0.00001529 
+#&gt;                   NA 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
@@ -492,43 +496,47 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 2409.108 2409.878 2421.262 
+#&gt; 2413.108 2414.582 2430.124 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   1.144   0.146   1.293 
+#&gt;   3.155   0.147   3.311 
 #&gt; 
-#&gt; calculation.time: 1.2931 
+#&gt; calculation.time: 3.3109 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
-#&gt;          Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep
-#&gt; 2015 1296249 1236871 1743369 2307767 3626365 4297325 5160210 5619674 4913657
-#&gt; 2016 1369388 1306660 1841737 2437980 3830978 4539797                        
-#&gt;          Oct     Nov     Dec
-#&gt; 2015 4206777 2164477 1424926
-#&gt; 2016                        
+#&gt; Time Series:
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.42361111111 
+#&gt; Frequency = 12 
+#&gt;  [1] 1296249 1236871 1743369 2307767 3626365 4297325 5160210 5619674 4913657
+#&gt; [10] 4206777 2164477 1424926 1369388 1306660 1841737 2437980 3830978 4539797
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata.fit</span>,h<span class='op'>=</span><span class='fl'>18</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               lower  forecast     upper
-#&gt; Jan 2015  -344502.6 0.9984418  344504.6
-#&gt; Feb 2015  -487200.6 0.9999914  487202.6
-#&gt; Mar 2015  -596696.7 1.0000000  596698.7
-#&gt; Apr 2015  -689006.2 1.0000000  689008.2
-#&gt; May 2015  -770332.4 1.0000000  770334.4
-#&gt; Jun 2015  -843857.0 1.0000000  843859.0
-#&gt; Jul 2015  -911469.8 1.0000000  911471.8
-#&gt; Aug 2015  -974402.3 1.0000000  974404.3
-#&gt; Sep 2015 -1033509.7 1.0000000 1033511.7
-#&gt; Oct 2015 -1089415.0 1.0000000 1089417.0
-#&gt; Nov 2015 -1142588.1 1.0000000 1142590.1
-#&gt; Dec 2015 -1193394.4 1.0000000 1193396.4
-#&gt; Jan 2016 -1242124.3 1.0000000 1242126.3
-#&gt; Feb 2016 -1289013.4 1.0000000 1289015.4
-#&gt; Mar 2016 -1334255.6 1.0000000 1334257.6
-#&gt; Apr 2016 -1378013.3 1.0000000 1378015.3
-#&gt; May 2016 -1420423.6 1.0000000 1420425.6
-#&gt; Jun 2016 -1461603.9 1.0000000 1461605.9</div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; Time Series:
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.42361111111 
+#&gt; Frequency = 12 
+#&gt;               lower  forecast     upper
+#&gt; 2015.007  -344502.6 0.9984418  344504.6
+#&gt; 2015.090  -487200.6 0.9999914  487202.6
+#&gt; 2015.174  -596696.7 1.0000000  596698.7
+#&gt; 2015.257  -689006.2 1.0000000  689008.2
+#&gt; 2015.340  -770332.4 1.0000000  770334.4
+#&gt; 2015.424  -843857.0 1.0000000  843859.0
+#&gt; 2015.507  -911469.8 1.0000000  911471.8
+#&gt; 2015.590  -974402.3 1.0000000  974404.3
+#&gt; 2015.674 -1033509.7 1.0000000 1033511.7
+#&gt; 2015.757 -1089415.0 1.0000000 1089417.0
+#&gt; 2015.840 -1142588.1 1.0000000 1142590.1
+#&gt; 2015.924 -1193394.4 1.0000000 1193396.4
+#&gt; 2016.007 -1242124.3 1.0000000 1242126.3
+#&gt; 2016.090 -1289013.4 1.0000000 1289015.4
+#&gt; 2016.174 -1334255.6 1.0000000 1334257.6
+#&gt; 2016.257 -1378013.3 1.0000000 1378015.3
+#&gt; 2016.340 -1420423.6 1.0000000 1420425.6
+#&gt; 2016.424 -1461603.9 1.0000000 1461605.9</div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

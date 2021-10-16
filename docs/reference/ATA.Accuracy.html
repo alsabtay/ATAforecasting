@@ -51,7 +51,7 @@
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If out.sample is
 provided, the function measures test set forecast accuracy.
-If out.sample is not provided, the function only produces
+If test_set is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 lik		: maximum likelihood functions
@@ -73,7 +73,6 @@ MdAPE	: median absolute percentage error.
 sMdAPE	: symmetric median absolute percentage error.
 
 " />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -105,7 +104,7 @@ sMdAPE	: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
       </span>
     </div>
 
@@ -151,7 +150,7 @@ sMdAPE	: symmetric median absolute percentage error.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If <code>out.sample</code> is
 provided, the function measures test set forecast accuracy.
-If <code>out.sample</code> is not provided, the function only produces
+If <code>test_set</code> is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:</p><ul>
 <li><p>lik		: maximum likelihood functions</p></li>
@@ -182,7 +181,7 @@ The measures calculated are:</p><ul>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An object of class <code>ATA</code> is required.</p></td>
+      <td><p>An object of class <code>ata</code> is required.</p></td>
     </tr>
     <tr>
       <th>out.sample</th>
@@ -227,13 +226,13 @@ OTexts.
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 32075724981.71932602       -1199.55415440      110411.06047533 
+#&gt; 32908860695.53021622       -1199.55415440      110411.06047533 
 #&gt;                  MSE                 RMSE                  MPE 
 #&gt; 30529906910.31116104      174728.09422160          -0.41069982 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.26883209           4.26181232           0.69552721 
+#&gt;           4.26883209           4.26181232           0.04288005 
 #&gt;                  OWA 
-#&gt;           0.00001529 
+#&gt;                   NA 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
@@ -255,22 +254,22 @@ OTexts.
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 2409.108 2409.878 2421.262 
+#&gt; 2413.108 2414.582 2430.124 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   1.077   0.158   1.235 
+#&gt;   2.976   0.185   3.163 
 #&gt; 
-#&gt; calculation.time: 1.2348 
+#&gt; calculation.time: 3.1633 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
-#&gt;          Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep
-#&gt; 2015 1296249 1236871 1743369 2307767 3626365 4297325 5160210 5619674 4913657
-#&gt; 2016 1369388 1306660 1841737 2437980 3830978 4539797                        
-#&gt;          Oct     Nov     Dec
-#&gt; 2015 4206777 2164477 1424926
-#&gt; 2016                        
+#&gt; Time Series:
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.42361111111 
+#&gt; Frequency = 12 
+#&gt;  [1] 1296249 1236871 1743369 2307767 3626365 4297325 5160210 5619674 4913657
+#&gt; [10] 4206777 2164477 1424926 1369388 1306660 1841737 2437980 3830978 4539797
 #&gt; 
 #&gt; </div><div class='input'><span class='va'>ata.accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata.fit</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
 
