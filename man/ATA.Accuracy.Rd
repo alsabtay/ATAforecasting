@@ -43,7 +43,7 @@ The measures calculated are:
 }
 }
 \examples{
-demoATA <- window(touristTR, start = 2008, end = 2014.917)
+demoATA <- window(touristTR, start = 2008, end = 2018.417)
 ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
 ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
 

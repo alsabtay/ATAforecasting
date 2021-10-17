@@ -500,9 +500,9 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   3.155   0.147   3.311 
+#&gt;   1.121   0.156   1.287 
 #&gt; 
-#&gt; calculation.time: 3.3109 
+#&gt; calculation.time: 1.2865 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -514,29 +514,29 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; [10] 4206777 2164477 1424926 1369388 1306660 1841737 2437980 3830978 4539797
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'><a href='ATA.plot.html'>ATA.plot</a></span><span class='op'>(</span><span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata.fit</span>,h<span class='op'>=</span><span class='fl'>18</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Time Series:
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Forecast horizon has been set to the length of out.sample.</span></div><div class='output co'>#&gt; Time Series:
 #&gt; Start = 2015.00694444444 
 #&gt; End = 2016.42361111111 
 #&gt; Frequency = 12 
-#&gt;               lower  forecast     upper
-#&gt; 2015.007  -344502.6 0.9984418  344504.6
-#&gt; 2015.090  -487200.6 0.9999914  487202.6
-#&gt; 2015.174  -596696.7 1.0000000  596698.7
-#&gt; 2015.257  -689006.2 1.0000000  689008.2
-#&gt; 2015.340  -770332.4 1.0000000  770334.4
-#&gt; 2015.424  -843857.0 1.0000000  843859.0
-#&gt; 2015.507  -911469.8 1.0000000  911471.8
-#&gt; 2015.590  -974402.3 1.0000000  974404.3
-#&gt; 2015.674 -1033509.7 1.0000000 1033511.7
-#&gt; 2015.757 -1089415.0 1.0000000 1089417.0
-#&gt; 2015.840 -1142588.1 1.0000000 1142590.1
-#&gt; 2015.924 -1193394.4 1.0000000 1193396.4
-#&gt; 2016.007 -1242124.3 1.0000000 1242126.3
-#&gt; 2016.090 -1289013.4 1.0000000 1289015.4
-#&gt; 2016.174 -1334255.6 1.0000000 1334257.6
-#&gt; 2016.257 -1378013.3 1.0000000 1378015.3
-#&gt; 2016.340 -1420423.6 1.0000000 1420425.6
-#&gt; 2016.424 -1461603.9 1.0000000 1461605.9</div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;               lower forecast   upper
+#&gt; 2015.007  935805.89  1280309 1624813
+#&gt; 2015.090  734110.58  1221312 1708514
+#&gt; 2015.174 1124248.33  1720946 2317644
+#&gt; 2015.257 1588425.66  2277433 2966440
+#&gt; 2015.340 2807340.85  3577674 4348008
+#&gt; 2015.424 3394554.63  4238413 5082271
+#&gt; 2015.507 4176540.47  5088011 5999482
+#&gt; 2015.590 4565057.43  5539461 6513864
+#&gt; 2015.674 3808624.79  4842136 5875646
+#&gt; 2015.757 3054942.13  4144358 5233774
+#&gt; 2015.840  989161.63  2131751 3274340
+#&gt; 2015.924  209584.48  1402980 2596375
+#&gt; 2016.007  105786.55  1347912 2590037
+#&gt; 2016.090   -3214.89  1285799 2574814
+#&gt; 2016.174  477558.13  1811815 3146071
+#&gt; 2016.257 1019670.63  2397685 3775699
+#&gt; 2016.340 2346156.60  3766581 5187006
+#&gt; 2016.424 3000602.74  4462208 5923813</div><div class='img'><img src='ATA-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
