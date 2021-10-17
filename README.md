@@ -34,6 +34,20 @@ Development version with latest features:
 devtools::install_github("alsabtay/ATAforecasting")
 ```
 
+Fable Modelling Wrappers for ATAforecasting Package
+```
+devtools::install_github("alsabtay/fable.ata")
+```
+
+## Example
+
+USAccDeaths: Accidental Deaths in the US 1973--1978
+
+``` r
+library(ATAforecasting)
+ATA(USAccDeaths, h = 18, model.type = "A", seasonal.type = "A", seasonal.model = "stl")
+``` 
+
 ## Links
 
 [Github page](https://github.com/alsabtay/ATAforecasting)
@@ -42,6 +56,9 @@ devtools::install_github("alsabtay/ATAforecasting")
 
 [Project team website](https://atamethod.wordpress.com/)
 
+[Github - Fable Modelling Wrappers for ATAforecasting Package](https://github.com/alsabtay/fable.ata)
+
+[Github.io - Fable Modelling Wrappers for ATAforecasting Package](https://alsabtay.github.io/fable.ata/index.html)
 
 ## License
 This package is free and open source software, licensed under GPL-3.
