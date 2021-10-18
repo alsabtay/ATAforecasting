@@ -17,7 +17,7 @@ ATA.Seasonality(input, ppy, attr_set)
 \code{TRUE} if the serie has seasonality. Otherwise, \code{FALSE}.
 }
 \description{
-This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.
+This function is a class of seasonality tests using  \code{corrgram_test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.
 Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package.
 Please review manual and vignette documents of latest \code{forecast} package. According to \code{forecast} package,
 \code{ndiffs} and \code{nsdiffs} functions to estimate the number of differences required to make a given time series stationary.

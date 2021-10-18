@@ -173,7 +173,7 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 }
 \value{
 Returns an object of class \code{ata}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
-\code{ATA} object is a list containing at least the following elements
+\code{ata} object is a list containing at least the following elements
 \itemize{
 		 \item{actual}		: The original time series.
 		 \item{fitted}		: Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.
@@ -230,12 +230,13 @@ It can be applied to non-seasonal or seasonal time series which can be decompose
 This methodology performed well on the M3 and M4-competition data.
 }
 \details{
-Returns ATA(p,q,phi) applied to \code{X}.
+Returns ATA(p,q,phi)(E,T,S) applied to \code{X}.
 }
 \examples{
-demoATA <-  window(touristTR, start = 2008, end = 2014.917)
-ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
-ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
+demoATA <-  window(touristTR, start = 2008, end = 2018.417)
+ata_fit <- ATA(demoATA, h=18, parQ = 1, seasonal.test = TRUE, seasonal.model = "stl")
+ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
+ata_accry <- ATA.Accuracy(ata_fc)
 
 }
 \references{

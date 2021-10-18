@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Accuracy Measures for The ATAforecasting — ATA.Accuracy • ATAforecasting</title>
+<title>Accuracy Measures for The ATAforecasting — accuracy.ata • ATAforecasting</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,12 @@
 
 
 
-<meta property="og:title" content="Accuracy Measures for The ATAforecasting — ATA.Accuracy" />
-<meta property="og:description" content="Returns ATA(p,q,phi)(E,T,S) applied to `ata` object.
+<meta property="og:title" content="Accuracy Measures for The ATAforecasting — accuracy.ata" />
+<meta property="og:description" content="Returns ATA(p,q,phi) applied to ATA object.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If out.sample is
 provided, the function measures test set forecast accuracy.
-If out.sample is not provided, the function only produces
+If test_set is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 lik		: maximum likelihood functions
@@ -104,7 +104,7 @@ sMdAPE	: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.55</span>
       </span>
     </div>
 
@@ -142,15 +142,15 @@ sMdAPE	: symmetric median absolute percentage error.
     <div class="page-header">
     <h1>Accuracy Measures for The ATAforecasting</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA_Accuracy.R'><code>R/ATA_Accuracy.R</code></a></small>
-    <div class="hidden name"><code>ATA.Accuracy.Rd</code></div>
+    <div class="hidden name"><code>accuracy.ata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns ATA(p,q,phi)(E,T,S) applied to `ata` <code>object</code>.
+    <p>Returns ATA(p,q,phi) applied to ATA <code>object</code>.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If <code>out.sample</code> is
 provided, the function measures test set forecast accuracy.
-If <code>out.sample</code> is not provided, the function only produces
+If <code>test_set</code> is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:</p><ul>
 <li><p>lik		: maximum likelihood functions</p></li>
@@ -174,7 +174,7 @@ The measures calculated are:</p><ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>object</span>, out.sample <span class='op'>=</span> <span class='cn'>NULL</span>, print.out <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>accuracy.ata</span><span class='op'>(</span><span class='va'>object</span>, out.sample <span class='op'>=</span> <span class='cn'>NULL</span>, print.out <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,110 +214,9 @@ OTexts.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2018.417</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(115,0,1) (A,N,M) 
-#&gt; 
-#&gt;    model.type: M 
-#&gt; 
-#&gt;    seasonal.model: decomp 
-#&gt; 
-#&gt;    seasonal.type: M 
-#&gt; 
-#&gt;    forecast horizon: 18 
-#&gt; 
-#&gt;    accuracy.type: sMAPE 
-#&gt; 
-#&gt; Model Fitting Measures: 
-#&gt; 
-#&gt;               sigma2               loglik                  MAE 
-#&gt; 38738555205.89882660       -1837.03115547      130981.50558529 
-#&gt;                  MSE                 RMSE                  MPE 
-#&gt; 36879104556.01569366      192039.33075288           0.09924054 
-#&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.98884605           4.97539897           0.27317116 
-#&gt;                  OWA 
-#&gt;           0.00000570 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;               MdAE               MdSE              RMdSE               MdPE 
-#&gt;      71294.9475292 5082969543.1886587      71294.9475292          0.8657977 
-#&gt;              MdAPE             sMdAPE 
-#&gt;          3.8007819          3.7298992 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MAE   MSE  RMSE   MPE  MAPE sMAPE  MASE   OWA 
-#&gt;    NA    NA    NA    NA    NA    NA    NA    NA 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MdAE   MdSE  RMdSE   MdPE  MdAPE sMdAPE 
-#&gt;     NA     NA     NA     NA     NA     NA 
-#&gt; 
-#&gt; Information Criteria: 
-#&gt; 
-#&gt;      AIC     AICc      BIC 
-#&gt; 3688.062 3689.011 3707.916 
-#&gt; 
-#&gt; 
-#&gt;    user  system elapsed 
-#&gt;   3.253   0.329   3.599 
-#&gt; 
-#&gt; calculation.time: 3.5987 
-#&gt; 
-#&gt; 
-#&gt; Forecasts: 
-#&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
-#&gt; Frequency = 12 
-#&gt;  [1] 4710746 5720672 4728689 4003133 2045901 1479485 1365491 1270823 1753037
-#&gt; [10] 2273536 3454175 4020300 4710746 5720672 4728689 4003133 2045901 1479485
-#&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata_fit</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Forecast horizon has been set to the length of out.sample.</span></div><div class='output co'>#&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
-#&gt; Frequency = 12 
-#&gt;        lower forecast   upper
-#&gt; 2019 5667207  6044955 6422704
-#&gt; 2019 6806704  7340920 7875137
-#&gt; 2019 5413702  6067981 6722260
-#&gt; 2019 4381432  5136928 5892424
-#&gt; 2019 1780684  2625355 3470025
-#&gt; 2019  973225  1898515 2823806
-#&gt; 2019  752808  1752235 2751663
-#&gt; 2019  562321  1630754 2699187
-#&gt; 2019 1116300  2249544 3382788
-#&gt; 2019 1722919  2917463 4112007
-#&gt; 2019 3179642  4432491 5685339
-#&gt; 2019 3850399  5158956 6467514
-#&gt; 2020 4682965  6044955 7406946
-#&gt; 2020 5927516  7340920 8754324
-#&gt; 2020 4604969  6067981 7530993
-#&gt; 2020 3625936  5136928 6647920
-#&gt; 2020 1067859  2625355 4182850
-#&gt; 2020  295866  1898515 3501165</div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fc</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Model Fitting Measures: 
-#&gt; 
-#&gt;              sigma2              loglik                 MAE                 MSE 
-#&gt; 38738555205.8988266       -1837.0311555      130981.5055853 36879104556.0156937 
-#&gt;                RMSE                 MPE                MAPE               sMAPE 
-#&gt;      192039.3307529           0.0992405           4.9888461           4.9753990 
-#&gt;                MASE                 OWA 
-#&gt;           0.2731712           0.0000057 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;                    MAE                    MSE                   RMSE 
-#&gt;       1542779.05555556 2911983861587.04296875       1706453.59198164 
-#&gt;                    MPE                   MAPE                  sMAPE 
-#&gt;           -29.61009389            54.84130691            42.67914297 
-#&gt;                   MASE                    OWA 
-#&gt;             3.21757447             0.00004982 
-#&gt; 
-#&gt; </div><div class='input'>
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in accuracy(my_list, test_set): could not find function "accuracy"</span></div><div class='input'><span class='va'>ata.accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata.fit</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in ATA.Accuracy(ata.fit, tail(touristTR, 18)): could not find function "ATA.Accuracy"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

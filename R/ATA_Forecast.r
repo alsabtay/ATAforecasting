@@ -2,14 +2,14 @@
 #'
 #' @description \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
 #'
-#' @param object An \code{ATA} object is required for forecast.
+#' @param object An \code{ata} object is required for forecast.
 #' @param h Number of periods for forecasting.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #' @param ci.level Confidence Interval levels for forecasting. Default value is 95.
 #' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.
 #' @param print.out Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.
 #'
-#' @return An object of class "\code{ata}".
+#' @return An object of class \code{ata} and forecast values.
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #'
@@ -35,21 +35,20 @@
 #'
 #' @examples
 #' demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
-#' ata.fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
-#' ATA.plot(ATA.Forecast(ata.fit, h=18))
-#'
+#' ata_fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
+#' ata_fc <- ATA.Forecast(ata_fit, h=18)
 #'
 #' @export
 ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE, print.out = TRUE)
 {
   if (class(object)!="ata"){
-    return("The Input must be 'ATA' object. Please use ATA(x) function to produce 'ATA' object. ATA Forecast was terminated!")
+    stop("The Input must be 'ata' object. Please use ATA() function to produce 'ata' object.")
   }
   m <- frequency(object$actual)
   if(!is.null(out.sample)){
     if(!is.na(out.sample[1])){
       h <- length(out.sample)
-      warning("Forecast horizon has been set to the length of out.sample.")
+      message("Forecast horizon has been set to the length of out.sample.")
     }
   }else{
     if (is.null(h)){
@@ -66,7 +65,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
       }else {
         h <- 6
       }
-      warning(paste("Input forecast horizon has been changed with ", h))
+      message(paste("Input forecast horizon has been changed with ", h))
     }
   }
   tsp_y <- tsp(object$actual)
@@ -96,7 +95,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     object$forecast <- forecast::msts(ATA_forecast, start = end(object$actual) + ifelse(tsp_y[3]>1, 1/tsp_y[3], 1), seasonal.periods = object$seasonal.period)
   }
   object$h <- h
-  accuracy.ata <- ATA.Accuracy(object, out.sample = out.sample)
+  accuracy.ata <- ATA.Accuracy(object, out.sample = out.sample, print.out = FALSE)
   object$accuracy <- accuracy.ata
   object$out.sample <- ifelse(is.null(out.sample), fsample, out.sample)
   ci.output <- ATA.CI(object = object, ci.level = ci.level)
@@ -113,9 +112,11 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     object$forecast.upper <- ci_up
   }
   attr(object, "class") <- "ata"
-  print_out <- cbind(object$forecast.lower, object$forecast, object$forecast.upper)
-  colnames(print_out) <- c("lower", "forecast", "upper")
   if (print.out==TRUE) {
+    opscipen <- options("scipen" = 100, "digits"=4)
+      on.exit(options(opscipen))
+    print_out <- cbind(object$forecast.lower, object$forecast, object$forecast.upper)
+    colnames(print_out) <- c("lower", "forecast", "upper")
     print(print_out)
   }
   gc()

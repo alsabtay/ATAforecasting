@@ -1,6 +1,6 @@
 #' Seasonality Tests for The ATAforecasting
 #'
-#' @description This function is a class of seasonality tests using  \code{corrgram.test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.
+#' @description This function is a class of seasonality tests using  \code{corrgram_test} from ATAforecasting package, \code{ndiffs} and \code{nsdiffs} functions from forecast package.
 #' Also, this function is modified version of \code{ndiffs} and \code{nsdiffs} written by Hyndman et al. \code{forecast} package.
 #' Please review manual and vignette documents of latest \code{forecast} package. According to \code{forecast} package,
 #' \code{ndiffs} and \code{nsdiffs} functions to estimate the number of differences required to make a given time series stationary.
@@ -65,7 +65,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
   }else {
     test <- attr_set$suroot.test
     if (test=="correlogram"){
-      test_seasonal <- corrgram.test(input, ppy, attr_set)
+      test_seasonal <- corrgram_test(input, ppy, attr_set)
     }else {
       if (length(ppy)>1){
         if (attr_set$multi.period=="max"){
@@ -84,7 +84,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
         if (uroot.pkg=="urca") {
           d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, type=uroot.type, max.d=uroot.maxd)
         }else {
-          d <- ndiffs.tseries(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
+          d <- ndiffs_tseries(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
         }
         if (d > 0){
           input <- diff(input, differences=d, lag=1)
@@ -105,7 +105,7 @@ ATA.Seasonality <- function(input, ppy, attr_set)
 
 #' @importFrom forecast ndiffs nsdiffs
 #' @importFrom stats acf
-corrgram.test <- function(input, ppy, attr_set)
+corrgram_test <- function(input, ppy, attr_set)
 {
   if (max(ppy)==1){
     test_seasonal <- FALSE
@@ -127,7 +127,7 @@ corrgram.test <- function(input, ppy, attr_set)
     if (uroot.pkg=="urca") {
       d <- forecast::ndiffs(input, alpha=uroot.alpha, test=uroot.test, type=uroot.type, max.d=uroot.maxd)
     }else {
-      d <- ndiffs.tseries(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
+      d <- ndiffs_tseries(input, alpha=uroot.alpha, test=uroot.test, max.d=uroot.maxd)
     }
     if (d > 0){
       input <- diff(input, differences=d, lag=1)
@@ -155,7 +155,7 @@ corrgram.test <- function(input, ppy, attr_set)
 #' @importFrom stats acf na.omit
 #' @importFrom forecast is.constant
 #' @importFrom tseries adf.test kpss.test pp.test
-ndiffs.tseries <- function(x, alpha = 0.05, test = c("kpss","adf","pp"), max.d=2)
+ndiffs_tseries <- function(x, alpha = 0.05, test = c("kpss","adf","pp"), max.d=2)
 {
   #ndiffs function using tseries package
   test <- match.arg(test)

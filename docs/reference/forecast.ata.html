@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Forecasting Method for The ATAforecasting — ATA.Forecast • ATAforecasting</title>
+<title>Forecasting Method for The ATAforecasting — forecast.ata • ATAforecasting</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Forecasting Method for The ATAforecasting — ATA.Forecast" />
+<meta property="og:title" content="Forecasting Method for The ATAforecasting — forecast.ata" />
 <meta property="og:description" content="ATA.Forecast is a generic function for forecasting of the ATA Method." />
 
 
@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.55</span>
       </span>
     </div>
 
@@ -117,14 +117,14 @@
     <div class="page-header">
     <h1>Forecasting Method for The ATAforecasting</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA_Forecast.R'><code>R/ATA_Forecast.R</code></a></small>
-    <div class="hidden name"><code>ATA.Forecast.Rd</code></div>
+    <div class="hidden name"><code>forecast.ata.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p><code>ATA.Forecast</code> is a generic function for forecasting of the ATA Method.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ATA.Forecast</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>forecast.ata</span><span class='op'>(</span>
   <span class='va'>object</span>,
   h <span class='op'>=</span> <span class='cn'>NULL</span>,
   out.sample <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -138,7 +138,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An <code>ata</code> object is required for forecast.</p></td>
+      <td><p>An <code>ATA</code> object is required for forecast.</p></td>
     </tr>
     <tr>
       <th>h</th>
@@ -164,7 +164,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>ata</code> and forecast values.</p>
+    <p>An object of class "<code>ata</code>".</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>#'Yapar G, Yavuz I, Selamlar HT (2017).
@@ -189,88 +189,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>fundingTR</span>, start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/tsp.html'>tsp</a></span><span class='op'>(</span><span class='va'>fundingTR</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, end <span class='op'>=</span> <span class='fl'>2013</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, parPHI <span class='op'>=</span> <span class='fl'>1</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Forecast-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(102,0,1) (A,N,M) 
-#&gt; 
-#&gt;    model.type: M 
-#&gt; 
-#&gt;    seasonal.model: decomp 
-#&gt; 
-#&gt;    seasonal.type: M 
-#&gt; 
-#&gt;    forecast horizon: 6 
-#&gt; 
-#&gt;    accuracy.type: sMAPE 
-#&gt; 
-#&gt; Model Fitting Measures: 
-#&gt; 
-#&gt;            sigma2            loglik               MAE               MSE 
-#&gt; 21865408.60927956    -1116.70662532     2572.40601029 20591695.48640890 
-#&gt;              RMSE               MPE              MAPE             sMAPE 
-#&gt;     4537.80734347       -0.59637643        9.15770863        9.25093877 
-#&gt;              MASE               OWA 
-#&gt;        0.06905053        0.00012751 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;           MdAE           MdSE          RMdSE           MdPE          MdAPE 
-#&gt;    856.9416765 734349.0368611    856.9416765     -0.9484595      2.0365905 
-#&gt;         sMdAPE 
-#&gt;      2.0160611 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MAE   MSE  RMSE   MPE  MAPE sMAPE  MASE   OWA 
-#&gt;    NA    NA    NA    NA    NA    NA    NA    NA 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MdAE   MdSE  RMdSE   MdPE  MdAPE sMdAPE 
-#&gt;     NA     NA     NA     NA     NA     NA 
-#&gt; 
-#&gt; Information Criteria: 
-#&gt; 
-#&gt;      AIC     AICc      BIC 
-#&gt; 2247.413 2248.580 2265.924 
-#&gt; 
-#&gt; 
-#&gt;    user  system elapsed 
-#&gt;   0.101   0.017   0.118 
-#&gt; 
-#&gt; calculation.time: 0.1178 
-#&gt; 
-#&gt; 
-#&gt; Forecasts: 
-#&gt; Time Series:
-#&gt; Start = 2013.01960059172 
-#&gt; End = 2013.11575443787 
-#&gt; Frequency = 52 
-#&gt; [1] 23110.07 24246.94 25993.20 24803.00 27533.68 30919.02
-#&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Forecast</span><span class='op'>(</span><span class='va'>ata_fit</span>, h<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Time Series:
-#&gt; Start = 2013.01960059172 
-#&gt; End = 2013.34652366864 
-#&gt; Frequency = 52 
-#&gt;          lower forecast upper
-#&gt; 2013   7871.30    16808 25745
-#&gt; 2013   4996.37    17635 30274
-#&gt; 2013   3425.96    18905 34384
-#&gt; 2013    165.68    18039 35913
-#&gt; 2013     42.02    20026 40009
-#&gt; 2013    596.88    22488 44379
-#&gt; 2013  -4357.00    19288 42933
-#&gt; 2013  -4465.33    20812 46089
-#&gt; 2013  -4201.53    22609 49420
-#&gt; 2013  -7003.64    21257 49518
-#&gt; 2013  -8897.63    20743 50383
-#&gt; 2013 -11388.73    19570 50528
-#&gt; 2013  -9953.99    22268 54491
-#&gt; 2013 -11196.08    22243 55682
-#&gt; 2013 -16635.24    17977 52590
-#&gt; 2013 -14483.80    21264 57011
-#&gt; 2013 -20243.54    16604 53452
-#&gt; 2013 -20195.02    17721 55637</div><div class='input'>
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, parPHI <span class='op'>=</span> <span class='fl'>1</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in accuracy(my_list, test_set): could not find function "accuracy"</span></div><div class='input'><span class='fu'>ATA.plot</span><span class='op'>(</span><span class='fu'>ATA.Forecast</span><span class='op'>(</span><span class='va'>ata.fit</span>, h<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in ATA.plot(ATA.Forecast(ata.fit, h = 18)): could not find function "ATA.plot"</span></div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

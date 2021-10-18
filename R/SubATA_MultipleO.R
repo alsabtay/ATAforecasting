@@ -259,8 +259,8 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
   ATA.last$h <- h
   ATA.last <- SubATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
   ATA.last$actual <- main_set
-  fit.ata <- ATA.BackTransform(X=ATA.last$fitted, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
-  forecast.ata <- ATA.BackTransform(X=ATA.last$forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
+  fit_ata <- ATA.BackTransform(X=ATA.last$fitted, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
+  forecast_ata <- ATA.BackTransform(X=ATA.last$forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   fc.amse <- ATA.BackTransform(X=ATA.last$amse.fc, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   ATA.last$level <- forecast::msts(ATA.BackTransform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
                                     start = start(main_set), seasonal.periods = seasonal.Frequency)
@@ -269,15 +269,15 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
   crit_a <- ifelse(is.season==TRUE, ifelse(output[6]==0,"A","M"), seas.Type)
   crit_a <- ifelse(is.season==FALSE, "A", crit_a)
   if(crit_a=="A"){
-    ATA.fitted <- fit.ata + SeasonalActual
-    ATA.forecast <- forecast.ata + OS_SIValue
+    ATA.fitted <- fit_ata + SeasonalActual
+    ATA.forecast <- forecast_ata + OS_SIValue
     if (Holdout == TRUE){
       houldout.ata <- ATA.BackTransform(X = ATA.last$holdout.forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
       ATA.last$holdout.forecast <- forecast::msts(houldout.ata + SeasonalActual[(valid_len+1):train_len], start = end(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
     }
   }else {
-    ATA.fitted <- fit.ata * SeasonalActual
-    ATA.forecast <- forecast.ata * OS_SIValue
+    ATA.fitted <- fit_ata * SeasonalActual
+    ATA.forecast <- forecast_ata * OS_SIValue
     if (Holdout == TRUE){
       houldout.ata <- ATA.BackTransform(X = ATA.last$holdout.forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
       ATA.last$holdout.forecast <- forecast::msts(houldout.ata * SeasonalActual[(valid_len+1):train_len], start = end(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = seasonal.Frequency)
@@ -340,15 +340,6 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
   }
   method <- paste(method, " (A,", trend_mthd, ",", seas_mthd, ")", sep="")
   my_list$method <- method
-  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
-                              "trend" = trend_mthd,
-                              "seasonal" = seas_mthd,
-                              "period" = seasonal.Frequency,
-                              "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
-                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
-                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
-  accuracy.ata <- ATA.Accuracy(my_list, test_set)
-  my_list$accuracy <- accuracy.ata
   my_list$seasonal.period <- seasonal.Frequency
   my_list$seasonal.index <- SeasonalIndex
   my_list$seasonal <- forecast::msts(SeasonalActual, start = start(main_set), seasonal.periods = seasonal.Frequency)
@@ -367,5 +358,14 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
     my_list$forecast.lower <- ci_low
     my_list$forecast.upper <- ci_up
   }
+  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
+                              "trend" = trend_mthd,
+                              "seasonal" = seas_mthd,
+                              "period" = seasonal.Frequency,
+                              "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
+                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+  accuracy_ata <- ATA.Accuracy(my_list, test_set, print.out = FALSE)
+  my_list$accuracy <- accuracy_ata
   return(my_list)
 }

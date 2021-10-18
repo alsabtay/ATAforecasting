@@ -81,23 +81,23 @@ SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test
   ata.output$h <- h
   ata.output <- SubATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
   ata.output$actual <- main_set
-  fit.ata <- ATA.BackTransform(X=ata.output$fitted, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
-  forecast.ata <- ATA.BackTransform(X=ata.output$forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+  fit_ata <- ATA.BackTransform(X=ata.output$fitted, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
+  forecast_ata <- ATA.BackTransform(X=ata.output$forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
   fc.amse <- ATA.BackTransform(X=ata.output$amse.fc, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
   ata.output$level <- forecast::msts(ATA.BackTransform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))),
                                      start = start(main_set), seasonal.periods = s.frequency)
   ata.output$trend <- forecast::msts(ATA.BackTransform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))),
                                      start = start(main_set), seasonal.periods = s.frequency)
   if(seasonal.type == "A"){
-    ATA.fitted <- fit.ata + SeasonalActual
-    ATA.forecast <- forecast.ata + OS_SIValue
+    ATA.fitted <- fit_ata + SeasonalActual
+    ATA.forecast <- forecast_ata + OS_SIValue
     if (holdout == TRUE){
       holdout.ata <- ATA.BackTransform(X=ata.output$holdout.forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
       ata.output$holdout.forecast <- forecast::msts(holdout.ata + SeasonalActual[(valid_len+1):train_len], start = end(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = s.frequency)
     }
   }else {
-    ATA.fitted <- fit.ata * SeasonalActual
-    ATA.forecast <- forecast.ata * OS_SIValue
+    ATA.fitted <- fit_ata * SeasonalActual
+    ATA.forecast <- forecast_ata * OS_SIValue
     if (holdout == TRUE){
       holdout.ata <- ATA.BackTransform(X=ata.output$holdout.forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
       ata.output$holdout.forecast <- forecast::msts(holdout.ata * SeasonalActual[(valid_len+1):train_len], start = start(train_set_mat) + ifelse(firstTspX[3]>1, 1/firstTspX[3], 1), seasonal.periods = s.frequency)
@@ -156,15 +156,6 @@ SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test
   }
   method <- paste(method, " (A,", trend_mthd, ",", seas_mthd, ")", sep="")
   my_list$method <- method
-  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
-                              "trend" = trend_mthd,
-                              "seasonal" = seas_mthd,
-                              "period" = s.frequency,
-                              "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
-                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
-                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
-  accuracy.ata <- ATA.Accuracy(my_list, test_set)
-  my_list$accuracy <- accuracy.ata
   my_list$seasonal.period <- s.frequency
   my_list$seasonal.index <- SeasonalIndex
   my_list$seasonal <- forecast::msts(SeasonalActual, start = start(main_set), seasonal.periods = s.frequency)
@@ -183,5 +174,14 @@ SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test
     my_list$forecast.lower <- ci_low
     my_list$forecast.upper <- ci_up
   }
+  my_list$par.specs <- list("p" = my_list$p, "q" = my_list$q, "phi" = my_list$phi,
+                              "trend" = trend_mthd,
+                              "seasonal" = seas_mthd,
+                              "period" = s.frequency,
+                              "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
+                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+  accuracy_ata <- ATA.Accuracy(my_list, test_set, print.out = FALSE)
+  my_list$accuracy <- accuracy_ata
   return(my_list)
 }

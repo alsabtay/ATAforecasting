@@ -14,7 +14,7 @@ ATA.Forecast(
 )
 }
 \arguments{
-\item{object}{An \code{ATA} object is required for forecast.}
+\item{object}{An \code{ata} object is required for forecast.}
 
 \item{h}{Number of periods for forecasting.}
 
@@ -27,16 +27,15 @@ ATA.Forecast(
 \item{print.out}{Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.}
 }
 \value{
-An object of class "\code{ata}".
+An object of class \code{ata} and forecast values.
 }
 \description{
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
 }
 \examples{
 demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
-ata.fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
-ATA.plot(ATA.Forecast(ata.fit, h=18))
-
+ata_fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
+ata_fc <- ATA.Forecast(ata_fit, h=18)
 
 }
 \references{

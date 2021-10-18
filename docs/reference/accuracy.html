@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Accuracy Measures for The ATAforecasting — ATA.Accuracy • ATAforecasting</title>
+<title>Accuracy Measures for The ATAforecasting — accuracy • ATAforecasting</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,12 @@
 
 
 
-<meta property="og:title" content="Accuracy Measures for The ATAforecasting — ATA.Accuracy" />
+<meta property="og:title" content="Accuracy Measures for The ATAforecasting — accuracy" />
 <meta property="og:description" content="Returns ATA(p,q,phi)(E,T,S) applied to `ata` object.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If out.sample is
 provided, the function measures test set forecast accuracy.
-If out.sample is not provided, the function only produces
+If test_set is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 lik		: maximum likelihood functions
@@ -104,7 +104,7 @@ sMdAPE	: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.54</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.55</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@ sMdAPE	: symmetric median absolute percentage error.
     <div class="page-header">
     <h1>Accuracy Measures for The ATAforecasting</h1>
     <small class="dont-index">Source: <a href='https://github.com/alsabtay/ATAforecasting/blob/master/R/ATA_Accuracy.R'><code>R/ATA_Accuracy.R</code></a></small>
-    <div class="hidden name"><code>ATA.Accuracy.Rd</code></div>
+    <div class="hidden name"><code>accuracy.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -150,7 +150,7 @@ sMdAPE	: symmetric median absolute percentage error.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If <code>out.sample</code> is
 provided, the function measures test set forecast accuracy.
-If <code>out.sample</code> is not provided, the function only produces
+If <code>test_set</code> is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:</p><ul>
 <li><p>lik		: maximum likelihood functions</p></li>
@@ -174,7 +174,10 @@ The measures calculated are:</p><ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>object</span>, out.sample <span class='op'>=</span> <span class='cn'>NULL</span>, print.out <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for ata</span>
+<span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>object</span>, out.sample <span class='op'>=</span> <span class='cn'>NULL</span>, print.out <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,12 +217,41 @@ OTexts.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2018.417</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(115,0,1) (A,N,M) 
+<span class='va'>ata.fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $sigma2
+#&gt; [1] 39748561992
+#&gt; 
+#&gt; $loglik
+#&gt; [1] -1838.653
+#&gt; 
+#&gt; $AIC
+#&gt; [1] 3691.305
+#&gt; 
+#&gt; $AICc
+#&gt; [1] 3692.254
+#&gt; 
+#&gt; $BIC
+#&gt; [1] 3711.159
+#&gt; 
+#&gt; $MSE
+#&gt; [1] 37840631016
+#&gt; 
+#&gt; $MAE
+#&gt; [1] 132241.3
+#&gt; 
+#&gt; $sMAPE
+#&gt; [1] 4.981426
+#&gt; 
+#&gt; $MASE
+#&gt; [1] 0.05142913
+#&gt; 
+#&gt; $OWA
+#&gt; [1] NA
+#&gt; </div><div class='img'><img src='accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(123,0,1) (A,N,M) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
-#&gt;    seasonal.model: decomp 
+#&gt;    seasonal.model: stl 
 #&gt; 
 #&gt;    seasonal.type: M 
 #&gt; 
@@ -230,20 +262,20 @@ OTexts.
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 38738555205.89882660       -1837.03115547      130981.50558529 
+#&gt; 39748561991.74308014       -1838.65266837      132241.25150236 
 #&gt;                  MSE                 RMSE                  MPE 
-#&gt; 36879104556.01569366      192039.33075288           0.09924054 
+#&gt; 37840631016.13940430      194526.68458630           0.03674943 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.98884605           4.97539897           0.27317116 
+#&gt;           4.98722572           4.98142647           0.05142913 
 #&gt;                  OWA 
-#&gt;           0.00000570 
+#&gt;                   NA 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;               MdAE               MdSE              RMdSE               MdPE 
-#&gt;      71294.9475292 5082969543.1886587      71294.9475292          0.8657977 
+#&gt;      71640.6732169 5132386058.9724503      71640.6732169          0.3403127 
 #&gt;              MdAPE             sMdAPE 
-#&gt;          3.8007819          3.7298992 
+#&gt;          3.5598224          3.6243323 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -258,13 +290,13 @@ OTexts.
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 3688.062 3689.011 3707.916 
+#&gt; 3691.305 3692.254 3711.159 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   3.253   0.329   3.599 
+#&gt;   3.303   0.294   3.604 
 #&gt; 
-#&gt; calculation.time: 3.5987 
+#&gt; calculation.time: 3.6041 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -272,51 +304,39 @@ OTexts.
 #&gt; Start = 2018.50694444444 
 #&gt; End = 2019.92361111111 
 #&gt; Frequency = 12 
-#&gt;  [1] 4710746 5720672 4728689 4003133 2045901 1479485 1365491 1270823 1753037
-#&gt; [10] 2273536 3454175 4020300 4710746 5720672 4728689 4003133 2045901 1479485
+#&gt;  [1] 4695683 5617714 4624226 3894132 1973838 1362923 1282392 1202103 1670181
+#&gt; [10] 2211902 3402691 4023909 4695683 5617714 4624226 3894132 1973838 1362923
 #&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata_fit</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Forecast horizon has been set to the length of out.sample.</span></div><div class='output co'>#&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
-#&gt; Frequency = 12 
-#&gt;        lower forecast   upper
-#&gt; 2019 5667207  6044955 6422704
-#&gt; 2019 6806704  7340920 7875137
-#&gt; 2019 5413702  6067981 6722260
-#&gt; 2019 4381432  5136928 5892424
-#&gt; 2019 1780684  2625355 3470025
-#&gt; 2019  973225  1898515 2823806
-#&gt; 2019  752808  1752235 2751663
-#&gt; 2019  562321  1630754 2699187
-#&gt; 2019 1116300  2249544 3382788
-#&gt; 2019 1722919  2917463 4112007
-#&gt; 2019 3179642  4432491 5685339
-#&gt; 2019 3850399  5158956 6467514
-#&gt; 2020 4682965  6044955 7406946
-#&gt; 2020 5927516  7340920 8754324
-#&gt; 2020 4604969  6067981 7530993
-#&gt; 2020 3625936  5136928 6647920
-#&gt; 2020 1067859  2625355 4182850
-#&gt; 2020  295866  1898515 3501165</div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fc</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Model Fitting Measures: 
+#&gt; </div><div class='input'><span class='va'>ata.accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>ata.fit</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $sigma2
+#&gt; [1] 39748561992
 #&gt; 
-#&gt;              sigma2              loglik                 MAE                 MSE 
-#&gt; 38738555205.8988266       -1837.0311555      130981.5055853 36879104556.0156937 
-#&gt;                RMSE                 MPE                MAPE               sMAPE 
-#&gt;      192039.3307529           0.0992405           4.9888461           4.9753990 
-#&gt;                MASE                 OWA 
-#&gt;           0.2731712           0.0000057 
+#&gt; $loglik
+#&gt; [1] -1838.653
 #&gt; 
-#&gt; Out-Sample Accuracy Measures: 
+#&gt; $AIC
+#&gt; [1] 3691.305
 #&gt; 
-#&gt;                    MAE                    MSE                   RMSE 
-#&gt;       1542779.05555556 2911983861587.04296875       1706453.59198164 
-#&gt;                    MPE                   MAPE                  sMAPE 
-#&gt;           -29.61009389            54.84130691            42.67914297 
-#&gt;                   MASE                    OWA 
-#&gt;             3.21757447             0.00004982 
+#&gt; $AICc
+#&gt; [1] 3692.254
 #&gt; 
+#&gt; $BIC
+#&gt; [1] 3711.159
+#&gt; 
+#&gt; $MSE
+#&gt; [1] 37840631016
+#&gt; 
+#&gt; $MAE
+#&gt; [1] 132241.3
+#&gt; 
+#&gt; $sMAPE
+#&gt; [1] 4.981426
+#&gt; 
+#&gt; $MASE
+#&gt; [1] NA
+#&gt; 
+#&gt; $OWA
+#&gt; [1] NA
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

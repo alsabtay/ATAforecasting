@@ -4,22 +4,24 @@
 \alias{ATA.Accuracy}
 \title{Accuracy Measures for The ATAforecasting}
 \usage{
-ATA.Accuracy(object, out.sample = NULL)
+ATA.Accuracy(object, out.sample = NULL, print.out = TRUE)
 }
 \arguments{
 \item{object}{An object of class \code{ata} is required.}
 
 \item{out.sample}{A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.}
+
+\item{print.out}{Default is TRUE. If FALSE, summary of ATA Method's accuracy measures is not shown.}
 }
 \value{
 Matrix giving forecast accuracy measures.
 }
 \description{
-Returns ATA(p,q,phi) applied to ATA \code{object}.
+Returns ATA(p,q,phi)(E,T,S) applied to `ata` \code{object}.
 Accuracy measures for a forecast model
 Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 provided, the function measures test set forecast accuracy.
-If \code{test_set} is not provided, the function only produces
+If \code{out.sample} is not provided, the function only produces
 training set accuracy measures.
 The measures calculated are:
 \itemize{
@@ -44,8 +46,9 @@ The measures calculated are:
 }
 \examples{
 demoATA <- window(touristTR, start = 2008, end = 2018.417)
-ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
-ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
+ata_fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "decomp")
+ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
+ata_accuracy <- ATA.Accuracy(ata_fc, tail(touristTR,18))
 
 }
 \references{

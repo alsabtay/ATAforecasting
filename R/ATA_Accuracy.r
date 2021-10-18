@@ -1,10 +1,10 @@
 #' Accuracy Measures for The ATAforecasting
 #'
-#' @description Returns ATA(p,q,phi) applied to ATA \code{object}.
+#' @description Returns ATA(p,q,phi)(E,T,S) applied to `ata` \code{object}.
 #' Accuracy measures for a forecast model
 #' Returns range of summary measures of the forecast accuracy. If \code{out.sample} is
 #' provided, the function measures test set forecast accuracy.
-#' If \code{test_set} is not provided, the function only produces
+#' If \code{out.sample} is not provided, the function only produces
 #' training set accuracy measures.
 #' The measures calculated are:
 #' \itemize{
@@ -29,6 +29,7 @@
 #'
 #' @param object An object of class \code{ata} is required.
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
+#' @param print.out Default is TRUE. If FALSE, summary of ATA Method's accuracy measures is not shown.
 #'
 #' @return Matrix giving forecast accuracy measures.
 #'
@@ -51,14 +52,15 @@
 #'
 #' @examples
 #' demoATA <- window(touristTR, start = 2008, end = 2018.417)
-#' ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
-#' ata.accuracy <- ATA.Accuracy(ata.fit, tail(touristTR,18))
+#' ata_fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "decomp")
+#' ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
+#' ata_accuracy <- ATA.Accuracy(ata_fc, tail(touristTR,18))
 #'
 #' @export
-ATA.Accuracy <- function(object, out.sample=NULL)
+ATA.Accuracy <- function(object, out.sample=NULL, print.out = TRUE)
 {
   if (class(object)!="ata"){
-    return("The Input must be 'ATA' object. Please use ATA function to produce 'ata' object. ATA Accuracy will terminate!")
+    stop("The Input must be 'ata' object. Please use ATA() function to produce 'ata' object.")
   }
   train_set <- object$actual
   ts_fit <- object$fitted
@@ -109,16 +111,21 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   mdpe <- round(median(pre_mpe, na.rm=TRUE),8)
   mdape <- round(median(pre_mape, na.rm=TRUE),8)
   smdape <- round(median(pre_smape, na.rm=TRUE),8)
-  naive1Accry <- round(NaiveS_Accry(as.double(ts_act), as.double(object$seasonal.period), 1), 8)
   if (object$is.season==TRUE){
     Dec <- stats::decompose(train_set,type="multiplicative")
     des_input <- train_set/Dec$seasonal
   }else{
     des_input <- train_set
   }
-  naive2Accry <- round(NaiveS_Accry(as.double(des_input), as.double(frequency(train_set)), 1), 8)
-  mase <- round(mae / naive1Accry, 8)
-  owa <- round(((smape / naive2Accry) + (mase / naive2Accry)) / 2, 8)
+  if (length(object$seasonal.period) > 1){
+    naive1Accry <- NaiveSV_Accry(as.double(ts_act), as.double(object$seasonal.period), 1)
+    naive2Accry <- NaiveSV_Accry(as.double(des_input), as.double(object$seasonal.period), 1)
+  }else {
+    naive1Accry <- NaiveSD_Accry(as.double(ts_act), as.double(object$seasonal.period), 1)
+    naive2Accry <- NaiveSD_Accry(as.double(des_input), as.double(object$seasonal.period), 1)
+  }
+  mase <- mae / naive1Accry
+  owa <- ((smape / naive2Accry) + (mase / naive2Accry)) / 2
   aic <- lik + 2 * np
   bic <- lik + log(ny) * np
   aicc <- aic + 2 * np * (np + 1) / (ny - np - 1)
@@ -156,8 +163,8 @@ ATA.Accuracy <- function(object, out.sample=NULL)
     mdpe_os <- round(median(pre_mpe_os, na.rm=TRUE),8)
     mdape_os <- round(median(pre_mape_os, na.rm=TRUE),8)
     smdape_os <- round(median(pre_smape_os, na.rm=TRUE),8)
-    mase_os <- round(pre_mae_os / naive1Accry, 8)
-    owa_os <- round(((smape_os / naive2Accry) + (mase_os / naive2Accry)) / 2, 8)
+    mase_os <- mae_os / naive1Accry
+    owa_os <- ((smape_os / naive2Accry) + (mase_os / naive2Accry)) / 2
   }else {
     mae_os <- NA
     mse_os <- NA
@@ -184,15 +191,15 @@ ATA.Accuracy <- function(object, out.sample=NULL)
   MPE_is <- list("MPE"=mpe, "MdPE"=mdpe, "stdDev.MPE"=stdDev_mpe, "skewness.MPE"=skew_mpe, "kurtosis.MPE"=kurt_mpe)
   MAPE_is <- list("MAPE"=mape, "MdAPE"=mdape, "stdDev.MAPE"=stdDev_mape, "skewness.MAPE"=skew_mape, "kurtosis.MAPE"=kurt_mape)
   sMAPE_is <- list("sMAPE"=smape, "sMdAPE"=smdape, "stdDev.sMAPE"=stdDev_smape, "skewness.sMAPE"=skew_smape, "kurtosis.sMAPE"=kurt_smape)
-  MASE_is <- list("MASE"=mase, "MdASE"=NA, "stdDev.MASE"=NA, "skewness.MASE"=NA, "kurtosis.MASE"=NA)
-  OWA_is <- list("OWA"=owa, "stdDev.OWA"=NA, "skewness.OWA"=NA, "kurtosis.OWA"=NA)
+  MASE_is <- list("MASE"=round(mase, 8), "MdASE"=NA, "stdDev.MASE"=NA, "skewness.MASE"=NA, "kurtosis.MASE"=NA)
+  OWA_is <- list("OWA"=round(owa, 8), "stdDev.OWA"=NA, "skewness.OWA"=NA, "kurtosis.OWA"=NA)
   MAE_os <- list("MAE"=mae_os, "MdAE"=mdae_os)
   MSE_os <- list("MSE"=mse_os, "MdSE"=mdse_os, "RMSE" = rmse_os, "RMdSE" = rmdse_os)
   MPE_os <- list("MPE"=mpe_os, "MdPE"=mdpe_os)
   MAPE_os <- list("MAPE"=mape_os, "MdAPE"=mdape_os)
   sMAPE_os <- list("sMAPE"=smape_os, "sMdAPE"=smdape_os)
-  MASE_os <- list("MASE"=mase_os, "MdASE"=NA)
-  OWA_os <- list("OWA"=owa_os)
+  MASE_os <- list("MASE"=round(mase_os, 8), "MdASE"=NA)
+  OWA_os <- list("OWA"=round(owa_os, 8))
   MAE_all <- list("inSample"=MAE_is, "outSample"=MAE_os)
   MSE_all <- list("inSample"=MSE_is, "outSample"=MSE_os)
   MPE_all <- list("inSample"=MPE_is, "outSample"=MPE_os)
@@ -211,5 +218,22 @@ ATA.Accuracy <- function(object, out.sample=NULL)
             "MASE" = mase,
             "OWA" = owa)
   my_list <- list("MAE"=MAE_all, "MSE"=MSE_all, "MPE"= MPE_all, "MAPE"=MAPE_all, "sMAPE"=sMAPE_all, "MASE"=MASE_all, "OWA"=OWA_all, "RawAccuracy"=RawAccuracy_all, "fits"=fits)
+  if (print.out==TRUE) {
+    opscipen <- options("scipen" = 100, "digits"=4)
+      on.exit(options(opscipen))
+    cat("Model Fitting Measures:","\n")
+    print_out <- c(fits$sigma2, fits$loglik, MAE_all$inSample$MAE, MSE_all$inSample$MSE, MSE_all$inSample$RMSE, MPE_all$inSample$MPE, MAPE_all$inSample$MAPE, sMAPE_all$inSample$sMAPE, MASE_all$inSample$MASE, OWA_all$inSample$OWA)
+    names(print_out) <- c("sigma2", "loglik", "MAE", "MSE", "RMSE", "MPE", "MAPE", "sMAPE", "MASE", "OWA")
+    cat("\n")
+    print(print_out)
+    cat("\n")
+
+    cat("Out-Sample Accuracy Measures:","\n")
+    print_out <- c(MAE_all$outSample$MAE, MSE_all$outSample$MSE, MSE_all$outSample$RMSE, MPE_all$outSample$MPE, MAPE_all$outSample$MAPE, sMAPE_all$outSample$sMAPE, MASE_all$outSample$MASE, OWA_all$outSample$OWA)
+    names(print_out) <- c("MAE", "MSE", "RMSE", "MPE", "MAPE", "sMAPE", "MASE",  "OWA")
+    cat("\n")
+    print(print_out)
+    cat("\n\n")
+  }
   return(my_list)
 }

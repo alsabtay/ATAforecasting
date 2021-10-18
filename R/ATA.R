@@ -1,6 +1,6 @@
 #' ATAforecasting: Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques
 #'
-#' @description Returns ATA(p,q,phi) applied to \code{X}.
+#' @description Returns ATA(p,q,phi)(E,T,S) applied to the data.
 #' The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <doi:10.15672/HJMS.201614320580> ,
 #' Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <doi:10.15672/HJMS.2017.493> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019)
 #' <doi:10.15672/hujms.461032> is a new univariate time series forecasting method which provides innovative solutions to issues faced during
@@ -8,7 +8,7 @@
 #' Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting.
 #' It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 #' This methodology performed well on the M3 and M4-competition data.
-#' Returns ATA(p,q,phi) applied to \code{X}.
+#' Returns ATA(p,q,phi) (E,T,S) applied to the data.
 #'
 #' @docType package
 #'
@@ -38,7 +38,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal).
 #' This methodology performed well on the M3 and M4-competition data.
 #'
-#' Returns ATA(p,q,phi) applied to \code{X}.
+#' Returns ATA(p,q,phi)(E,T,S) applied to \code{X}.
 #'
 #' @param X A numeric vector or time series of class \code{ts} or \code{msts} for in-sample.
 #' @param Y A numeric vector or time series of class \code{ts} or \code{msts} for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with \code{train_test_split} argument.
@@ -133,7 +133,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @param plot.out Default is TRUE. If FALSE, graphics of ATA Method are not shown.
 #'
 #' @return Returns an object of class \code{ata}. The generic accessor functions \code{ATA.Forecast} and \code{ATA.Accuracy} extract useful features of the value returned by \code{ATA} and associated functions.
-#' \code{ATA} object is a list containing at least the following elements
+#' \code{ata} object is a list containing at least the following elements
 #' \itemize{
 #' 		 \item{actual}		: The original time series.
 #' 		 \item{fitted}		: Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.
@@ -201,9 +201,10 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #' @importFrom Rdpack reprompt
 #'
 #' @examples
-#' demoATA <-  window(touristTR, start = 2008, end = 2014.917)
-#' ata.fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "stl")
-#' ATA.plot(ATA.Forecast(ata.fit,h=18, out.sample = tail(touristTR,18)))
+#' demoATA <-  window(touristTR, start = 2008, end = 2018.417)
+#' ata_fit <- ATA(demoATA, h=18, parQ = 1, seasonal.test = TRUE, seasonal.model = "stl")
+#' ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
+#' ata_accry <- ATA.Accuracy(ata_fc)
 #'
 #' @export
 ATA <- function(X, Y = NULL,
@@ -310,7 +311,7 @@ ATA <- function(X, Y = NULL,
       seasonal.model=="stl"
 	    seasonal.test <- TRUE
     }else {
-      return("find.period must be integer and between 0 and 5. ATAforecasting was terminated!")
+      stop("find.period must be integer and between 0 and 5. ATAforecasting was terminated!")
     }
     s.frequency <- seasonal.period
   }
@@ -393,77 +394,77 @@ ATA <- function(X, Y = NULL,
   Qlen <- length(parQ)
   Plen <- length(parP)
   if (class(parP) =="character" & parP!="opt"){
-    return("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
+    stop("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
   }else if ((class(parP)=="numeric" |class(parP)=="integer") & Plen>1 & (max(parP)>length(X))){
-    return("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
+    stop("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
   }else{
   }
   if (class(parQ)=="character" & parQ!="opt"){
-    return("p value must be integer and between 0 and p. ATAforecasting was terminated!")
+    stop("p value must be integer and between 0 and p. ATAforecasting was terminated!")
   }else if ((class(parP)=="numeric" |class(parP)=="integer") & Qlen>1 & (max(parQ)>=max(parP))){
-    return("q value must be integer and between 0 and p. ATAforecasting was terminated!")
+    stop("q value must be integer and between 0 and p. ATAforecasting was terminated!")
   }else{
   }
   if (class(parPHI)=="character" & parPHI!="opt"){
-    return("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
+    stop("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
   }else if ((class(parPHI)=="numeric" |class(parPHI)=="integer") & parPHI<0 & parPHI>1 & length(parPHI)>1){
-    return("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
+    stop("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
   }
   if (!is.null(seasonal.type)){
     if ((seasonal.type != "A" & seasonal.type != "M") | !is.character(seasonal.type) | length(seasonal.type) > 1){
-      return("Seasonal Type value must be string. A for additive or M for multiplicative. ATAforecasting was terminated!")
+      stop("Seasonal Type value must be string. A for additive or M for multiplicative. ATAforecasting was terminated!")
     }
   }
   if (!is.null(seasonal.model)){
     if (length(seasonal.model) == 1){
       if ((seasonal.model != "none" & seasonal.model != "decomp" & seasonal.model != "stl" & seasonal.model != "stlplus" & seasonal.model != "tbats" & seasonal.model != "stR" & seasonal.model != "x13" & seasonal.model != "x11") | !is.character(seasonal.model)){
-        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
+        stop("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
       }
     }else {
       if(any(seasonal.model %in% c("decomp","stl", "stlplus", "stR", "tbats", "x13", "x11"))){
 
       }else {
-        return("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
+        stop("Seasonal Decomposition Model value must be string: decomp, stl, stlplus, tbats, stR. ATAforecasting was terminated!")
       }
     }
   }
   if ((accuracy.type != "lik" & accuracy.type != "sigma" & accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "RMSE" &
           accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" &
           accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){
-    return("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATAforecasting was terminated!")
+    stop("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATAforecasting was terminated!")
   }
   if (!is.null(model.type)){
     if ((model.type != "A" & model.type != "M") | !is.character(model.type) | length(model.type) > 1){
-      return("Model Type value must be string. A for additive or M for multiplicative or NULL for both of them. ATAforecasting was terminated!")
+      stop("Model Type value must be string. A for additive or M for multiplicative or NULL for both of them. ATAforecasting was terminated!")
     }
   }
   if (!is.null(initial.level)){
     if (initial.level != FALSE & initial.level != TRUE) {
-      return("Initial value for Level must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
+      stop("Initial value for Level must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
     }
   }
   if (!is.null(initial.trend)){
     if (initial.trend != FALSE & initial.trend != TRUE) {
-      return("Initial value for Trend must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
+      stop("Initial value for Trend must be boolean and it must get one value: TRUE or FALSE. ATAforecasting was terminated!")
     }
   }
   if (!is.null(transform.order)){
     if ((transform.order != "before" & transform.order != "after") | !is.character(transform.order) | length(transform.order) > 1){
-      return("Transformation Order value must be string. 'before' for Transformation --> Decompostion or 'after' for Decomposition --> Transformation. ATAforecasting was terminated!")
+      stop("Transformation Order value must be string. 'before' for Transformation --> Decompostion or 'after' for Decomposition --> Transformation. ATAforecasting was terminated!")
     }
   }
   if (!is.null(transform.method)){
     if ((transform.method != "Box_Cox" & transform.method != "Box_Cox_Shift" & transform.method != "Modulus" & transform.method != "BickelDoksum" & transform.method != "Dual"  & transform.method != "Manly"  & transform.method != "Sqrt" & transform.method != "SqrtShift" &
          transform.method != "YeoJohnson" & transform.method != "GPower" & transform.method != "GLog" & transform.method != "Log" & transform.method != "Reciprocal" & transform.method !="ReciprocalShift" & transform.method != "NegLog" &
 		     transform.method != "LogShift") | !is.character(transform.method) | length(transform.method) > 1){
-      return("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATAforecasting was terminated!")
+      stop("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATAforecasting was terminated!")
     }
   }
   if (class(seas_attr_set)!="ataoptim"){
-    return("Attributes set for unit root and seasonality tests are not suitable set. ATAforecasting was terminated!")
+    stop("Attributes set for unit root and seasonality tests are not suitable set. ATAforecasting was terminated!")
   }
   if (class(boxcox_attr_set)!="ataoptim"){
-    return("Attributes set for Box-Cox transformation are not suitable set. ATAforecasting was terminated!")
+    stop("Attributes set for Box-Cox transformation are not suitable set. ATAforecasting was terminated!")
   }
 
   WD <- getwd()
@@ -556,10 +557,10 @@ ATA <- function(X, Y = NULL,
   my_list$calculation.time <- round(as.double(difftime(end.time, start.time,units="sec")),4)
   attr(my_list, "class") <- "ata"
   if (plot.out==TRUE) {
-    ATA.plot(my_list)
+    ATA.Plot(my_list)
   }
   if (print.out==TRUE) {
-    ATA.print(my_list)
+    ATA.Print(my_list)
   }
   gc()
   return(my_list)
@@ -569,13 +570,13 @@ ATA <- function(X, Y = NULL,
 
 #' Specialized Screen Print Function of The ATAforecasting
 #'
-#' @param object an object of \code{ATA}
+#' @param object an object of \code{ata}
 #' @param ... other inputs
 #'
 #' @return a summary for the results of the ATAforecasting
 #'
 #' @export
-ATA.print <- function(object,...)
+ATA.Print <- function(object,...)
 {
 	opscipen <- options("scipen" = 100, "digits"=7)
     on.exit(options(opscipen))
@@ -658,7 +659,7 @@ ATA.print <- function(object,...)
 
 #' Specialized Plot Function of The ATAforecasting
 #'
-#' @param object an object of \code{ATA}
+#' @param object an object of \code{ata}
 #' @param fcol line color
 #' @param flty line type
 #' @param flwd line width
@@ -670,7 +671,7 @@ ATA.print <- function(object,...)
 #' @importFrom graphics axis legend layout lines mtext par plot polygon
 #'
 #' @export
-ATA.plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
+ATA.Plot <- function(object, fcol=4, flty = 2, flwd = 2, ...)
 {
   x <- object
   oldpar <- par(no.readonly = TRUE)# save default, for resetting...
