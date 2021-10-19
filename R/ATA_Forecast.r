@@ -120,5 +120,5 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     print(print_out)
   }
   gc()
-  return(y)
+  return(object)
 }

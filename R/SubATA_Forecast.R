@@ -1,7 +1,6 @@
 #' @importFrom stats ts tsp tsp<-
 SubATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
 {
-  tsp_X <- tsp(ata_output$actual)
   X <- as.numeric(ata_output$actual)
   ph <- ata_output$p
   qh <- ata_output$q
@@ -26,9 +25,11 @@ SubATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
     ata_output$trend[lenX] <- T <- coefqh * (S-S_1) + (1-coefqh) * (phih * T_1)
     ata.forecast.fitted[1] <- S + (phih * T)
     phiTotal <- phih
-    for (h in 2:hh){
-      phiTotal <- phiTotal + (phih^h)
-      ata.forecast.fitted[h] <- S + (phiTotal * T)
+    if (hh > 1){
+      for (h in 2:hh){
+        phiTotal <- phiTotal + (phih^h)
+        ata.forecast.fitted[h] <- S + (phiTotal * T)
+      }
     }
   }
   if (modelType=="M"){
@@ -40,12 +41,13 @@ SubATA.Forecast <- function(ata_output, hh=NULL, initialLevel)
     ata_output$trend[lenX] <- T <- coefqh * (S/S_1) + (1-coefqh) * (T_1^phih)
     ata.forecast.fitted[1] <- S * (T^phih)
     phiTotal <- phih
-    for (h in 2:hh){
-      phiTotal <- phiTotal + (phih^h)
-      ata.forecast.fitted[h] <- S * (T^phiTotal)
+    if (hh > 1){
+      for (h in 2:hh){
+        phiTotal <- phiTotal + (phih^h)
+        ata.forecast.fitted[h] <- S * (T^phiTotal)
+      }
     }
   }
-  ata.forecast.fitted <- ts(ata.forecast.fitted, frequency = tsp_X[3], start = tsp_X[2] + ifelse(tsp_X[3]>1, 1/tsp_X[3], 1))
   my_list <- ata_output
   my_list$forecast <- ata.forecast.fitted
   return(my_list)
