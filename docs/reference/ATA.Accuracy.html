@@ -262,9 +262,9 @@ OTexts.
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   3.268   0.305   3.597 
+#&gt;   3.257   0.335   3.592 
 #&gt; 
-#&gt; calculation.time: 3.5965 
+#&gt; calculation.time: 3.5918 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
@@ -275,30 +275,7 @@ OTexts.
 #&gt;  [1] 4710746 5720672 4728689 4003133 2045901 1479485 1365491 1270823 1753037
 #&gt; [10] 2273536 3454175 4020300 4710746 5720672 4728689 4003133 2045901 1479485
 #&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata_fit</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Forecast horizon has been set to the length of out.sample.</span></div><div class='output co'>#&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
-#&gt; Frequency = 12 
-#&gt;        lower forecast   upper
-#&gt; 2019 5667207  6044955 6422704
-#&gt; 2019 6806704  7340920 7875137
-#&gt; 2019 5413702  6067981 6722260
-#&gt; 2019 4381432  5136928 5892424
-#&gt; 2019 1780684  2625355 3470025
-#&gt; 2019  973225  1898515 2823806
-#&gt; 2019  752808  1752235 2751663
-#&gt; 2019  562321  1630754 2699187
-#&gt; 2019 1116300  2249544 3382788
-#&gt; 2019 1722919  2917463 4112007
-#&gt; 2019 3179642  4432491 5685339
-#&gt; 2019 3850399  5158956 6467514
-#&gt; 2020 4682965  6044955 7406946
-#&gt; 2020 5927516  7340920 8754324
-#&gt; 2020 4604969  6067981 7530993
-#&gt; 2020 3625936  5136928 6647920
-#&gt; 2020 1067859  2625355 4182850
-#&gt; 2020  295866  1898515 3501165</div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fc</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; </div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fit</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;              sigma2              loglik                 MAE                 MSE 
@@ -310,12 +287,12 @@ OTexts.
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
-#&gt;                  MAE                  MSE                 RMSE 
-#&gt;       424842.3772047 337621582471.5698853       581052.1340392 
-#&gt;                  MPE                 MAPE                sMAPE 
-#&gt;           -9.5177336           10.0485040            9.3434504 
-#&gt;                 MASE                  OWA 
-#&gt;            0.8860387            0.0000111 
+#&gt;                   MAE                   MSE                  RMSE 
+#&gt;       521462.44780284 373806620642.62951660       611397.26908339 
+#&gt;                   MPE                  MAPE                 sMAPE 
+#&gt;           14.65442578           14.65442578           16.05850125 
+#&gt;                  MASE                   OWA 
+#&gt;            1.08754669            0.00001861 
 #&gt; 
 #&gt; </div><div class='input'>
 </div></pre>

@@ -53,8 +53,7 @@
 #' @examples
 #' demoATA <- window(touristTR, start = 2008, end = 2018.417)
 #' ata_fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "decomp")
-#' ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
-#' ata_accuracy <- ATA.Accuracy(ata_fc, tail(touristTR,18))
+#' ata_accuracy <- ATA.Accuracy(ata_fit, tail(touristTR,18))
 #'
 #' @export
 ATA.Accuracy <- function(object, out.sample=NULL, print.out = TRUE)
