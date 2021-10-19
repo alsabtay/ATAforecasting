@@ -561,7 +561,7 @@ NumericVector SubATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IX
 
   if (IXLF==1) {
     d_opt_q = 0;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -588,7 +588,7 @@ NumericVector SubATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IX
   }
   else if (IXTF==1) {
     d_opt_q = 1;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -627,7 +627,7 @@ NumericVector SubATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IX
   else {
     if ( (IXP==-1) & (IXQ==-1) ) {
       d_opt_q = 0;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
@@ -647,7 +647,7 @@ NumericVector SubATADamped(NumericVector IAX, int IXP, int IXQ, int IXMO, int IX
     }
     else if ( (IXP==-1) & (IXQ!=-1) ) {
       d_opt_q = IXQ;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
@@ -1013,7 +1013,7 @@ NumericVector SubATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO,
 
   if (IXLF==1) {
     d_opt_q = 0;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -1040,7 +1040,7 @@ NumericVector SubATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO,
   }
   else if (IXTF==1) {
     d_opt_q = 1;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -1058,7 +1058,7 @@ NumericVector SubATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO,
   }
   else if (IXTS==1) {
     d_opt_q = 1;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(j = 1; j <= LENX; j++) {
@@ -1078,7 +1078,7 @@ NumericVector SubATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO,
   }else {
     if ( (IXP==-1) & (IXQ==-1) ) {
       d_opt_q = 0;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
@@ -1098,7 +1098,7 @@ NumericVector SubATADampedHoldout(NumericVector IAX, int IXP, int IXQ, int IXMO,
     }
     else if ( (IXP==-1) & (IXQ!=-1) ) {
       d_opt_q = IXQ;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
@@ -1717,7 +1717,7 @@ NumericVector SubATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO,
 
   if (IXLF==1) {
     d_opt_q = 0;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -1744,7 +1744,7 @@ NumericVector SubATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO,
   }
   else if (IXTF==1) {
     d_opt_q = 1;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(i = 1; i <= LENX; i++) {
@@ -1762,7 +1762,7 @@ NumericVector SubATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO,
   }
   else if (IXTS==1) {
     d_opt_q = 1;
-    d_opt_p = 0;
+    d_opt_p = 1;
     for(m = mstart; m <= mfinish; m++) {
       for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
         for(j = 1; j <= LENX; j++) {
@@ -1783,7 +1783,7 @@ NumericVector SubATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO,
   else {
     if ( (IXP==-1) & (IXQ==-1) ) {
       d_opt_q = 0;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
@@ -1803,7 +1803,7 @@ NumericVector SubATADampedHoldhin(NumericVector IAX, int IXP, int IXQ, int IXMO,
     }
     else if ( (IXP==-1) & (IXQ!=-1) ) {
       d_opt_q = IXQ;
-      d_opt_p = 0;
+      d_opt_p = 1;
       for(m = mstart; m <= mfinish; m++) {
         for(k = IXPHIS; k < IXPHIE+IXPHISS; k = k+IXPHISS) {
           for(i = 1; i <= LENX; i++) {
