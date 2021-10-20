@@ -112,8 +112,8 @@ SubATA_Multi_Before <- function(train_set, pb, qb, model.type, seasonal.Test, se
       holdout_part <- ifelse(hold_set_size > 0 & hold_set_size < 1, floor(length(train_set) * hold_set_size), hold_set_size)
       valid_len <- length(train_set) - holdout_part
       train_len <- length(train_set)
-      train_set_mat <- forecast::msts(train_set_mat[1:valid_len,], start = start(main_set), seasonal.periods = seasonal.Frequency)
-      validation_set <- forecast::msts(train_set_mat[(valid_len+1):train_len,], start = end(train_set_mat) - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1), seasonal.periods = seasonal.Frequency)
+      train_set_mat <- forecast::msts(main_train_set_mat[1:valid_len,], start = start(main_set), seasonal.periods = seasonal.Frequency)
+      validation_set <- forecast::msts(main_train_set_mat[(valid_len+1):train_len,], start = end(train_set_mat) - ifelse(tspX[3]>1, (holdout_part - 1) * (1/tspX[3]), (holdout_part - 1) * 1), seasonal.periods = seasonal.Frequency)
       output <- SubATAHoldout(as.matrix.data.frame(train_set_mat)
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
