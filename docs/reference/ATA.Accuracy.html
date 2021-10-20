@@ -213,9 +213,10 @@ OTexts.
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2018.417</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(115,0,1) (A,N,M) 
+    <pre class="examples"><div class='input'><span class='va'>trainATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>, <span class='fl'>84</span><span class='op'>)</span>
+<span class='va'>testATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2015</span>, end <span class='op'>=</span> <span class='fl'>2016.917</span><span class='op'>)</span>
+<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>trainATA</span>, h<span class='op'>=</span><span class='fl'>24</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
+</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) (A,M,M) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -223,27 +224,27 @@ OTexts.
 #&gt; 
 #&gt;    seasonal.type: M 
 #&gt; 
-#&gt;    forecast horizon: 18 
+#&gt;    forecast horizon: 24 
 #&gt; 
 #&gt;    accuracy.type: sMAPE 
 #&gt; 
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 38738555205.89882660       -1837.03115547      130981.50558529 
+#&gt; 25327678645.19596481       -1188.55670094      106527.45549230 
 #&gt;                  MSE                 RMSE                  MPE 
-#&gt; 36879104556.01569366      192039.33075288           0.09924054 
+#&gt; 23496762116.62757874      153286.53599266           0.12753452 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.98884605           4.97539897           0.27317116 
+#&gt;           4.04068178           4.04508846           0.23313082 
 #&gt;                  OWA 
-#&gt;           0.00000570 
+#&gt;           0.00000468 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
 #&gt;               MdAE               MdSE              RMdSE               MdPE 
-#&gt;      71294.9475292 5082969543.1886587      71294.9475292          0.8657977 
+#&gt;      67333.7563803 4533834748.2874908      67333.7563803          0.4018348 
 #&gt;              MdAPE             sMdAPE 
-#&gt;          3.8007819          3.7298992 
+#&gt;          3.2125716          3.2275752 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -258,41 +259,44 @@ OTexts.
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 3688.062 3689.011 3707.916 
+#&gt; 2391.113 2392.587 2408.129 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   3.257   0.335   3.592 
+#&gt;   1.063   0.168   1.233 
 #&gt; 
-#&gt; calculation.time: 3.5918 
+#&gt; calculation.time: 1.2324 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
 #&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.92361111111 
 #&gt; Frequency = 12 
-#&gt;  [1] 4710746 5720672 4728689 4003133 2045901 1479485 1365491 1270823 1753037
-#&gt; [10] 2273536 3454175 4020300 4710746 5720672 4728689 4003133 2045901 1479485
+#&gt;  [1] 1288568 1211322 1716223 2292963 3589547 4283724 5018661 5887346 4933780
+#&gt; [10] 4253560 2170497 1480814 1363260 1281536 1815704 2425875 3797616 4532031
+#&gt; [19] 5309568 6228607 5219767 4500118 2296310 1566650
 #&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fit</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; </div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fit</span>, <span class='va'>testATA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Model Fitting Measures: 
 #&gt; 
-#&gt;              sigma2              loglik                 MAE                 MSE 
-#&gt; 38738555205.8988266       -1837.0311555      130981.5055853 36879104556.0156937 
-#&gt;                RMSE                 MPE                MAPE               sMAPE 
-#&gt;      192039.3307529           0.0992405           4.9888461           4.9753990 
-#&gt;                MASE                 OWA 
-#&gt;           0.2731712           0.0000057 
+#&gt;               sigma2               loglik                  MAE 
+#&gt; 25327678645.19596481       -1188.55670094      106527.45549230 
+#&gt;                  MSE                 RMSE                  MPE 
+#&gt; 23496762116.62757874      153286.53599266           0.12753452 
+#&gt;                 MAPE                sMAPE                 MASE 
+#&gt;           4.04068178           4.04508846           0.23313082 
+#&gt;                  OWA 
+#&gt;           0.00000468 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
-#&gt;                   MAE                   MSE                  RMSE 
-#&gt;       521462.44780284 373806620642.62951660       611397.26908339 
-#&gt;                   MPE                  MAPE                 sMAPE 
-#&gt;           14.65442578           14.65442578           16.05850125 
-#&gt;                  MASE                   OWA 
-#&gt;            1.08754669            0.00001861 
+#&gt;                    MAE                    MSE                   RMSE 
+#&gt;        745266.93257922 1268723834847.31567383       1126376.41792046 
+#&gt;                    MPE                   MAPE                  sMAPE 
+#&gt;           -28.69225078            29.56321404            23.01067141 
+#&gt;                   MASE                    OWA 
+#&gt;             1.63098511             0.00002695 
 #&gt; 
 #&gt; </div><div class='input'>
 </div></pre>

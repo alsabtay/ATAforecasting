@@ -33,9 +33,9 @@ An object of class \code{ata} and forecast values.
 \code{ATA.Forecast} is a generic function for forecasting of the ATA Method.
 }
 \examples{
-demoATA <- window(fundingTR, start = tsp(fundingTR)[1], end = 2013)
-ata_fit <- ATA(demoATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
-ata_fc <- ATA.Forecast(ata_fit, h=18)
+trainATA <-  head(touristTR, 84)
+ata_fit <- ATA(trainATA, parPHI = 1, seasonal.test = TRUE, seasonal.model = "decomp")
+ata_fc <- ATA.Forecast(ata_fit, h=12)
 
 }
 \references{

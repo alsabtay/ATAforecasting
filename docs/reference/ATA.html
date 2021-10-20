@@ -451,9 +451,10 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>demoATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2008</span>, end <span class='op'>=</span> <span class='fl'>2018.417</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='va'>demoATA</span>, h<span class='op'>=</span><span class='fl'>18</span>, parQ <span class='op'>=</span> <span class='fl'>1</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(123,1,0.4) (A,Md,M) 
+    <pre class="examples"><div class='input'><span class='va'>trainATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>, <span class='fl'>84</span><span class='op'>)</span>
+<span class='va'>testATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2015</span>, end <span class='op'>=</span> <span class='fl'>2016.917</span><span class='op'>)</span>
+<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'>ATA</span><span class='op'>(</span><span class='va'>trainATA</span>, h<span class='op'>=</span><span class='fl'>24</span>, parQ <span class='op'>=</span> <span class='fl'>1</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"stl"</span><span class='op'>)</span>
+</div><div class='img'><img src='ATA-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(9,1,1) (A,M,M) 
 #&gt; 
 #&gt;    model.type: M 
 #&gt; 
@@ -461,27 +462,27 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; 
 #&gt;    seasonal.type: M 
 #&gt; 
-#&gt;    forecast horizon: 18 
+#&gt;    forecast horizon: 24 
 #&gt; 
 #&gt;    accuracy.type: sMAPE 
 #&gt; 
 #&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 40142910289.46743774       -1839.27461571      132949.96651100 
+#&gt; 38329818197.22584534       -1205.95857480      113608.75598307 
 #&gt;                  MSE                 RMSE                  MPE 
-#&gt; 38216050595.57299805      195489.25954019           0.02468084 
+#&gt; 35558987966.10109711      188570.90964966          -0.29190478 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           5.01831889           5.01258748           0.27727653 
+#&gt;           4.32739502           4.29898466           0.24862795 
 #&gt;                  OWA 
-#&gt;           0.00000574 
+#&gt;           0.00000497 
 #&gt; 
 #&gt; In-Sample Accuracy Measures: 
 #&gt; 
-#&gt;               MdAE               MdSE              RMdSE               MdPE 
-#&gt;      73048.6880756 5336110829.5724392      73048.6880756          0.3471289 
-#&gt;              MdAPE             sMdAPE 
-#&gt;          3.5717205          3.6366663 
+#&gt;              MdAE              MdSE             RMdSE              MdPE 
+#&gt;      64273.477202 4131079871.624473      64273.477202          0.526554 
+#&gt;             MdAPE            sMdAPE 
+#&gt;          2.702918          2.736661 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 
@@ -496,57 +497,64 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 #&gt; Information Criteria: 
 #&gt; 
 #&gt;      AIC     AICc      BIC 
-#&gt; 3692.549 3693.498 3712.403 
+#&gt; 2425.917 2427.391 2442.933 
 #&gt; 
 #&gt; 
 #&gt;    user  system elapsed 
-#&gt;   0.058   0.004   0.062 
+#&gt;   0.027   0.003   0.030 
 #&gt; 
-#&gt; calculation.time: 0.062 
+#&gt; calculation.time: 0.03 
 #&gt; 
 #&gt; 
 #&gt; Forecasts: 
 #&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.92361111111 
 #&gt; Frequency = 12 
-#&gt;  [1] 4695010 5616605 4623213 3893245 1973382 1362606 1282093 1201822 1669791
-#&gt; [10] 2211385 3401897 4022970 4694587 5616402 4623146 3893223 1973377 1362605
+#&gt;  [1] 1290137 1231085 1735277 2297139 3609797 4277848 5137010 5594614 4891925
+#&gt; [10] 4188325 2155062 1418780 1363532 1301120 1833994 2427820 3815154 4521210
+#&gt; [19] 5429249 5912884 5170221 4426594 2277661 1499492
 #&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata_fit</span>, out.sample <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>touristTR</span>,<span class='fl'>18</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; </div><div class='input'><span class='va'>ata_fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Forecast.html'>ATA.Forecast</a></span><span class='op'>(</span><span class='va'>ata_fit</span>, out.sample <span class='op'>=</span> <span class='va'>testATA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Forecast horizon has been set to the length of out.sample.</span></div><div class='output co'>#&gt; Time Series:
-#&gt; Start = 2018.50694444444 
-#&gt; End = 2019.92361111111 
+#&gt; Start = 2015.00694444444 
+#&gt; End = 2016.92361111111 
 #&gt; Frequency = 12 
-#&gt;        lower forecast    upper
-#&gt; 2019 6807050  7191588  7576126
-#&gt; 2019 8065196  8609015  9152834
-#&gt; 2019 6422226  7088265  7754305
-#&gt; 2019 5200650  5969726  6738802
-#&gt; 2019 2166171  3026024  3885877
-#&gt; 2019 1147563  2089484  3031406
-#&gt; 2019  948643  1966035  2983427
-#&gt; 2019  755310  1842948  2930586
-#&gt; 2019 1406950  2560564  3714178
-#&gt; 2019 2175064  3391080  4607096
-#&gt; 2019 3941319  5216687  6492056
-#&gt; 2019 4837003  6169081  7501160
-#&gt; 2020 5812510  7198982  8585453
-#&gt; 2020 7173744  8612554 10051363
-#&gt; 2020 5600121  7089431  8578740
-#&gt; 2020 4431967  5970119  7508271
-#&gt; 2020 1440613  3026104  4611595
-#&gt; 2020  458050  2089506  3720963</div><div class='input'><span class='va'>ata_accry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Accuracy.html'>ATA.Accuracy</a></span><span class='op'>(</span><span class='va'>ata_fc</span><span class='op'>)</span>
+#&gt;        lower forecast   upper
+#&gt; 2015  847533  1219265 1590997
+#&gt; 2015  636994  1162702 1688410
+#&gt; 2015  993966  1637824 2281682
+#&gt; 2015 1423263  2166726 2910190
+#&gt; 2015 2571436  3402653 4233871
+#&gt; 2015 3119201  4029755 4940308
+#&gt; 2016 3852441  4835951 5819461
+#&gt; 2016 4211903  5263319 6314736
+#&gt; 2016 3484061  4599256 5714452
+#&gt; 2016 2759677  3935196 5110715
+#&gt; 2016  790609  2023504 3256398
+#&gt; 2016   43588  1331305 2619021
+#&gt; 2016  -61665  1278633 2618931
+#&gt; 2016 -171577  1219316 2610209
+#&gt; 2016  277862  1717573 3157284
+#&gt; 2016  785301  2272228 3759155
+#&gt; 2016 2035645  3568335 5101024
+#&gt; 2016 2648846  4225970 5803095
+#&gt; 2017 3451080  5071422 6691763
+#&gt; 2017 3857165  5519600 7182035
+#&gt; 2017 3119713  4823202 6526691
+#&gt; 2017 2383231  4126808 5870385
+#&gt; 2017  339269  2122032 3904795
+#&gt; 2017 -424978  1396128 3217235</div><div class='input'><span class='va'>ata_accry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.Accuracy.html'>ATA.Accuracy</a></span><span class='op'>(</span><span class='va'>ata_fc</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Model Fitting Measures: 
 #&gt; 
 #&gt;               sigma2               loglik                  MAE 
-#&gt; 40142910289.46743774       -1839.27461571      132949.96651100 
+#&gt; 38329818197.22584534       -1205.95857480      113608.75598307 
 #&gt;                  MSE                 RMSE                  MPE 
-#&gt; 38216050595.57299805      195489.25954019           0.02468084 
+#&gt; 35558987966.10109711      188570.90964966          -0.29190478 
 #&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           5.01831889           5.01258748           0.27727653 
+#&gt;           4.32739502           4.29898466           0.24862795 
 #&gt;                  OWA 
-#&gt;           0.00000574 
+#&gt;           0.00000497 
 #&gt; 
 #&gt; Out-Sample Accuracy Measures: 
 #&gt; 

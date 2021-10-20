@@ -51,9 +51,10 @@
 #' @importFrom Rdpack reprompt
 #'
 #' @examples
-#' demoATA <- window(touristTR, start = 2008, end = 2018.417)
-#' ata_fit <- ATA(demoATA, h=18, seasonal.test = TRUE, seasonal.model = "decomp")
-#' ata_accuracy <- ATA.Accuracy(ata_fit, tail(touristTR,18))
+#' trainATA <-  head(touristTR, 84)
+#' testATA <- window(touristTR, start = 2015, end = 2016.917)
+#' ata_fit <- ATA(trainATA, h=24, seasonal.test = TRUE, seasonal.model = "decomp")
+#' ata_accuracy <- ATA.Accuracy(ata_fit, testATA)
 #'
 #' @export
 ATA.Accuracy <- function(object, out.sample=NULL, print.out = TRUE)

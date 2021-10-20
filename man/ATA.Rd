@@ -233,9 +233,10 @@ This methodology performed well on the M3 and M4-competition data.
 Returns ATA(p,q,phi)(E,T,S) applied to \code{X}.
 }
 \examples{
-demoATA <-  window(touristTR, start = 2008, end = 2018.417)
-ata_fit <- ATA(demoATA, h=18, parQ = 1, seasonal.test = TRUE, seasonal.model = "stl")
-ata_fc <- ATA.Forecast(ata_fit, out.sample = tail(touristTR,18))
+trainATA <-  head(touristTR, 84)
+testATA <- window(touristTR, start = 2015, end = 2016.917)
+ata_fit <- ATA(trainATA, h=24, parQ = 1, seasonal.test = TRUE, seasonal.model = "stl")
+ata_fc <- ATA.Forecast(ata_fit, out.sample = testATA)
 ata_accry <- ATA.Accuracy(ata_fc)
 
 }
