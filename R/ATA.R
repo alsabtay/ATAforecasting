@@ -503,9 +503,9 @@ ATA <- function(X, Y = NULL,
           h <- 6
         }
       }
+      test_set <- rep(NA,times=h)
     }
   }
-  test_set <- rep(NA,times=h)
   test_set <- forecast::msts(test_set, start = end(train_set) + ifelse(tspX[3]>1, 1/tspX[3], 1), seasonal.periods = s.frequency)
   freqYh <- cycle(test_set)
   par.specs <- list("p" = parP, "q" = parQ, "phi" = parPHI,
