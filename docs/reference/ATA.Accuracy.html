@@ -58,7 +58,6 @@ lik		: maximum likelihood functions
 sigma	: residual variance.
 MAE		: mean absolute error.
 MSE		: mean square error.
-AMSE	: Average MSE over first `nmse` forecast horizons.
 RMSE	: root mean squared error.
 MPE		: mean percentage error.
 MAPE	: mean absolute percentage error.
@@ -104,7 +103,7 @@ sMdAPE	: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.55</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56</span>
       </span>
     </div>
 
@@ -157,7 +156,6 @@ The measures calculated are:</p><ul>
 <li><p>sigma	: residual variance.</p></li>
 <li><p>MAE		: mean absolute error.</p></li>
 <li><p>MSE		: mean square error.</p></li>
-<li><p>AMSE	: Average MSE over first `nmse` forecast horizons.</p></li>
 <li><p>RMSE	: root mean squared error.</p></li>
 <li><p>MPE		: mean percentage error.</p></li>
 <li><p>MAPE	: mean absolute percentage error.</p></li>
@@ -213,93 +211,14 @@ OTexts.
     <p>Ali Sabri Taylan and Hanife Taylan Selamlar</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>trainATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>, <span class='fl'>84</span><span class='op'>)</span>
-<span class='va'>testATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2015</span>, end <span class='op'>=</span> <span class='fl'>2016.917</span><span class='op'>)</span>
-<span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>trainATA</span>, h<span class='op'>=</span><span class='fl'>24</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span>
-</div><div class='img'><img src='ATA.Accuracy-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; ATA(2,2,1) (A,M,M) 
-#&gt; 
-#&gt;    model.type: M 
-#&gt; 
-#&gt;    seasonal.model: decomp 
-#&gt; 
-#&gt;    seasonal.type: M 
-#&gt; 
-#&gt;    forecast horizon: 24 
-#&gt; 
-#&gt;    accuracy.type: sMAPE 
-#&gt; 
-#&gt; Model Fitting Measures: 
-#&gt; 
-#&gt;               sigma2               loglik                  MAE 
-#&gt; 25327678645.19596481       -1188.55670094      106527.45549230 
-#&gt;                  MSE                 RMSE                  MPE 
-#&gt; 23496762116.62757874      153286.53599266           0.12753452 
-#&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.04068178           4.04508846           0.23313082 
-#&gt;                  OWA 
-#&gt;           0.00000468 
-#&gt; 
-#&gt; In-Sample Accuracy Measures: 
-#&gt; 
-#&gt;               MdAE               MdSE              RMdSE               MdPE 
-#&gt;      67333.7563803 4533834748.2874908      67333.7563803          0.4018348 
-#&gt;              MdAPE             sMdAPE 
-#&gt;          3.2125716          3.2275752 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MAE   MSE  RMSE   MPE  MAPE sMAPE  MASE   OWA 
-#&gt;    NA    NA    NA    NA    NA    NA    NA    NA 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;   MdAE   MdSE  RMdSE   MdPE  MdAPE sMdAPE 
-#&gt;     NA     NA     NA     NA     NA     NA 
-#&gt; 
-#&gt; Information Criteria: 
-#&gt; 
-#&gt;      AIC     AICc      BIC 
-#&gt; 2391.113 2392.587 2408.129 
-#&gt; 
-#&gt; 
-#&gt;    user  system elapsed 
-#&gt;   1.131   0.170   1.306 
-#&gt; 
-#&gt; calculation.time: 1.306 
-#&gt; 
-#&gt; 
-#&gt; Forecasts: 
-#&gt; Time Series:
-#&gt; Start = 2015.00694444444 
-#&gt; End = 2016.92361111111 
-#&gt; Frequency = 12 
-#&gt;  [1] 1288568 1211322 1716223 2292963 3589547 4283724 5018661 5887346 4933780
-#&gt; [10] 4253560 2170497 1480814 1363260 1281536 1815704 2425875 3797616 4532031
-#&gt; [19] 5309568 6228607 5219767 4500118 2296310 1566650
-#&gt; 
-#&gt; </div><div class='input'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fit</span>, <span class='va'>testATA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Model Fitting Measures: 
-#&gt; 
-#&gt;               sigma2               loglik                  MAE 
-#&gt; 25327678645.19596481       -1188.55670094      106527.45549230 
-#&gt;                  MSE                 RMSE                  MPE 
-#&gt; 23496762116.62757874      153286.53599266           0.12753452 
-#&gt;                 MAPE                sMAPE                 MASE 
-#&gt;           4.04068178           4.04508846           0.23313082 
-#&gt;                  OWA 
-#&gt;           0.00000468 
-#&gt; 
-#&gt; Out-Sample Accuracy Measures: 
-#&gt; 
-#&gt;                    MAE                    MSE                   RMSE 
-#&gt;        745266.93257922 1268723834847.31567383       1126376.41792046 
-#&gt;                    MPE                   MAPE                  sMAPE 
-#&gt;           -28.69225078            29.56321404            23.01067141 
-#&gt;                   MASE                    OWA 
-#&gt;             1.63098511             0.00002695 
-#&gt; 
-#&gt; </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>trainATA</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>touristTR</span>, <span class='fl'>84</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>testATA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>touristTR</span>, start <span class='op'>=</span> <span class='fl'>2015</span>, end <span class='op'>=</span> <span class='fl'>2016.917</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ata_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ATA.html'>ATA</a></span><span class='op'>(</span><span class='va'>trainATA</span>, h<span class='op'>=</span><span class='fl'>24</span>, seasonal.test <span class='op'>=</span> <span class='cn'>TRUE</span>, seasonal.model <span class='op'>=</span> <span class='st'>"decomp"</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3],     mdlType = ifelse(output[4] == 1, "A", "M"), initialLevel = initialLevel,     initialTrend = initialTrend, nmse = nmse):</span> unused argument (nmse = nmse)</span>
+<span class='r-in'><span class='va'>ata_accuracy</span> <span class='op'>&lt;-</span> <span class='fu'>ATA.Accuracy</span><span class='op'>(</span><span class='va'>ata_fit</span>, <span class='va'>testATA</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in ATA.Accuracy(ata_fit, testATA):</span> object 'ata_fit' not found</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -79,7 +79,6 @@ SubATA_Single_Before <- function(train_set, parP, parQ, model.type, seasonal.tes
   ata.output$actual <- main_set
   fit_ata <- ata.output$fitted
   forecast_ata <- ata.output$forecast
-  fc.amse <- ata.output$amse.fc
   ata.output$level <- forecast::msts(ATA.BackTransform(X=ata.output$level, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))),
                                      start = start(main_set), seasonal.periods = s.frequency)
   ata.output$trend <- forecast::msts(ATA.BackTransform(X=ata.output$trend, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals))),

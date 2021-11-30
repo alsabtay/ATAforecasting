@@ -8,6 +8,7 @@
 */
 
 /* .Call calls */
+extern SEXP _ATAforecasting_calc_amse(SEXP);
 extern SEXP _ATAforecasting_NaiveSD_Accry(SEXP, SEXP, SEXP);
 extern SEXP _ATAforecasting_NaiveSD_Accry_hin(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ATAforecasting_NaiveSV_Accry(SEXP, SEXP, SEXP);
@@ -27,6 +28,7 @@ extern SEXP _ATAforecasting_SubATA(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEX
 
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ATAforecasting_calc_amse",            (DL_FUNC) &_ATAforecasting_calc_amse,            1},
     {"_ATAforecasting_NaiveSD_Accry",        (DL_FUNC) &_ATAforecasting_NaiveSD_Accry,        3},
     {"_ATAforecasting_NaiveSD_Accry_hin",    (DL_FUNC) &_ATAforecasting_NaiveSD_Accry_hin,    4},
     {"_ATAforecasting_NaiveSV_Accry",        (DL_FUNC) &_ATAforecasting_NaiveSV_Accry,        3},

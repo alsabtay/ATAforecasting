@@ -29,7 +29,6 @@ The measures calculated are:
 	 \item{sigma}	: residual variance.
 	 \item{MAE}		: mean absolute error.
 	 \item{MSE}		: mean square error.
-	 \item{AMSE}	: Average MSE over first `nmse` forecast horizons.
 	 \item{RMSE}	: root mean squared error.
 	 \item{MPE}		: mean percentage error.
 	 \item{MAPE}	: mean absolute percentage error.

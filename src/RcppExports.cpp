@@ -11,6 +11,29 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// meanIT
+double meanIT(NumericVector x, int t);
+RcppExport SEXP _ATAforecasting_meanIT(SEXP xSEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type t(tSEXP);
+    rcpp_result_gen = Rcpp::wrap(meanIT(x, t));
+    return rcpp_result_gen;
+END_RCPP
+}
+// calc_amse
+double calc_amse(NumericMatrix IAX);
+RcppExport SEXP _ATAforecasting_calc_amse(SEXP IAXSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type IAX(IAXSEXP);
+    rcpp_result_gen = Rcpp::wrap(calc_amse(IAX));
+    return rcpp_result_gen;
+END_RCPP
+}
 // NaiveSD_Accry
 double NaiveSD_Accry(NumericVector train_set, int frqx, int accry);
 RcppExport SEXP _ATAforecasting_NaiveSD_Accry(SEXP train_setSEXP, SEXP frqxSEXP, SEXP accrySEXP) {
@@ -62,18 +85,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type accry(accrySEXP);
     Rcpp::traits::input_parameter< int >::type h(hSEXP);
     rcpp_result_gen = Rcpp::wrap(NaiveSV_Accry_hin(train_set, frqx, accry, h));
-    return rcpp_result_gen;
-END_RCPP
-}
-// meanIT
-double meanIT(NumericVector x, int t);
-RcppExport SEXP _ATAforecasting_meanIT(SEXP xSEXP, SEXP tSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type t(tSEXP);
-    rcpp_result_gen = Rcpp::wrap(meanIT(x, t));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -82,7 +82,8 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #'		 \item{sigma}	: residual variance.
 #'		 \item{MAE}		: mean absolute error.
 #'		 \item{MSE}		: mean square error.
-#'		 \item{AMSE}	: Average MSE over first `nmse` forecast horizons.
+#'		 \item{AMSE}	: Average MSE over first `nmse` forecast horizons using k-step forecast.
+#'		 \item{GAMSE}	: Average MSE over first `nmse` forecast horizons using one-step forecast.
 #'		 \item{RMSE}	: root mean squared error.
 #'		 \item{MPE}		: mean percentage error.
 #'		 \item{MAPE}	: mean absolute percentage error.
@@ -96,7 +97,7 @@ NULL # Instead of "_PACKAGE" to remove inclusion of \alias{ATAforecasting}
 #'		 \item{MdAPE}	: median absolute percentage error.
 #'		 \item{sMdAPE}	: symmetric median absolute percentage error.
 #' }
-#' @param nmse If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2<=nmse<=30`).
+#' @param nmse If accuracy.type == "AMSE" or "GAMSE", nmse provides the number of steps for average multistep MSE (`2<=nmse<=30`).
 #' @param level.fixed If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.
 #' @param trend.opt When \code{trend.opt},
 #' \itemize{
@@ -379,14 +380,14 @@ ATA <- function(X, Y = NULL,
   if (holdout == TRUE & holdin == TRUE){
     return("Only one parameter of the two parameters (holdout or holdin) must be selected. Please choose one one of them. ATAforecasting was terminated!")
   }
-  if (holdout == TRUE & accuracy.type == "AMSE") {
+  if (holdout == TRUE & (accuracy.type == "AMSE" | accuracy.type == "GAMSE")) {
     accuracy.type <- "sMAPE"
     warning("ATA Method does not support 'AMSE' for 'holdout' forecasting. 'accuracy.type' is set to 'sMAPE'.")
   }
-  if (nmse > 30 & accuracy.type == "AMSE") {
+  if (nmse > 30 & (accuracy.type == "AMSE" | accuracy.type == "GAMSE")) {
     nmse <- 30
     warning("'nmse' must be less than 30. 'nmse' is set to 30.")
-  }else if ((is.null(nmse) | nmse <= 1) & accuracy.type == "AMSE") {
+  }else if ((is.null(nmse) | nmse <= 1) & (accuracy.type == "AMSE" | accuracy.type == "GAMSE")) {
     nmse <- 3
     warning("'nmse' must be greater than 1. 'nmse' is set to 3.")
   }else{
@@ -429,10 +430,10 @@ ATA <- function(X, Y = NULL,
       }
     }
   }
-  if ((accuracy.type != "lik" & accuracy.type != "sigma" & accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "RMSE" &
+  if ((accuracy.type != "lik" & accuracy.type != "sigma" & accuracy.type != "MAE" & accuracy.type != "MSE" & accuracy.type != "AMSE" & accuracy.type != "GAMSE" & accuracy.type != "RMSE" &
           accuracy.type != "MPE" & accuracy.type != "MAPE" & accuracy.type != "sMAPE" & accuracy.type != "MASE" & accuracy.type != "OWA" & accuracy.type != "MdAE" &
           accuracy.type != "MdSE" & accuracy.type != "MdPE" & accuracy.type != "MdAPE" & accuracy.type != "sMdAPE") | !is.character(accuracy.type) | length(accuracy.type) > 1){
-    stop("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATAforecasting was terminated!")
+    stop("Accuracy Type value must be string and it must get one value: MAE or MSE or AMSE or GAMSE or MPE or MAPE or sMAPE or MASE or MdAE or MdSE or MdPE or MdAPE or sMdAPE. ATAforecasting was terminated!")
   }
   if (!is.null(model.type)){
     if ((model.type != "A" & model.type != "M") | !is.character(model.type) | length(model.type) > 1){

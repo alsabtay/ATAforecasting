@@ -98,7 +98,8 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
      \item{sigma}    : residual variance.
      \item{MAE}        : mean absolute error.
      \item{MSE}        : mean square error.
-     \item{AMSE}    : Average MSE over first `nmse` forecast horizons.
+     \item{AMSE}    : Average MSE over first `nmse` forecast horizons using k-step forecast.
+     \item{GAMSE}    : Average MSE over first `nmse` forecast horizons using one-step forecast.
      \item{RMSE}    : root mean squared error.
      \item{MPE}        : mean percentage error.
      \item{MAPE}    : mean absolute percentage error.
@@ -113,7 +114,7 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
      \item{sMdAPE}    : symmetric median absolute percentage error.
 }}
 
-\item{nmse}{If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2<=nmse<=30`).}
+\item{nmse}{If accuracy.type == "AMSE" or "GAMSE", nmse provides the number of steps for average multistep MSE (`2<=nmse<=30`).}
 
 \item{level.fixed}{If TRUE, "pStarQ"  --> First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.}
 

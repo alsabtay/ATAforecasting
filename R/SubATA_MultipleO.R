@@ -122,7 +122,7 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
                                , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-                               , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16))
+                               , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16,"GAMSE"=17))
                                , as.integer(ifelse(level.Fix, 1, 0))
                                , as.integer(ifelse(trend.Fix, 1, 0))
                                , as.integer(ifelse(trend.Search, 1, 0))
@@ -146,7 +146,7 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                , as.integer(ifelse(pb=="opt", -1, pb))
                                , as.integer(ifelse(qb=="opt", -1, qb))
                                , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-                               , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16))
+                               , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16,"GAMSE"=17))
                                , as.integer(ifelse(level.Fix, 1, 0))
                                , as.integer(ifelse(trend.Fix, 1, 0))
                                , as.integer(ifelse(trend.Search, 1, 0))
@@ -170,7 +170,7 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                         , as.integer(ifelse(pb=="opt", -1, pb))
                         , as.integer(ifelse(qb=="opt", -1, qb))
                         , as.integer(switch(model.Type,"B"=0,"A"=1,"M"=2))
-                        , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16))
+                        , as.integer(switch(accuracy.Type,"MAE"=1,"MdAE"=2,"MSE"=3,"MdSE"=4,"MPE"=5,"MdPE"=6,"MAPE"=7,"MdAPE"=8,"sMAPE"=9,"sMdAPE"=10,"RMSE"=11,"MASE"=12,"OWA"=13,"AMSE"=14,"lik"=15,"sigma"=16,"GAMSE"=17))
                         , as.integer(ifelse(level.Fix, 1, 0))
                         , as.integer(ifelse(trend.Fix, 1, 0))
                         , as.integer(ifelse(trend.Search, 1, 0))
@@ -212,7 +212,7 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
     }else{
     }
     ifelse(Holdout==TRUE & Adjusted_P==TRUE, new_pk <- round((output[1] * length(train_set))/ length(train_set_mat[,output[7]])), new_pk <- output[1])
-    ATA.last <- ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend, nmse = nmse)
+    ATA.last <- ATA.Core(AdjInput, pk = new_pk, qk = output[2], phik = output[3], mdlType = ifelse(output[4]==1,"A","M"), initialLevel = initialLevel, initialTrend = initialTrend)
     ATA.last$holdout <- Holdout
     ATA.last$holdin <- Holdin
     if(Holdout==TRUE){
@@ -261,7 +261,6 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
   ATA.last$actual <- main_set
   fit_ata <- ATA.BackTransform(X=ATA.last$fitted, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   forecast_ata <- ATA.BackTransform(X=ATA.last$forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
-  fc.amse <- ATA.BackTransform(X=ATA.last$amse.fc, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   ATA.last$level <- forecast::msts(ATA.BackTransform(X=ATA.last$level, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),
                                     start = start(main_set), seasonal.periods = seasonal.Frequency)
   ATA.last$trend <- forecast::msts(ATA.BackTransform(X=ATA.last$trend, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals))),

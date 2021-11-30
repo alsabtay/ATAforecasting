@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.55</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
     <p>The core algorithm of the ATA Method</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ATA.Core</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>pk</span>, <span class='va'>qk</span>, <span class='va'>phik</span>, <span class='va'>mdlType</span>, <span class='va'>initialLevel</span>, <span class='va'>initialTrend</span>, <span class='va'>nmse</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ATA.Core</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>pk</span>, <span class='va'>qk</span>, <span class='va'>phik</span>, <span class='va'>mdlType</span>, <span class='va'>initialLevel</span>, <span class='va'>initialTrend</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,10 +158,6 @@ If TRUE, ATA Method calculates average of first p value in <code>X</code>for lev
       <th>initialTrend</th>
       <td><p>If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in <code>X(T)-X(T-1)</code> for trend.
 If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</code> for trend.</p></td>
-    </tr>
-    <tr>
-      <th>nmse</th>
-      <td><p>If `accuracy.type == "AMSE"`, `nmse` provides the number of steps for average multistep MSE (`2&lt;=nmse&lt;=30`).</p></td>
     </tr>
     </table>
 
