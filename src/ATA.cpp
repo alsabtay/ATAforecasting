@@ -279,7 +279,6 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
   double phiTotal=0.0;
   NumericVector pe(LENZ);
   NumericVector ITsmape(LENZ);
-  NumericVector FC_c(LENZ);
   NumericMatrix FC(LENZ, IZNMSE);
 
   if (IZMO==1)
@@ -321,26 +320,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -349,26 +348,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 phiTotal += pow(IZPHI, (h+1));
                 FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
+          }
         }
       }
     }
@@ -382,26 +381,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 phiTotal += pow(IZPHI, (h+1));
                 FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -413,26 +412,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 phiTotal += pow(IZPHI, (h+1));
                 FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
+          }
         }
       }
     }
@@ -444,26 +443,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 phiTotal += pow(IZPHI, (h+1));
                 FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -473,26 +472,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
                 phiTotal += pow(IZPHI, (h+1));
                 FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
+            }else{
                 FC(i,h) = NA_REAL;
-              }
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -508,26 +507,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -540,26 +539,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -573,26 +572,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -603,26 +602,26 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -1555,7 +1554,6 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
   NumericVector hITErr(IZH);
   NumericVector hITsmape(IZH);
   NumericVector hFC(IZH);
-  NumericVector FC_c(LENZ);
   NumericMatrix FC(LENZ, IZNMSE);
 
   if (IZMO==1)
@@ -1597,26 +1595,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -1625,26 +1623,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -1658,26 +1656,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -1689,26 +1687,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -1720,26 +1718,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -1749,26 +1747,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -1784,26 +1782,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -1816,26 +1814,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
@@ -1849,26 +1847,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S + (IZPHI * T);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S + (phiTotal * T)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
       if (IZMO==2) {
@@ -1879,26 +1877,26 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         IZFIT[i] = S * pow(T, IZPHI);
         S_1 = S;
         T_1 = T;
-        switch (IZAC) {
-          case 14:
-            FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
-            phiTotal = IZPHI;
-            for(h = 1; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                phiTotal += pow(IZPHI, (h+1));
-                FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+        if (IZAC==14) {
+          FC(i,0) = pow(IAZ[i] - IZFIT[i],2);
+          phiTotal = IZPHI;
+          for(h = 1; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              phiTotal += pow(IZPHI, (h+1));
+              FC(i,h) = pow(IAZ[i+h] - (S * pow(T, phiTotal)),2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
-          case 17:
-            for(h = 0; h < IZNMSE; h++) {
-              if((i+h) < LENZ){
-                FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
-              }else{
-                FC(i,h) = NA_REAL;
-              }
+          }
+        }
+        if (IZAC==17) {
+          for(h = 0; h < IZNMSE; h++) {
+            if((i+h) < LENZ){
+              FC(i,h) = pow(IAZ[i+h] - IZFIT[i],2);
+            }else{
+              FC(i,h) = NA_REAL;
             }
+          }
         }
       }
     }
