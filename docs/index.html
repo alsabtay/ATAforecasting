@@ -29,6 +29,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -41,25 +43,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.56</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/alsabtay/ATAforecasting/">
+  <a href="https://github.com/alsabtay/ATAforecasting/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -76,52 +72,51 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="ataforecasting-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ataforecasting-" class="anchor"></a>ATAforecasting <img src="reference/figures/logo.png" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="ataforecasting-">ATAforecasting <img src="reference/figures/logo.png" align="right"><a class="anchor" aria-label="anchor" href="#ataforecasting-"></a>
 </h1></div>
 
-<div id="synopsis" class="section level2">
-<h2 class="hasAnchor">
-<a href="#synopsis" class="anchor"></a>Synopsis</h2>
+<div class="section level2">
+<h2 id="synopsis">Synopsis<a class="anchor" aria-label="anchor" href="#synopsis"></a>
+</h2>
 <p>Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques.</p>
 </div>
-<div id="description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#description" class="anchor"></a>Description</h2>
-<p>The Ata Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA. The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <a href="https://doi.org/10.15672/HJMS.201614320580">doi:10.15672/HJMS.201614320580</a>, Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <a href="https://doi.org/10.15672/HJMS.2017.493">doi:10.15672/HJMS.2017.493</a> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) <a href="https://doi.org/10.15672/hujms.461032">doi:10.15672/hujms.461032</a> is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods.</p>
+<div class="section level2">
+<h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h2>
+<p>The Ata Method is a new alternative forecasting method. This method is alternative to two major forecasting approaches: Exponential Smoothing and ARIMA. The Ata method based on the modified simple exponential smoothing as described in Yapar, G. (2016) <a href="https://doi.org/10.15672/HJMS.201614320580" class="external-link">doi:10.15672/HJMS.201614320580</a>, Yapar G., Capar, S., Selamlar, H. T., Yavuz, I. (2017) <a href="https://doi.org/10.15672/HJMS.2017.493" class="external-link">doi:10.15672/HJMS.2017.493</a> and Yapar G., Selamlar, H. T., Capar, S., Yavuz, I. (2019) <a href="https://doi.org/10.15672/hujms.461032" class="external-link">doi:10.15672/hujms.461032</a> is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing methods.</p>
 <p>Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal). This methodology performed well on the M3 and M4-competition dat</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the <strong>stable</strong> version from <a href="https://cran.r-project.org/package=ATAforecasting">CRAN</a>:</p>
-<pre><code>install.packages("ATAforecasting")</code></pre>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the <strong>stable</strong> version from <a href="https://cran.r-project.org/package=ATAforecasting" class="external-link">CRAN</a>:</p>
+<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ATAforecasting"</span><span class="op">)</span></code></pre>
 <p>Development version with latest features:</p>
-<pre><code>devtools::install_github("alsabtay/ATAforecasting")</code></pre>
+<pre><code><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"alsabtay/ATAforecasting"</span><span class="op">)</span></code></pre>
 <p>Fable Modelling Wrappers for ATAforecasting Package</p>
-<pre><code>devtools::install_github("alsabtay/fable.ata")</code></pre>
+<pre><code><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"alsabtay/fable.ata"</span><span class="op">)</span></code></pre>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>USAccDeaths: Accidental Deaths in the US 1973–1978</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alsabtay/ATAforecasting">ATAforecasting</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alsabtay/ATAforecasting" class="external-link">ATAforecasting</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/ATA.html">ATA</a></span><span class="op">(</span><span class="va">USAccDeaths</span>, h <span class="op">=</span> <span class="fl">18</span>, model.type <span class="op">=</span> <span class="st">"A"</span>, seasonal.type <span class="op">=</span> <span class="st">"A"</span>, seasonal.model <span class="op">=</span> <span class="st">"stl"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="links" class="section level2">
-<h2 class="hasAnchor">
-<a href="#links" class="anchor"></a>Links</h2>
-<p><a href="https://github.com/alsabtay/ATAforecasting">Github page</a></p>
-<p><a href="https://alsabtay.github.io/ATAforecasting/">Github.io page</a></p>
-<p><a href="https://atamethod.wordpress.com/">Project team website</a></p>
-<p><a href="https://github.com/alsabtay/fable.ata">Github - Fable Modelling Wrappers for ATAforecasting Package</a></p>
-<p><a href="https://alsabtay.github.io/fable.ata/index.html">Github.io - Fable Modelling Wrappers for ATAforecasting Package</a></p>
+<div class="section level2">
+<h2 id="links">Links<a class="anchor" aria-label="anchor" href="#links"></a>
+</h2>
+<p><a href="https://github.com/alsabtay/ATAforecasting" class="external-link">Github page</a></p>
+<p><a href="https://alsabtay.github.io/ATAforecasting/" class="external-link">Github.io page</a></p>
+<p><a href="https://atamethod.wordpress.com/" class="external-link">Project team website</a></p>
+<p><a href="https://github.com/alsabtay/fable.ata" class="external-link">Github - Fable Modelling Wrappers for ATAforecasting Package</a></p>
+<p><a href="https://alsabtay.github.io/fable.ata/index.html" class="external-link">Github.io - Fable Modelling Wrappers for ATAforecasting Package</a></p>
 </div>
-<div id="license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#license" class="anchor"></a>License</h2>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
 <p>This package is free and open source software, licensed under GPL-3.</p>
 </div>
 </div>
@@ -129,50 +124,60 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=ATAforecasting">https://​cloud.r-project.org/​package=ATAforecasting</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/alsabtay/ATAforecasting/">https://​github.com/​alsabtay/​ATAforecasting/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/alsabtay/ATAforecasting/issues">https://​github.com/​alsabtay/​ATAforecasting/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=ATAforecasting" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/alsabtay/ATAforecasting/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/alsabtay/ATAforecasting/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Ali Sabri Taylan <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0001-9514-934X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Hanife Taylan Selamlar <br><small class="roles"> Author, copyright holder </small> <a href="https://orcid.org/0000-0002-4091-884X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Guckan Yapar <br><small class="roles"> Author, thesis advisor, copyright holder </small> <a href="https://orcid.org/0000-0002-0971-6676" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing ATAforecasting</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=ATAforecasting"><img src="https://www.r-pkg.org/badges/version/ATAforecasting" alt="CRAN"></a></li>
-<li><a href="https://cran.r-project.org/package=ATAforecasting"><img src="https://cranlogs.r-pkg.org/badges/ATAforecasting" alt="Downloads"></a></li>
-<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/licence-GPL--3-blue.svg" alt="Licence"></a></li>
+<li>Ali Sabri Taylan <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0001-9514-934X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Hanife Taylan Selamlar <br><small class="roles"> Author, copyright holder </small> <a href="https://orcid.org/0000-0002-4091-884X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Guckan Yapar <br><small class="roles"> Author, thesis advisor, copyright holder </small> <a href="https://orcid.org/0000-0002-0971-6676" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=ATAforecasting" class="external-link"><img src="https://www.r-pkg.org/badges/version/ATAforecasting" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/package=ATAforecasting" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/ATAforecasting" alt="Downloads"></a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html" class="external-link"><img src="https://img.shields.io/badge/licence-GPL--3-blue.svg" alt="Licence"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Ali Sabri Taylan, Hanife Taylan Selamlar, Guckan Yapar.</p>
+  <p></p>
+<p>Developed by Ali Sabri Taylan, Hanife Taylan Selamlar, Guckan Yapar.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -180,6 +185,8 @@
 
   
 
+
+  
 
   </body>
 </html>

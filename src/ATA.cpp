@@ -669,7 +669,7 @@ double SubATACore(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int IZMO, i
         accmeasure = 1.0 * ((mean(ITsmape) / NaiveSD_Accry(IAZ, IZFRQ[0], 9)) + (mean(ITAcc) / NaiveSD_Accry(IAZ, IZFRQ[0], 1))) / 2;
   }
   else if ((IZAC==14) | (IZAC==17))
-      calc_amse(FC);
+    accmeasure = calc_amse(FC);
   else if (IZAC==15)
     accmeasure = ITAcc.size() * log(sum(ITAcc));
   else if (IZAC==16)
@@ -1947,7 +1947,7 @@ double SubATACoreHoldhin(NumericVector IAZ, int IZP, int IZQ, double IZPHI, int 
         accmeasure = 1.0 * ((mean(hITsmape) / NaiveSD_Accry_hin(IAZ, IZFRQ[0], 9, IZH)) + (mean(hITAcc) / NaiveSD_Accry_hin(IAZ, IZFRQ[0], 1, IZH))) / 2;
   }
   else if ((IZAC==14) | (IZAC==17))
-      calc_amse(FC);
+      accmeasure = calc_amse(FC);
   else if (IZAC==15)
     accmeasure = hITAcc.size() * log(sum(hITAcc));
   else if (IZAC==16)
