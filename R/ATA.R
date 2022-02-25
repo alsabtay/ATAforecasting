@@ -479,13 +479,14 @@ ATA <- function(X, Y = NULL,
     h <- length(Y)
   }else {
     if (!is.null(train_test_split)){
-      part_h <- as.integer(ifelse(train_test_split > 0 & train_test_split < 1, floor(length(main_set) * train_test_split), train_test_split))
-      test_len <- length(main_set)- part_h
-      train_len <- length(main_set)
-      main_set <- train_set <- main_set[1:test_len]
-      train_set <- forecast::msts(train_set, start = start(X), seasonal.periods = s.frequency)
-      test_set <- main_set[(test_len+1):train_len]
+      test_len <- part_h <- as.integer(ifelse(train_test_split > 0 & train_test_split < 1, floor(length(main_set) * train_test_split), train_test_split))
+      mainset_len <- length(main_set)
+      train_len <- mainset_len - test_len
+      test_set <- main_set[(train_len+1):mainset_len]
       test_set <- forecast::msts(test_set, start = end(train_set) - ifelse(tspX[3]>1, (part_h - 1) * (1/tspX[3]), (part_h - 1) * 1), seasonal.periods = s.frequency)
+      main_set <- train_set <- main_set[1:train_len]
+      train_set <- forecast::msts(train_set, start = start(main_set), seasonal.periods = s.frequency)
+      main_set <- forecast::msts(main_set, start = start(main_set), seasonal.periods = s.frequency)
       h <- length(test_set)
     }else {
       m <- max(s.frequency)
