@@ -395,21 +395,21 @@ ATA <- function(X, Y = NULL,
 
   Qlen <- length(parQ)
   Plen <- length(parP)
-  if (class(parP) =="character" & parP!="opt"){
+  if (inherits(parP, "character") & parP!="opt"){
     stop("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
-  }else if ((class(parP)=="numeric" |class(parP)=="integer") & Plen>1 & (max(parP)>length(X))){
+  }else if ((inherits(parP, "numeric") | inherits(parP, "integer")) & Plen>1 & (max(parP)>length(X))){
     stop("p value must be integer and between 1 and length of input. ATAforecasting was terminated!")
   }else{
   }
-  if (class(parQ)=="character" & parQ!="opt"){
+  if (inherits(parQ, "character") & parQ!="opt"){
     stop("p value must be integer and between 0 and p. ATAforecasting was terminated!")
-  }else if ((class(parP)=="numeric" |class(parP)=="integer") & Qlen>1 & (max(parQ)>=max(parP))){
+  }else if ((inherits(parQ, "numeric") | inherits(parQ, "integer")) & Qlen>1 & (max(parQ)>=max(parP))){
     stop("q value must be integer and between 0 and p. ATAforecasting was terminated!")
   }else{
   }
-  if (class(parPHI)=="character" & parPHI!="opt"){
+  if (inherits(parPHI, "character") & parPHI!="opt"){
     stop("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
-  }else if ((class(parPHI)=="numeric" |class(parPHI)=="integer") & parPHI<0 & parPHI>1 & length(parPHI)>1){
+  }else if ((inherits(parPHI, "numeric") | inherits(parPHI, "integer")) & parPHI<0 & parPHI>1 & length(parPHI)>1){
     stop("phi value must be numeric and between 0 and 1. ATAforecasting was terminated!")
   }
   if (!is.null(seasonal.type)){
@@ -462,10 +462,10 @@ ATA <- function(X, Y = NULL,
       stop("Transform Method value must be string. Please select a valid Box-Cox transformation technique. ATAforecasting was terminated!")
     }
   }
-  if (class(seas_attr_set)!="ataoptim"){
+  if (!inherits(seas_attr_set, "ataoptim")){
     stop("Attributes set for unit root and seasonality tests are not suitable set. ATAforecasting was terminated!")
   }
-  if (class(boxcox_attr_set)!="ataoptim"){
+  if (!inherits(boxcox_attr_set, "ataoptim")){
     stop("Attributes set for Box-Cox transformation are not suitable set. ATAforecasting was terminated!")
   }
 
