@@ -24,7 +24,7 @@ This methodology performed well on the M3 and M4-competition data."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -64,64 +64,80 @@ This methodology performed well on the M3 and M4-competition data.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA</span><span class="op">(</span>
-  <span class="va">X</span>,
-  Y <span class="op">=</span> <span class="cn">NULL</span>,
-  parP <span class="op">=</span> <span class="cn">NULL</span>,
-  parQ <span class="op">=</span> <span class="cn">NULL</span>,
-  parPHI <span class="op">=</span> <span class="cn">NULL</span>,
-  model.type <span class="op">=</span> <span class="cn">NULL</span>,
-  seasonal.test <span class="op">=</span> <span class="cn">NULL</span>,
-  seasonal.model <span class="op">=</span> <span class="st">"decomp"</span>,
-  seasonal.period <span class="op">=</span> <span class="cn">NULL</span>,
-  seasonal.type <span class="op">=</span> <span class="cn">NULL</span>,
-  seasonal.test.attr <span class="op">=</span> <span class="cn">NULL</span>,
-  find.period <span class="op">=</span> <span class="cn">NULL</span>,
-  accuracy.type <span class="op">=</span> <span class="cn">NULL</span>,
-  nmse <span class="op">=</span> <span class="fl">3</span>,
-  level.fixed <span class="op">=</span> <span class="cn">FALSE</span>,
-  trend.opt <span class="op">=</span> <span class="st">"none"</span>,
-  h <span class="op">=</span> <span class="cn">NULL</span>,
-  train_test_split <span class="op">=</span> <span class="cn">NULL</span>,
-  holdout <span class="op">=</span> <span class="cn">FALSE</span>,
-  holdout.adjustedP <span class="op">=</span> <span class="cn">TRUE</span>,
-  holdout.set_size <span class="op">=</span> <span class="cn">NULL</span>,
-  holdin <span class="op">=</span> <span class="cn">FALSE</span>,
-  transform.order <span class="op">=</span> <span class="st">"before"</span>,
-  transform.method <span class="op">=</span> <span class="cn">NULL</span>,
-  transform.attr <span class="op">=</span> <span class="cn">NULL</span>,
-  lambda <span class="op">=</span> <span class="cn">NULL</span>,
-  shift <span class="op">=</span> <span class="fl">0</span>,
-  initial.level <span class="op">=</span> <span class="cn">NULL</span>,
-  initial.trend <span class="op">=</span> <span class="cn">NULL</span>,
-  ci.level <span class="op">=</span> <span class="fl">95</span>,
-  start.phi <span class="op">=</span> <span class="cn">NULL</span>,
-  end.phi <span class="op">=</span> <span class="cn">NULL</span>,
-  size.phi <span class="op">=</span> <span class="cn">NULL</span>,
-  negative.forecast <span class="op">=</span> <span class="cn">TRUE</span>,
-  print.out <span class="op">=</span> <span class="cn">TRUE</span>,
-  plot.out <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA</span><span class="op">(</span></span>
+<span>  <span class="va">X</span>,</span>
+<span>  Y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parP <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parQ <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parPHI <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  model.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seasonal.test <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seasonal.model <span class="op">=</span> <span class="st">"decomp"</span>,</span>
+<span>  seasonal.period <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seasonal.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seasonal.test.attr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  find.period <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  accuracy.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nmse <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  level.fixed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  trend.opt <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  h <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  train_test_split <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  holdout <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  holdout.adjustedP <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  holdout.set_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  holdout.onestep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  holdin <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  transform.order <span class="op">=</span> <span class="st">"before"</span>,</span>
+<span>  transform.method <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.attr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  shift <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  initial.level <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  initial.trend <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  ci.level <span class="op">=</span> <span class="fl">95</span>,</span>
+<span>  start.phi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  end.phi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  size.phi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  negative.forecast <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  onestep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  print.out <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot.out <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for in-sample.</p></dd>
+
+
 <dt>Y</dt>
 <dd><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for out-sample. If you do not have out-sample data, you can split in-sample data into training and test dataset with <code>train_test_split</code> argument.</p></dd>
+
+
 <dt>parP</dt>
 <dd><p>Value of Level parameter <code>p</code>. If NULL or "opt", it is estimated. <code>p</code> has all integer values from 1 to <code>length(X)</code>.</p></dd>
+
+
 <dt>parQ</dt>
 <dd><p>Value of Trend parameter <code>q</code>. If NULL or "opt", it is estimated. <code>q</code> has all integer values from 0 to <code>p</code>.</p></dd>
+
+
 <dt>parPHI</dt>
 <dd><p>Value of Damping Trend parameter <code>phi</code>. If NULL or "opt", it is estimated. phi has all values from 0 to 1.</p></dd>
+
+
 <dt>model.type</dt>
 <dd><p>An one-character string identifying method using the framework terminology. The letter "A" for additive model, the letter "M" for multiplicative model.
 If NULL, both letters will be tried and the best model (according to the accuracy measure <code>accuracy.type</code>) returned.</p></dd>
+
+
 <dt>seasonal.test</dt>
 <dd><p>Testing for stationary and seasonality. If TRUE, the method firstly uses <code>test="adf"</code>, Augmented Dickey-Fuller, unit-root test then the test returns the least number of differences required to pass the test at level <code>alpha</code>.
 After the unit-root test, seasonal test applies on the stationary <code>X</code>.</p></dd>
+
+
 <dt>seasonal.model</dt>
 <dd><p>A string identifying method for seasonal decomposition. If NULL, "decomp" method is default. c("none", "decomp", "stl", "stlplus", "tbats", "stR") phrases of methods denote</p><ul><li><p>none    : seasonal decomposition is not required.</p></li>
 <li><p>decomp     : classical seasonal decomposition. If <code>decomp</code>, the <code>stats</code> package will be used.</p></li>
@@ -133,15 +149,23 @@ After the unit-root test, seasonal test applies on the stationary <code>X</code>
 <li><p>x13        : seasonal-trend decomposition procedure based on X13ARIMA/SEATS. If <code>x13</code>, the <code>seasonal</code> package will be used.</p></li>
 <li><p>x11        : seasonal-trend decomposition procedure based on X11. If <code>x11</code>, the <code>seasonal</code> package will be used.</p></li>
 </ul></dd>
+
+
 <dt>seasonal.period</dt>
 <dd><p>Value(s) of seasonal periodicity. If NULL, <code>frequency</code> of X is default  If <code>seasonal.period</code> is not integer, <code>X</code> must be <code>msts</code> time series object. c(s1,s2,s3,...) for multiple period. If <code>X</code> has multiple periodicity, "tbats" or "stR" seasonal model have to be selected.</p></dd>
+
+
 <dt>seasonal.type</dt>
 <dd><p>An one-character string identifying method for the seasonal component framework. The letter "A" for additive model, the letter "M" for multiplicative model.
 If NULL, both letters will be tried and the best model (according to the accuracy measure <code>accuracy.type</code>) returned.
 If seasonal decomposition methods except <code>decomp</code> with "M", Box-Cox transformation with <code>lambda</code>=0 is selected.</p></dd>
+
+
 <dt>seasonal.test.attr</dt>
 <dd><p>Attributes set for unit root, seasonality tests, X13ARIMA/SEATS and X11. If NULL, corrgram.tcrit=1.28, uroot.test="adf", suroot.test="correlogram", suroot.uroot=TRUE, uroot.type="trend", uroot.alpha=0.05, suroot.alpha=0.05, uroot.maxd=2, suroot.maxD=1, suroot.m=frequency(X), uroot.pkg="urca", multi.period="min", x13.estimate.maxiter=1500, x13.estimate.tol=1.0e-5, x11.estimate.maxiter=1500, x11.estimate.tol=1.0e-5. If you want to change, please use <code>ATA.SeasAttr</code> function and its output.
 For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=1.65)</code> equation in <code>ATA</code> function.</p></dd>
+
+
 <dt>find.period</dt>
 <dd><p>Find seasonal period(s) automatically. If NULL, 0 is default. When <code>find.period</code>,</p><ul><li><p>0 : none</p></li>
 <li><p>1 : single period with find.freq</p></li>
@@ -150,6 +174,8 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 <li><p>4 : multiple period with find.freq &amp; tbats</p></li>
 <li><p>5 : multiple period with find.freq &amp; stl</p></li>
 </ul></dd>
+
+
 <dt>accuracy.type</dt>
 <dd><p>Accuracy measure for optimization of the best ATA Method forecasting. IF NULL, <code>sMAPE</code> is default.</p><ul><li><p>lik        : maximum likelihood functions</p></li>
 <li><p>sigma    : residual variance.</p></li>
@@ -170,66 +196,127 @@ For example, you can use <code>seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
 <li><p>MdAPE    : median absolute percentage error.</p></li>
 <li><p>sMdAPE    : symmetric median absolute percentage error.</p></li>
 </ul></dd>
+
+
 <dt>nmse</dt>
 <dd><p>If accuracy.type == "AMSE" or "GAMSE", nmse provides the number of steps for average multistep MSE (`2&lt;=nmse&lt;=30`).</p></dd>
+
+
 <dt>level.fixed</dt>
 <dd><p>If TRUE, "pStarQ"  --&gt; First, fits ATA(p,0) where p = p* is optimized for q=0. Then, fits ATA(p*,q) where q is optimized for p = p*.</p></dd>
+
+
 <dt>trend.opt</dt>
 <dd><p>When <code>trend.opt</code>,</p><ul><li><p>none : none</p></li>
 <li><p>fixed : "pBullet" --&gt; Fits ATA(p,1) where p = p* is optimized for q = 1.</p></li>
 <li><p>search : "qBullet" --&gt; Fits ATA(p,q) where p = p* is optimized for q = q* (q &gt; 0). Then, fits ATA(p*,q) where q is optimized for p = p*.</p></li>
 </ul></dd>
+
+
 <dt>h</dt>
-<dd><p>The number of steps to forecast ahead.
+<dd><p>The forecast horizon.
 When the parameter is NULL; if the frequency of <code>X</code> is 4, the parameter is set to 8; if the frequency of <code>X</code> is 12, the parameter is set to 18; the parameter is set to 6 for other cases.</p></dd>
+
+
 <dt>train_test_split</dt>
 <dd><p>If <code>Y</code> is NULL, this parameter divides <code>X</code> into two parts: training set (in-sample) and test set (out-sample). <code>train_test_split</code> is number of periods for forecasting and size of test set.
 If the value is between 0 and 1, percentage of length is active.</p></dd>
+
+
 <dt>holdout</dt>
 <dd><p>Default is FALSE. If TRUE, ATA Method uses the holdout forecasting for accuracy measure to select the best model. In holdout forecasting, the last few data points are removed from the data series.
 The remaining historical data series is called in-sample data (training set), and the holdout data is called validation set (holdout set).
 If TRUE, holdout.set_size will used for holdout data.</p></dd>
+
+
 <dt>holdout.adjustedP</dt>
 <dd><p>Default is TRUE. If TRUE, parP will be adjusted by length of training - validation sets and in-sample set when the holdout forecasting is active.</p></dd>
+
+
 <dt>holdout.set_size</dt>
 <dd><p>If <code>holdout</code> is TRUE, this parameter will be same as <code>h</code> for defining holdout set.</p></dd>
+
+
+<dt>holdout.onestep</dt>
+<dd><p>Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (<code>h</code> forecast horizon) where the holdout prediction for the prior time step is used as an input for making a prediction on the following time step.</p></dd>
+
+
 <dt>holdin</dt>
 <dd><p>Default is FALSE. If TRUE, ATA Method uses the hold-in forecasting for accuracy measure to select the best model. In hold-in forecasting, the last h-length data points are used for accuracy measure.</p></dd>
+
+
 <dt>transform.order</dt>
 <dd><p>If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.</p></dd>
+
+
 <dt>transform.method</dt>
 <dd><p>Transformation method  --&gt; "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog". If the transformation process needs shift parameter,
 <code>ATA.Transform</code> will calculate required shift parameter automatically.</p></dd>
+
+
 <dt>transform.attr</dt>
 <dd><p>Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use <code>ATA.BoxCoxAttr</code> function and its output.</p></dd>
+
+
 <dt>lambda</dt>
-<dd><p>Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.</p></dd>
+<dd><p>Box-Cox power transformation family parameter. Default is NULL. When "transform.method" is selected and lambda is set as NULL, required "lambda" parameter will be calculated automatically based on "transform.attr".</p></dd>
+
+
 <dt>shift</dt>
-<dd><p>Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.</p></dd>
+<dd><p>Box-Cox power transformation family shifting parameter. Default is 0. When "transform.method" is selected, required shifting parameter will be calculated automatically according to dataset.</p></dd>
+
+
 <dt>initial.level</dt>
-<dd><p>If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in <code>X</code> for level.
-If TRUE, ATA Method calculates average of first p value in <code>X</code>for level.</p></dd>
+<dd><p>"none" is default,</p><ul><li><p>none    : ATA Method calculates the pth observation in <code>X</code> for level.</p></li>
+<li><p>mean     : ATA Method calculates average of first p value in <code>X</code>for level.</p></li>
+<li><p>median: ATA Method calculates median of first p value in <code>X</code>for level.</p></li>
+</ul></dd>
+
+
 <dt>initial.trend</dt>
-<dd><p>If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in <code>X(T)-X(T-1)</code> for trend.
-If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</code> for trend.</p></dd>
+<dd><p>"none" is default,</p><ul><li><p>none    : ATA Method calculates the qth observation in <code>X</code> for trend.</p></li>
+<li><p>mean     : ATA Method calculates average of first q value in <code>X(T)-X(T-1)</code> for trend.</p></li>
+<li><p>median: ATA Method calculates median of first q value in <code>X(T)-X(T-1)</code> for trend.</p></li>
+</ul></dd>
+
+
 <dt>ci.level</dt>
 <dd><p>Confidence Interval levels for forecasting.</p></dd>
+
+
 <dt>start.phi</dt>
 <dd><p>Lower boundary for searching <code>parPHI</code>.If NULL, 0 is default.</p></dd>
+
+
 <dt>end.phi</dt>
 <dd><p>Upper boundary for searching <code>parPHI</code>. If NULL, 1 is is default.</p></dd>
+
+
 <dt>size.phi</dt>
 <dd><p>Increment step for searching <code>parPHI</code>. If NULL, the step size will be determined as the value that allows the bounds for the optimised value of <code>parPHI</code> to be divided into 20 equal parts.</p></dd>
+
+
 <dt>negative.forecast</dt>
 <dd><p>Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.</p></dd>
+
+
+<dt>onestep</dt>
+<dd><p>Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (<code>h</code> forecast horizon) where the prediction for the prior time step is used as an input for making a prediction on the following time step.</p></dd>
+
+
 <dt>print.out</dt>
 <dd><p>Default is TRUE. If FALSE, summary of ATA Method is not shown.</p></dd>
+
+
 <dt>plot.out</dt>
 <dd><p>Default is TRUE. If FALSE, graphics of ATA Method are not shown.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an object of class <code>ata</code>. The generic accessor functions <code>ATA.Forecast</code> and <code>ATA.Accuracy</code> extract useful features of the value returned by <code>ATA</code> and associated functions.
+    
+
+<p>Returns an object of class <code>ata</code>. The generic accessor functions <code>ATA.Forecast</code> and <code>ATA.Accuracy</code> extract useful features of the value returned by <code>ATA</code> and associated functions.
 <code>ata</code> object is a list containing at least the following elements</p><ul><li><p>actual		: The original time series.</p></li>
 <li><p>fitted		: Fitted values (one-step forecasts). The mean is of the fitted values is calculated over the ensemble.</p></li>
 <li><p>level		  : Estimated level values.</p></li>
@@ -304,9 +391,9 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">testATA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html" class="external-link">window</a></span><span class="op">(</span><span class="va">touristTR</span>, start <span class="op">=</span> <span class="fl">2015</span>, end <span class="op">=</span> <span class="fl">2016.917</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu">ATA</span><span class="op">(</span><span class="va">trainATA</span>, h<span class="op">=</span><span class="fl">24</span>, parQ <span class="op">=</span> <span class="fl">1</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"stl"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">testATA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html" class="external-link">window</a></span><span class="op">(</span><span class="va">touristTR</span>, start <span class="op">=</span> <span class="fl">2015</span>, end <span class="op">=</span> <span class="fl">2016.917</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu">ATA</span><span class="op">(</span><span class="va">trainATA</span>, h<span class="op">=</span><span class="fl">24</span>, parQ <span class="op">=</span> <span class="fl">1</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"stl"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ATA-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ATA(9,1,1) (A,M,M) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -357,7 +444,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   0.037   0.003   0.040 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.0399 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Forecasts: </span>
@@ -370,56 +457,12 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5429249 5912884 5170221 4426594 2277661 1499492</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">ata_fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Forecast.html">ATA.Forecast</a></span><span class="op">(</span><span class="va">ata_fit</span>, out.sample <span class="op">=</span> <span class="va">testATA</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Forecast horizon has been set to the length of out.sample.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time Series:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Start = 2015.00694444444 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> End = 2016.92361111111 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Frequency = 12 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        lower forecast   upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  847533  1219265 1590997</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  636994  1162702 1688410</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  993966  1637824 2281682</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 1423263  2166726 2910190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 2571436  3402653 4233871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 3119201  4029755 4940308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3852441  4835951 5819461</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 4211903  5263319 6314736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3484061  4599256 5714452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2759677  3935196 5110715</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  790609  2023504 3256398</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016   43588  1331305 2619021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  -61665  1278633 2618931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 -171577  1219316 2610209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  277862  1717573 3157284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  785301  2272228 3759155</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2035645  3568335 5101024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2648846  4225970 5803095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3451080  5071422 6691763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3857165  5519600 7182035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3119713  4823202 6526691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 2383231  4126808 5870385</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017  339269  2122032 3904795</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 -424978  1396128 3217235</span>
-<span class="r-in"><span class="va">ata_accry</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Accuracy.html">ATA.Accuracy</a></span><span class="op">(</span><span class="va">ata_fc</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model Fitting Measures: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               sigma2               loglik                  MAE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38329818197.22584534       -1205.95857480      113608.75598307 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  MSE                 RMSE                  MPE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35558987966.10109711      188570.90964966          -0.29190478 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 MAPE                sMAPE                 MASE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           4.32739502           4.29898466           0.24862795 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  OWA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           0.00000497 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Out-Sample Accuracy Measures: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   MAE   MSE  RMSE   MPE  MAPE sMAPE  MASE   OWA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    NA    NA    NA    NA    NA    NA    NA    NA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="va">ata_fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Forecast.html">ATA.Forecast</a></span><span class="op">(</span><span class="va">ata_fit</span>, out.sample <span class="op">=</span> <span class="va">testATA</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Forecast horizon has been set to the length of out.sample data.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ATA.Forecast(ata_fit, out.sample = testATA):</span> object 'my_list' not found</span>
+<span class="r-in"><span><span class="va">ata_accry</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Accuracy.html">ATA.Accuracy</a></span><span class="op">(</span><span class="va">ata_fc</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ATA.Accuracy(ata_fc):</span> object 'ata_fc' not found</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -434,7 +477,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -5,6 +5,10 @@ meanIT <- function(x, t) {
     .Call(`_ATAforecasting_meanIT`, x, t)
 }
 
+medianIT <- function(x, t) {
+    .Call(`_ATAforecasting_medianIT`, x, t)
+}
+
 calc_amse <- function(IAX) {
     .Call(`_ATAforecasting_calc_amse`, IAX)
 }
@@ -37,20 +41,20 @@ SubATA <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, 
     .Call(`_ATAforecasting_SubATA`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IXNMSE)
 }
 
-SubATACoreHoldout <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout) {
-    .Call(`_ATAforecasting_SubATACoreHoldout`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout)
+SubATACoreHoldout <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout, onestep) {
+    .Call(`_ATAforecasting_SubATACoreHoldout`, IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout, onestep)
 }
 
-SubATADampedHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout) {
-    .Call(`_ATAforecasting_SubATADampedHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout)
+SubATADampedHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout, onestep) {
+    .Call(`_ATAforecasting_SubATADampedHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXFRQ, IAXout, onestep)
 }
 
-SubATAHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout) {
-    .Call(`_ATAforecasting_SubATAHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout)
+SubATAHoldout <- function(IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout, onestep) {
+    .Call(`_ATAforecasting_SubATAHoldout`, IAX, IXP, IXQ, IXMO, IXAC, IXLF, IXTF, IXTS, IXPHIS, IXPHIE, IXPHISS, IXIL, IXIT, IXTA_0, IXTM_0, IXSMO, IXST, max_smo, max_st, IXFRQ, IAXout, onestep)
 }
 
-ATAHoldoutForecast <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH) {
-    .Call(`_ATAforecasting_ATAHoldoutForecast`, IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, LENH)
+ATAHoldoutForecast <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout, onestep) {
+    .Call(`_ATAforecasting_ATAHoldoutForecast`, IAZ, IZP, IZQ, IZPHI, IZMO, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IAZout, onestep)
 }
 
 SubATACoreHoldhin <- function(IAZ, IZP, IZQ, IZPHI, IZMO, IZAC, IZIL, IZIT, IZTA_0, IZTM_0, IZFRQ, IZH, IZNMSE) {

@@ -18,7 +18,7 @@ The ATA.Transform function works with many different types of inputs."><!-- math
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -52,40 +52,55 @@ The <code>ATA.Transform</code> function works with many different types of input
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.Transform</span><span class="op">(</span>
-  <span class="va">X</span>,
-  tMethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Box_Cox"</span>, <span class="st">"Sqrt"</span>, <span class="st">"Reciprocal"</span>, <span class="st">"Log"</span>, <span class="st">"NegLog"</span>, <span class="st">"Modulus"</span>,
-    <span class="st">"BickelDoksum"</span>, <span class="st">"Manly"</span>, <span class="st">"Dual"</span>, <span class="st">"YeoJohnson"</span>, <span class="st">"GPower"</span>, <span class="st">"GLog"</span><span class="op">)</span>,
-  <span class="va">tLambda</span>,
-  tShift <span class="op">=</span> <span class="fl">0</span>,
-  bcMethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loglik"</span>, <span class="st">"guerrero"</span><span class="op">)</span>,
-  bcLower <span class="op">=</span> <span class="fl">0</span>,
-  bcUpper <span class="op">=</span> <span class="fl">5</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.Transform</span><span class="op">(</span></span>
+<span>  <span class="va">X</span>,</span>
+<span>  tMethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Box_Cox"</span>, <span class="st">"Sqrt"</span>, <span class="st">"Reciprocal"</span>, <span class="st">"Log"</span>, <span class="st">"NegLog"</span>, <span class="st">"Modulus"</span>,</span>
+<span>    <span class="st">"BickelDoksum"</span>, <span class="st">"Manly"</span>, <span class="st">"Dual"</span>, <span class="st">"YeoJohnson"</span>, <span class="st">"GPower"</span>, <span class="st">"GLog"</span><span class="op">)</span>,</span>
+<span>  <span class="va">tLambda</span>,</span>
+<span>  tShift <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  bcMethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loglik"</span>, <span class="st">"guerrero"</span><span class="op">)</span>,</span>
+<span>  bcLower <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  bcUpper <span class="op">=</span> <span class="fl">5</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>a numeric vector or time series of class <code>ts</code> or <code>msts</code> for in-sample.</p></dd>
+
+
 <dt>tMethod</dt>
 <dd><p>Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
 "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter,
 <code>ATA.Transform</code> will calculate required shift parameter automatically.</p></dd>
+
+
 <dt>tLambda</dt>
-<dd><p>Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.</p></dd>
+<dd><p>Box-Cox power transformation family parameter. Default is NULL. When lambda is set as NULL, required "lambda" parameter will be calculated automatically based on "bcMethod, bcLower, and bcUpper".</p></dd>
+
+
 <dt>tShift</dt>
-<dd><p>Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.</p></dd>
+<dd><p>Box-Cox power transformation family shifting parameter. Default is 0. When "transform.method" is selected, required shifting parameter will be calculated automatically according to dataset.</p></dd>
+
+
 <dt>bcMethod</dt>
 <dd><p>Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).</p></dd>
+
+
 <dt>bcLower</dt>
 <dd><p>Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.</p></dd>
+
+
 <dt>bcUpper</dt>
 <dd><p>Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list object consists of transformation parameters and transformed data.
+    
+
+<p>A list object consists of transformation parameters and transformed data.
 <code>ATA.Transform</code> is a list containing at least the following elements:</p><ul><li><p>trfmX   : Transformed data</p></li>
 <li><p>tLambda : Box-Cox power transformation family parameter</p></li>
 <li><p>tShift  : Box-Cox power transformation family shifting parameter</p></li>
@@ -142,7 +157,7 @@ The <code>ATA.Transform</code> function works with many different types of input
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

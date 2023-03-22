@@ -17,11 +17,19 @@ ATA.Core(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
 
 \item{mdlType}{An one-character string identifying method using the framework terminology.}
 
-\item{initialLevel}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level.
-If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
+\item{initialLevel}{"none" is default,
+\itemize{
+     \item{none}    : ATA Method calculates the pth observation in \code{X} for level.
+     \item{mean}     : ATA Method calculates average of first p value in \code{X}for level.
+     \item{median}: ATA Method calculates median of first p value in \code{X}for level.
+}}
 
-\item{initialTrend}{If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
-If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.}
+\item{initialTrend}{"none" is default,
+\itemize{
+     \item{none}    : ATA Method calculates the qth observation in \code{X} for trend.
+     \item{mean}     : ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
+     \item{median}: ATA Method calculates median of first q value in \code{X(T)-X(T-1)} for trend.
+}}
 }
 \value{
 Returns an object of class "\code{ATA}"

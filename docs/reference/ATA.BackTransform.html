@@ -18,7 +18,7 @@ The ATA.BackTransform function works with many different types of inputs."><!-- 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -52,30 +52,43 @@ The <code>ATA.BackTransform</code> function works with many different types of i
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.BackTransform</span><span class="op">(</span><span class="va">X</span>, <span class="va">tMethod</span>, <span class="va">tLambda</span>, <span class="va">tShift</span>, tbiasadj <span class="op">=</span> <span class="cn">FALSE</span>, tfvar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.BackTransform</span><span class="op">(</span><span class="va">X</span>, <span class="va">tMethod</span>, <span class="va">tLambda</span>, <span class="va">tShift</span>, tbiasadj <span class="op">=</span> <span class="cn">FALSE</span>, tfvar <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>a numeric vector or time series of class <code>ts</code> or <code>msts</code> for in-sample.</p></dd>
+
+
 <dt>tMethod</dt>
 <dd><p>Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
 "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package.</p></dd>
+
+
 <dt>tLambda</dt>
 <dd><p>Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.</p></dd>
+
+
 <dt>tShift</dt>
 <dd><p>Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.</p></dd>
+
+
 <dt>tbiasadj</dt>
 <dd><p>Use adjusted back-transformed mean for Box-Cox transformations using <code><a href="https://pkg.robjhyndman.com/forecast/reference/BoxCox.html" class="external-link">forecast::BoxCox</a></code>. If transformed data is used to produce forecasts and fitted values,
 a regular back transformation will result in median forecasts. If tbiasadj is TRUE, an adjustment will be made to produce mean forecasts and fitted values.</p></dd>
+
+
 <dt>tfvar</dt>
 <dd><p>Optional parameter required if tbiasadj=TRUE. Can either be the forecast variance, or a list containing the interval <code>level</code>, and the
 corresponding <code>upper</code> and <code>lower</code> intervals.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list object consists of transformation parameters and transformed data.
+    
+
+<p>A list object consists of transformation parameters and transformed data.
 <code>ATA.Transform</code> is a list containing at least the following elements:</p><ul><li><p>trfmX   : Transformed data</p></li>
 <li><p>tLambda : Box-Cox power transformation family parameter</p></li>
 <li><p>tShift  : Box-Cox power transformation family shifting parameter</p></li>
@@ -132,7 +145,7 @@ corresponding <code>upper</code> and <code>lower</code> intervals.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

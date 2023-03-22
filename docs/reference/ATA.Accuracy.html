@@ -41,7 +41,7 @@ sMdAPE	: symmetric median absolute percentage error.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -95,21 +95,28 @@ The measures calculated are:</p><ul><li><p>lik		: maximum likelihood functions</
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.Accuracy</span><span class="op">(</span><span class="va">object</span>, out.sample <span class="op">=</span> <span class="cn">NULL</span>, print.out <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.Accuracy</span><span class="op">(</span><span class="va">object</span>, out.sample <span class="op">=</span> <span class="cn">NULL</span>, print.out <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>An object of class <code>ata</code> is required.</p></dd>
+
+
 <dt>out.sample</dt>
 <dd><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for out-sample.</p></dd>
+
+
 <dt>print.out</dt>
 <dd><p>Default is TRUE. If FALSE, summary of ATA Method's accuracy measures is not shown.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Matrix giving forecast accuracy measures.</p>
+    
+
+<p>Matrix giving forecast accuracy measures.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -132,9 +139,9 @@ OTexts.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">testATA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html" class="external-link">window</a></span><span class="op">(</span><span class="va">touristTR</span>, start <span class="op">=</span> <span class="fl">2015</span>, end <span class="op">=</span> <span class="fl">2016.917</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.html">ATA</a></span><span class="op">(</span><span class="va">trainATA</span>, h<span class="op">=</span><span class="fl">24</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"decomp"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">testATA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html" class="external-link">window</a></span><span class="op">(</span><span class="va">touristTR</span>, start <span class="op">=</span> <span class="fl">2015</span>, end <span class="op">=</span> <span class="fl">2016.917</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.html">ATA</a></span><span class="op">(</span><span class="va">trainATA</span>, h<span class="op">=</span><span class="fl">24</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"decomp"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ATA.Accuracy-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ATA(2,2,1) (A,M,M) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -183,9 +190,9 @@ OTexts.
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1.257   0.135   1.394 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1.267   0.156   1.425 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 1.3943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 1.4248 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Forecasts: </span>
@@ -198,7 +205,7 @@ OTexts.
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5309568 6228607 5219767 4500118 2296310 1566650</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">ata_accuracy</span> <span class="op">&lt;-</span> <span class="fu">ATA.Accuracy</span><span class="op">(</span><span class="va">ata_fit</span>, <span class="va">testATA</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">ata_accuracy</span> <span class="op">&lt;-</span> <span class="fu">ATA.Accuracy</span><span class="op">(</span><span class="va">ata_fit</span>, <span class="va">testATA</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model Fitting Measures: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               sigma2               loglik                  MAE </span>
@@ -220,7 +227,7 @@ OTexts.
 <span class="r-out co"><span class="r-pr">#&gt;</span>             1.63098511             0.00002695 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -235,7 +242,7 @@ OTexts.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -26,19 +26,21 @@ ATA(
   holdout = FALSE,
   holdout.adjustedP = TRUE,
   holdout.set_size = NULL,
+  holdout.onestep = FALSE,
   holdin = FALSE,
   transform.order = "before",
   transform.method = NULL,
   transform.attr = NULL,
   lambda = NULL,
   shift = 0,
-  initial.level = NULL,
-  initial.trend = NULL,
+  initial.level = "none",
+  initial.trend = "none",
   ci.level = 95,
   start.phi = NULL,
   end.phi = NULL,
   size.phi = NULL,
   negative.forecast = TRUE,
+  onestep = FALSE,
   print.out = TRUE,
   plot.out = TRUE
 )
@@ -125,7 +127,7 @@ For example, you can use \code{seasonal.test.attr = ATA.SeasAttr(corrgram.tcrit=
      \item{search} : "qBullet" --> Fits ATA(p,q) where p = p* is optimized for q = q* (q > 0). Then, fits ATA(p*,q) where q is optimized for p = p*.
 }}
 
-\item{h}{The number of steps to forecast ahead.
+\item{h}{The forecast horizon.
 When the parameter is NULL; if the frequency of \code{X} is 4, the parameter is set to 8; if the frequency of \code{X} is 12, the parameter is set to 18; the parameter is set to 6 for other cases.}
 
 \item{train_test_split}{If \code{Y} is NULL, this parameter divides \code{X} into two parts: training set (in-sample) and test set (out-sample). \code{train_test_split} is number of periods for forecasting and size of test set.
@@ -139,6 +141,8 @@ If TRUE, holdout.set_size will used for holdout data.}
 
 \item{holdout.set_size}{If \code{holdout} is TRUE, this parameter will be same as \code{h} for defining holdout set.}
 
+\item{holdout.onestep}{Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (\code{h} forecast horizon) where the holdout prediction for the prior time step is used as an input for making a prediction on the following time step.}
+
 \item{holdin}{Default is FALSE. If TRUE, ATA Method uses the hold-in forecasting for accuracy measure to select the best model. In hold-in forecasting, the last h-length data points are used for accuracy measure.}
 
 \item{transform.order}{If "before", Box-Cox transformation family will be applied and then seasonal decomposition techniques will be applied. If "after", seasonal decomposition techniques will be applied and then Box-Cox transformation family will be applied.}
@@ -148,15 +152,23 @@ If TRUE, holdout.set_size will used for holdout data.}
 
 \item{transform.attr}{Attributes set for Box-Cox transformation. If NULL, bcMethod = "loglik", bcLower = 0, bcUpper = 1, bcBiasAdj = FALSE. If you want to change, please use \code{ATA.BoxCoxAttr} function and its output.}
 
-\item{lambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
+\item{lambda}{Box-Cox power transformation family parameter. Default is NULL. When "transform.method" is selected and lambda is set as NULL, required "lambda" parameter will be calculated automatically based on "transform.attr".}
 
-\item{shift}{Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.}
+\item{shift}{Box-Cox power transformation family shifting parameter. Default is 0. When "transform.method" is selected, required shifting parameter will be calculated automatically according to dataset.}
 
-\item{initial.level}{If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level.
-If TRUE, ATA Method calculates average of first p value in \code{X}for level.}
+\item{initial.level}{"none" is default,
+\itemize{
+     \item{none}    : ATA Method calculates the pth observation in \code{X} for level.
+     \item{mean}     : ATA Method calculates average of first p value in \code{X}for level.
+     \item{median}: ATA Method calculates median of first p value in \code{X}for level.
+}}
 
-\item{initial.trend}{If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
-If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.}
+\item{initial.trend}{"none" is default,
+\itemize{
+     \item{none}    : ATA Method calculates the qth observation in \code{X} for trend.
+     \item{mean}     : ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
+     \item{median}: ATA Method calculates median of first q value in \code{X(T)-X(T-1)} for trend.
+}}
 
 \item{ci.level}{Confidence Interval levels for forecasting.}
 
@@ -167,6 +179,8 @@ If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} fo
 \item{size.phi}{Increment step for searching \code{parPHI}. If NULL, the step size will be determined as the value that allows the bounds for the optimised value of \code{parPHI} to be divided into 20 equal parts.}
 
 \item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
+
+\item{onestep}{Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (\code{h} forecast horizon) where the prediction for the prior time step is used as an input for making a prediction on the following time step.}
 
 \item{print.out}{Default is TRUE. If FALSE, summary of ATA Method is not shown.}
 

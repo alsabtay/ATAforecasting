@@ -1,7 +1,7 @@
 SubATA.Transform <- function(tX
                           , tMethod = c("Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog", "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog")
                           , tType = c("Vanilla", "Back")
-						  , tLambda = NULL
+						              , tLambda = NULL
                           , tShift = 0)
 {
 out_transform <- list("tX" = tX, "tType" = tType, "tLambda" = tLambda, "tShift" = tShift)

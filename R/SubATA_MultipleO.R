@@ -2,7 +2,7 @@
 #' @importFrom stats end start ts tsp tsp<- var
 SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, seasonal.Model, seasonal.Type, seasonal.Frequency, h, accuracy.Type,
                               level.Fix, trend.Fix, trend.Search, phiStart, phiEnd, phiSize, initialLevel, initialTrend, transform.Method, Lambda, Shift, main_set,
-                              test_set, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, hold_set_size, Adjusted_P, Holdin, nmse)
+                              test_set, seas_attr_set, freqYh, ci.Level, negative.Forecast, boxcox_attr_set, Holdout, hold_set_size, Adjusted_P, Holdin, nmse, onestep, holdout_onestep)
 {
   tspX <- tsp(train_set)
   firstTspX <- tsp(main_set)
@@ -129,8 +129,8 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                , as.double(phiStart)
                                , as.double(phiEnd)
                                , as.double(phiSize)
-                               , as.integer(ifelse(initialLevel, 1, 0))
-                               , as.integer(ifelse(initialTrend, 1, 0))
+                               , as.integer(switch(initialLevel,"none"=0,"mean"=1,"median"=2))
+                               , as.integer(switch(initialTrend,"none"=0,"mean"=1,"median"=2))
                                , as.matrix.data.frame(TA_0)
                                , as.matrix.data.frame(TM_0)
                                , as.integer(sapply(seas.model, switch, "none"=0,"decomp"=1,"stl"=2,"stlplus"=3,"stR"=4,"tbats"=5,"x13"=6,"x11"=7))
@@ -138,7 +138,8 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                , as.integer(max_smo)
                                , as.integer(max_st)
                                , as.double(seasonal.Frequency)
-                               , as.matrix.data.frame(validation_set))
+                               , as.matrix.data.frame(validation_set)
+                               , as.integer(holdout_onestep))
 
     }else if (Holdin == TRUE){
       validation_set <- NA
@@ -153,8 +154,8 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                , as.double(phiStart)
                                , as.double(phiEnd)
                                , as.double(phiSize)
-                               , as.integer(ifelse(initialLevel, 1, 0))
-                               , as.integer(ifelse(initialTrend, 1, 0))
+                               , as.integer(switch(initialLevel,"none"=0,"mean"=1,"median"=2))
+                               , as.integer(switch(initialTrend,"none"=0,"mean"=1,"median"=2))
                                , as.matrix.data.frame(TA_0)
                                , as.matrix.data.frame(TM_0)
                                , as.integer(sapply(seas.model, switch, "none"=0,"decomp"=1,"stl"=2,"stlplus"=3,"stR"=4,"tbats"=5,"x13"=6,"x11"=7))
@@ -177,8 +178,8 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                         , as.double(phiStart)
                         , as.double(phiEnd)
                         , as.double(phiSize)
-                        , as.integer(ifelse(initialLevel, 1, 0))
-                        , as.integer(ifelse(initialTrend, 1, 0))
+                        , as.integer(switch(initialLevel,"none"=0,"mean"=1,"median"=2))
+                        , as.integer(switch(initialTrend,"none"=0,"mean"=1,"median"=2))
                         , as.matrix.data.frame(TA_0)
                         , as.matrix.data.frame(TM_0)
                         , as.integer(sapply(seas.model, switch, "none"=0,"decomp"=1,"stl"=2,"stlplus"=3,"stR"=4,"tbats"=5,"x13"=6,"x11"=7))
@@ -222,12 +223,13 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                                                       , as.integer(output[2])
                                                       , as.double(output[3])
                                                       , as.integer(output[4])
-                                                      , as.integer(ifelse(initialLevel, 1, 0))
-                                                      , as.integer(ifelse(initialTrend, 1, 0))
+                                                      , as.integer(switch(initialLevel,"none"=0,"mean"=1,"median"=2))
+                                                      , as.integer(switch(initialTrend,"none"=0,"mean"=1,"median"=2))
                                                       , as.double(TA_0)
                                                       , as.double(TM_0)
                                                       , as.integer(frequency(train_set))
-                                                      , as.integer(length(validation_set)))
+                                                      , as.matrix.data.frame(validation_set)
+                                                      , as.integer(holdout_onestep))
     }
   }else {
     seas.Type <- "A"
@@ -253,11 +255,17 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
       train_set_mat <- seasadj_train_set
       validation_set <- NA
     }
-    ATA.last <- SubATA.Damped(train_set_mat, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix, trend.Search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize,
-                              initialLevel = initialLevel, initialTrend = initialTrend, main_set = seasadj_train_set, Holdout = Holdout, HoldoutSet = validation_set, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin, nmse = nmse, seas_periods = seasonal.Frequency)
+    ATA.last <- SubATA.Damped(train_set_mat, pb = pb, qb = qb, model.Type = model.Type, accuracy.Type = accuracy.Type, level.fix = level.Fix, trend.fix = trend.Fix,
+                              trend.Search = trend.Search, phiStart = phiStart, phiEnd = phiEnd, phiSize = phiSize, initialLevel = initialLevel, initialTrend = initialTrend,
+                              main_set = seasadj_train_set, Holdout = Holdout, HoldoutSet = validation_set, Adjusted_P = Adjusted_P, h = h, Holdin = Holdin, nmse = nmse,
+                              seas_periods = seasonal.Frequency, holdout_onestep = holdout_onestep)
   }
   ATA.last$h <- h
-  ATA.last <- SubATA.Forecast(ATA.last, hh=h, initialLevel = initialLevel)
+  if (onestep == FALSE){
+    ATA.last <- SubATA.Forecast(ATA.last, hh=h)
+  }else {
+    ATA.last <- SubATA.OneStepForecast(ATA.last, test_set, hh=h)
+  }
   ATA.last$actual <- main_set
   fit_ata <- ATA.BackTransform(X=ATA.last$fitted, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
   forecast_ata <- ATA.BackTransform(X=ATA.last$forecast, tMethod=transform.Method, tLambda=Lambda, tShift=Shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ATA.last$residuals)))
@@ -362,9 +370,10 @@ SubATA_Multi_After <- function(train_set, pb, qb, model.type, seasonal.Test, sea
                               "seasonal" = seas_mthd,
                               "period" = seasonal.Frequency,
                               "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
-                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
-                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+                              "initial_level" = ifelse(my_list$initial.level=="none", NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend=="none", NA, TRUE))
   accuracy_ata <- ATA.Accuracy(my_list, test_set, print.out = FALSE)
   my_list$accuracy <- accuracy_ata
+  my_list$onestep <- onestep
   return(my_list)
 }

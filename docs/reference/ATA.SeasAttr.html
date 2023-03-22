@@ -32,7 +32,7 @@ suroot.test = 'correlogram'	: this function is written based on M4 Competition S
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -76,64 +76,97 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.SeasAttr</span><span class="op">(</span>
-  corrgram.tcrit <span class="op">=</span> <span class="fl">1.28</span>,
-  uroot.test <span class="op">=</span> <span class="st">"adf"</span>,
-  suroot.test <span class="op">=</span> <span class="st">"correlogram"</span>,
-  suroot.uroot <span class="op">=</span> <span class="cn">TRUE</span>,
-  uroot.type <span class="op">=</span> <span class="st">"level"</span>,
-  uroot.alpha <span class="op">=</span> <span class="fl">0.05</span>,
-  suroot.alpha <span class="op">=</span> <span class="fl">0.05</span>,
-  uroot.maxd <span class="op">=</span> <span class="fl">2</span>,
-  suroot.maxD <span class="op">=</span> <span class="fl">1</span>,
-  suroot.m <span class="op">=</span> <span class="cn">NULL</span>,
-  uroot.pkg <span class="op">=</span> <span class="st">"tseries"</span>,
-  multi.period <span class="op">=</span> <span class="st">"min"</span>,
-  x13.estimate.maxiter <span class="op">=</span> <span class="fl">1500</span>,
-  x13.estimate.tol <span class="op">=</span> <span class="fl">1e-05</span>,
-  x11.estimate.maxiter <span class="op">=</span> <span class="fl">1500</span>,
-  x11.estimate.tol <span class="op">=</span> <span class="fl">1e-05</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.SeasAttr</span><span class="op">(</span></span>
+<span>  corrgram.tcrit <span class="op">=</span> <span class="fl">1.28</span>,</span>
+<span>  uroot.test <span class="op">=</span> <span class="st">"adf"</span>,</span>
+<span>  suroot.test <span class="op">=</span> <span class="st">"correlogram"</span>,</span>
+<span>  suroot.uroot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  uroot.type <span class="op">=</span> <span class="st">"level"</span>,</span>
+<span>  uroot.alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  suroot.alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  uroot.maxd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  suroot.maxD <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  suroot.m <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  uroot.pkg <span class="op">=</span> <span class="st">"tseries"</span>,</span>
+<span>  multi.period <span class="op">=</span> <span class="st">"min"</span>,</span>
+<span>  x13.estimate.maxiter <span class="op">=</span> <span class="fl">1500</span>,</span>
+<span>  x13.estimate.tol <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  x11.estimate.maxiter <span class="op">=</span> <span class="fl">1500</span>,</span>
+<span>  x11.estimate.tol <span class="op">=</span> <span class="fl">1e-05</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>corrgram.tcrit</dt>
 <dd><p>t-value for autocorrelogram.</p></dd>
+
+
 <dt>uroot.test</dt>
 <dd><p>Type of unit root test before all type seasonality test. Possible values are "adf", "pp" and "kpss".</p></dd>
+
+
 <dt>suroot.test</dt>
 <dd><p>Type of seasonal unit root test to use. Possible values are "correlogram", "seas", "hegy", "ch" and "ocsb".</p></dd>
+
+
 <dt>suroot.uroot</dt>
 <dd><p>If TRUE, unit root test for stationary before seasonal unit root test is allowed.</p></dd>
+
+
 <dt>uroot.type</dt>
 <dd><p>Specification of the deterministic component in the regression for unit root test. Possible values are "level" and "trend".</p></dd>
+
+
 <dt>uroot.alpha</dt>
 <dd><p>Significant level of the unit root test, possible values range from 0.01 to 0.1.</p></dd>
+
+
 <dt>suroot.alpha</dt>
 <dd><p>Significant level of the seasonal unit root test, possible values range from 0.01 to 0.1</p></dd>
+
+
 <dt>uroot.maxd</dt>
 <dd><p>Maximum number of non-seasonal differences allowed.</p></dd>
+
+
 <dt>suroot.maxD</dt>
 <dd><p>Maximum number of seasonal differences allowed.</p></dd>
+
+
 <dt>suroot.m</dt>
 <dd><p>Deprecated. Length of seasonal period: frequency of data for nsdiffs.</p></dd>
+
+
 <dt>uroot.pkg</dt>
 <dd><p>Using <code>urca</code> or <code>tseries</code> packages for unit root test. The default value is "urca".</p></dd>
+
+
 <dt>multi.period</dt>
 <dd><p>Selection type of multi seasonal period. <code>min</code> or <code>max</code> function for selection</p></dd>
+
+
 <dt>x13.estimate.maxiter</dt>
 <dd><p>Maximum iteration for X13ARIMA/SEATS estimation</p></dd>
+
+
 <dt>x13.estimate.tol</dt>
 <dd><p>Convergence tolerence for X13ARIMA/SEATS estimation</p></dd>
+
+
 <dt>x11.estimate.maxiter</dt>
 <dd><p>Maximum iteration for X11 estimation</p></dd>
+
+
 <dt>x11.estimate.tol</dt>
 <dd><p>Convergence tolerence for X11 estimation</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code>ataoptim</code>.</p>
+    
+
+<p>An object of class <code>ataoptim</code>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -156,7 +189,7 @@ Please review manual and vignette documents of latest <code>forecast</code> pack
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

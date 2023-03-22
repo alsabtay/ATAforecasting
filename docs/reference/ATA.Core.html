@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -50,31 +50,50 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.Core</span><span class="op">(</span><span class="va">X</span>, <span class="va">pk</span>, <span class="va">qk</span>, <span class="va">phik</span>, <span class="va">mdlType</span>, <span class="va">initialLevel</span>, <span class="va">initialTrend</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.Core</span><span class="op">(</span><span class="va">X</span>, <span class="va">pk</span>, <span class="va">qk</span>, <span class="va">phik</span>, <span class="va">mdlType</span>, <span class="va">initialLevel</span>, <span class="va">initialTrend</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>A numeric vector or time series.</p></dd>
+
+
 <dt>pk</dt>
 <dd><p>Value of Level parameter.</p></dd>
+
+
 <dt>qk</dt>
 <dd><p>Value of Trend parameter.</p></dd>
+
+
 <dt>phik</dt>
 <dd><p>Value of Damping Trend parameter.</p></dd>
+
+
 <dt>mdlType</dt>
 <dd><p>An one-character string identifying method using the framework terminology.</p></dd>
+
+
 <dt>initialLevel</dt>
-<dd><p>If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in <code>X</code> for level.
-If TRUE, ATA Method calculates average of first p value in <code>X</code>for level.</p></dd>
+<dd><p>"none" is default,</p><ul><li><p>none    : ATA Method calculates the pth observation in <code>X</code> for level.</p></li>
+<li><p>mean     : ATA Method calculates average of first p value in <code>X</code>for level.</p></li>
+<li><p>median: ATA Method calculates median of first p value in <code>X</code>for level.</p></li>
+</ul></dd>
+
+
 <dt>initialTrend</dt>
-<dd><p>If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in <code>X(T)-X(T-1)</code> for trend.
-If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</code> for trend.</p></dd>
+<dd><p>"none" is default,</p><ul><li><p>none    : ATA Method calculates the qth observation in <code>X</code> for trend.</p></li>
+<li><p>mean     : ATA Method calculates average of first q value in <code>X(T)-X(T-1)</code> for trend.</p></li>
+<li><p>median: ATA Method calculates median of first q value in <code>X(T)-X(T-1)</code> for trend.</p></li>
+</ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an object of class "<code>ATA</code>"</p>
+    
+
+<p>Returns an object of class "<code>ATA</code>"</p>
     </div>
 
   </div>
@@ -89,7 +108,7 @@ If TRUE, ATA Method calculates average of first q value in <code>X(T)-X(T-1)</co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

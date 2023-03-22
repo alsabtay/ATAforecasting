@@ -7,8 +7,8 @@
 #' @param tMethod Box-Cox power transformation family is consist of "Box_Cox", "Sqrt", "Reciprocal", "Log", "NegLog",
 #' "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter,
 #' \code{ATA.Transform} will calculate required shift parameter automatically.
-#' @param tLambda Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.
-#' @param tShift Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.
+#' @param tLambda Box-Cox power transformation family parameter. Default is NULL. When lambda is set as NULL, required "lambda" parameter will be calculated automatically based on "bcMethod, bcLower, and bcUpper".
+#' @param tShift Box-Cox power transformation family shifting parameter. Default is 0. When "transform.method" is selected, required shifting parameter will be calculated automatically according to dataset.
 #' @param bcMethod Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).
 #' @param bcLower Lower limit for possible lambda values. The lower value is limited by -5. Default value is 0.
 #' @param bcUpper Upper limit for possible lambda values. The upper value is limited by 5. Default value is 1.
@@ -65,10 +65,12 @@ ATA.Transform <- function(X
 		my_list <- list("trfmX" = X, "tLambda" = tLambda, "tShift" = tShift)
 	}else {
 		if (is.null(tLambda)){
+      ntShift <- calc_shift(min(X),tShift)
+      tX <- X + ntShift
 		  if (bcMethod == "guerrero") {
-			tLambda <- forecast::BoxCox.lambda(X, method = "guerrero", lower=bcLower, upper=bcUpper)
+			tLambda <- forecast::BoxCox.lambda(tX, method = "guerrero", lower=bcLower, upper=bcUpper)
 		  } else {
-			tLambda <- forecast::BoxCox.lambda(X, method = "loglik", lower=bcLower, upper=bcUpper)
+			tLambda <- forecast::BoxCox.lambda(tX, method = "loglik", lower=bcLower, upper=bcUpper)
 		  }
 		}
 		out_list <- SubATA.Transform(X, tMethod = tMethod, tType = "Vanilla", tLambda = tLambda, tShift = tShift)

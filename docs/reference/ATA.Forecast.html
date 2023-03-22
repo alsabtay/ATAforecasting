@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ATAforecasting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.57</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.60</span>
       </span>
     </div>
 
@@ -50,34 +50,52 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ATA.Forecast</span><span class="op">(</span>
-  <span class="va">object</span>,
-  h <span class="op">=</span> <span class="cn">NULL</span>,
-  out.sample <span class="op">=</span> <span class="cn">NULL</span>,
-  ci.level <span class="op">=</span> <span class="fl">95</span>,
-  negative.forecast <span class="op">=</span> <span class="cn">TRUE</span>,
-  print.out <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ATA.Forecast</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  h <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  out.sample <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ci.level <span class="op">=</span> <span class="fl">95</span>,</span>
+<span>  negative.forecast <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  onestep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  print.out <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>An <code>ata</code> object is required for forecast.</p></dd>
+
+
 <dt>h</dt>
 <dd><p>Number of periods for forecasting.</p></dd>
+
+
 <dt>out.sample</dt>
 <dd><p>A numeric vector or time series of class <code>ts</code> or <code>msts</code> for out-sample.</p></dd>
+
+
 <dt>ci.level</dt>
 <dd><p>Confidence Interval levels for forecasting. Default value is 95.</p></dd>
+
+
 <dt>negative.forecast</dt>
 <dd><p>Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.</p></dd>
+
+
+<dt>onestep</dt>
+<dd><p>Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (<code>h</code> forecast horizon) where the prediction for the prior time step is used as an input for making a prediction on the following time step.</p></dd>
+
+
 <dt>print.out</dt>
 <dd><p>Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code>ata</code> and forecast values.</p>
+    
+
+<p>An object of class <code>ata</code> and forecast values.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -106,8 +124,8 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.html">ATA</a></span><span class="op">(</span><span class="va">trainATA</span>, parPHI <span class="op">=</span> <span class="fl">1</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"decomp"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">trainATA</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">touristTR</span>, <span class="fl">84</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ata_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.html">ATA</a></span><span class="op">(</span><span class="va">trainATA</span>, parPHI <span class="op">=</span> <span class="fl">1</span>, seasonal.test <span class="op">=</span> <span class="cn">TRUE</span>, seasonal.model <span class="op">=</span> <span class="st">"decomp"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ATA.Forecast-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ATA(2,2,1) (A,M,M) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -156,9 +174,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.060   0.007   0.067 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.064   0.006   0.070 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.0673 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.07 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Forecasts: </span>
@@ -171,25 +189,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5309568 6228607 5219767 4500118 2296310 1566650</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">ata_fc</span> <span class="op">&lt;-</span> <span class="fu">ATA.Forecast</span><span class="op">(</span><span class="va">ata_fit</span>, h<span class="op">=</span><span class="fl">12</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time Series:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Start = 2015.00694444444 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> End = 2015.92361111111 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Frequency = 12 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        lower forecast   upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  969867  1271754 1573641</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  768220  1195153 1622086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 1169918  1692802 2215686</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 1657210  2260985 2864759</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 2863372  3538412 4213452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 3481949  4221419 4960888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 4145447  4944165 5742884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 4944330  5798196 6652062</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3951934  4857595 5763257</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3231957  4186608 5141259</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 1134438  2135685 3136931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  410853  1456621 2502389</span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="va">ata_fc</span> <span class="op">&lt;-</span> <span class="fu">ATA.Forecast</span><span class="op">(</span><span class="va">ata_fit</span>, h<span class="op">=</span><span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ATA.Forecast(ata_fit, h = 12):</span> object 'my_list' not found</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -204,7 +206,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

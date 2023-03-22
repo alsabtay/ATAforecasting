@@ -2,7 +2,7 @@
 #' @importFrom stats end start ts tsp tsp<- var
 SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test, seasonal.model, seasonal.type, s.frequency, h, accuracy.type,
                             level.fixed, trend.fixed, trend.search, start.phi, end.phi, size.phi, initial.level, initial.trend, transform.method, lambda, shift, main_set,
-                            test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, hold_set_size, holdout.adjustedP, holdin, nmse)
+                            test_set, seas_attr_set, freqYh, ci.level, negative.forecast, boxcox_attr_set, holdout, hold_set_size, holdout.adjustedP, holdin, nmse, onestep, holdout.onestep)
 {
   tspX <- tsp(train_set)
   firstTspX <- tsp(main_set)
@@ -76,10 +76,16 @@ SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test
     train_set_mat <- seasadj_train_set
     validation_set <- NA
   }
-  ata.output <- SubATA.Damped(train_set_mat, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed, trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi,
-                              initialLevel = initial.level, initialTrend = initial.trend, main_set = seasadj_train_set, Holdout = holdout, HoldoutSet = validation_set, Adjusted_P = holdout.adjustedP, h = h, Holdin = holdin, nmse = nmse, seas_periods = s.frequency)
+  ata.output <- SubATA.Damped(train_set_mat, pb = parP, qb = parQ, model.Type = model.type, accuracy.Type = accuracy.type, level.fix = level.fixed, trend.fix = trend.fixed,
+                              trend.Search = trend.search, phiStart = start.phi, phiEnd = end.phi, phiSize = size.phi, initialLevel = initial.level, initialTrend = initial.trend,
+                              main_set = seasadj_train_set, Holdout = holdout, HoldoutSet = validation_set, Adjusted_P = holdout.adjustedP, h = h, Holdin = holdin, nmse = nmse,
+                              seas_periods = s.frequency, holdout_onestep = holdout.onestep)
   ata.output$h <- h
-  ata.output <- SubATA.Forecast(ata.output, hh=h, initialLevel = initial.level)
+  if (onestep == FALSE){
+    ata.output <- SubATA.Forecast(ata.output, hh=h)
+  }else {
+    ata.output <- SubATA.OneStepForecast(ata.output, test_set, hh=h)
+  }
   ata.output$actual <- main_set
   fit_ata <- ATA.BackTransform(X=ata.output$fitted, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
   forecast_ata <- ATA.BackTransform(X=ata.output$forecast, tMethod=transform.method, tLambda=lambda, tShift=shift, tbiasadj=boxcox_attr_set$bcBiasAdj, tfvar=ifelse(boxcox_attr_set$bcBiasAdj==FALSE, NULL, var(ata.output$residuals)))
@@ -178,9 +184,10 @@ SubATA_Single_After <- function(train_set, parP, parQ, model.type, seasonal.test
                               "seasonal" = seas_mthd,
                               "period" = s.frequency,
                               "decomp_model" = ifelse(seas_mthd == "N", NA, my_list$seasonal.model),
-                              "initial_level" = ifelse(my_list$initial.level==FALSE, NA, TRUE),
-                              "initial_trend" = ifelse(my_list$initial.trend==FALSE, NA, TRUE))
+                              "initial_level" = ifelse(my_list$initial.level=="none", NA, TRUE),
+                              "initial_trend" = ifelse(my_list$initial.trend=="none", NA, TRUE))
   accuracy_ata <- ATA.Accuracy(my_list, test_set, print.out = FALSE)
   my_list$accuracy <- accuracy_ata
+  my_list$onestep <- onestep
   return(my_list)
 }

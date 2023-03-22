@@ -5,11 +5,18 @@
 #' @param qk Value of Trend parameter.
 #' @param phik Value of Damping Trend parameter.
 #' @param mdlType An one-character string identifying method using the framework terminology.
-#' @param initialLevel If NULL, FALSE is default. If FALSE, ATA Method calculates the pth observation in \code{X} for level.
-#' If TRUE, ATA Method calculates average of first p value in \code{X}for level.
-#' @param initialTrend If NULL, FALSE is default. If FALSE, ATA Method calculates the qth observation in \code{X(T)-X(T-1)} for trend.
-#' If TRUE, ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
-#'
+#' @param initialLevel "none" is default,
+#' \itemize{
+#'		 \item{none}	: ATA Method calculates the pth observation in \code{X} for level.
+#'		 \item{mean} 	: ATA Method calculates average of first p value in \code{X}for level.
+#'		 \item{median}: ATA Method calculates median of first p value in \code{X}for level.
+#' }
+#' @param initialTrend "none" is default,
+#' \itemize{
+#'		 \item{none}	: ATA Method calculates the qth observation in \code{X} for trend.
+#'		 \item{mean} 	: ATA Method calculates average of first q value in \code{X(T)-X(T-1)} for trend.
+#'		 \item{median}: ATA Method calculates median of first q value in \code{X(T)-X(T-1)} for trend.
+#' }
 #' @return Returns an object of class "\code{ATA}"
 #'
 #' @importFrom forecast msts
@@ -55,11 +62,20 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
       Xlag = X[i]
       Xobs = X[i]
     }else {
-      if (initialLevel==TRUE){
+      if (initialLevel=="mean" & i<=pk){
         Xlag =  mean(X[1:i-1])
         Xobs =  mean(X[1:i])
+      }else if (initialLevel=="median" & i<=pk){
+        Xlag =  median(X[1:i-1])
+        Xobs =  median(X[1:i])
       }else {
-        Xlag = X[i-1]
+        if(initialLevel=="mean" & ((i-1)<=pk)){
+          Xlag = mean(X[1:i-1])
+        }else if (initialLevel=="median" & ((i-1)<=pk)){
+          Xlag = median(X[1:i-1])
+        }else{
+          Xlag = X[i-1]
+        }
         Xobs = X[i]
       }
     }
@@ -95,7 +111,13 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
         ata.coefp[i] <- NA
         ata.coefq[i] <- NA
         ata.S[i] <- S <- Xobs
-        ata.T[i] <- T <- ifelse(initialTrend==TRUE, mean(IT_0[1:i]),T_0)
+        if (initialTrend=="mean"){
+          ata.T[i] <- T <- mean(IT_0[1:i])
+        }else if (initialTrend=="median"){
+          ata.T[i] <- T <- median(IT_0[1:i])
+        }else {
+          ata.T[i] <- T <- T_0
+        }
         ata.fitted[i] <- FF <- S + (phik * T)
         ata.error[i] <- Xh - FF
         S_1 <- S
@@ -105,7 +127,13 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
         ata.coefp[i] <- NA
         ata.coefq[i] <- NA
         ata.S[i] <- S <- Xobs
-        ata.T[i] <- T <- ifelse(initialTrend==TRUE, mean(IT_0[1:i]),T_0)
+        if (initialTrend=="mean"){
+          ata.T[i] <- T <- mean(IT_0[1:i])
+        }else if (initialTrend=="median"){
+          ata.T[i] <- T <- median(IT_0[1:i])
+        }else {
+          ata.T[i] <- T <- T_0
+        }
         ata.fitted[i] <- FF <- S * (T^phik)
         ata.error[i] <- Xh - FF
         S_1 <- S
@@ -133,12 +161,17 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
         T_1 <- T
       }
     }else if (i>pk & i<=qk & pk>=qk){
-      Xobs = X[i]
       if (mdlType=="A"){
         ata.coefp[i] <- coefpk <- abs(pk/i)
         ata.coefq[i] <- NA
         ata.S[i] <- S <- (coefpk * Xobs) + ((1-coefpk) * (S_1 + (phik * T_1)))
-        ata.T[i] <- T <- ifelse(initialTrend==TRUE, mean(IT_0[1:i]),T_0)
+        if (initialTrend=="mean"){
+          ata.T[i] <- T <- mean(IT_0[1:i])
+        }else if (initialTrend=="median"){
+          ata.T[i] <- T <- median(IT_0[1:i])
+        }else {
+          ata.T[i] <- T <- T_0
+        }
         ata.fitted[i] <- FF <- S + (phik * T)
         ata.error[i] <- Xh - FF
         S_1 <- S
@@ -148,14 +181,19 @@ ATA.Core <- function(X, pk, qk, phik, mdlType, initialLevel, initialTrend)
         ata.coefp[i] <- coefpk <- abs(pk/i)
         ata.coefq[i] <- NA
         ata.S[i] <- S <- (coefpk * Xobs) + ((1-coefpk) * S_1 * (T_1^phik))
-        ata.T[i] <- T <- ifelse(initialTrend==TRUE, mean(IT_0[1:i]),T_0)
+        if (initialTrend=="mean"){
+          ata.T[i] <- T <- mean(IT_0[1:i])
+        }else if (initialTrend=="median"){
+          ata.T[i] <- T <- median(IT_0[1:i])
+        }else {
+          ata.T[i] <- T <- T_0
+        }
         ata.fitted[i] <- FF <- S * (T^phik)
         ata.error[i] <- Xh - FF
         S_1 <- S
         T_1 <- T
       }
     }else if (i>pk & i>qk & pk>=qk){
-      Xobs = X[i]
       if (mdlType=="A"){
         ata.coefp[i] <- coefpk <- abs(pk/i)
         ata.coefq[i] <- coefqk <- abs(qk/i)

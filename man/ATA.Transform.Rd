@@ -22,9 +22,9 @@ ATA.Transform(
 "Modulus", "BickelDoksum", "Manly", "Dual", "YeoJohnson", "GPower", "GLog" in ATAforecasting package. If the transformation process needs shift parameter,
 \code{ATA.Transform} will calculate required shift parameter automatically.}
 
-\item{tLambda}{Box-Cox power transformation family parameter. If NULL, data transformed before model is estimated.}
+\item{tLambda}{Box-Cox power transformation family parameter. Default is NULL. When lambda is set as NULL, required "lambda" parameter will be calculated automatically based on "bcMethod, bcLower, and bcUpper".}
 
-\item{tShift}{Box-Cox power transformation family shifting parameter. If NULL, data transformed before model is estimated.}
+\item{tShift}{Box-Cox power transformation family shifting parameter. Default is 0. When "transform.method" is selected, required shifting parameter will be calculated automatically according to dataset.}
 
 \item{bcMethod}{Choose method to be used in calculating lambda. "loglik" is default. Other method is "guerrero" (Guerrero, V.M. (1993)).}
 

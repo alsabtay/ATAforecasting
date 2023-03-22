@@ -7,6 +7,7 @@
 #' @param out.sample A numeric vector or time series of class \code{ts} or \code{msts} for out-sample.
 #' @param ci.level Confidence Interval levels for forecasting. Default value is 95.
 #' @param negative.forecast Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.
+#' @param onestep Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (\code{h} forecast horizon) where the prediction for the prior time step is used as an input for making a prediction on the following time step.
 #' @param print.out Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.
 #'
 #' @return An object of class \code{ata} and forecast values.
@@ -39,7 +40,7 @@
 #' ata_fc <- ATA.Forecast(ata_fit, h=12)
 #'
 #' @export
-ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE, print.out = TRUE)
+ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE, onestep = FALSE, print.out = TRUE)
 {
   if (class(object)!="ata"){
     stop("The Input must be 'ata' object. Please use ATA() function to produce 'ata' object.")
@@ -48,7 +49,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
   if(!is.null(out.sample)){
     if(!is.na(out.sample[1])){
       h <- length(out.sample)
-      message("Forecast horizon has been set to the length of out.sample.")
+      message("Forecast horizon has been set to the length of out.sample data.")
     }
   }else{
     if (is.null(h)){
@@ -82,7 +83,12 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     }
   }else{
   }
-  y <- SubATA.Forecast(object, hh = h, initialLevel = object$initial.level)
+  if (onestep == FALSE){
+    y <- SubATA.Forecast(object, hh = h)
+  }else {
+    y <- SubATA.OneStepForecast(object, outSample = out.sample, hh = h)
+  }
+  object$onestep.forecast <- y$onestep.forecast
   if(object$seasonal.type=="A"){
     ATA_forecast <- y$forecast + OS_SIValue
   }else {
@@ -111,6 +117,7 @@ ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.
     object$forecast.lower <- ci_low
     object$forecast.upper <- ci_up
   }
+  object$onestep <- onestep
   attr(object, "class") <- "ata"
   if (print.out==TRUE) {
     opscipen <- options("scipen" = 100, "digits"=4)

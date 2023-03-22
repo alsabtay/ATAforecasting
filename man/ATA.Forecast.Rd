@@ -10,6 +10,7 @@ ATA.Forecast(
   out.sample = NULL,
   ci.level = 95,
   negative.forecast = TRUE,
+  onestep = FALSE,
   print.out = TRUE
 )
 }
@@ -23,6 +24,8 @@ ATA.Forecast(
 \item{ci.level}{Confidence Interval levels for forecasting. Default value is 95.}
 
 \item{negative.forecast}{Negative values are allowed for forecasting. Default value is TRUE. If FALSE, all negative values for forecasting are set to 0.}
+
+\item{onestep}{Default is FALSE. if TRUE, the dynamic forecast strategy uses a one-step model multiple times (\code{h} forecast horizon) where the prediction for the prior time step is used as an input for making a prediction on the following time step.}
 
 \item{print.out}{Default is TRUE. If FALSE, forecast summary of ATA Method is not shown.}
 }
