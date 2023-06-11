@@ -2,7 +2,7 @@ Package: ATAforecasting
 Type: Package
 Title: Automatic Time Series Analysis and Forecasting using the Ata Method
 Version: 0.0.60
-Date: 2022-03-22
+Date: 2022-06-11
 Authors@R: c(
   person("Ali Sabri", "Taylan", email="alisabritaylan@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-9514-934X")),
   person("Hanife", "Taylan Selamlar", role=c("aut", "cph"), comment = c(ORCID = "0000-0002-4091-884X")),

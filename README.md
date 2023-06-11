@@ -60,5 +60,10 @@ ATA(USAccDeaths, h = 18, model.type = "A", seasonal.type = "A", seasonal.model =
 
 [Github.io - Fable Modelling Wrappers for ATAforecasting Package](https://alsabtay.github.io/fable.ata/index.html)
 
+[Github - Intermittent Ata Method Package](https://github.com/alsabtay/intermittentATA)
+
+[Github.io Intermittent Ata Method Package](https://alsabtay.github.io/intermittentATA/index.html)
+
+
 ## License
 This package is free and open source software, licensed under GPL-3.

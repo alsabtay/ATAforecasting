@@ -442,9 +442,9 @@ If TRUE, holdout.set_size will used for holdout data.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.037   0.003   0.040 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.035   0.003   0.039 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.0399 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculation.time: 0.0387 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Forecasts: </span>
@@ -459,9 +459,53 @@ If TRUE, holdout.set_size will used for holdout data.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">ata_fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Forecast.html">ATA.Forecast</a></span><span class="op">(</span><span class="va">ata_fit</span>, out.sample <span class="op">=</span> <span class="va">testATA</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Forecast horizon has been set to the length of out.sample data.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ATA.Forecast(ata_fit, out.sample = testATA):</span> object 'my_list' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time Series:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Start = 2015.00694444444 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> End = 2016.92361111111 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Frequency = 12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        lower forecast   upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  847533  1219265 1590997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  636994  1162702 1688410</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015  993966  1637824 2281682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 1423263  2166726 2910190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 2571436  3402653 4233871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2015 3119201  4029755 4940308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3852441  4835951 5819461</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 4211903  5263319 6314736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 3484061  4599256 5714452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2759677  3935196 5110715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  790609  2023504 3256398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016   43588  1331305 2619021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  -61665  1278633 2618931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 -171577  1219316 2610209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  277862  1717573 3157284</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016  785301  2272228 3759155</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2035645  3568335 5101024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2016 2648846  4225970 5803095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3451080  5071422 6691763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3857165  5519600 7182035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 3119713  4823202 6526691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 2383231  4126808 5870385</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017  339269  2122032 3904795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2017 -424978  1396128 3217235</span>
 <span class="r-in"><span><span class="va">ata_accry</span> <span class="op">&lt;-</span> <span class="fu"><a href="ATA.Accuracy.html">ATA.Accuracy</a></span><span class="op">(</span><span class="va">ata_fc</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ATA.Accuracy(ata_fc):</span> object 'ata_fc' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Model Fitting Measures: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               sigma2               loglik                  MAE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38329818197.22584534       -1205.95857480      113608.75598307 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  MSE                 RMSE                  MPE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35558987966.10109711      188570.90964966          -0.29190478 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 MAPE                sMAPE                 MASE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           4.32739502           4.29898466           0.24862795 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  OWA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           0.00000497 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Out-Sample Accuracy Measures: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   MAE   MSE  RMSE   MPE  MAPE sMAPE  MASE   OWA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    NA    NA    NA    NA    NA    NA    NA    NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
