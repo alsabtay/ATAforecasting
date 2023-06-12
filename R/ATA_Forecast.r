@@ -42,7 +42,7 @@
 #' @export
 ATA.Forecast <- function(object, h=NULL, out.sample=NULL, ci.level=95, negative.forecast=TRUE, onestep = FALSE, print.out = TRUE)
 {
-  if (class(object)!="ata"){
+  if (!inherits(object, "ata")){
     stop("The Input must be 'ata' object. Please use ATA() function to produce 'ata' object.")
   }
   m <- frequency(object$actual)

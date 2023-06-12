@@ -12,7 +12,7 @@
 ATA.CI <- function(object, ci.level = 95)
 {
 	ata.output <- object
-		if (class(ata.output)!="ata"){
+		if (!inherits(ata.output, "ata")){
 		return("The Input must be 'ata' object. Please use ATA function to produce 'ata' object. Calculation of Confidence Intervals of ATA Forecasts will terminate!")
 	}
 	ci.alpha <- 1 - (ci.level/100)

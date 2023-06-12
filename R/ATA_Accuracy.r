@@ -58,7 +58,7 @@
 #' @export
 ATA.Accuracy <- function(object, out.sample=NULL, print.out = TRUE)
 {
-  if (class(object)!="ata"){
+  if (!inherits(object, "ata")){
     stop("The Input must be 'ata' object. Please use ATA() function to produce 'ata' object.")
   }
   train_set <- object$actual
