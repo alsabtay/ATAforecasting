@@ -65,7 +65,7 @@ The \code{ATA.Decomposition} function works with many different types of inputs.
 }
 \seealso{
 \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
-\code{\link[forecast]{tbats}}, \code{\link{stlplus}}, \code{\link[stR]{AutoSTR}}.
+\code{\link[forecast]{tbats}}, \code{\link[stlplus]{stlplus}}, \code{\link[stR]{AutoSTR}}.
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

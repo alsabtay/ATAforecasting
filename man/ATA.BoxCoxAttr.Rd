@@ -35,7 +35,7 @@ The ATA.BoxCoxAttr function works with many different types of inputs.
 #'\insertRef{guerrero1993}{ATAforecasting}
 }
 \seealso{
-\code{\link{BoxCox}}, \code{\link{InvBoxCox}}, \code{\link{BoxCox.lambda}}
+\code{\link[forecast]{BoxCox}}, \code{\link[forecast]{InvBoxCox}}, \code{\link[forecast]{BoxCox.lambda}}
 }
 \author{
 Ali Sabri Taylan and Hanife Taylan Selamlar

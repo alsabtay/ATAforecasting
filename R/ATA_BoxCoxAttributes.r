@@ -12,7 +12,7 @@
 #'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #'
-#' @seealso \code{\link{BoxCox}}, \code{\link{InvBoxCox}}, \code{\link{BoxCox.lambda}}
+#' @seealso \code{\link[forecast]{BoxCox}}, \code{\link[forecast]{InvBoxCox}}, \code{\link[forecast]{BoxCox.lambda}}
 #'
 #' @references
 #'

@@ -1,4 +1,4 @@
-# ATAforecasting <img src="man/figures/logo.png" align="right" />
+# ATAforecasting <img src="man/figures/logo.png" align="right" alt="ATAforecasting logo" />
 
 [![CRAN](https://www.r-pkg.org/badges/version/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)
 [![Downloads](https://cranlogs.r-pkg.org/badges/ATAforecasting)](https://cran.r-project.org/package=ATAforecasting)

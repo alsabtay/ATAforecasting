@@ -1,8 +1,8 @@
 Package: ATAforecasting
 Type: Package
 Title: Automatic Time Series Analysis and Forecasting using the Ata Method
-Version: 0.0.60
-Date: 2023-06-12
+Version: 0.0.61
+Date: 2025-10-29
 Authors@R: c(
   person("Ali Sabri", "Taylan", email="alisabritaylan@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-9514-934X")),
   person("Hanife", "Taylan Selamlar", role=c("aut", "cph"), comment = c(ORCID = "0000-0002-4091-884X")),
@@ -15,7 +15,7 @@ Description: The Ata method (Yapar et al. (2019) <doi:10.15672/hujms.461032>), a
 	and seasonal). This methodology performed well on the M3 and M4-competition data. This package was written based on Ali Sabri Taylan’s PhD dissertation.
 Maintainer: Ali Sabri Taylan <alisabritaylan@gmail.com>
 License: GPL (>= 3)
-URL: https://github.com/alsabtay/ATAforecasting, https://atamethod.wordpress.com/
+URL: https://alsabtay.github.io/ATAforecasting, https://github.com/alsabtay/ATAforecasting, https://atamethod.wordpress.com/
 BugReports: https://github.com/alsabtay/ATAforecasting/issues
 Depends: R (>= 4.1)
 Imports: graphics, forecast, Rcpp, Rdpack, seasonal, stats, stlplus,
@@ -23,7 +23,7 @@ Imports: graphics, forecast, Rcpp, Rdpack, seasonal, stats, stlplus,
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 RdMacros: Rdpack
 NeedsCompilation: yes
 Author: Ali Sabri Taylan [aut, cre, cph]

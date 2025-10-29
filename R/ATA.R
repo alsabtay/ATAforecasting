@@ -10,7 +10,8 @@
 #' This methodology performed well on the M3 and M4-competition data.
 #' Returns ATA(p,q,phi) (E,T,S) applied to the data.
 #'
-#' @docType package
+#' @keywords internal
+"_PACKAGE"
 #'
 #' @name ATAforecasting-package
 #'
@@ -284,7 +285,7 @@ ATA <- function(X, Y = NULL,
   if (!is.null(seasonal.period)){
     find.period <- 0
     s.frequency <- seasonal.period
-    X <- forecast::msts(X, seasonal.periods = seasonal.period)
+    X <- forecast::msts(X, start= start(X) , seasonal.periods = seasonal.period)
   }else{
     if (is.null(find.period)){
       find.period <- 0
@@ -295,7 +296,7 @@ ATA <- function(X, Y = NULL,
          if (any(X_msts >= X_len / 2)) {
            warning("Dropping seasonal components with fewer than two full periods.")
            X_msts <- X_msts[X_msts < X_len / 2]
-           X <- forecast::msts(X, seasonal.periods = X_msts)
+           X <- forecast::msts(X, start= start(X) , seasonal.periods = X_msts)
          }
          s.frequency <- seasonal.period <- sort(X_msts, decreasing = FALSE)
     }else if ("ts" %in% class(X)) {

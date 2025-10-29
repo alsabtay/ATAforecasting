@@ -1,108 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Accuracy.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.BackTransform.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.BoxCoxAttr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.CI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Core.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Decomposition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Forecast.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.SeasAttr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Seasonality.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Shift.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Shift_Mat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.Transform.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATA.print.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATAforecasting-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ATAforecasting.html</loc>
-  </url>
-  <url>
-    <loc>/reference/accuracy.ata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/accuracy.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find.freq.fourier.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find.freq.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find.multi.freq.html</loc>
-  </url>
-  <url>
-    <loc>/reference/forecast.ata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/forecast.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fundingTR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ndiffs.tseries.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.ata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.ata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stR_seasadj.html</loc>
-  </url>
-  <url>
-    <loc>/reference/touristTR.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://alsabtay.github.io/ATAforecasting/404.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/LICENSE.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/authors.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/index.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Accuracy.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.BackTransform.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.BoxCoxAttr.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.CI.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Core.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Decomposition.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Forecast.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.SeasAttr.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Seasonality.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Shift.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Shift_Mat.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.Transform.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.plot.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATA.print.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATAforecasting-package.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ATAforecasting.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/accuracy.ata.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/accuracy.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/find.freq.fourier.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/find.freq.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/find.multi.freq.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/forecast.ata.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/forecast.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/fundingTR.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/index.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/ndiffs.tseries.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/plot.ata.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/print.ata.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/stR_seasadj.html</loc></url>
+<url><loc>https://alsabtay.github.io/ATAforecasting/reference/touristTR.html</loc></url>
 </urlset>
+

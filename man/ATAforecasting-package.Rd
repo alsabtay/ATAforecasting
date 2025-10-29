@@ -3,7 +3,6 @@
 \docType{package}
 \name{ATAforecasting-package}
 \alias{ATAforecasting-package}
-\alias{ATAforecasting}
 \title{ATAforecasting: Automatic Time Series Analysis and Forecasting using Ata Method with Box-Cox Power Transformations Family and Seasonal Decomposition Techniques}
 \description{
 Returns ATA(p,q,phi)(E,T,S) applied to the data.
@@ -16,11 +15,23 @@ It can be applied to non-seasonal or seasonal time series which can be decompose
 This methodology performed well on the M3 and M4-competition data.
 Returns ATA(p,q,phi) (E,T,S) applied to the data.
 
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 The Ata method (Yapar et al. (2019) \doi{10.15672/hujms.461032}), an alternative to exponential smoothing (described in Yapar (2016) \doi{10.15672/HJMS.201614320580}, Yapar et al. (2017) \doi{10.15672/HJMS.2017.493}), is a new univariate time series forecasting method which provides innovative solutions to issues faced during the initialization and optimization stages of existing forecasting methods. Forecasting performance of the Ata method is superior to existing methods both in terms of easy implementation and accurate forecasting. It can be applied to non-seasonal or seasonal time series which can be decomposed into four components (remainder, level, trend and seasonal). This methodology performed well on the M3 and M4-competition data. This package was written based on Ali Sabri Taylan’s PhD dissertation.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://alsabtay.github.io/ATAforecasting}
+  \item \url{https://github.com/alsabtay/ATAforecasting}
+  \item \url{https://atamethod.wordpress.com/}
+  \item Report bugs at \url{https://github.com/alsabtay/ATAforecasting/issues}
+}
+
+
+Useful links:
+\itemize{
+  \item \url{https://alsabtay.github.io/ATAforecasting}
   \item \url{https://github.com/alsabtay/ATAforecasting}
   \item \url{https://atamethod.wordpress.com/}
   \item Report bugs at \url{https://github.com/alsabtay/ATAforecasting/issues}
@@ -28,10 +39,6 @@ Useful links:
 
 }
 \author{
-Ali Sabri Taylan and Hanife Taylan Selamlar
-
-Maintainer: alisabritaylan@gmail.com
-
 \strong{Maintainer}: Ali Sabri Taylan \email{alisabritaylan@gmail.com} (\href{https://orcid.org/0000-0001-9514-934X}{ORCID}) [copyright holder]
 
 Authors:
@@ -40,6 +47,10 @@ Authors:
   \item Guckan Yapar (\href{https://orcid.org/0000-0002-0971-6676}{ORCID}) [thesis advisor, copyright holder]
 }
 
+
+Ali Sabri Taylan and Hanife Taylan Selamlar
+
+Maintainer: alisabritaylan@gmail.com
 }
 \keyword{internal}
 \keyword{package}
