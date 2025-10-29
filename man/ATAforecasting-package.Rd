@@ -22,7 +22,7 @@ The Ata method (Yapar et al. (2019) \doi{10.15672/hujms.461032}), an alternative
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://alsabtay.github.io/ATAforecasting}
+  \item \url{https://alsabtay.github.io/ATAforecasting/}
   \item \url{https://github.com/alsabtay/ATAforecasting}
   \item \url{https://atamethod.wordpress.com/}
   \item Report bugs at \url{https://github.com/alsabtay/ATAforecasting/issues}
@@ -31,7 +31,7 @@ Useful links:
 
 Useful links:
 \itemize{
-  \item \url{https://alsabtay.github.io/ATAforecasting}
+  \item \url{https://alsabtay.github.io/ATAforecasting/}
   \item \url{https://github.com/alsabtay/ATAforecasting}
   \item \url{https://atamethod.wordpress.com/}
   \item Report bugs at \url{https://github.com/alsabtay/ATAforecasting/issues}

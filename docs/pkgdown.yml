@@ -2,7 +2,7 @@ pandoc: 3.6.3
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-10-29T20:00Z
+last_built: 2025-10-29T20:46Z
 urls:
   reference: https://alsabtay.github.io/ATAforecasting/reference
   article: https://alsabtay.github.io/ATAforecasting/articles
