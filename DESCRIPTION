@@ -2,7 +2,7 @@ Package: ATAforecasting
 Type: Package
 Title: Automatic Time Series Analysis and Forecasting using the Ata Method
 Version: 0.0.61
-Date: 2025-10-29
+Date: 2025-10-30
 Authors@R: c(
   person("Ali Sabri", "Taylan", email="alisabritaylan@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-9514-934X")),
   person("Hanife", "Taylan Selamlar", role=c("aut", "cph"), comment = c(ORCID = "0000-0002-4091-884X")),
@@ -18,8 +18,9 @@ License: GPL (>= 3)
 URL: https://alsabtay.github.io/ATAforecasting/, https://github.com/alsabtay/ATAforecasting, https://atamethod.wordpress.com/
 BugReports: https://github.com/alsabtay/ATAforecasting/issues
 Depends: R (>= 4.1)
-Imports: graphics, forecast, Rcpp, Rdpack, seasonal, stats, stlplus,
-         stR, timeSeries, TSA, tseries, utils, xts, x13binary
+Imports: graphics, forecast, Rcpp, Rdpack, stats, stlplus,
+         stR, timeSeries, TSA, tseries, utils, xts
+Suggests: seasonal, x13binary
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 LazyData: TRUE

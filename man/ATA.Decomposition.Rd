@@ -42,6 +42,15 @@ Automatic seasonal decomposition for ATA Method is called \code{ATA.Decompositio
 The function returns seasonally adjusted data constructed by removing the seasonal component. The methodology is fully automatic.
 The \code{ATA.Decomposition} function works with many different types of inputs.
 }
+\details{
+X13 and X11 seasonal decomposition methods require the \code{seasonal} and
+\code{x13binary} packages. Note that x13binary contains X-13ARIMA-SEATS
+software from the U.S. Census Bureau with special licensing terms.
+See \url{https://github.com/x13org/x13binary} for details.
+
+Alternative seasonal decomposition methods (decomp, stl, stlplus, tbats, stR)
+are available and do not require these packages.
+}
 \references{
 #'\insertRef{shishkin1967}{ATAforecasting}
 

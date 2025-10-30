@@ -94,11 +94,49 @@
 <p><a href="https://alsabtay.github.io/intermittentATA/index.html" class="external-link">Github.io Intermittent Ata Method Package</a></p>
 </div>
 <div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+<h2 id="optional-dependencies">Optional Dependencies<a class="anchor" aria-label="anchor" href="#optional-dependencies"></a>
 </h2>
-<p>This package is free and open source software, licensed under GPL-3.</p>
+<p>ATAforecasting provides multiple seasonal decomposition methods:</p>
+<p><strong>Always available:</strong> - <code>decomp</code> - Classical decomposition (stats package) - <code>stl</code> - STL decomposition (stats/forecast packages) - <code>stlplus</code> - Enhanced STL (stlplus package) - <code>tbats</code> - TBATS model (forecast package) - <code>stR</code> - Regression-based STR (stR package)</p>
+<p><strong>Optional (requires additional installation):</strong> - <code>x13</code> - X-13ARIMA-SEATS (requires: seasonal, x13binary) - <code>x11</code> - X11 decomposition (requires: seasonal, x13binary)</p>
+<p>To use X13/X11 methods:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seasonal"</span>, <span class="st">"x13binary"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>**Note:** x13binary contains software from the U.S. Census Bureau with
+[special licensing terms](https://github.com/x13org/x13binary).
+Users outside the United States should review the license before installation.</code></pre>
+</div>
+<div class="section level2">
+<h2 id="license-information-and-disclaimer">License Information and Disclaimer<a class="anchor" aria-label="anchor" href="#license-information-and-disclaimer"></a>
+</h2>
+<p>The ATAforecasting R Package was created by Ali Sabri Taylan, Hanife Taylan Selamlar, Guckan Yapar and is licensed under GPL-3.</p>
 </div>
 </div>
+<div class="section level1">
+<h1 id="optional-dependencies-1">Optional Dependencies<a class="anchor" aria-label="anchor" href="#optional-dependencies-1"></a>
+</h1>
+<p>The x13 and x11 seasonal decomposition features optionally use x13binary, which contains X-13ARIMA-SEATS software from the U.S. Census Bureau.</p>
+<p>The X-13ARIMA-SEATS software is not subject to copyright in the United States but has special licensing terms for use outside the U.S.</p>
+<p>Users of x13/x11 features should review the licensing terms at: <a href="https://github.com/x13org/x13binary" class="external-link uri">https://github.com/x13org/x13binary</a></p>
+<p>All other features of ATAforecasting do not depend on x13binary.</p>
+<p>As stated in the manual of <a href="https://web.archive.org/web/20250412173420/https://www2.census.gov/software/x-13arima-seats/x13as/windows/documentation/docx13as.pdf" class="external-link">X-13ARIMA-SEATS</a> (June 12, 2023):</p>
+<blockquote>
+<p>This Software was created by U.S. Government employees and therefore is not subject to copyright in the United States (17 U.S.C. §105). The United States/U.S. Department of Commerce (“Commerce”) reserve all rights to seek and obtain copyright protection in countries other than the United States. The United States/Commerce hereby grant to User a royalty-free, nonexclusive license to use, copy, and create derivative works of the Software outside of the United States.</p>
+</blockquote>
+<blockquote>
+<p>The Software is provided to the User and those who may take by, through or under it, “as is,” without any warranty (whether express or implied) or representation whatsoever, including but not limited to any warranty of merchantability. The Software is taken hereunder without any right to support or to any improvements, extensions, or modifications, except as may be agreed to separately, in writing, by Commerce.</p>
+</blockquote>
+<blockquote>
+<p>User, on behalf of itself and all others who take by, through or under it, hereby and forever waives, releases, and discharges the United States/Commerce and all its instrumentalities from any and all liabilities and obligations in connection with the use, application, sale or conveyance of the Software. User shall indemnify and hold harmless the United States/Commerce and its instrumentalities from all claims, liabilities, demands, damages, expenses, and losses arising from or in connection with User’s use, application, sale or conveyance of the Software, including those who take by, through or under User whether or not User was directly involved. This provision will survive termination of this Agreement and will include any and all claims or liabilities arising under intellectual property rights, such as patents, copyrights, trademarks, and trade secrets. If User of software is an Executive Agency of the United States, this clause is not applicable.</p>
+</blockquote>
+<blockquote>
+<p>The construction, validity, performance, and effect of this Agreement for all purposes will be governed by Federal law of the United States.</p>
+</blockquote>
+<blockquote>
+<p>User agrees to make a good faith effort to use the Software in a way that does not cause damage, harm, or embarrassment to the United States/Commerce. The United States/Commerce expressly reserve all rights and remedies.</p>
+</blockquote>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

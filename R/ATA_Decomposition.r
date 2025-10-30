@@ -28,6 +28,15 @@
 #' \item{SeasActual}{Seasonality given original data}
 #' \item{SeasType}{Seasonal decomposition technique}
 #'
+#' @details
+#' X13 and X11 seasonal decomposition methods require the \code{seasonal} and
+#' \code{x13binary} packages. Note that x13binary contains X-13ARIMA-SEATS
+#' software from the U.S. Census Bureau with special licensing terms.
+#' See \url{https://github.com/x13org/x13binary} for details.
+#'
+#' Alternative seasonal decomposition methods (decomp, stl, stlplus, tbats, stR)
+#' are available and do not require these packages.
+#'
 #' @author Ali Sabri Taylan and Hanife Taylan Selamlar
 #' @seealso \code{\link[stats]{stl}}, \code{\link[stats]{decompose}}, \code{\link[seasonal]{seas}},
 #' \code{\link[forecast]{tbats}}, \code{\link[stlplus]{stlplus}}, \code{\link[stR]{AutoSTR}}.
@@ -227,7 +236,15 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="x13"){									# Do X13ARIMA/SEATS decomposition
-	  x13desX <- seasonal::seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
+      # Check if required packages are available
+      if (!requireNamespace("seasonal", quietly = TRUE) ||
+          !requireNamespace("x13binary", quietly = TRUE)) {
+        stop("Packages 'seasonal' and 'x13binary' are required for X13 decomposition.\n",
+             "Install them with: install.packages(c('seasonal', 'x13binary'))\n",
+             "Note: x13binary has special licensing terms. See: https://github.com/x13org/x13binary",
+             call. = FALSE)
+      }
+      x13desX <- seasonal::seas(input, transform.function="none", estimate.maxiter=seas_attr_set$x13.estimate.maxiter, estimate.tol=seas_attr_set$x13.estimate.tol)
       SeasActual <- seasonal::series(x13desX,"seats.adjustfac")
       ifelse(seasonal::udg(x13desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
       if (is.null(SeasActual)) {
@@ -248,7 +265,15 @@ ATA.Decomposition <- function(input, s.model, s.type, s.frequency, seas_attr_set
         }
       }
     }else if (s.model=="x11"){									# Do X13ARIMA/SEATS X11 decomposition
-	  x11desX <- seasonal::seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
+      # Check if required packages are available
+      if (!requireNamespace("seasonal", quietly = TRUE) ||
+          !requireNamespace("x13binary", quietly = TRUE)) {
+        stop("Packages 'seasonal' and 'x13binary' are required for X11 decomposition.\n",
+             "Install them with: install.packages(c('seasonal', 'x13binary'))\n",
+             "Note: x13binary has special licensing terms. See: https://github.com/x13org/x13binary",
+             call. = FALSE)
+      }
+	    x11desX <- seasonal::seas(input, x11 = "", transform.function="none", estimate.maxiter=seas_attr_set$x11.estimate.maxiter, estimate.tol=seas_attr_set$x11.estimate.tol)
       SeasActual <- seasonal::series(x11desX,"x11.adjustfac")
       ifelse(seasonal::udg(x11desX, stats = "finmode")=="additive", s.type <- "A", s.type <- "M")
       if (is.null(SeasActual)) {
